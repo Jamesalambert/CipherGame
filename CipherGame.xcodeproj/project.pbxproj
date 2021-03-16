@@ -1,0 +1,585 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AA97669F2601651A0076B879 /* CipherGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97669E2601651A0076B879 /* CipherGameApp.swift */; };
+		AA9766A12601651A0076B879 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766A02601651A0076B879 /* ContentView.swift */; };
+		AA9766A32601651D0076B879 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA9766A22601651D0076B879 /* Assets.xcassets */; };
+		AA9766A62601651D0076B879 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA9766A52601651D0076B879 /* Preview Assets.xcassets */; };
+		AA9766B12601651E0076B879 /* CipherGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766B02601651E0076B879 /* CipherGameTests.swift */; };
+		AA9766BC2601651E0076B879 /* CipherGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766BB2601651E0076B879 /* CipherGameUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		AA9766AD2601651E0076B879 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA9766932601651A0076B879 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA97669A2601651A0076B879;
+			remoteInfo = CipherGame;
+		};
+		AA9766B82601651E0076B879 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA9766932601651A0076B879 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA97669A2601651A0076B879;
+			remoteInfo = CipherGame;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		AA97669B2601651A0076B879 /* CipherGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CipherGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA97669E2601651A0076B879 /* CipherGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherGameApp.swift; sourceTree = "<group>"; };
+		AA9766A02601651A0076B879 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		AA9766A22601651D0076B879 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AA9766A52601651D0076B879 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		AA9766A72601651D0076B879 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA9766AC2601651E0076B879 /* CipherGameTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CipherGameTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA9766B02601651E0076B879 /* CipherGameTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherGameTests.swift; sourceTree = "<group>"; };
+		AA9766B22601651E0076B879 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA9766B72601651E0076B879 /* CipherGameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CipherGameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA9766BB2601651E0076B879 /* CipherGameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherGameUITests.swift; sourceTree = "<group>"; };
+		AA9766BD2601651E0076B879 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		AA9766982601651A0076B879 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA9766A92601651E0076B879 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA9766B42601651E0076B879 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		AA9766922601651A0076B879 = {
+			isa = PBXGroup;
+			children = (
+				AA97669D2601651A0076B879 /* CipherGame */,
+				AA9766AF2601651E0076B879 /* CipherGameTests */,
+				AA9766BA2601651E0076B879 /* CipherGameUITests */,
+				AA97669C2601651A0076B879 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		AA97669C2601651A0076B879 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				AA97669B2601651A0076B879 /* CipherGame.app */,
+				AA9766AC2601651E0076B879 /* CipherGameTests.xctest */,
+				AA9766B72601651E0076B879 /* CipherGameUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		AA97669D2601651A0076B879 /* CipherGame */ = {
+			isa = PBXGroup;
+			children = (
+				AA97669E2601651A0076B879 /* CipherGameApp.swift */,
+				AA9766A02601651A0076B879 /* ContentView.swift */,
+				AA9766A22601651D0076B879 /* Assets.xcassets */,
+				AA9766A72601651D0076B879 /* Info.plist */,
+				AA9766A42601651D0076B879 /* Preview Content */,
+			);
+			path = CipherGame;
+			sourceTree = "<group>";
+		};
+		AA9766A42601651D0076B879 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				AA9766A52601651D0076B879 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		AA9766AF2601651E0076B879 /* CipherGameTests */ = {
+			isa = PBXGroup;
+			children = (
+				AA9766B02601651E0076B879 /* CipherGameTests.swift */,
+				AA9766B22601651E0076B879 /* Info.plist */,
+			);
+			path = CipherGameTests;
+			sourceTree = "<group>";
+		};
+		AA9766BA2601651E0076B879 /* CipherGameUITests */ = {
+			isa = PBXGroup;
+			children = (
+				AA9766BB2601651E0076B879 /* CipherGameUITests.swift */,
+				AA9766BD2601651E0076B879 /* Info.plist */,
+			);
+			path = CipherGameUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		AA97669A2601651A0076B879 /* CipherGame */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA9766C02601651E0076B879 /* Build configuration list for PBXNativeTarget "CipherGame" */;
+			buildPhases = (
+				AA9766972601651A0076B879 /* Sources */,
+				AA9766982601651A0076B879 /* Frameworks */,
+				AA9766992601651A0076B879 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = CipherGame;
+			productName = CipherGame;
+			productReference = AA97669B2601651A0076B879 /* CipherGame.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AA9766AB2601651E0076B879 /* CipherGameTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA9766C32601651E0076B879 /* Build configuration list for PBXNativeTarget "CipherGameTests" */;
+			buildPhases = (
+				AA9766A82601651E0076B879 /* Sources */,
+				AA9766A92601651E0076B879 /* Frameworks */,
+				AA9766AA2601651E0076B879 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA9766AE2601651E0076B879 /* PBXTargetDependency */,
+			);
+			name = CipherGameTests;
+			productName = CipherGameTests;
+			productReference = AA9766AC2601651E0076B879 /* CipherGameTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		AA9766B62601651E0076B879 /* CipherGameUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA9766C62601651E0076B879 /* Build configuration list for PBXNativeTarget "CipherGameUITests" */;
+			buildPhases = (
+				AA9766B32601651E0076B879 /* Sources */,
+				AA9766B42601651E0076B879 /* Frameworks */,
+				AA9766B52601651E0076B879 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA9766B92601651E0076B879 /* PBXTargetDependency */,
+			);
+			name = CipherGameUITests;
+			productName = CipherGameUITests;
+			productReference = AA9766B72601651E0076B879 /* CipherGameUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		AA9766932601651A0076B879 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					AA97669A2601651A0076B879 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					AA9766AB2601651E0076B879 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = AA97669A2601651A0076B879;
+					};
+					AA9766B62601651E0076B879 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = AA97669A2601651A0076B879;
+					};
+				};
+			};
+			buildConfigurationList = AA9766962601651A0076B879 /* Build configuration list for PBXProject "CipherGame" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = AA9766922601651A0076B879;
+			productRefGroup = AA97669C2601651A0076B879 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				AA97669A2601651A0076B879 /* CipherGame */,
+				AA9766AB2601651E0076B879 /* CipherGameTests */,
+				AA9766B62601651E0076B879 /* CipherGameUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		AA9766992601651A0076B879 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA9766A62601651D0076B879 /* Preview Assets.xcassets in Resources */,
+				AA9766A32601651D0076B879 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA9766AA2601651E0076B879 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA9766B52601651E0076B879 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		AA9766972601651A0076B879 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA9766A12601651A0076B879 /* ContentView.swift in Sources */,
+				AA97669F2601651A0076B879 /* CipherGameApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA9766A82601651E0076B879 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA9766B12601651E0076B879 /* CipherGameTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA9766B32601651E0076B879 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA9766BC2601651E0076B879 /* CipherGameUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		AA9766AE2601651E0076B879 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA97669A2601651A0076B879 /* CipherGame */;
+			targetProxy = AA9766AD2601651E0076B879 /* PBXContainerItemProxy */;
+		};
+		AA9766B92601651E0076B879 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA97669A2601651A0076B879 /* CipherGame */;
+			targetProxy = AA9766B82601651E0076B879 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		AA9766BE2601651E0076B879 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		AA9766BF2601651E0076B879 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		AA9766C12601651E0076B879 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"CipherGame/Preview Content\"";
+				DEVELOPMENT_TEAM = 3F7MQRNEB5;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = CipherGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.handmadescience.CipherGame;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		AA9766C22601651E0076B879 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"CipherGame/Preview Content\"";
+				DEVELOPMENT_TEAM = 3F7MQRNEB5;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = CipherGame/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.handmadescience.CipherGame;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		AA9766C42601651E0076B879 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3F7MQRNEB5;
+				INFOPLIST_FILE = CipherGameTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.handmadescience.CipherGameTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CipherGame.app/CipherGame";
+			};
+			name = Debug;
+		};
+		AA9766C52601651E0076B879 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3F7MQRNEB5;
+				INFOPLIST_FILE = CipherGameTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.handmadescience.CipherGameTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/CipherGame.app/CipherGame";
+			};
+			name = Release;
+		};
+		AA9766C72601651E0076B879 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3F7MQRNEB5;
+				INFOPLIST_FILE = CipherGameUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.handmadescience.CipherGameUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CipherGame;
+			};
+			name = Debug;
+		};
+		AA9766C82601651E0076B879 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3F7MQRNEB5;
+				INFOPLIST_FILE = CipherGameUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.handmadescience.CipherGameUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = CipherGame;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		AA9766962601651A0076B879 /* Build configuration list for PBXProject "CipherGame" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA9766BE2601651E0076B879 /* Debug */,
+				AA9766BF2601651E0076B879 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA9766C02601651E0076B879 /* Build configuration list for PBXNativeTarget "CipherGame" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA9766C12601651E0076B879 /* Debug */,
+				AA9766C22601651E0076B879 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA9766C32601651E0076B879 /* Build configuration list for PBXNativeTarget "CipherGameTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA9766C42601651E0076B879 /* Debug */,
+				AA9766C52601651E0076B879 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA9766C62601651E0076B879 /* Build configuration list for PBXNativeTarget "CipherGameUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA9766C72601651E0076B879 /* Debug */,
+				AA9766C82601651E0076B879 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = AA9766932601651A0076B879 /* Project object */;
+}
