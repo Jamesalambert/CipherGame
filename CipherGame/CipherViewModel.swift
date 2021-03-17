@@ -15,59 +15,65 @@ class CipherPuzzle {
     var model : Game = Game()
     
     private
-    func plaintext(for ciphertext : Character) -> Character?{
-        return model.usersGuesses[ciphertext]
+    func plaintext(for ciphertext : Character, in puzzle : String) -> Character?{
+        
+        guard let currentPuzzle = model.puzzles.first(where: {$0.title == puzzle}) else {return nil}
+        
+        return currentPuzzle.usersGuesses[ciphertext]
     }
     
     //MARK: - public API
     
     
-    var availablePuzzles : [String] {
-        var out : [String] = []
+    var availablePuzzles : [PuzzleTitle] {
         
-        for key in model.puzzles.keys {
-            out.append(String(key))
+        var out : [PuzzleTitle] = []
+        for (index, puzzle) in model.puzzles.enumerated() {
+            out.append(PuzzleTitle(id: index,
+                                   title: puzzle.title))
         }
-        
         return out
     }
     
-    var currentPuzzleTitle : String = "space"
     
-    var currentPuzzle : [CipherPair] {
+    func data(forPuzzle title : String) -> [GameInfo] {
         
-        guard let currentPuzzle = model.puzzles[currentPuzzleTitle] else {return []}
+        guard let currentPuzzle = model.puzzles.first(where: {$0.title == title}) else {return []}
         
         
-        var puzzleData = Array<CipherPair>()
+        var puzzleData = Array<GameInfo>()
         
-        for (index, char) in currentPuzzle.enumerated() {
-            let newPair = CipherPair(id: index,
+        for (index, char) in currentPuzzle.ciphertext.enumerated() {
+            let newPair = GameInfo(id: index,
                                      cipherLetter: char,
-                                     userGuessLetter: plaintext(for: char))
+                                     userGuessLetter: plaintext(for: char, in: title))
             puzzleData.append(newPair)
         }
         
         return puzzleData
     }
     
-    
-    func updateUsersGuesses(cipherCharacter : Character, plaintextCharacter : Character){
-        model.usersGuesses[cipherCharacter] = plaintextCharacter
+    func updateUsersGuesses(cipherCharacter : Character, plaintextCharacter : Character, in puzzle : String){
+        model.updateUsersGuesses(cipherCharacter: cipherCharacter, plaintextCharacter: plaintextCharacter, in: puzzle)
     }
     
     
     
     //MARK:-
     
-    struct CipherPair : Identifiable {
-        
-        var id: Int
-        
-        var cipherLetter : Character
-        var userGuessLetter : Character?
+    
+    
+    struct PuzzleTitle : Identifiable {
+        var id : Int
+        var title : String
     }
     
+}
+
+struct GameInfo : Identifiable {
     
+    var id: Int
     
+    var cipherLetter : Character
+    var userGuessLetter : Character?
 }

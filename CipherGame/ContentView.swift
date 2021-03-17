@@ -18,22 +18,47 @@ struct ContentView: View {
     }
     
     
-    
     var body: some View {
         GeometryReader{ geometry in
-            LazyVGrid(columns: self.columns(screenWidth: geometry.size.width)) {
-                ForEach(viewModel.currentPuzzle){ cipherPair in
+            
+            NavigationView {
                     
-                    CipherSolverCharacterPair(
-                        cipherTextLetter: cipherPair.cipherLetter,
-                        plainTextLetter: cipherPair.userGuessLetter,
-                        viewModel: viewModel)
-                }
+                List(viewModel.availablePuzzles) { puzzleTitle in
+                        NavigationLink(puzzleTitle.title,
+                                       destination:
+                                        CipherSolverPage(
+                                            columns: columns(screenWidth: geometry.size.width),
+                                            viewModel: viewModel,
+                                            puzzleTitle: puzzleTitle.title)
+                        )
+                    }
+                
             }
         }
     }
     
     
+    struct CipherSolverPage : View {
+        
+        var columns : [GridItem]
+        var viewModel : CipherPuzzle
+        var puzzleTitle : String
+        
+        var body : some View {
+            LazyVGrid(columns: columns) {
+                ForEach(viewModel.data(forPuzzle: puzzleTitle)){ cipherPair in
+                    
+                    CipherSolverCharacterPair(
+                        cipherTextLetter: cipherPair.cipherLetter,
+                        plainTextLetter: cipherPair.userGuessLetter,
+                        viewModel: viewModel,
+                        puzzleTitle: puzzleTitle)
+                }
+            }
+        }
+        
+        
+    }
 
     
     struct CipherSolverCharacterPair : View {
@@ -41,6 +66,7 @@ struct ContentView: View {
         var cipherTextLetter : Character
         var plainTextLetter : Character?
         var viewModel : CipherPuzzle
+        var puzzleTitle : String
         
         private var plainTextToDisplay : String {
             if let plainTextLetter = plainTextLetter{
@@ -72,7 +98,8 @@ struct ContentView: View {
             guard let chosenLetter = letterGuess.first else {return}
             
             viewModel.updateUsersGuesses(cipherCharacter: cipherTextLetter,
-                                         plaintextCharacter: chosenLetter)
+                                         plaintextCharacter: chosenLetter,
+                                         in: puzzleTitle)
             //reset temp variable
             letterGuess = ""
         }
@@ -89,6 +116,9 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = CipherPuzzle()
-        ContentView(viewModel: game)
+        Group {
+            ContentView(viewModel: game)
+            ContentView(viewModel: game)
+        }
     }
 }
