@@ -63,10 +63,9 @@ struct ContentView: View {
                             self.updateModel()
                 })
                 .multilineTextAlignment(.center)
-                    .autocapitalization(.none)
+                .autocapitalization(.none)
             }
         }
-        
         
         
         func updateModel(){
@@ -77,14 +76,8 @@ struct ContentView: View {
             //reset temp variable
             letterGuess = ""
         }
-        
-        
     }
-    
-    
-    
-    
-    
+ 
     
 }
 

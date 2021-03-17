@@ -9,8 +9,11 @@ import Foundation
 
 
 struct Game {
-    let puzzle = "jkgkuyerscky scjyugcfsjkfgwcj,cersfkjbhj,aqchj aceqwk \njyacfwj yqwfcgjky"
     
+    var puzzles : Dictionary<String,String> = [
+        "space" : "Jhgsefhjsc,jbhqjbhcfwjq \nbhcfvjhbcercbkhjav jhvweghmawiqjjiw.",
+        "Island" : "erfcgyubDj \nbywgyqwy getvhcnxmlapow uhhvfrbh cbh2."
+    ]
     
     var usersGuesses : Dictionary<Character, Character> = {
         
@@ -27,4 +30,6 @@ struct Game {
             print(usersGuesses)
         }
     }
+
+    
 }

@@ -11,20 +11,44 @@ import SwiftUI
 class CipherPuzzle {
     
     //@Published
-    private var model : Game = Game()
+    private
+    var model : Game = Game()
+    
+    private
+    func plaintext(for ciphertext : Character) -> Character?{
+        return model.usersGuesses[ciphertext]
+    }
+    
+    //MARK: - public API
+    
+    
+    var availablePuzzles : [String] {
+        var out : [String] = []
+        
+        for key in model.puzzles.keys {
+            out.append(String(key))
+        }
+        
+        return out
+    }
+    
+    var currentPuzzleTitle : String = "space"
     
     var currentPuzzle : [CipherPair] {
         
-        var puzzle = Array<CipherPair>()
+        guard let currentPuzzle = model.puzzles[currentPuzzleTitle] else {return []}
         
-        for (index, char) in model.puzzle.enumerated() {
+        
+        var puzzleData = Array<CipherPair>()
+        
+        for (index, char) in currentPuzzle.enumerated() {
             let newPair = CipherPair(id: index,
                                      cipherLetter: char,
                                      userGuessLetter: plaintext(for: char))
-            puzzle.append(newPair)
+            puzzleData.append(newPair)
         }
         
-        return puzzle
+        return puzzleData
     }
     
     
@@ -32,11 +56,9 @@ class CipherPuzzle {
         model.usersGuesses[cipherCharacter] = plaintextCharacter
     }
     
-    private
-    func plaintext(for ciphertext : Character) -> Character?{
-        return model.usersGuesses[ciphertext]
-    }
     
+    
+    //MARK:-
     
     struct CipherPair : Identifiable {
         
