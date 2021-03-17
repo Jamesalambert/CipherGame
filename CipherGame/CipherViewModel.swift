@@ -8,9 +8,9 @@
 import SwiftUI
 
 
-class CipherPuzzle : ObservableObject {
+class CipherPuzzle {
     
-    @Published
+    //@Published
     private var model : Game = Game()
     
     var currentPuzzle : [CipherPair] {
@@ -18,12 +18,13 @@ class CipherPuzzle : ObservableObject {
         var puzzle = Array<CipherPair>()
         
         for (index, char) in model.puzzle.enumerated() {
-            let newPair = CipherPair(id: index, cipherLetter: char, userGuessLetter: plaintext(for: char))
+            let newPair = CipherPair(id: index,
+                                     cipherLetter: char,
+                                     userGuessLetter: plaintext(for: char))
             puzzle.append(newPair)
         }
         
         return puzzle
-        
     }
     
     
@@ -31,9 +32,11 @@ class CipherPuzzle : ObservableObject {
         model.usersGuesses[cipherCharacter] = plaintextCharacter
     }
     
+    private
     func plaintext(for ciphertext : Character) -> Character?{
         return model.usersGuesses[ciphertext]
     }
+    
     
     struct CipherPair : Identifiable {
         

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @ObservedObject
+    //@ObservedObject
     var viewModel : CipherPuzzle
     
     func columns(screenWidth : CGFloat) -> [GridItem] {
@@ -24,9 +24,10 @@ struct ContentView: View {
             LazyVGrid(columns: self.columns(screenWidth: geometry.size.width)) {
                 ForEach(viewModel.currentPuzzle){ cipherPair in
                     
-                    CipherSolverCharacterPair(cipherTextLetter: cipherPair.cipherLetter,
-                                              plainTextLetter: viewModel.plaintext(for: cipherPair.cipherLetter),
-                                              viewModel: viewModel)
+                    CipherSolverCharacterPair(
+                        cipherTextLetter: cipherPair.cipherLetter,
+                        plainTextLetter: cipherPair.userGuessLetter,
+                        viewModel: viewModel)
                 }
             }
         }
@@ -42,8 +43,8 @@ struct ContentView: View {
         var viewModel : CipherPuzzle
         
         private var plainTextToDisplay : String {
-            if let plaintext = plainTextLetter{
-                return String(plaintext)
+            if let plainTextLetter = plainTextLetter{
+                return String(plainTextLetter)
             } else {
                 return ""
             }
@@ -62,6 +63,7 @@ struct ContentView: View {
                             self.updateModel()
                 })
                 .multilineTextAlignment(.center)
+                    .autocapitalization(.none)
             }
         }
         
@@ -69,8 +71,11 @@ struct ContentView: View {
         
         func updateModel(){
             guard let chosenLetter = letterGuess.first else {return}
-
-            viewModel.updateUsersGuesses(cipherCharacter: cipherTextLetter, plaintextCharacter: chosenLetter)
+            
+            viewModel.updateUsersGuesses(cipherCharacter: cipherTextLetter,
+                                         plaintextCharacter: chosenLetter)
+            //reset temp variable
+            letterGuess = ""
         }
         
         
