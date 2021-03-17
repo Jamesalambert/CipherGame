@@ -11,7 +11,7 @@ import SwiftUI
 struct CipherGameApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: CipherPuzzle())
         }
     }
 }
