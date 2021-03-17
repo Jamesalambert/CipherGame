@@ -13,25 +13,12 @@ class CipherPuzzle : ObservableObject {
     @Published
     private var model : Game = Game()
     
-    var usersGuess : Dictionary<Character, Character> = {
-        
-        let alphabet = "abcdefghijklmnopqrstuvwxyz"
-        var output = Dictionary<Character, Character>()
-        
-        for char in alphabet {
-            output[char] = nil
-        }
-        
-        return output
-    }()
-    
-    
     var currentPuzzle : [CipherPair] {
         
         var puzzle = Array<CipherPair>()
         
         for (index, char) in model.puzzle.enumerated() {
-            let newPair = CipherPair(id: index, cipherLetter: char, userGuessLetter: nil)
+            let newPair = CipherPair(id: index, cipherLetter: char, userGuessLetter: plaintext(for: char))
             puzzle.append(newPair)
         }
         
@@ -39,6 +26,14 @@ class CipherPuzzle : ObservableObject {
         
     }
     
+    
+    func updateUsersGuesses(cipherCharacter : Character, plaintextCharacter : Character){
+        model.usersGuesses[cipherCharacter] = plaintextCharacter
+    }
+    
+    func plaintext(for ciphertext : Character) -> Character?{
+        return model.usersGuesses[ciphertext]
+    }
     
     struct CipherPair : Identifiable {
         

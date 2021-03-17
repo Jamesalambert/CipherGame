@@ -23,7 +23,9 @@ struct ContentView: View {
         GeometryReader{ geometry in
             LazyVGrid(columns: self.columns(screenWidth: geometry.size.width)) {
                 ForEach(viewModel.currentPuzzle){ cipherPair in
+                    
                     CipherSolverCharacterPair(cipherTextLetter: cipherPair.cipherLetter,
+                                              plainTextLetter: viewModel.plaintext(for: cipherPair.cipherLetter),
                                               viewModel: viewModel)
                 }
             }
@@ -36,21 +38,26 @@ struct ContentView: View {
     struct CipherSolverCharacterPair : View {
         
         var cipherTextLetter : Character
-        //var newGuess : Character?
+        var plainTextLetter : Character?
         var viewModel : CipherPuzzle
         
-        var wheel : Dictionary<Character, Character> {
-            return  viewModel.usersGuess
+        private var plainTextToDisplay : String {
+            if let plaintext = plainTextLetter{
+                return String(plaintext)
+            } else {
+                return ""
+            }
         }
         
-        @State
-        private var letterGuess = ""
+        @State private var letterGuess = ""
         
         var body : some View {
             VStack{
+                
                 Text(String(cipherTextLetter))
-                TextField("",
-                          text: $letterGuess,
+                
+                TextField(plainTextToDisplay,
+                          text: $letterGuess ,
                           onCommit: {
                             self.updateModel()
                 })
@@ -59,9 +66,11 @@ struct ContentView: View {
         }
         
         
+        
         func updateModel(){
             guard let chosenLetter = letterGuess.first else {return}
-            viewModel.usersGuess[cipherTextLetter] = chosenLetter
+
+            viewModel.updateUsersGuesses(cipherCharacter: cipherTextLetter, plaintextCharacter: chosenLetter)
         }
         
         
