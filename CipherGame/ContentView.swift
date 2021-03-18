@@ -14,28 +14,29 @@ struct ContentView: View {
     
     func columns(screenWidth : CGFloat) -> [GridItem] {
         return Array(repeating: GridItem(.fixed(20)),
-                     count: Int(screenWidth / 30))
+                     count: Int(screenWidth / 40))
     }
     
     
     var body: some View {
-        GeometryReader{ geometry in
-            
+
             NavigationView {
                     
                 List(viewModel.availablePuzzles) { puzzleTitle in
                         NavigationLink(puzzleTitle.title,
                                        destination:
-                                        ScrollView {
-                                        CipherSolverPage(
-                                            viewModel: viewModel,
-                                            columns: columns(screenWidth: geometry.size.width),
-                                            puzzleTitle: puzzleTitle.title)
+                                        GeometryReader{ geometry in
+                                            ScrollView {
+                                                CipherSolverPage(
+                                                    viewModel: viewModel,
+                                                    columns: columns(screenWidth:
+                                                                        geometry.size.width),
+                                                    puzzleTitle: puzzleTitle.title)
+                                            }
                                         }
                         )
                 }
             }
-        }
     }
     
     
@@ -83,7 +84,7 @@ struct ContentView: View {
             if let plainTextLetter = plainTextLetter{
                 return String(plainTextLetter)
             } else {
-                return " "
+                return "_"
             }
         }
         
@@ -95,7 +96,6 @@ struct ContentView: View {
         }
         
         var body : some View {
-            
             
             VStack{
                 
@@ -110,10 +110,13 @@ struct ContentView: View {
                     .multilineTextAlignment(.center)
                     .autocapitalization(.none)
                 } else {
-                    Text(plainTextToDisplay).gesture(tapGesture)
+                    Text(plainTextToDisplay)
+                        .gesture(tapGesture)
                 }
             
             }
+            .padding(.bottom)
+            .font(.system(.title))
         }
         
         
@@ -129,6 +132,7 @@ struct ContentView: View {
                                          in: puzzleTitle)
             //reset temp variable
             letterGuess = ""
+            wasTapped = false
         }
         
         
