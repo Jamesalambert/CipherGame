@@ -9,9 +9,10 @@ import SwiftUI
 
 @main
 struct CipherGameApp: App {
+    
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: CipherPuzzle())
+            ContentView()
         }
     }
 }

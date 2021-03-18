@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ContentView: View {
     
-    //@ObservedObject
-    var viewModel : CipherPuzzle
+//    @StateObject
+    var viewModel = CipherPuzzle()
     
     func columns(screenWidth : CGFloat) -> [GridItem] {
         return Array(repeating: GridItem(.fixed(20)),
@@ -26,13 +26,14 @@ struct ContentView: View {
                 List(viewModel.availablePuzzles) { puzzleTitle in
                         NavigationLink(puzzleTitle.title,
                                        destination:
+                                        ScrollView {
                                         CipherSolverPage(
-                                            columns: columns(screenWidth: geometry.size.width),
                                             viewModel: viewModel,
+                                            columns: columns(screenWidth: geometry.size.width),
                                             puzzleTitle: puzzleTitle.title)
+                                        }
                         )
-                    }
-                
+                }
             }
         }
     }
@@ -40,59 +41,85 @@ struct ContentView: View {
     
     struct CipherSolverPage : View {
         
-        var columns : [GridItem]
+//        @EnvironmentObject
         var viewModel : CipherPuzzle
-        var puzzleTitle : String
         
+        var columns : [GridItem]
+        var puzzleTitle : String
         var body : some View {
             LazyVGrid(columns: columns) {
                 ForEach(viewModel.data(forPuzzle: puzzleTitle)){ cipherPair in
                     
                     CipherSolverCharacterPair(
+                        viewModel: viewModel,
                         cipherTextLetter: cipherPair.cipherLetter,
                         plainTextLetter: cipherPair.userGuessLetter,
-                        viewModel: viewModel,
                         puzzleTitle: puzzleTitle)
                 }
             }
         }
-        
-        
     }
 
     
     struct CipherSolverCharacterPair : View {
         
+//        @EnvironmentObject
+        var viewModel : CipherPuzzle
+        
+        @State
+        private
+        var letterGuess = ""
+        
+        @State
+        private
+        var wasTapped = false
+        
         var cipherTextLetter : Character
         var plainTextLetter : Character?
-        var viewModel : CipherPuzzle
         var puzzleTitle : String
         
+                
         private var plainTextToDisplay : String {
             if let plainTextLetter = plainTextLetter{
                 return String(plainTextLetter)
             } else {
-                return ""
+                return " "
             }
         }
         
-        @State private var letterGuess = ""
+        var tapGesture : some Gesture {
+            TapGesture(count: 1).onEnded{
+                //flip value
+                wasTapped = !wasTapped
+            }
+        }
         
         var body : some View {
+            
+            
             VStack{
                 
                 Text(String(cipherTextLetter))
                 
-                TextField(plainTextToDisplay,
-                          text: $letterGuess ,
-                          onCommit: {
-                            self.updateModel()
-                })
-                .multilineTextAlignment(.center)
-                .autocapitalization(.none)
+                if wasTapped {
+                    TextField(plainTextToDisplay,
+                              text: $letterGuess,
+                              onCommit: {
+                                self.updateModel()
+                              })
+                    .multilineTextAlignment(.center)
+                    .autocapitalization(.none)
+                } else {
+                    Text(plainTextToDisplay).gesture(tapGesture)
+                }
+            
             }
         }
         
+        
+        func showTextField() {
+            
+        }
         
         func updateModel(){
             guard let chosenLetter = letterGuess.first else {return}
@@ -103,22 +130,26 @@ struct ContentView: View {
             //reset temp variable
             letterGuess = ""
         }
-    }
- 
-    
-}
-
-
-
-
-
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        let game = CipherPuzzle()
-        Group {
-            ContentView(viewModel: game)
-            ContentView(viewModel: game)
+        
+        
+        struct NewView : Identifiable {
+            var id = UUID()
+            var location : CGPoint
         }
+        
     }
 }
+
+
+
+
+
+
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let game = CipherPuzzle()
+//        Group {
+//            ContentView(viewModel: game)
+//        }
+//    }
+//}

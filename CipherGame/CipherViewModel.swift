@@ -10,7 +10,7 @@ import SwiftUI
 
 class CipherPuzzle {
     
-    //@Published
+//    @Published
     private
     var model : Game = Game()
     
@@ -23,8 +23,6 @@ class CipherPuzzle {
     }
     
     //MARK: - public API
-    
-    
     var availablePuzzles : [PuzzleTitle] {
         
         var out : [PuzzleTitle] = []
@@ -34,6 +32,8 @@ class CipherPuzzle {
         }
         return out
     }
+    
+    
     
     
     func data(forPuzzle title : String) -> [GameInfo] {
