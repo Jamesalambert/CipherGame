@@ -16,14 +16,10 @@ class CipherPuzzle : ObservableObject {
     private
     var model : Game = Game()
     
-    private
-    func plaintext(for ciphertext : Character, in puzzle : String) -> Character?{
-        
-        guard let currentPuzzle = model.puzzles.first(where: {$0.title == puzzle}) else {return nil}
-        
-        return currentPuzzle.usersGuesses[ciphertext]
-    }
+    @Published
+    var currentPuzzle : String? = "space"
     
+    var currentCiphertextCharacter : Character? = nil
     
     
     //MARK: - public API
@@ -37,9 +33,7 @@ class CipherPuzzle : ObservableObject {
         return out
     }
     
-    @Published
-    var currentPuzzle : String? = "space"
-    var currentCiphertextCharacter : Character? = nil
+    
     var userGuess : Character? {
         
         get {
@@ -79,7 +73,13 @@ class CipherPuzzle : ObservableObject {
     
     //MARK:-
     
-    
+    private
+    func plaintext(for ciphertext : Character, in puzzle : String) -> Character?{
+        
+        guard let currentPuzzle = model.puzzles.first(where: {$0.title == puzzle}) else {return nil}
+        
+        return currentPuzzle.usersGuesses[ciphertext]
+    }
     
     struct PuzzleTitle : Identifiable, Hashable {
         var id : Int

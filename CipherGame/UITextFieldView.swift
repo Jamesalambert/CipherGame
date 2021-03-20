@@ -26,12 +26,14 @@ struct NewTextField : UIViewRepresentable {
     func makeUIView(context: Context) -> UITextField {
         let v = UITextField()
         v.delegate = context.coordinator
+        v.textAlignment = .center
+        v.autocapitalizationType = .none
         return v
     }
 
 
     func updateUIView(_ uiView: UITextField, context: Context) {
-        uiView.text = ""//String(letterGuess.1)
+        uiView.text = ""
         uiView.becomeFirstResponder()
     }
     
@@ -51,11 +53,8 @@ struct NewTextField : UIViewRepresentable {
         var puzzleTitle : String
         var wasTapped : Binding<Bool>
         
-        
-        init(ciphertextLetter: Character,
-             guess : Binding<Character?>,
-             puzzleTitle : String,
-        wasTapped : Binding<Bool>){
+        init(ciphertextLetter: Character, guess : Binding<Character?>,
+             puzzleTitle : String, wasTapped : Binding<Bool>){
             
             self.ciphertextLetter = ciphertextLetter
             self.guess = guess
@@ -64,17 +63,9 @@ struct NewTextField : UIViewRepresentable {
         }
         
         func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-
-            print("end Edit")
-            
             self.guess.wrappedValue = textField.text?.first
-            
             self.wasTapped.wrappedValue = false
             return true
-        }
-        
-        func textFieldDidEndEditing(_ textField: UITextField) {
-            
         }
         
         

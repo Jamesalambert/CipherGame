@@ -55,7 +55,6 @@ struct ContentView: View {
                          count: Int(screenWidth / 40))
         }
         
-        
     }
 
     
@@ -95,9 +94,10 @@ struct ContentView: View {
         }
         
         var body : some View {
-            
             VStack{
                 Text(String(cipherTextLetter))
+                
+                Spacer()
                 
                 if wasTapped {
                     
@@ -105,29 +105,17 @@ struct ContentView: View {
                                  ciphertextLetter: cipherTextLetter,
                                  puzzleTitle: $viewModel.currentPuzzle,
                                  wasTapped: $wasTapped)
-                    
-//                    TextField(plainTextToDisplay,
-//                              text: $letterGuess,
-//                              onCommit: {
-//                                self.updateModel()
-//                              })
-//                    .multilineTextAlignment(.center)
-//                    .autocapitalization(.none)
                 } else {
                     Text(plainTextToDisplay)
                         .gesture(tapGesture)
                 }
-            
+                
             }
             .padding(.bottom)
             .font(.system(.title))
+            
+            
         }
-        
-    
-//        struct NewView : Identifiable {
-//            var id = UUID()
-//            var location : CGPoint
-//        }
         
         
     }
