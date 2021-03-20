@@ -12,7 +12,7 @@ import UIKit
 struct NewTextField : UIViewRepresentable {
     
     @Binding
-    var letterGuess : (Character, Character, String)
+    var letterGuess : Character
     
     var ciphertextLetter : Character
     
@@ -46,14 +46,14 @@ struct NewTextField : UIViewRepresentable {
     
     class Coordinator : NSObject, UITextFieldDelegate {
         
-        var guess : Binding<(Character, Character, String)>
+        var guess : Binding<Character>
         var ciphertextLetter : Character
         var puzzleTitle : String
         var wasTapped : Binding<Bool>
         
         
         init(ciphertextLetter: Character,
-             guess : Binding<(Character, Character, String)>,
+             guess : Binding<Character>,
              puzzleTitle : String,
         wasTapped : Binding<Bool>){
             
@@ -67,7 +67,7 @@ struct NewTextField : UIViewRepresentable {
 
             print("end Edit")
             
-            self.guess.wrappedValue = (ciphertextLetter, Character(extendedGraphemeClusterLiteral: textField.text?.first ?? Character("")),puzzleTitle)
+            self.guess.wrappedValue = Character(extendedGraphemeClusterLiteral: textField.text?.first ?? Character(""))
             
             self.wasTapped.wrappedValue = false
             return true

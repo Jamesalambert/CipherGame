@@ -51,9 +51,7 @@ struct ContentView: View {
                     
                     CipherSolverCharacterPair(
                         cipherTextLetter: cipherPair.cipherLetter,
-                        plainTextLetter: cipherPair.userGuessLetter).onTapGesture {
-                            viewModel.currentCiphertextCharacter = cipherPair.cipherLetter
-                        }
+                        plainTextLetter: cipherPair.userGuessLetter)
                 }
             }
         }
@@ -65,9 +63,9 @@ struct ContentView: View {
         @EnvironmentObject
         var viewModel : CipherPuzzle
         
-        @State
-        private
-        var letterGuess = ""
+//        @State
+//        private
+//        var letterGuess = ""
         
         @State
         private
@@ -90,7 +88,9 @@ struct ContentView: View {
         var tapGesture : some Gesture {
             TapGesture(count: 1).onEnded{
                 //flip value
-                wasTapped = !wasTapped
+                wasTapped = true
+                
+                viewModel.currentCiphertextCharacter = cipherTextLetter
             }
         }
         
@@ -124,16 +124,7 @@ struct ContentView: View {
         }
         
         
-//        func updateModel(){
-//            guard let chosenLetter = letterGuess.first else {return}
-//
-//            viewModel.updateUsersGuesses(cipherCharacter: cipherTextLetter,
-//                                         plaintextCharacter: chosenLetter,
-//                                         in: puzzleTitle)
-//            //reset temp variable
-//            letterGuess = ""
-//            wasTapped = false
-//        }
+
         
         struct NewView : Identifiable {
             var id = UUID()

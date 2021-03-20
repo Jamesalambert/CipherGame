@@ -36,16 +36,16 @@ class CipherPuzzle : ObservableObject {
     var currentPuzzle : String? = "space"
     var currentCiphertextCharacter : Character? = nil
     
-    var userGuess : (Character, Character, String){
+    var userGuess : Character {
         
         get {
-            return (".",".",".")
+            return "."
         }
         
         set {
-            model.updateUsersGuesses(cipherCharacter: newValue.0,
-                                     plaintextCharacter: newValue.1,
-                                     in: newValue.2)
+            model.updateUsersGuesses(cipherCharacter: currentCiphertextCharacter!,
+                                     plaintextCharacter: newValue,
+                                     in: currentPuzzle!)
         }
     }
     
