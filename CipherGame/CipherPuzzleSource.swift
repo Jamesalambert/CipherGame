@@ -22,7 +22,7 @@ fkr futdd.
 """,
                               solution: "escidpoumgvhaqrjntzfbwklyx") //random seed 1 python
     
-    static let island = Puzzle(title: "Island", ciphertext: "erfcgyubDj \nbywgyqwy getvhcnxmlapow uhhvfrbh cbh2.", solution: "")
+    static let island = Puzzle(title: "Island", ciphertext: "erfcgyubdj \nbywgyqwy getvhcnxmlapow uhhvfrbh cbh2.", solution: "")
     
     
     //MARK: - public
@@ -39,23 +39,34 @@ fkr futdd.
 }
 
 struct Puzzle {
+    
+    static let alphabet = "abcdefghijklmnopqrstuvwxyz"
+    
     var title : String
     var ciphertext : String
     var solution : String
     
-    var usersGuesses : Dictionary<Character, Character> = {
-        
-        let alphabet = "abcdefghijklmnopqrstuvwxyz"
-        var output = Dictionary<Character, Character>()
-        
-        for char in alphabet {
-            output[char] = nil
-        }
-        
-        return output
-    }() {
+    var usersGuesses : Dictionary<Character, Character> = Dictionary() {
         didSet{
             print(usersGuesses)
+        }
+    }
+    
+    func letterCount() -> [(Character,Int)] {
+        var output : [(Character,Int)] = []
+        
+        for letter in Puzzle.alphabet {
+            output.append( (letter, self.ciphertext.number(of: letter)) )
+        }
+        return output
+    }
+    
+}
+
+extension String {
+    func number(of character : Character) -> Int{
+        return reduce(0) { (total, nextChar) -> Int in
+            nextChar == character ? total + 1 : total
         }
     }
 }

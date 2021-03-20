@@ -17,8 +17,15 @@ class CipherPuzzle : ObservableObject {
     var model : Game = Game()
     
     @Published
-    var currentPuzzle : String? = "space"
+    var currentPuzzleTitle : String? = "space"
     
+    var currentPuzzle : Puzzle? {
+        guard let currentPuzzleTitle = self.currentPuzzleTitle else {return nil}
+        guard let currentPuzzle = model.puzzles.first(where: {$0.title == currentPuzzleTitle}) else {return nil}
+        return currentPuzzle
+    }
+    
+    @Published
     var currentCiphertextCharacter : Character? = nil
     
     
@@ -43,42 +50,40 @@ class CipherPuzzle : ObservableObject {
         set {
             model.updateUsersGuesses(cipherCharacter: currentCiphertextCharacter!,
                                      plaintextCharacter: newValue ?? CipherPuzzle.blank,
-                                     in: currentPuzzle!)
+                                     in: currentPuzzleTitle!)
         }
     }
     
     var data : [GameInfo] {
-        
-        guard let currentPuzzleTitle = self.currentPuzzle else {return []}
-        guard let currentPuzzle = model.puzzles.first(where: {$0.title == currentPuzzleTitle}) else {return []}
-        
+     
+        guard self.currentPuzzle != nil else {return []}
         
         var puzzleData = Array<GameInfo>()
         
-        for (index, char) in currentPuzzle.ciphertext.enumerated() {
+        for (index, char) in self.currentPuzzle!.ciphertext.enumerated() {
             let newPair = GameInfo(id: index,
-                                     cipherLetter: char,
-                                     userGuessLetter: plaintext(for: char, in: currentPuzzleTitle))
+                                   cipherLetter: char,
+                                   userGuessLetter: plaintext(for: char))
             puzzleData.append(newPair)
         }
         
         return puzzleData
     }
     
-    func updateUsersGuesses(cipherCharacter : Character, plaintextCharacter : Character, in puzzle : String){
-        model.updateUsersGuesses(cipherCharacter: cipherCharacter, plaintextCharacter: plaintextCharacter, in: puzzle)
-    }
-    
+    var letterCount : [(Character, Int)] {return currentPuzzle?.letterCount() ?? []}
     
     
     //MARK:-
     
     private
-    func plaintext(for ciphertext : Character, in puzzle : String) -> Character?{
-        
-        guard let currentPuzzle = model.puzzles.first(where: {$0.title == puzzle}) else {return nil}
-        
-        return currentPuzzle.usersGuesses[ciphertext]
+    func updateUsersGuesses(cipherCharacter : Character, plaintextCharacter : Character, in puzzle : String){
+        model.updateUsersGuesses(cipherCharacter: cipherCharacter, plaintextCharacter: plaintextCharacter, in: puzzle)
+    }
+    
+    private
+    func plaintext(for ciphertext : Character) -> Character?{
+                
+        return currentPuzzle!.usersGuesses[ciphertext]
     }
     
     struct PuzzleTitle : Identifiable, Hashable {

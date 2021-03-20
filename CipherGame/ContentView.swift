@@ -20,13 +20,12 @@ struct ContentView: View {
                     NavigationLink(puzzleTitle.title,
                                    destination: CipherSolverPage(),
                                    tag: puzzleTitle.title,
-                                   selection: $viewModel.currentPuzzle)
+                                   selection: $viewModel.currentPuzzleTitle)
                 }
                             
             }
         }.environmentObject(viewModel)
     }
-    
     
     
     struct CipherSolverPage : View {
@@ -37,15 +36,20 @@ struct ContentView: View {
         var body : some View {
             
             GeometryReader { geometry in
-                ScrollView {
-                    LazyVGrid(columns: self.columns(screenWidth: geometry.size.width)) {
-                        ForEach(viewModel.data){ cipherPair in
-                            CipherSolverCharacterPair(
-                                cipherTextLetter: cipherPair.cipherLetter,
-                                plainTextLetter: cipherPair.userGuessLetter)
+                VStack{
+                    ScrollView {
+                        LazyVGrid(columns: self.columns(screenWidth: geometry.size.width)) {
+                            ForEach(viewModel.data){ cipherPair in
+                                CipherSolverCharacterPair(
+                                    cipherTextLetter: cipherPair.cipherLetter,
+                                    plainTextLetter: cipherPair.userGuessLetter)
+                            }
                         }
                     }
+                    LetterCount(letterCount: viewModel.letterCount)
+                        .frame(width: geometry.size.width, height: 100, alignment: .bottom)
                 }
+                
             }
         }
         
@@ -63,19 +67,12 @@ struct ContentView: View {
         @EnvironmentObject
         var viewModel : CipherPuzzle
         
-//        @State
-//        private
-//        var letterGuess = ""
-        
         @State
         private
         var wasTapped = false
         var cipherTextLetter : Character
         
         var plainTextLetter : Character?
-        var puzzleTitle : String {
-            return viewModel.currentPuzzle!
-        }
         
         private var plainTextToDisplay : String {
             if let plainTextLetter = plainTextLetter{
@@ -100,25 +97,92 @@ struct ContentView: View {
                 Spacer()
                 
                 if wasTapped {
-                    
                     NewTextField(letterGuess: $viewModel.userGuess,
                                  ciphertextLetter: cipherTextLetter,
-                                 puzzleTitle: $viewModel.currentPuzzle,
+                                 puzzleTitle: $viewModel.currentPuzzleTitle,
                                  wasTapped: $wasTapped)
+
                 } else {
                     Text(plainTextToDisplay)
                         .gesture(tapGesture)
                 }
-                
             }
             .padding(.bottom)
             .font(.system(.title))
+        }
+    }
+    
+    
+    
+    
+    
+    struct LetterCount : View {
+        
+        @EnvironmentObject
+        var viewModel : CipherPuzzle
+        var letterCount : [(Character,Int)]
+        
+        var body : some View {
             
-            
+            GeometryReader { geometry in
+                
+                VStack{
+                    Text("Character Count")
+                    
+                    ScrollView(.vertical, showsIndicators: true) {
+                        LazyVGrid(columns: self.columns(screenWidth: geometry.size.width)) {
+                            
+                            if letterCount.count > 0 {
+                                
+                                ForEach(0..<letterCount.count) { index in
+                                    PairCount(char: letterCount[index].0,
+                                              count: letterCount[index].1)
+                                }
+                            }
+                        }
+                        .frame(width: geometry.size.width, height: nil, alignment: .bottom)
+                    }
+                }
+                
+            }
         }
         
         
+        func columns(screenWidth : CGFloat) -> [GridItem] {
+            return Array(repeating: GridItem(.adaptive(minimum: CGFloat(30), maximum: CGFloat(40))),
+                        count: Int(screenWidth / 30))
+        }
+        
+        
+        
     }
+        
+    
+        
+    struct PairCount : View {
+        
+        @EnvironmentObject
+        var viewModel : CipherPuzzle
+        var char : Character
+        var count : Int
+        
+        var body : some View {
+            VStack {
+                
+                if viewModel.currentCiphertextCharacter == char {
+                    Text(String(char)).foregroundColor(.blue)
+                    Text(String(count)).foregroundColor(.blue)
+                } else {
+                    Text(String(char))
+                    Text(String(count))
+                }
+                
+                Spacer()
+            }
+        }
+    }
+        
+
 }
 
 
