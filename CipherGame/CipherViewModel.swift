@@ -10,6 +10,8 @@ import SwiftUI
 
 class CipherPuzzle : ObservableObject {
     
+    static let blank : Character = "_"
+    
     @Published
     private
     var model : Game = Game()
@@ -22,6 +24,8 @@ class CipherPuzzle : ObservableObject {
         return currentPuzzle.usersGuesses[ciphertext]
     }
     
+    
+    
     //MARK: - public API
     var availablePuzzles : [PuzzleTitle] {
         
@@ -33,24 +37,21 @@ class CipherPuzzle : ObservableObject {
         return out
     }
     
+    @Published
     var currentPuzzle : String? = "space"
     var currentCiphertextCharacter : Character? = nil
-    
     var userGuess : Character? {
         
         get {
-            return "_"
+            return CipherPuzzle.blank
         }
         
         set {
             model.updateUsersGuesses(cipherCharacter: currentCiphertextCharacter!,
-                                     plaintextCharacter: newValue ?? "_",
+                                     plaintextCharacter: newValue ?? CipherPuzzle.blank,
                                      in: currentPuzzle!)
         }
     }
-    
-    
-    
     
     var data : [GameInfo] {
         

@@ -12,49 +12,50 @@ struct ContentView: View {
     @StateObject
     var viewModel = CipherPuzzle()
     
-    func columns(screenWidth : CGFloat) -> [GridItem] {
-        return Array(repeating: GridItem(.fixed(20)),
-                     count: Int(screenWidth / 40))
-    }
-    
-    
     var body: some View {
         
         NavigationView {
-
-            List(viewModel.availablePuzzles) { puzzleTitle in
-                
-                NavigationLink(puzzleTitle.title,
-                               destination: GeometryReader{ geometry in
-                                    ScrollView {
-                                        CipherSolverPage(columns: columns(screenWidth: geometry.size.width))
-                                    }
-                },
-                tag: puzzleTitle.title,
-                selection: $viewModel.currentPuzzle).onTapGesture {
-                    viewModel.currentPuzzle = puzzleTitle.title
+            List{
+                ForEach(viewModel.availablePuzzles) { puzzleTitle in
+                    NavigationLink(puzzleTitle.title,
+                                   destination: CipherSolverPage(),
+                                   tag: puzzleTitle.title,
+                                   selection: $viewModel.currentPuzzle)
                 }
+                            
             }
         }.environmentObject(viewModel)
     }
+    
+    
     
     struct CipherSolverPage : View {
         
         @EnvironmentObject
         var viewModel : CipherPuzzle
-        
-        var columns : [GridItem]
-        
+                
         var body : some View {
-            LazyVGrid(columns: columns) {
-                ForEach(viewModel.data){ cipherPair in
-                    
-                    CipherSolverCharacterPair(
-                        cipherTextLetter: cipherPair.cipherLetter,
-                        plainTextLetter: cipherPair.userGuessLetter)
+            
+            GeometryReader { geometry in
+                ScrollView {
+                    LazyVGrid(columns: self.columns(screenWidth: geometry.size.width)) {
+                        ForEach(viewModel.data){ cipherPair in
+                            CipherSolverCharacterPair(
+                                cipherTextLetter: cipherPair.cipherLetter,
+                                plainTextLetter: cipherPair.userGuessLetter)
+                        }
+                    }
                 }
             }
         }
+        
+        
+        func columns(screenWidth : CGFloat) -> [GridItem] {
+            return Array(repeating: GridItem(.fixed(20)),
+                         count: Int(screenWidth / 40))
+        }
+        
+        
     }
 
     
@@ -122,13 +123,12 @@ struct ContentView: View {
             .font(.system(.title))
         }
         
+    
+//        struct NewView : Identifiable {
+//            var id = UUID()
+//            var location : CGPoint
+//        }
         
-
-        
-        struct NewView : Identifiable {
-            var id = UUID()
-            var location : CGPoint
-        }
         
     }
 }
