@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-//    @StateObject
+    @StateObject
     var viewModel = CipherPuzzle()
     
     func columns(screenWidth : CGFloat) -> [GridItem] {
@@ -19,43 +19,41 @@ struct ContentView: View {
     
     
     var body: some View {
+        
+        NavigationView {
 
-            NavigationView {
-                    
-                List(viewModel.availablePuzzles) { puzzleTitle in
-                        NavigationLink(puzzleTitle.title,
-                                       destination:
-                                        GeometryReader{ geometry in
-                                            ScrollView {
-                                                CipherSolverPage(
-                                                    viewModel: viewModel,
-                                                    columns: columns(screenWidth:
-                                                                        geometry.size.width),
-                                                    puzzleTitle: puzzleTitle.title)
-                                            }
-                                        }
-                        )
+            List(viewModel.availablePuzzles) { puzzleTitle in
+                
+                NavigationLink(puzzleTitle.title,
+                               destination: GeometryReader{ geometry in
+                                    ScrollView {
+                                        CipherSolverPage(columns: columns(screenWidth: geometry.size.width))
+                                    }
+                },
+                tag: puzzleTitle.title,
+                selection: $viewModel.currentPuzzle).onTapGesture {
+                    viewModel.currentPuzzle = puzzleTitle.title
                 }
             }
+        }.environmentObject(viewModel)
     }
-    
     
     struct CipherSolverPage : View {
         
-//        @EnvironmentObject
+        @EnvironmentObject
         var viewModel : CipherPuzzle
         
         var columns : [GridItem]
-        var puzzleTitle : String
+        
         var body : some View {
             LazyVGrid(columns: columns) {
-                ForEach(viewModel.data(forPuzzle: puzzleTitle)){ cipherPair in
+                ForEach(viewModel.data){ cipherPair in
                     
                     CipherSolverCharacterPair(
-                        viewModel: viewModel,
                         cipherTextLetter: cipherPair.cipherLetter,
-                        plainTextLetter: cipherPair.userGuessLetter,
-                        puzzleTitle: puzzleTitle)
+                        plainTextLetter: cipherPair.userGuessLetter).onTapGesture {
+                            viewModel.currentCiphertextCharacter = cipherPair.cipherLetter
+                        }
                 }
             }
         }
@@ -64,7 +62,7 @@ struct ContentView: View {
     
     struct CipherSolverCharacterPair : View {
         
-//        @EnvironmentObject
+        @EnvironmentObject
         var viewModel : CipherPuzzle
         
         @State
@@ -74,12 +72,13 @@ struct ContentView: View {
         @State
         private
         var wasTapped = false
-        
         var cipherTextLetter : Character
-        var plainTextLetter : Character?
-        var puzzleTitle : String
         
-                
+        var plainTextLetter : Character?
+        var puzzleTitle : String {
+            return viewModel.currentPuzzle!
+        }
+        
         private var plainTextToDisplay : String {
             if let plainTextLetter = plainTextLetter{
                 return String(plainTextLetter)
@@ -98,17 +97,22 @@ struct ContentView: View {
         var body : some View {
             
             VStack{
-                
                 Text(String(cipherTextLetter))
                 
                 if wasTapped {
-                    TextField(plainTextToDisplay,
-                              text: $letterGuess,
-                              onCommit: {
-                                self.updateModel()
-                              })
-                    .multilineTextAlignment(.center)
-                    .autocapitalization(.none)
+                    
+                    NewTextField(letterGuess: $viewModel.userGuess,
+                                 ciphertextLetter: cipherTextLetter,
+                                 puzzleTitle: $viewModel.currentPuzzle,
+                                 wasTapped: $wasTapped)
+                    
+//                    TextField(plainTextToDisplay,
+//                              text: $letterGuess,
+//                              onCommit: {
+//                                self.updateModel()
+//                              })
+//                    .multilineTextAlignment(.center)
+//                    .autocapitalization(.none)
                 } else {
                     Text(plainTextToDisplay)
                         .gesture(tapGesture)
@@ -120,21 +124,16 @@ struct ContentView: View {
         }
         
         
-        func showTextField() {
-            
-        }
-        
-        func updateModel(){
-            guard let chosenLetter = letterGuess.first else {return}
-            
-            viewModel.updateUsersGuesses(cipherCharacter: cipherTextLetter,
-                                         plaintextCharacter: chosenLetter,
-                                         in: puzzleTitle)
-            //reset temp variable
-            letterGuess = ""
-            wasTapped = false
-        }
-        
+//        func updateModel(){
+//            guard let chosenLetter = letterGuess.first else {return}
+//
+//            viewModel.updateUsersGuesses(cipherCharacter: cipherTextLetter,
+//                                         plaintextCharacter: chosenLetter,
+//                                         in: puzzleTitle)
+//            //reset temp variable
+//            letterGuess = ""
+//            wasTapped = false
+//        }
         
         struct NewView : Identifiable {
             var id = UUID()
