@@ -89,7 +89,6 @@ struct ContentView: View {
             TapGesture(count: 1).onEnded{
                 //flip value
                 wasTapped = true
-                
                 viewModel.currentCiphertextCharacter = cipherTextLetter
             }
         }
