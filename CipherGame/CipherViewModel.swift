@@ -44,7 +44,8 @@ class CipherPuzzle : ObservableObject {
     var userGuess : Character? {
         
         get {
-            return CipherPuzzle.blank
+            guard let current = currentCiphertextCharacter else {return nil}
+            return self.plaintext(for: current)
         }
         
         set {

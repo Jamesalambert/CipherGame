@@ -22,18 +22,24 @@ struct NewTextField : UIViewRepresentable {
     @Binding
     var wasTapped : Bool
     
+    var stringToDisplay : String {
+        guard let letterGuess = letterGuess else {return ""}
+
+        return String(letterGuess)
+    }
     
     func makeUIView(context: Context) -> UITextField {
         let v = UITextField()
         v.delegate = context.coordinator
         v.textAlignment = .center
         v.autocapitalizationType = .none
+        v.backgroundColor = UIColor.red
         return v
     }
 
 
     func updateUIView(_ uiView: UITextField, context: Context) {
-        uiView.text = ""
+        uiView.text = stringToDisplay
         uiView.becomeFirstResponder()
     }
     
@@ -63,11 +69,30 @@ struct NewTextField : UIViewRepresentable {
         }
         
         func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+            //print("should return \(String(describing: textField.text))")
+
             self.guess.wrappedValue = textField.text?.first
             self.wasTapped.wrappedValue = false
+            textField.resignFirstResponder()
             return true
         }
         
+        func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+            //print("did end \(String(describing: textField.text))")
+//            self.guess.wrappedValue = textField.text?.first
+            textField.removeFromSuperview()
+            self.wasTapped.wrappedValue = false
+
+            return true
+        }
+        
+        func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+            self.guess.wrappedValue = string.first
+            return true
+        }
+       
+
+
         
     }
     

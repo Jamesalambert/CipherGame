@@ -18,7 +18,7 @@ struct ContentView: View {
             List{
                 ForEach(viewModel.availablePuzzles) { puzzleTitle in
                     NavigationLink(puzzleTitle.title,
-                                   destination: CipherSolverPage(),
+                                   destination: CipherSolverPage().navigationTitle(puzzleTitle.title),
                                    tag: puzzleTitle.title,
                                    selection: $viewModel.currentPuzzleTitle)
                 }
@@ -105,6 +105,7 @@ struct ContentView: View {
                 } else {
                     Text(plainTextToDisplay)
                         .gesture(tapGesture)
+                        .background(Color.green)
                 }
             }
             .padding(.bottom)
