@@ -15,6 +15,7 @@ struct ContentView: View {
     var body: some View {
         
         NavigationView {
+            
             List{
                 ForEach(viewModel.availablePuzzles) { puzzleTitle in
                     NavigationLink(puzzleTitle.title,
@@ -22,7 +23,6 @@ struct ContentView: View {
                                    tag: puzzleTitle.title,
                                    selection: $viewModel.currentPuzzleTitle)
                 }
-                            
             }
         }.environmentObject(viewModel)
     }
@@ -61,6 +61,13 @@ struct ContentView: View {
                     LetterCount(letterCount: viewModel.letterCount)
                         .frame(width: 0.9 * geometry.size.width, height: 100, alignment: .bottom)
                
+                }
+                .toolbar{
+                    ToolbarItem(placement: .navigationBarTrailing){
+                        Button("difficulty"){
+                            viewModel.gameLevel = (viewModel.gameLevel + 1) % 2
+                        }
+                    }
                 }
                 
             }

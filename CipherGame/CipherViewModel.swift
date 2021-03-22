@@ -29,7 +29,15 @@ class CipherPuzzle : ObservableObject {
     var currentCiphertextCharacter : Character? = nil
     
     @Published
-    var gameLevel : Int = 0
+    var gameLevel : Int = 0 {
+        didSet{
+            if gameLevel > gameRules.count {
+                gameLevel = gameRules.count - 1
+            } else if gameLevel < 0 {
+                gameLevel = 0
+            }
+        }
+    }
     
     //MARK: - public API
     var availablePuzzles : [PuzzleTitle] {
