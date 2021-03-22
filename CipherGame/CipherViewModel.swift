@@ -74,18 +74,16 @@ class CipherPuzzle : ObservableObject {
     
     var letterCount : [(Character, Int)] {return currentPuzzle?.letterCount() ?? []}
     
+    func plaintext(for ciphertext : Character) -> Character?{
+                
+        return currentPuzzle!.usersGuesses[ciphertext]
+    }
     
     //MARK:-
     
     private
     func updateUsersGuesses(cipherCharacter : Character, plaintextCharacter : Character, in puzzle : String){
         model.updateUsersGuesses(cipherCharacter: cipherCharacter, plaintextCharacter: plaintextCharacter, in: puzzle)
-    }
-    
-    private
-    func plaintext(for ciphertext : Character) -> Character?{
-                
-        return currentPuzzle!.usersGuesses[ciphertext]
     }
     
     struct PuzzleTitle : Identifiable, Hashable {

@@ -22,6 +22,8 @@ struct NewTextField : UIViewRepresentable {
     @Binding
     var wasTapped : Bool
     
+    var textColor : UIColor?
+    
     var stringToDisplay : String {
         guard let letterGuess = letterGuess else {return ""}
 
@@ -33,6 +35,7 @@ struct NewTextField : UIViewRepresentable {
         v.delegate = context.coordinator
         v.textAlignment = .center
         v.autocapitalizationType = .none
+        v.textColor = textColor
 //        v.backgroundColor = UIColor.red
         return v
     }

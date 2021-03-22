@@ -100,7 +100,6 @@ struct ContentView: View {
                 //flip value
                 wasTapped = true
                 userMadeASelection = true
-                
                 viewModel.currentCiphertextCharacter = cipherTextLetter
             }
         }
@@ -112,10 +111,13 @@ struct ContentView: View {
                 Spacer()
                 
                 if wasTapped, userMadeASelection {
-                    NewTextField(letterGuess: $viewModel.userGuess,
-                                 ciphertextLetter: cipherTextLetter,
-                                 puzzleTitle: $viewModel.currentPuzzleTitle,
-                                 wasTapped: $wasTapped)
+                   
+                  NewTextField(letterGuess: $viewModel.userGuess,
+                               ciphertextLetter: cipherTextLetter,
+                               puzzleTitle: $viewModel.currentPuzzleTitle,
+                               wasTapped: $wasTapped,
+                               textColor: UIColor(CipherPuzzle.highlightColor))
+                    
 
                 } else {
                     Text(plainTextToDisplay)
@@ -153,7 +155,9 @@ struct ContentView: View {
                             if letterCount.count > 0 {
                                 
                                 ForEach(0..<letterCount.count) { index in
-                                    PairCount(char: letterCount[index].0,
+                                    let cipherChar = letterCount[index].0
+                                    PairCount(cipherChar: cipherChar,
+                                              plainChar: viewModel.plaintext(for: cipherChar),
                                               count: letterCount[index].1)
                                 }
                             }
@@ -181,20 +185,30 @@ struct ContentView: View {
         
         @EnvironmentObject
         var viewModel : CipherPuzzle
-        var char : Character
+        
+        var cipherChar : Character
+        
+        var plainChar : Character?
+        
+        var userGuess : String {
+            if let plainChar = plainChar {
+                return String(plainChar)
+            }
+            return ""
+        }
+        
         var count : Int
         
         var body : some View {
             VStack {
                 
                 Group {
-                    Text(String(char))
+                    Text(String(cipherChar))
                     Text(String(count))
+                    Text(userGuess)
                 }.foregroundColor(
-                    viewModel.currentCiphertextCharacter == char ?
+                    viewModel.currentCiphertextCharacter == cipherChar ?
                         CipherPuzzle.highlightColor : nil )
-               
-                
                 Spacer()
             }
         }
