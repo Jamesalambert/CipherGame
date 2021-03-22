@@ -104,7 +104,7 @@ class CipherPuzzle : ObservableObject {
     private
     func mediumGameInfo(for ciphertext : Character, at index: Int) -> GameInfo? {
         
-        if Puzzle.alphabet.contains(ciphertext) {
+        if String.alphabet.contains(ciphertext) {
             let newPair = GameInfo(id: index,
                                    cipherLetter: ciphertext,
                                    userGuessLetter: plaintext(for: ciphertext))

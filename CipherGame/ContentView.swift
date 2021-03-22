@@ -109,10 +109,14 @@ struct ContentView: View {
         
         var plaintextLabelTap : some Gesture {
             TapGesture(count: 1).onEnded{
-                //flip value
-                wasTapped = true
-                userMadeASelection = true
-                viewModel.currentCiphertextCharacter = cipherTextLetter
+                
+                if String.alphabet.contains(cipherTextLetter){
+                    //flip value
+                    wasTapped = true
+                    userMadeASelection = true
+                    viewModel.currentCiphertextCharacter = cipherTextLetter
+                }
+                
             }
         }
         

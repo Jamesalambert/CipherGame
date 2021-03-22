@@ -40,7 +40,7 @@ fkr futdd.
 
 struct Puzzle {
     
-    static let alphabet = "abcdefghijklmnopqrstuvwxyz"
+    //static let alphabet = "abcdefghijklmnopqrstuvwxyz"
     
     var title : String
     var ciphertext : String
@@ -55,7 +55,7 @@ struct Puzzle {
     func letterCount() -> [(Character,Int)] {
         var output : [(Character,Int)] = []
         
-        for letter in Puzzle.alphabet {
+        for letter in String.alphabet {
             output.append( (letter, self.ciphertext.number(of: letter)) )
         }
         return output
@@ -64,9 +64,14 @@ struct Puzzle {
 }
 
 extension String {
+    
+    static let alphabet = "abcdefghijklmnopqrstuvwxyz"
+    
     func number(of character : Character) -> Int{
         return reduce(0) { (total, nextChar) -> Int in
             nextChar == character ? total + 1 : total
         }
     }
+    
+    
 }
