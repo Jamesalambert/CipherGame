@@ -10,8 +10,7 @@ import SwiftUI
 
 class CipherPuzzle : ObservableObject {
     
-    static let blank : Character = "_"
-    static let highlightColor = Color.blue
+    //static let blank : Character = " "
     
     @Published
     private
@@ -50,8 +49,10 @@ class CipherPuzzle : ObservableObject {
         }
         
         set {
+            guard let newValue = newValue else {return}
+            
             model.updateUsersGuesses(cipherCharacter: currentCiphertextCharacter!,
-                                     plaintextCharacter: newValue ?? CipherPuzzle.blank,
+                                     plaintextCharacter: newValue,
                                      in: currentPuzzleTitle!)
         }
     }
@@ -99,4 +100,17 @@ struct GameInfo : Identifiable {
     
     var cipherLetter : Character
     var userGuessLetter : Character?
+}
+
+extension Color {
+    static let blue = Color.blue
+    static let orange = Color.orange
+    
+    static func highlightColor(for colorScheme : ColorScheme) -> Color{
+        if colorScheme == .light {
+            return orange
+        } else {
+            return blue
+        }
+    }
 }

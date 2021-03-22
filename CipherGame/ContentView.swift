@@ -48,7 +48,7 @@ struct ContentView: View {
             GeometryReader { geometry in
                 VStack{
                     ScrollView {
-                        LazyVGrid(columns: self.columns(screenWidth: geometry.size.width)) {
+                        LazyVGrid(columns: self.columns(screenWidth: geometry.size.width), spacing: 0) {
                             ForEach(viewModel.data){ cipherPair in
                                 CipherSolverCharacterPair(
                                     userMadeASelection: $userMadeASelection,
@@ -57,8 +57,10 @@ struct ContentView: View {
                             }
                         }
                     }.gesture(scrollViewTap)
+                
                     LetterCount(letterCount: viewModel.letterCount)
-                        .frame(width: geometry.size.width, height: 100, alignment: .bottom)
+                        .frame(width: 0.9 * geometry.size.width, height: 100, alignment: .bottom)
+               
                 }
                 
             }
@@ -87,11 +89,14 @@ struct ContentView: View {
         var cipherTextLetter : Character
         var plainTextLetter : Character?
         
+        @Environment(\.colorScheme)
+        var colorScheme : ColorScheme
+        
         private var plainTextToDisplay : String {
             if let plainTextLetter = plainTextLetter{
                 return String(plainTextLetter)
             } else {
-                return "_"
+                return ""
             }
         }
         
@@ -111,24 +116,28 @@ struct ContentView: View {
                 Spacer()
                 
                 if wasTapped, userMadeASelection {
-                   
-                  NewTextField(letterGuess: $viewModel.userGuess,
-                               ciphertextLetter: cipherTextLetter,
-                               puzzleTitle: $viewModel.currentPuzzleTitle,
-                               wasTapped: $wasTapped,
-                               textColor: UIColor(CipherPuzzle.highlightColor))
                     
-
+                    NewTextField(letterGuess: $viewModel.userGuess,
+                                 ciphertextLetter: cipherTextLetter,
+                                 puzzleTitle: $viewModel.currentPuzzleTitle,
+                                 wasTapped: $wasTapped,
+                                 textColor: UIColor(Color.highlightColor(for: colorScheme)))
+                    
+                    
                 } else {
                     Text(plainTextToDisplay)
-                        .gesture(plaintextLabelTap)
-//                        .background(Color.green)
+                    //                        .background(Color.green)
                 }
             }
+            .gesture(plaintextLabelTap)
+            .overlay(Rectangle()
+                        .frame(width: 30, height: 1, alignment: .bottom)
+                        .foregroundColor(.gray),
+                     alignment: .bottom )
             .padding(.bottom)
             .font(.system(.title))
             .foregroundColor(viewModel.currentCiphertextCharacter == cipherTextLetter ?
-                CipherPuzzle.highlightColor : nil)
+                                Color.highlightColor(for: colorScheme) : nil)
         }
     }
     
@@ -146,10 +155,11 @@ struct ContentView: View {
             
             GeometryReader { geometry in
                 
-                VStack{
+                VStack {
+                    Divider()
                     Text("Character Count")
                     
-                    ScrollView(.vertical, showsIndicators: true) {
+                    ScrollView(.horizontal) {
                         LazyVGrid(columns: self.columns(screenWidth: geometry.size.width)) {
                             
                             if letterCount.count > 0 {
@@ -161,18 +171,16 @@ struct ContentView: View {
                                               count: letterCount[index].1)
                                 }
                             }
-                        }
-                        .frame(width: geometry.size.width, height: nil, alignment: .bottom)
-                    }
-                }
-                
+                        }//.background(Color.blue)
+                    }//.background(Color.green)
+                }//.background(Color.red)
             }
         }
         
         
         func columns(screenWidth : CGFloat) -> [GridItem] {
-            return Array(repeating: GridItem(.adaptive(minimum: CGFloat(30), maximum: CGFloat(40))),
-                        count: Int(screenWidth / 30))
+            return Array(repeating: GridItem(.flexible(minimum: CGFloat(25), maximum: CGFloat(30))),
+                        count: 26)
         }
         
         
@@ -190,6 +198,9 @@ struct ContentView: View {
         
         var plainChar : Character?
         
+        @Environment (\.colorScheme)
+        var colorScheme : ColorScheme
+        
         var userGuess : String {
             if let plainChar = plainChar {
                 return String(plainChar)
@@ -204,11 +215,11 @@ struct ContentView: View {
                 
                 Group {
                     Text(String(cipherChar))
-                    Text(String(count))
+                    Text(String(count)).lineLimit(1)
                     Text(userGuess)
                 }.foregroundColor(
                     viewModel.currentCiphertextCharacter == cipherChar ?
-                        CipherPuzzle.highlightColor : nil )
+                        Color.highlightColor(for: colorScheme) : nil )
                 Spacer()
             }
         }
