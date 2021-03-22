@@ -28,6 +28,8 @@ class CipherPuzzle : ObservableObject {
     @Published
     var currentCiphertextCharacter : Character? = nil
     
+    @Published
+    var gameLevel : Int = 0
     
     //MARK: - public API
     var availablePuzzles : [PuzzleTitle] {
@@ -64,10 +66,10 @@ class CipherPuzzle : ObservableObject {
         var puzzleData = Array<GameInfo>()
         
         for (index, char) in self.currentPuzzle!.ciphertext.enumerated() {
-            let newPair = GameInfo(id: index,
-                                   cipherLetter: char,
-                                   userGuessLetter: plaintext(for: char))
-            puzzleData.append(newPair)
+            
+            if let newPair = gameRules[gameLevel]?(char,index) {
+                puzzleData.append(newPair)
+            }
         }
         
         return puzzleData
@@ -80,12 +82,46 @@ class CipherPuzzle : ObservableObject {
         return currentPuzzle!.usersGuesses[ciphertext]
     }
     
-    //MARK:-
+    //MARK:- private
+    
+    private
+    func easyGameInfo(for ciphertext : Character, at index : Int) -> GameInfo? {
+        
+        let newPair = GameInfo(id: index,
+                               cipherLetter: ciphertext,
+                               userGuessLetter: plaintext(for: ciphertext))
+        return newPair
+    }
+    
+    private
+    func mediumGameInfo(for ciphertext : Character, at index: Int) -> GameInfo? {
+        
+        if Puzzle.alphabet.contains(ciphertext) {
+            let newPair = GameInfo(id: index,
+                                   cipherLetter: ciphertext,
+                                   userGuessLetter: plaintext(for: ciphertext))
+            
+            return newPair
+        }
+        
+        return nil
+    }
+    
+    
+    private
+    var gameRules : [ Int : (Character, Int) -> GameInfo? ]{
+        return [0 : easyGameInfo,
+                1 : mediumGameInfo]
+    }
+    
+    
     
     private
     func updateUsersGuesses(cipherCharacter : Character, plaintextCharacter : Character, in puzzle : String){
         model.updateUsersGuesses(cipherCharacter: cipherCharacter, plaintextCharacter: plaintextCharacter, in: puzzle)
     }
+    
+    //MARK:- structs
     
     struct PuzzleTitle : Identifiable, Hashable {
         var id : Int
