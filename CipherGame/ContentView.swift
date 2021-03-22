@@ -32,7 +32,16 @@ struct ContentView: View {
         
         @EnvironmentObject
         var viewModel : CipherPuzzle
-                
+        
+        @State
+        var keyboardWasDismissed : Bool = false
+        
+        var scrollViewTap : some Gesture {
+            TapGesture(count: 1).onEnded{
+                keyboardWasDismissed = true
+            }
+        }
+        
         var body : some View {
             
             GeometryReader { geometry in
@@ -41,11 +50,12 @@ struct ContentView: View {
                         LazyVGrid(columns: self.columns(screenWidth: geometry.size.width)) {
                             ForEach(viewModel.data){ cipherPair in
                                 CipherSolverCharacterPair(
+                                    keyboardWasDismissed: $keyboardWasDismissed,
                                     cipherTextLetter: cipherPair.cipherLetter,
                                     plainTextLetter: cipherPair.userGuessLetter)
                             }
                         }
-                    }
+                    }.gesture(scrollViewTap)
                     LetterCount(letterCount: viewModel.letterCount)
                         .frame(width: geometry.size.width, height: 100, alignment: .bottom)
                 }
@@ -70,8 +80,10 @@ struct ContentView: View {
         @State
         private
         var wasTapped = false
-        var cipherTextLetter : Character
         
+        @Binding
+        var keyboardWasDismissed : Bool
+        var cipherTextLetter : Character
         var plainTextLetter : Character?
         
         private var plainTextToDisplay : String {
@@ -82,10 +94,12 @@ struct ContentView: View {
             }
         }
         
-        var tapGesture : some Gesture {
+        var plaintextLabelTap : some Gesture {
             TapGesture(count: 1).onEnded{
                 //flip value
                 wasTapped = true
+                keyboardWasDismissed = false
+                
                 viewModel.currentCiphertextCharacter = cipherTextLetter
             }
         }
@@ -96,7 +110,7 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                if wasTapped {
+                if wasTapped, !keyboardWasDismissed {
                     NewTextField(letterGuess: $viewModel.userGuess,
                                  ciphertextLetter: cipherTextLetter,
                                  puzzleTitle: $viewModel.currentPuzzleTitle,
@@ -104,7 +118,7 @@ struct ContentView: View {
 
                 } else {
                     Text(plainTextToDisplay)
-                        .gesture(tapGesture)
+                        .gesture(plaintextLabelTap)
                         .background(Color.green)
                 }
             }

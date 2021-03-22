@@ -69,8 +69,6 @@ struct NewTextField : UIViewRepresentable {
         }
         
         func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-            //print("should return \(String(describing: textField.text))")
-
             self.guess.wrappedValue = textField.text?.first
             self.wasTapped.wrappedValue = false
             textField.resignFirstResponder()
@@ -78,12 +76,12 @@ struct NewTextField : UIViewRepresentable {
         }
         
         func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-            //print("did end \(String(describing: textField.text))")
-//            self.guess.wrappedValue = textField.text?.first
-            textField.removeFromSuperview()
             self.wasTapped.wrappedValue = false
-
             return true
+        }
+        
+        func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+            textField.removeFromSuperview()
         }
         
         func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
