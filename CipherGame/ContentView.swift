@@ -34,11 +34,12 @@ struct ContentView: View {
         var viewModel : CipherPuzzle
         
         @State
-        var keyboardWasDismissed : Bool = false
+        var userMadeASelection : Bool = false
         
         var scrollViewTap : some Gesture {
             TapGesture(count: 1).onEnded{
-                keyboardWasDismissed = true
+                userMadeASelection = false
+                viewModel.currentCiphertextCharacter = nil
             }
         }
         
@@ -50,7 +51,7 @@ struct ContentView: View {
                         LazyVGrid(columns: self.columns(screenWidth: geometry.size.width)) {
                             ForEach(viewModel.data){ cipherPair in
                                 CipherSolverCharacterPair(
-                                    keyboardWasDismissed: $keyboardWasDismissed,
+                                    userMadeASelection: $userMadeASelection,
                                     cipherTextLetter: cipherPair.cipherLetter,
                                     plainTextLetter: cipherPair.userGuessLetter)
                             }
@@ -82,7 +83,7 @@ struct ContentView: View {
         var wasTapped = false
         
         @Binding
-        var keyboardWasDismissed : Bool
+        var userMadeASelection : Bool
         var cipherTextLetter : Character
         var plainTextLetter : Character?
         
@@ -98,7 +99,7 @@ struct ContentView: View {
             TapGesture(count: 1).onEnded{
                 //flip value
                 wasTapped = true
-                keyboardWasDismissed = false
+                userMadeASelection = true
                 
                 viewModel.currentCiphertextCharacter = cipherTextLetter
             }
@@ -110,7 +111,7 @@ struct ContentView: View {
                 
                 Spacer()
                 
-                if wasTapped, !keyboardWasDismissed {
+                if wasTapped, userMadeASelection {
                     NewTextField(letterGuess: $viewModel.userGuess,
                                  ciphertextLetter: cipherTextLetter,
                                  puzzleTitle: $viewModel.currentPuzzleTitle,
@@ -119,11 +120,13 @@ struct ContentView: View {
                 } else {
                     Text(plainTextToDisplay)
                         .gesture(plaintextLabelTap)
-                        .background(Color.green)
+//                        .background(Color.green)
                 }
             }
             .padding(.bottom)
             .font(.system(.title))
+            .foregroundColor(viewModel.currentCiphertextCharacter == cipherTextLetter ?
+                CipherPuzzle.highlightColor : nil)
         }
     }
     
@@ -184,13 +187,13 @@ struct ContentView: View {
         var body : some View {
             VStack {
                 
-                if viewModel.currentCiphertextCharacter == char {
-                    Text(String(char)).foregroundColor(.blue)
-                    Text(String(count)).foregroundColor(.blue)
-                } else {
+                Group {
                     Text(String(char))
                     Text(String(count))
-                }
+                }.foregroundColor(
+                    viewModel.currentCiphertextCharacter == char ?
+                        CipherPuzzle.highlightColor : nil )
+               
                 
                 Spacer()
             }

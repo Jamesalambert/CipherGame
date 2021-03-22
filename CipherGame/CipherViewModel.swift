@@ -11,6 +11,7 @@ import SwiftUI
 class CipherPuzzle : ObservableObject {
     
     static let blank : Character = "_"
+    static let highlightColor = Color.blue
     
     @Published
     private

@@ -33,7 +33,7 @@ struct NewTextField : UIViewRepresentable {
         v.delegate = context.coordinator
         v.textAlignment = .center
         v.autocapitalizationType = .none
-        v.backgroundColor = UIColor.red
+//        v.backgroundColor = UIColor.red
         return v
     }
 
