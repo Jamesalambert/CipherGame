@@ -16,7 +16,6 @@ struct NewTextField : UIViewRepresentable {
     
     var ciphertextLetter : Character
     
-    @Binding
     var puzzleTitle : String?
     
     @Binding
@@ -26,7 +25,6 @@ struct NewTextField : UIViewRepresentable {
     
     var stringToDisplay : String {
         guard let letterGuess = letterGuess else {return ""}
-
         return String(letterGuess)
     }
     
@@ -36,7 +34,6 @@ struct NewTextField : UIViewRepresentable {
         v.textAlignment = .center
         v.autocapitalizationType = .none
         v.textColor = textColor
-//        v.backgroundColor = UIColor.red
         return v
     }
 
@@ -71,6 +68,9 @@ struct NewTextField : UIViewRepresentable {
             self.wasTapped = wasTapped
         }
         
+        
+        //MARK:- UITextFieldDelegate
+        
         func textFieldShouldReturn(_ textField: UITextField) -> Bool {
             self.guess.wrappedValue = textField.text?.first
             self.wasTapped.wrappedValue = false
@@ -84,6 +84,7 @@ struct NewTextField : UIViewRepresentable {
         }
         
         func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
+            //record index
             textField.removeFromSuperview()
         }
         

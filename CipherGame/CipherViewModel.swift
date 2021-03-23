@@ -29,6 +29,9 @@ class CipherPuzzle : ObservableObject {
     var currentCiphertextCharacter : Character? = nil
     
     @Published
+    var currentUserSelectionIndex : Int? = nil
+    
+    @Published
     var gameLevel : Int = 0 {
         didSet{
             if gameLevel > gameRules.count {
@@ -63,7 +66,8 @@ class CipherPuzzle : ObservableObject {
             
             model.updateUsersGuesses(cipherCharacter: currentCiphertextCharacter!,
                                      plaintextCharacter: newValue,
-                                     in: currentPuzzleTitle!)
+                                     in: currentPuzzleTitle!,
+                                     at: currentUserSelectionIndex!)
         }
     }
     
@@ -75,7 +79,7 @@ class CipherPuzzle : ObservableObject {
         
         for (index, char) in self.currentPuzzle!.ciphertext.enumerated() {
             
-            if let newPair = gameRules[gameLevel]?(char,index) {
+            if let newPair = gameRules[gameLevel]?(char, index) {
                 puzzleData.append(newPair)
             }
         }
@@ -87,7 +91,7 @@ class CipherPuzzle : ObservableObject {
     
     func plaintext(for ciphertext : Character) -> Character?{
                 
-        return currentPuzzle!.usersGuesses[ciphertext]
+        return currentPuzzle!.usersGuesses[ciphertext]?.0
     }
     
     //MARK:- private
@@ -101,33 +105,44 @@ class CipherPuzzle : ObservableObject {
         return newPair
     }
     
+    
     private
     func mediumGameInfo(for ciphertext : Character, at index: Int) -> GameInfo? {
         
         if String.alphabet.contains(ciphertext) {
-            let newPair = GameInfo(id: index,
-                                   cipherLetter: ciphertext,
-                                   userGuessLetter: plaintext(for: ciphertext))
-            
-            return newPair
+            return easyGameInfo(for: ciphertext, at: index)
         }
-        
         return nil
     }
+    
+    
+    
+    private
+    func hardGameInfo(for ciphertext : Character, at index: Int) -> GameInfo? {
+        
+        var mediumLevel = mediumGameInfo(for: ciphertext, at: index)
+        
+        if let guessIndices = currentPuzzle?.usersGuesses[ciphertext]?.1 {
+            if guessIndices.containsItem(within: 20, of: index){
+                return mediumLevel
+            }
+        }
+        
+        mediumLevel?.userGuessLetter = nil
+        return mediumLevel
+    }
+    
+    
+    
     
     
     private
     var gameRules : [ Int : (Character, Int) -> GameInfo? ]{
         return [0 : easyGameInfo,
-                1 : mediumGameInfo]
+                1 : mediumGameInfo,
+                2 : hardGameInfo]
     }
     
-    
-    
-    private
-    func updateUsersGuesses(cipherCharacter : Character, plaintextCharacter : Character, in puzzle : String){
-        model.updateUsersGuesses(cipherCharacter: cipherCharacter, plaintextCharacter: plaintextCharacter, in: puzzle)
-    }
     
     //MARK:- structs
     
@@ -157,4 +172,16 @@ extension Color {
             return blue
         }
     }
+}
+
+extension Array where Element == Int {
+    
+    func containsItem(within distance : Int, of index : Int)-> Bool {
+        if self.first(where: { item in abs(item - index) <= distance}) != nil {
+            return true
+        }
+        return false
+    }
+    
+    
 }

@@ -43,6 +43,17 @@ struct ContentView: View {
             }
         }
         
+        var difficultyButtonTitle : String {
+            switch viewModel.gameLevel {
+            case 0:
+                return "easy"
+            case 1:
+                return "medium"
+            default:
+                return "hard"
+            }
+        }
+        
         var body : some View {
             
             GeometryReader { geometry in
@@ -53,19 +64,20 @@ struct ContentView: View {
                                 CipherSolverCharacterPair(
                                     userMadeASelection: $userMadeASelection,
                                     cipherTextLetter: cipherPair.cipherLetter,
-                                    plainTextLetter: cipherPair.userGuessLetter)
+                                    plainTextLetter: cipherPair.userGuessLetter,
+                                    indexInTheCipher: cipherPair.id)
                             }
                         }
                     }.gesture(scrollViewTap)
                 
                     LetterCount(letterCount: viewModel.letterCount)
-                        .frame(width: 0.9 * geometry.size.width, height: 100, alignment: .bottom)
+                        .frame(width: geometry.size.width, height: 100, alignment: .bottom)
                
                 }
                 .toolbar{
                     ToolbarItem(placement: .navigationBarTrailing){
-                        Button("difficulty"){
-                            viewModel.gameLevel = (viewModel.gameLevel + 1) % 2
+                        Button(self.difficultyButtonTitle){
+                            viewModel.gameLevel = (viewModel.gameLevel + 1) % 3
                         }
                     }
                 }
@@ -95,6 +107,7 @@ struct ContentView: View {
         var userMadeASelection : Bool
         var cipherTextLetter : Character
         var plainTextLetter : Character?
+        var indexInTheCipher : Int?
         
         @Environment(\.colorScheme)
         var colorScheme : ColorScheme
@@ -114,6 +127,7 @@ struct ContentView: View {
                     //flip value
                     wasTapped = true
                     userMadeASelection = true
+                    viewModel.currentUserSelectionIndex = indexInTheCipher
                     viewModel.currentCiphertextCharacter = cipherTextLetter
                 }
                 
@@ -130,7 +144,7 @@ struct ContentView: View {
                     
                     NewTextField(letterGuess: $viewModel.userGuess,
                                  ciphertextLetter: cipherTextLetter,
-                                 puzzleTitle: $viewModel.currentPuzzleTitle,
+                                 puzzleTitle: viewModel.currentPuzzleTitle,
                                  wasTapped: $wasTapped,
                                  textColor: UIColor(Color.highlightColor(for: colorScheme)))
                     
