@@ -24,8 +24,7 @@ struct NewTextField : UIViewRepresentable {
     var textColor : UIColor?
     
     var stringToDisplay : String {
-        guard let letterGuess = letterGuess else {return ""}
-        return String(letterGuess)
+        return letterGuess.string()
     }
     
     func makeUIView(context: Context) -> UITextField {

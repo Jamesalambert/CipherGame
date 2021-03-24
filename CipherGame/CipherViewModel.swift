@@ -99,12 +99,32 @@ class CipherPuzzle : ObservableObject {
 //        guard let currentPuzzle = currentPuzzle else {return "couldn't find puzzle!"}
         
         let charsPerLine = 30
-        let lines : Int = Int(ceil(Double(self.data.count / charsPerLine)))
-        let data = self.data
+        let numberOfLines : Int = Int(ceil(Double(self.data.count / charsPerLine)))
         
-        var index : Int = 0
+        let data = self.data
+        let cipherChars = data.map{item in item.cipherLetter}
+        let userGuesses = data.map{item in item.userGuessLetter}
+        
+        //var index : Int = 0
         var output : String = ""
         
+        
+        func htmlTableRow(from array : [Character?], from start : Int, to end : Int, withClassName classLabel : String) -> String {
+            
+            var output : String = ""
+            
+            output += "<tr class='\(classLabel)'>"
+            for charOffset in start...end {
+                output += "<td>"
+                output += array[charOffset].string()
+                output += "</td>"
+            }
+            output += "</tr>\n"
+            
+            return output
+        }
+        
+
         output += "<html>\n"
         output += CipherPuzzle.cssStyling
         
@@ -113,18 +133,11 @@ class CipherPuzzle : ObservableObject {
         
         output += "<table id='ciphertext'>\n"
         
-        for line in 0..<lines {
-            
-            output += "<tr>"
-            for charOffset in 0...charsPerLine {
-                index = line * charsPerLine + charOffset
- 
-                output += "<td>"
-                output += String(data[index].cipherLetter)
-                output += "</td>"
-
-            }
-            output += "</tr>\n"
+        for line in 0..<numberOfLines {
+            let start = line * charsPerLine
+            let end  = line * charsPerLine + charsPerLine
+            output += htmlTableRow(from: cipherChars, from: start, to: end, withClassName: "cipherRow")
+            output += htmlTableRow(from: userGuesses, from: start, to: end, withClassName: "guessRow")
         }
 
         output += "</table>\n"
@@ -132,13 +145,12 @@ class CipherPuzzle : ObservableObject {
         
         print(output)
         return output
-
+        
     }
     
     private
     var htmlLetterCount : String {
         
-//        var index : Int = 0
         let letterCount = self.letterCount
         var output = ""
         
@@ -150,12 +162,15 @@ class CipherPuzzle : ObservableObject {
             counts.append(String(pair.1))
         }
         
+        
+        let userGuesses = String.alphabet.map {char in String(plaintext(for: char) ?? " ")}
+        
         output += "<h2>Character count</h2>"
         output += "<table id='letterCount'>"
         
-        for collection in [characters, counts] {
-            output += "<tr>"
-            for item in collection {
+        for collection in zip([characters, userGuesses, counts], ["characters", "userGuesses", "counts"]) {
+            output += "<tr id='\(collection.1)'>"
+            for item in collection.0 {
                 output += "<td>"
                 output += String(item)
                 output += "</td>"
@@ -235,35 +250,56 @@ struct GameInfo : Identifiable {
 
 extension CipherPuzzle {
     static let cssStyling : String  = """
-    <head>
-            <style>
-            body {
-                text-align: center;
-                font-family: -apple-system, sans-serif;
-            }
+<head>
+<style>
+    body {
+        text-align: center;
+        font-family: -apple-system, sans-serif;
+        margin: 3cm 0cm 3cm 0cm;
+    }
 
-             table {
-              max-width: 100%;
-              margin-left: auto;
-              margin-right: auto;
-              //margin-top: 10vh;
-              margin-bottom: 10vh;
-            text-align: center;
-            }
-            
-            #ciphertext td {
-                padding-bottom: 20px;
-                border-bottom: 1px solid gray;
-            }
+    h1 {
+        padding-bottom: 2cm;
+    }
 
-            #letterCount td{
-                border-bottom: 1px solid gray;
-                padding-bottom: 20px;
-            }
-            
+    table {
+        max-width: 100%;
+        margin-left: auto;
+        margin-right: auto;
+        margin-bottom: 2cm;
+        text-align: center;
+    }
+    
+    #ciphertext {
+        border-collapse: collapse;
+    }
 
-            </style>
-            </head>\n
+    .cipherRow td {
+        padding-top : 0.5cm;
+        color: red;
+    }
+        
+    .guessRow td {
+        border-bottom: 1px solid gray;
+    }
+    
+    #letterCount {
+        border-collapse: collapse;
+        border-top: 1.5px solid black;
+        border-bottom: 1.5px solid black;
+    }
+
+    #letterCount td{
+        border-bottom: 0.5px solid gray;
+        padding: 0.1cm 0.1cm 0.1cm 0.1cm;
+    }
+    
+    #characters td {
+        color : red;
+    }
+
+</style>
+</head>\n
 """
 }
 
@@ -291,4 +327,15 @@ extension Array where Element == Int {
     }
     
     
+}
+
+extension Optional where Wrapped == Character {
+    
+    func string() -> String {
+        if let currentValue = self {
+            return String(currentValue)
+        } else {
+            return ""
+        }
+    }
 }

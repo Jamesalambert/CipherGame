@@ -140,14 +140,6 @@ struct ContentView: View {
         @Environment(\.colorScheme)
         var colorScheme : ColorScheme
         
-        private var plainTextToDisplay : String {
-            if let plainTextLetter = plainTextLetter{
-                return String(plainTextLetter)
-            } else {
-                return ""
-            }
-        }
-        
         var plaintextLabelTap : some Gesture {
             TapGesture(count: 1).onEnded{
                 
@@ -178,7 +170,7 @@ struct ContentView: View {
                     
                     
                 } else {
-                    Text(plainTextToDisplay)
+                    Text(plainTextLetter.string())
                     //                        .background(Color.green)
                 }
             }
@@ -256,13 +248,6 @@ struct ContentView: View {
         @Environment (\.colorScheme)
         var colorScheme : ColorScheme
         
-        var userGuess : String {
-            if let plainChar = plainChar {
-                return String(plainChar)
-            }
-            return ""
-        }
-        
         var count : Int
         
         var body : some View {
@@ -271,7 +256,7 @@ struct ContentView: View {
                 Group {
                     Text(String(cipherChar))
                     Text(String(count)).lineLimit(1)
-                    Text(userGuess)
+                    Text(plainChar.string())
                 }.foregroundColor(
                     viewModel.currentCiphertextCharacter == cipherChar ?
                         Color.highlightColor(for: colorScheme) : nil )
