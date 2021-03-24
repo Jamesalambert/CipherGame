@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA31EAA3260BE32A0031D56C /* CipherPuzzle+Printing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */; };
+		AA31EAAE260BE3E80031D56C /* CipherPuzzle+Difficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */; };
+		AA31EAB4260BE5370031D56C /* useful extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAB3260BE5370031D56C /* useful extensions.swift */; };
 		AA8F640C26053E2E005B148F /* UITextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F640B26053E2E005B148F /* UITextFieldView.swift */; };
 		AA97669F2601651A0076B879 /* CipherGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97669E2601651A0076B879 /* CipherGameApp.swift */; };
 		AA9766A12601651A0076B879 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766A02601651A0076B879 /* ContentView.swift */; };
@@ -15,7 +18,7 @@
 		AA9766B12601651E0076B879 /* CipherGameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766B02601651E0076B879 /* CipherGameTests.swift */; };
 		AA9766BC2601651E0076B879 /* CipherGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766BB2601651E0076B879 /* CipherGameUITests.swift */; };
 		AA9766CD26016DED0076B879 /* CipherPuzzleSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */; };
-		AA9766D226016EB60076B879 /* CipherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766D126016EB60076B879 /* CipherViewModel.swift */; };
+		AA9766D226016EB60076B879 /* CipherPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766D126016EB60076B879 /* CipherPuzzle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +39,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle+Printing.swift"; sourceTree = "<group>"; };
+		AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle+Difficulty.swift"; sourceTree = "<group>"; };
+		AA31EAB3260BE5370031D56C /* useful extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "useful extensions.swift"; sourceTree = "<group>"; };
 		AA8F640B26053E2E005B148F /* UITextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldView.swift; sourceTree = "<group>"; };
 		AA97669B2601651A0076B879 /* CipherGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CipherGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA97669E2601651A0076B879 /* CipherGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherGameApp.swift; sourceTree = "<group>"; };
@@ -50,7 +56,7 @@
 		AA9766BB2601651E0076B879 /* CipherGameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherGameUITests.swift; sourceTree = "<group>"; };
 		AA9766BD2601651E0076B879 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherPuzzleSource.swift; sourceTree = "<group>"; };
-		AA9766D126016EB60076B879 /* CipherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherViewModel.swift; sourceTree = "<group>"; };
+		AA9766D126016EB60076B879 /* CipherPuzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherPuzzle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +84,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA31EAB2260BE5210031D56C /* support files */ = {
+			isa = PBXGroup;
+			children = (
+				AA31EAB3260BE5370031D56C /* useful extensions.swift */,
+			);
+			path = "support files";
+			sourceTree = "<group>";
+		};
 		AA9766922601651A0076B879 = {
 			isa = PBXGroup;
 			children = (
@@ -104,10 +118,13 @@
 				AA97669E2601651A0076B879 /* CipherGameApp.swift */,
 				AA9766A02601651A0076B879 /* ContentView.swift */,
 				AA8F640B26053E2E005B148F /* UITextFieldView.swift */,
-				AA9766D126016EB60076B879 /* CipherViewModel.swift */,
+				AA9766D126016EB60076B879 /* CipherPuzzle.swift */,
+				AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */,
+				AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */,
 				AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */,
 				AA9766A22601651D0076B879 /* Assets.xcassets */,
 				AA9766A72601651D0076B879 /* Info.plist */,
+				AA31EAB2260BE5210031D56C /* support files */,
 				AA9766A42601651D0076B879 /* Preview Content */,
 			);
 			path = CipherGame;
@@ -268,11 +285,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA31EAA3260BE32A0031D56C /* CipherPuzzle+Printing.swift in Sources */,
 				AA9766CD26016DED0076B879 /* CipherPuzzleSource.swift in Sources */,
 				AA9766A12601651A0076B879 /* ContentView.swift in Sources */,
 				AA97669F2601651A0076B879 /* CipherGameApp.swift in Sources */,
 				AA8F640C26053E2E005B148F /* UITextFieldView.swift in Sources */,
-				AA9766D226016EB60076B879 /* CipherViewModel.swift in Sources */,
+				AA31EAAE260BE3E80031D56C /* CipherPuzzle+Difficulty.swift in Sources */,
+				AA31EAB4260BE5370031D56C /* useful extensions.swift in Sources */,
+				AA9766D226016EB60076B879 /* CipherPuzzle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
