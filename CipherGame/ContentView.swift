@@ -69,7 +69,7 @@ struct ContentView: View {
                             }
                         }
                     }.gesture(scrollViewTap)
-                
+                   
                     LetterCount(letterCount: viewModel.letterCount)
                         .frame(width: geometry.size.width, height: 100, alignment: .bottom)
                
@@ -80,20 +80,48 @@ struct ContentView: View {
                             viewModel.gameLevel = (viewModel.gameLevel + 1) % 3
                         }
                     }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing){
+                        GeometryReader { geometry in
+                            Button("print"){
+                                print(animatingFrom: geometry.frame(in: CoordinateSpace.local))
+                            }
+                        }
+                    }
                 }
-                
             }
         }
-        
         
         func columns(screenWidth : CGFloat) -> [GridItem] {
             return Array(repeating: GridItem(.fixed(20)),
                          count: Int(screenWidth / 40))
         }
+            
+        func print(animatingFrom rect : CGRect) {
+            
+            let formatter = UIMarkupTextPrintFormatter(markupText: viewModel.printableHTML)
+//            let formatter = UIApplication.shared.windows[0].rootViewController!.view.viewPrintFormatter()
+            
+            let printController = UIPrintInteractionController.shared
+            let printInfo = UIPrintInfo(dictionary: nil)
+            
+            printInfo.outputType = .general
+            printInfo.jobName = viewModel.currentPuzzleTitle!
+            printController.printInfo = printInfo
+            printController.printFormatter = formatter
+
+            printController.present(animated: true)
+        }
+        
         
     }
 
     
+        
+        
+        
+        
+        
     struct CipherSolverCharacterPair : View {
         
         @EnvironmentObject
@@ -214,6 +242,8 @@ struct ContentView: View {
         
     
         
+        
+        
     struct PairCount : View {
         
         @EnvironmentObject
@@ -253,11 +283,6 @@ struct ContentView: View {
 
 }
 
-
-
-
-
-
 //struct ContentView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        let game = CipherPuzzle()
@@ -266,3 +291,6 @@ struct ContentView: View {
 //        }
 //    }
 //}
+
+
+

@@ -94,6 +94,81 @@ class CipherPuzzle : ObservableObject {
         return currentPuzzle!.usersGuesses[ciphertext]?.0
     }
     
+    var printableHTML : String {
+        
+//        guard let currentPuzzle = currentPuzzle else {return "couldn't find puzzle!"}
+        
+        let charsPerLine = 30
+        let lines : Int = Int(ceil(Double(self.data.count / charsPerLine)))
+        let data = self.data
+        
+        var index : Int = 0
+        var output : String = ""
+        
+        output += "<html>\n"
+        output += CipherPuzzle.cssStyling
+        
+        output += "<h1>\(String(currentPuzzleTitle ?? "error!"))</h1>"
+        output += htmlLetterCount
+        
+        output += "<table id='ciphertext'>\n"
+        
+        for line in 0..<lines {
+            
+            output += "<tr>"
+            for charOffset in 0...charsPerLine {
+                index = line * charsPerLine + charOffset
+ 
+                output += "<td>"
+                output += String(data[index].cipherLetter)
+                output += "</td>"
+
+            }
+            output += "</tr>\n"
+        }
+
+        output += "</table>\n"
+        output += "</html>\n"
+        
+        print(output)
+        return output
+
+    }
+    
+    private
+    var htmlLetterCount : String {
+        
+//        var index : Int = 0
+        let letterCount = self.letterCount
+        var output = ""
+        
+        var characters : [String] = []
+        var counts : [String] = []
+
+        for pair in letterCount {
+            characters.append(String(pair.0))
+            counts.append(String(pair.1))
+        }
+        
+        output += "<h2>Character count</h2>"
+        output += "<table id='letterCount'>"
+        
+        for collection in [characters, counts] {
+            output += "<tr>"
+            for item in collection {
+                output += "<td>"
+                output += String(item)
+                output += "</td>"
+            }
+            output += "</tr>\n"
+        }
+
+        output += "</table>\n"
+        
+        return output
+    }
+    
+    
     //MARK:- private
     
     private
@@ -133,9 +208,6 @@ class CipherPuzzle : ObservableObject {
     }
     
     
-    
-    
-    
     private
     var gameRules : [ Int : (Character, Int) -> GameInfo? ]{
         return [0 : easyGameInfo,
@@ -160,6 +232,41 @@ struct GameInfo : Identifiable {
     var cipherLetter : Character
     var userGuessLetter : Character?
 }
+
+extension CipherPuzzle {
+    static let cssStyling : String  = """
+    <head>
+            <style>
+            body {
+                text-align: center;
+                font-family: -apple-system, sans-serif;
+            }
+
+             table {
+              max-width: 100%;
+              margin-left: auto;
+              margin-right: auto;
+              //margin-top: 10vh;
+              margin-bottom: 10vh;
+            text-align: center;
+            }
+            
+            #ciphertext td {
+                padding-bottom: 20px;
+                border-bottom: 1px solid gray;
+            }
+
+            #letterCount td{
+                border-bottom: 1px solid gray;
+                padding-bottom: 20px;
+            }
+            
+
+            </style>
+            </head>\n
+"""
+}
+
 
 extension Color {
     static let blue = Color.blue
