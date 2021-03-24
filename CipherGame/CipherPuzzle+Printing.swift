@@ -123,6 +123,7 @@ extension CipherPuzzle{
     }
         
     .guessRow td {
+        height: 8mm;
         border-bottom: 1px solid gray;
     }
     

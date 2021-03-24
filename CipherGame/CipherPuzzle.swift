@@ -62,7 +62,7 @@ class CipherPuzzle : ObservableObject {
         }
         
         set {
-            guard let newValue = newValue else {return}
+            //guard let newValue = newValue else {return}
             
             model.updateUsersGuesses(cipherCharacter: currentCiphertextCharacter!,
                                      plaintextCharacter: newValue,

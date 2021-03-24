@@ -118,7 +118,6 @@ struct ContentView: View {
     }
 
     
-   
     struct CipherSolverCharacterPair : View {
         
         @EnvironmentObject
@@ -182,8 +181,6 @@ struct ContentView: View {
                                 Color.highlightColor(for: colorScheme) : nil)
         }
     }
-    
-    
     
     
 //    MARK:- letter count view

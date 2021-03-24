@@ -29,19 +29,28 @@ fkr futdd.
     var puzzles : [Puzzle] = [space, island]
     
     mutating
-    func updateUsersGuesses(cipherCharacter : Character, plaintextCharacter : Character, in puzzle : String, at index : Int){
+    func updateUsersGuesses(cipherCharacter : Character,
+                            plaintextCharacter : Character?,
+                            in puzzle : String,
+                            at index : Int){
         
         guard let currentPuzzleIndex = puzzles.firstIndex(where: {$0.title == puzzle}) else {return}
         
-        var newGuessArray : [Int] = [index]
-        
-        if let guessIndices = puzzles[currentPuzzleIndex].usersGuesses[cipherCharacter]?.1 {
-            newGuessArray = guessIndices + [index]
+        if let plaintextCharacter = plaintextCharacter {
+            
+            var newGuessArray : [Int] = [index]
+            
+            if let guessIndices = puzzles[currentPuzzleIndex].usersGuesses[cipherCharacter]?.1 {
+                newGuessArray = guessIndices + newGuessArray
+            }
+            //update model
+            puzzles[currentPuzzleIndex].usersGuesses[cipherCharacter] = (plaintextCharacter, newGuessArray)
+            
+        } else {
+            //remove from guesses
+            puzzles[currentPuzzleIndex].usersGuesses.removeValue(forKey: cipherCharacter)
         }
-        
-        puzzles[currentPuzzleIndex].usersGuesses[cipherCharacter] = (plaintextCharacter, newGuessArray)
     }
-    
 }
 
 
