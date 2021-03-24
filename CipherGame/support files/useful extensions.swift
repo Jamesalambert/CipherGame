@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-
+//TODO: need better theme management
 extension Color {
     static let blue = Color.blue
     static let orange = Color.orange
@@ -21,6 +21,7 @@ extension Color {
     }
 }
 
+//used for hard setting
 extension Array where Element == Int {
     
     func containsItem(within distance : Int, of index : Int)-> Bool {
@@ -29,8 +30,6 @@ extension Array where Element == Int {
         }
         return false
     }
-    
-    
 }
 
 extension Optional where Wrapped == Character {
@@ -40,6 +39,19 @@ extension Optional where Wrapped == Character {
             return String(currentValue)
         } else {
             return ""
+        }
+    }
+}
+
+
+//used for the letter counts
+extension String {
+    
+    static let alphabet = "abcdefghijklmnopqrstuvwxyz"
+    
+    func number(of character : Character) -> Int{
+        return reduce(0) { (total, nextChar) -> Int in
+            nextChar == character ? total + 1 : total
         }
     }
 }

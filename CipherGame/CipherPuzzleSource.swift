@@ -28,7 +28,8 @@ fkr futdd.
     //MARK: - public
     var puzzles : [Puzzle] = [space, island]
     
-    mutating func updateUsersGuesses(cipherCharacter : Character, plaintextCharacter : Character, in puzzle : String, at index : Int){
+    mutating
+    func updateUsersGuesses(cipherCharacter : Character, plaintextCharacter : Character, in puzzle : String, at index : Int){
         
         guard let currentPuzzleIndex = puzzles.firstIndex(where: {$0.title == puzzle}) else {return}
         
@@ -41,43 +42,27 @@ fkr futdd.
         puzzles[currentPuzzleIndex].usersGuesses[cipherCharacter] = (plaintextCharacter, newGuessArray)
     }
     
-    //MARK:-
 }
 
+
+
+
 struct Puzzle {
-    
-    //static let alphabet = "abcdefghijklmnopqrstuvwxyz"
-    
+        
     var title : String
     var ciphertext : String
     var solution : String
     
-    var usersGuesses : Dictionary<Character, (Character, [Int])> = Dictionary() {
-        didSet{
-            print(usersGuesses)
-        }
-    }
+    var usersGuesses : Dictionary<Character, (Character, [Int])> = Dictionary()
     
     func letterCount() -> [(Character,Int)] {
         var output : [(Character,Int)] = []
         
         for letter in String.alphabet {
-            output.append( (letter, self.ciphertext.number(of: letter)) )
+            output.append((letter, self.ciphertext.number(of: letter)))
         }
         return output
     }
     
 }
 
-extension String {
-    
-    static let alphabet = "abcdefghijklmnopqrstuvwxyz"
-    
-    func number(of character : Character) -> Int{
-        return reduce(0) { (total, nextChar) -> Int in
-            nextChar == character ? total + 1 : total
-        }
-    }
-    
-    
-}

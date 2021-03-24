@@ -42,7 +42,7 @@ extension CipherPuzzle{
         output += CipherPuzzle.cssStyling
         
         output += "<h1>\(String(currentPuzzleTitle ?? "error!"))</h1>"
-        output += htmlLetterCount
+        output += HTMLletterCountTable
         
         output += "<table id='ciphertext'>\n"
         
@@ -62,26 +62,21 @@ extension CipherPuzzle{
     }
 
     private
-    var htmlLetterCount : String {
+    var HTMLletterCountTable : String {
         
         let letterCount = self.letterCount
         var output = ""
         
-        var characters : [String] = []
-        var counts : [String] = []
-
-        for pair in letterCount {
-            characters.append(String(pair.0))
-            counts.append(String(pair.1))
-        }
-        
-        
+        let characters : [String] = letterCount.map {pair in String(pair.0)}
         let userGuesses = String.alphabet.map {char in String(plaintext(for: char) ?? " ")}
-        
+        let counts : [String] = letterCount.map {pair in String(pair.1)}
+              
         output += "<h2>Character count</h2>"
         output += "<table id='letterCount'>"
         
-        for collection in zip([characters, userGuesses, counts], ["characters", "userGuesses", "counts"]) {
+        for collection in zip([characters, userGuesses, counts],
+                              ["characters", "userGuesses", "counts"]) {
+            
             output += "<tr id='\(collection.1)'>"
             for item in collection.0 {
                 output += "<td>"
@@ -144,6 +139,10 @@ extension CipherPuzzle{
     
     #characters td {
         color : red;
+    }
+    
+    #userGuesses td {
+        height: 8mm;
     }
 
 </style>

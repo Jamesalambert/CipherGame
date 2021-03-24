@@ -15,7 +15,6 @@ struct ContentView: View {
     var body: some View {
         
         NavigationView {
-            
             List{
                 ForEach(viewModel.availablePuzzles) { puzzleTitle in
                     NavigationLink(puzzleTitle.title,
@@ -28,6 +27,7 @@ struct ContentView: View {
     }
     
     
+//    MARK:- the puzzle
     struct CipherSolverPage : View {
         
         @EnvironmentObject
@@ -92,15 +92,16 @@ struct ContentView: View {
             }
         }
         
+        private
         func columns(screenWidth : CGFloat) -> [GridItem] {
             return Array(repeating: GridItem(.fixed(20)),
                          count: Int(screenWidth / 40))
         }
             
+        private
         func print(animatingFrom rect : CGRect) {
             
             let formatter = UIMarkupTextPrintFormatter(markupText: viewModel.printableHTML)
-//            let formatter = UIApplication.shared.windows[0].rootViewController!.view.viewPrintFormatter()
             
             let printController = UIPrintInteractionController.shared
             let printInfo = UIPrintInfo(dictionary: nil)
@@ -117,11 +118,7 @@ struct ContentView: View {
     }
 
     
-        
-        
-        
-        
-        
+   
     struct CipherSolverCharacterPair : View {
         
         @EnvironmentObject
@@ -189,7 +186,7 @@ struct ContentView: View {
     
     
     
-    
+//    MARK:- letter count view
     struct LetterCount : View {
         
         @EnvironmentObject
@@ -233,9 +230,7 @@ struct ContentView: View {
     }
         
     
-        
-        
-        
+    
     struct PairCount : View {
         
         @EnvironmentObject
