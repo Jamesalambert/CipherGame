@@ -36,20 +36,24 @@ fkr futdd.
         
         guard let currentPuzzleIndex = puzzles.firstIndex(where: {$0.title == puzzle}) else {return}
         
+        //discard uppercase!
+        let lowerPlainCharacter = plaintextCharacter.lowerChar()
+        let lowerCipherCharacter = cipherCharacter.lowerChar()
+        
         //user entered a non-nil char
-        if let plaintextCharacter = plaintextCharacter {
-            
+        if let lowerPlainCharacter = lowerPlainCharacter {
+
             var newGuessArray : [Int] = [index]
-            
-            if let guessIndices = puzzles[currentPuzzleIndex].usersGuesses[cipherCharacter]?.1 {
+            if let guessIndices = puzzles[currentPuzzleIndex].usersGuesses[lowerCipherCharacter]?.1 {
                 newGuessArray = guessIndices + newGuessArray
             }
+            
             //update model
-            puzzles[currentPuzzleIndex].usersGuesses[cipherCharacter] = (plaintextCharacter, newGuessArray)
+            puzzles[currentPuzzleIndex].usersGuesses[lowerCipherCharacter] = (lowerPlainCharacter, newGuessArray)
+            
             //remove guess
         } else {
-            
-            puzzles[currentPuzzleIndex].usersGuesses.removeValue(forKey: cipherCharacter)
+            puzzles[currentPuzzleIndex].usersGuesses.removeValue(forKey: lowerCipherCharacter)
         }
     }
 }

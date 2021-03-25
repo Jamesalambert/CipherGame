@@ -9,9 +9,7 @@ import SwiftUI
 
 
 class CipherPuzzle : ObservableObject {
-    
-    //static let blank : Character = " "
-    
+        
     @Published
     private
     var model : Game = Game()
@@ -32,15 +30,19 @@ class CipherPuzzle : ObservableObject {
     var currentUserSelectionIndex : Int? = nil
     
     @Published
-    var gameLevel : Int = 0 {
+    var difficultyLevel : Int = 0 {
         didSet{
-            if gameLevel > gameRules.count {
-                gameLevel = gameRules.count - 1
-            } else if gameLevel < 0 {
-                gameLevel = 0
+            if difficultyLevel > gameRules.count {
+                difficultyLevel = gameRules.count - 1
+            } else if difficultyLevel < 0 {
+                difficultyLevel = 0
             }
         }
     }
+    
+    @Published
+    var allCaps : Bool = false
+    
     
     //MARK: - public API
     var availablePuzzles : [PuzzleTitle] {
@@ -62,7 +64,7 @@ class CipherPuzzle : ObservableObject {
         }
         
         set {
-            //guard let newValue = newValue else {return}
+            //ensure lowercase
             
             model.updateUsersGuesses(cipherCharacter: currentCiphertextCharacter!,
                                      plaintextCharacter: newValue,
@@ -79,8 +81,21 @@ class CipherPuzzle : ObservableObject {
         
         for (index, char) in self.currentPuzzle!.ciphertext.enumerated() {
             
-            if let newPair = gameRules[gameLevel]?(char, index) {
-                puzzleData.append(newPair)
+            if let newGameTriad = gameRules[difficultyLevel]?(char, index) {
+                
+                var output : GameInfo
+                
+                if allCaps {
+                    output = GameInfo(id: newGameTriad.id,
+                                      cipherLetter: newGameTriad.cipherLetter.upperChar(),
+                                      userGuessLetter: newGameTriad.userGuessLetter.upperChar())
+                } else {
+                    output = GameInfo(id: newGameTriad.id,
+                                      cipherLetter: newGameTriad.cipherLetter,
+                                      userGuessLetter: newGameTriad.userGuessLetter)
+                }
+                
+                puzzleData.append(output)
             }
         }
         
@@ -111,7 +126,6 @@ class CipherPuzzle : ObservableObject {
 struct GameInfo : Identifiable {
     
     var id: Int
-    
     var cipherLetter : Character
     var userGuessLetter : Character?
 }

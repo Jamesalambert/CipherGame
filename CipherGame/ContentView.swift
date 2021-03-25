@@ -33,6 +33,9 @@ struct ContentView: View {
         @EnvironmentObject
         var viewModel : CipherPuzzle
         
+        @Environment(\.colorScheme)
+        var colorScheme : ColorScheme
+        
         @State
         var userMadeASelection : Bool = false
         
@@ -44,7 +47,7 @@ struct ContentView: View {
         }
         
         var difficultyButtonTitle : String {
-            switch viewModel.gameLevel {
+            switch viewModel.difficultyLevel {
             case 0:
                 return "easy"
             case 1:
@@ -53,6 +56,7 @@ struct ContentView: View {
                 return "hard"
             }
         }
+
         
         var body : some View {
             
@@ -77,15 +81,29 @@ struct ContentView: View {
                 .toolbar{
                     ToolbarItem(placement: .navigationBarTrailing){
                         Button(self.difficultyButtonTitle){
-                            viewModel.gameLevel = (viewModel.gameLevel + 1) % 3
+                            viewModel.difficultyLevel = (viewModel.difficultyLevel + 1) % 3
                         }
+                    }
+                    
+                    ToolbarItem(placement: .navigationBarTrailing ) {
+                        Button(action: {
+                            viewModel.allCaps = !viewModel.allCaps
+                        }, label: {
+                                Image(systemName: "textformat")
+                        })
                     }
                     
                     ToolbarItem(placement: .navigationBarTrailing){
                         GeometryReader { geometry in
-                            Button("print"){
+                            Button(action: {
                                 print(animatingFrom: geometry.frame(in: CoordinateSpace.local))
-                            }
+                            }, label: {
+                                if colorScheme == ColorScheme.light{
+                                    Image(systemName: "printer.fill")
+                                } else {
+                                    Image(systemName: "printer")
+                                }
+                            })
                         }
                     }
                 }
@@ -123,6 +141,9 @@ struct ContentView: View {
         @EnvironmentObject
         var viewModel : CipherPuzzle
         
+        @Environment(\.colorScheme)
+        var colorScheme : ColorScheme
+        
         @State
         private
         var wasTapped = false
@@ -133,27 +154,21 @@ struct ContentView: View {
         var plainTextLetter : Character?
         var indexInTheCipher : Int?
         
-        @Environment(\.colorScheme)
-        var colorScheme : ColorScheme
         
         var plaintextLabelTap : some Gesture {
             TapGesture(count: 1).onEnded{
-                
-                if String.alphabet.contains(cipherTextLetter){
                     //flip value
                     wasTapped = true
                     userMadeASelection = true
                     viewModel.currentUserSelectionIndex = indexInTheCipher
                     viewModel.currentCiphertextCharacter = cipherTextLetter
-                }
-                
             }
         }
         
         var body : some View {
             VStack{
-                Text(String(cipherTextLetter))
-                
+                Text(String(viewModel.allCaps ? cipherTextLetter.upperChar() : cipherTextLetter))
+                    
                 Spacer()
                 
                 if wasTapped, userMadeASelection {
@@ -162,12 +177,11 @@ struct ContentView: View {
                                  ciphertextLetter: cipherTextLetter,
                                  puzzleTitle: viewModel.currentPuzzleTitle,
                                  wasTapped: $wasTapped,
-                                 textColor: UIColor(Color.highlightColor(for: colorScheme)))
-                    
+                                 textColor: UIColor(Color.highlightColor(for: colorScheme)),
+                                 allCaps: $viewModel.allCaps)
                     
                 } else {
-                    Text(plainTextLetter.string())
-                    //                        .background(Color.green)
+                    Text(viewModel.allCaps ? plainTextLetter.string().uppercased() : plainTextLetter.string())
                 }
             }
             .gesture(plaintextLabelTap)

@@ -35,7 +35,6 @@ extension CipherPuzzle {
     
     private
     func mediumGameInfo(for ciphertext : Character, at index: Int) -> GameInfo? {
-        
         if String.alphabet.contains(ciphertext) {
             return easyGameInfo(for: ciphertext, at: index)
         }

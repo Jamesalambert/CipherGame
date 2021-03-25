@@ -41,6 +41,34 @@ extension Optional where Wrapped == Character {
             return ""
         }
     }
+    
+    func upperChar() -> Self {
+        if let currentValue = self {
+            return Character(String(currentValue).uppercased())
+        } else {
+            return self
+        }
+    }
+    
+    func lowerChar() -> Self {
+        if let currentValue = self {
+            return Character(String(currentValue).lowercased())
+        } else {
+            return self
+        }
+    }
+
+}
+
+
+extension Character {
+    func upperChar() -> Character {
+        return Character(String(self).uppercased())
+    }
+    
+    func lowerChar() -> Character {
+        return Character(String(self).lowercased())
+    }
 }
 
 
