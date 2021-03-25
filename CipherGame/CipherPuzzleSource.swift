@@ -36,6 +36,7 @@ fkr futdd.
         
         guard let currentPuzzleIndex = puzzles.firstIndex(where: {$0.title == puzzle}) else {return}
         
+        //user entered a non-nil char
         if let plaintextCharacter = plaintextCharacter {
             
             var newGuessArray : [Int] = [index]
@@ -45,9 +46,9 @@ fkr futdd.
             }
             //update model
             puzzles[currentPuzzleIndex].usersGuesses[cipherCharacter] = (plaintextCharacter, newGuessArray)
-            
+            //remove guess
         } else {
-            //remove from guesses
+            
             puzzles[currentPuzzleIndex].usersGuesses.removeValue(forKey: cipherCharacter)
         }
     }
@@ -71,6 +72,20 @@ struct Puzzle {
             output.append((letter, self.ciphertext.number(of: letter)))
         }
         return output
+    }
+    
+    func isSolved() -> Bool {
+        
+        //get user's guesses
+        let guesses = String.alphabet.map{char in usersGuesses[char]?.0}
+        
+        let userSolution = String(guesses.compactMap{$0})
+        
+        if userSolution == solution {
+            return true
+        }
+        
+        return false
     }
     
 }

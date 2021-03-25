@@ -12,27 +12,26 @@ extension CipherPuzzle{
     var printableHTML : String {
                 
         let charsPerLine = 30
-        let numberOfLines : Int = Int(ceil(Double(self.data.count / charsPerLine)))
+        let numberOfLines = Int(ceil(Double(self.data.count) / Double(charsPerLine)))
+        let charsOnLastLine = self.data.count % charsPerLine
         
         let data = self.data
-        let cipherChars = data.map{item in item.cipherLetter}
+        let cipherChars : [Character?] = data.map{item in item.cipherLetter}
         let userGuesses = data.map{item in item.userGuessLetter}
         
         //var index : Int = 0
         var output : String = ""
         
 
-        func htmlTableRow(from array : [Character?], from start : Int, to end : Int, withClassName classLabel : String) -> String {
+        func htmlTableRow(from array : ArraySlice<Character?>, withClassName classLabel : String) -> String {
             
             var output : String = ""
             
-            output += "<tr class='\(classLabel)'>"
-            for charOffset in start...end {
-                output += "<td>"
-                output += array[charOffset].string()
-                output += "</td>"
+            output += "\n<tr class='\(classLabel)'>\n"
+            for char in array {
+                output += "<td>" + char.string() + "</td>"
             }
-            output += "</tr>\n"
+            output += "\n</tr>\n"
             
             return output
         }
@@ -41,20 +40,21 @@ extension CipherPuzzle{
         output += "<html>\n"
         output += CipherPuzzle.cssStyling
         
-        output += "<h1>\(String(currentPuzzleTitle ?? "error!"))</h1>"
+        output += "\n<h1>\(String(currentPuzzleTitle?.capitalized ?? "error!"))</h1>\n"
         output += HTMLletterCountTable
         
-        output += "<table id='ciphertext'>\n"
+        output += "\n<table id='ciphertext'>\n"
         
         for line in 0..<numberOfLines {
             let start = line * charsPerLine
-            let end  = line * charsPerLine + charsPerLine
-            output += htmlTableRow(from: cipherChars, from: start, to: end, withClassName: "cipherRow")
-            output += htmlTableRow(from: userGuesses, from: start, to: end, withClassName: "guessRow")
+            let end  = line * charsPerLine + (line == numberOfLines - 1 ? charsOnLastLine - 1 : charsPerLine)
+
+            output += htmlTableRow(from: cipherChars[start...end], withClassName: "cipherRow")
+            output += htmlTableRow(from: userGuesses[start...end], withClassName: "guessRow")
         }
 
-        output += "</table>\n"
-        output += "</html>\n"
+        output += "\n</table>\n"
+        output += "\n</html>\n"
         
         print(output)
         return output
@@ -71,28 +71,29 @@ extension CipherPuzzle{
         let userGuesses = String.alphabet.map {char in String(plaintext(for: char) ?? " ")}
         let counts : [String] = letterCount.map {pair in String(pair.1)}
               
-        output += "<h2>Character count</h2>"
-        output += "<table id='letterCount'>"
+        output += "\n<h2>character count</h2>\n"
+        output += "\n<table id='letterCount'>\n"
         
         for collection in zip([characters, userGuesses, counts],
                               ["characters", "userGuesses", "counts"]) {
             
-            output += "<tr id='\(collection.1)'>"
+            output += "\n<tr id='\(collection.1)'>"
             for item in collection.0 {
                 output += "<td>"
                 output += String(item)
                 output += "</td>"
             }
-            output += "</tr>\n"
+            output += "\n</tr>\n"
         }
 
-        output += "</table>\n"
+        output += "\n</table>\n"
         
         return output
     }
     
     
     static let cssStyling : String  = """
+
 <head>
 <style>
     body {
