@@ -157,17 +157,17 @@ struct ContentView: View {
         
         var plaintextLabelTap : some Gesture {
             TapGesture(count: 1).onEnded{
-                    //flip value
-                    wasTapped = true
-                    userMadeASelection = true
-                    viewModel.currentUserSelectionIndex = indexInTheCipher
-                    viewModel.currentCiphertextCharacter = cipherTextLetter
+                //flip value
+                wasTapped = true
+                userMadeASelection = true
+                viewModel.currentUserSelectionIndex = indexInTheCipher
+                viewModel.currentCiphertextCharacter = cipherTextLetter
             }
         }
         
         var body : some View {
             VStack{
-                Text(String(viewModel.allCaps ? cipherTextLetter.upperChar() : cipherTextLetter))
+                Text(String(cipherTextLetter))
                     
                 Spacer()
                 
@@ -181,9 +181,10 @@ struct ContentView: View {
                                  allCaps: $viewModel.allCaps)
                     
                 } else {
-                    Text(viewModel.allCaps ? plainTextLetter.string().uppercased() : plainTextLetter.string())
+                    Text(plainTextLetter.string())
                 }
             }
+            .textCase(viewModel.allCaps ? .uppercase : .lowercase)
             .gesture(plaintextLabelTap)
             .overlay(Rectangle()
                         .frame(width: 30, height: 1, alignment: .bottom)
@@ -191,7 +192,7 @@ struct ContentView: View {
                      alignment: .bottom )
             .padding(.bottom)
             .font(.system(.title))
-            .foregroundColor(viewModel.currentCiphertextCharacter == cipherTextLetter ?
+            .foregroundColor(viewModel.currentCiphertextCharacter == cipherTextLetter.lowerChar() ?
                                 Color.highlightColor(for: colorScheme) : nil)
         }
     }
@@ -263,8 +264,10 @@ struct ContentView: View {
                     Text(String(cipherChar))
                     Text(String(count)).lineLimit(1)
                     Text(plainChar.string())
-                }.foregroundColor(
-                    viewModel.currentCiphertextCharacter == cipherChar ?
+                }
+                .textCase(viewModel.allCaps ? .uppercase : .lowercase)
+                .foregroundColor(
+                    viewModel.currentCiphertextCharacter == cipherChar.lowerChar() ?
                         Color.highlightColor(for: colorScheme) : nil )
                 Spacer()
             }

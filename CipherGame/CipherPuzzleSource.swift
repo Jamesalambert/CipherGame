@@ -37,7 +37,7 @@ fkr futdd.
         guard let currentPuzzleIndex = puzzles.firstIndex(where: {$0.title == puzzle}) else {return}
         
         //discard uppercase!
-        let lowerPlainCharacter = plaintextCharacter.lowerChar()
+        let lowerPlainCharacter = plaintextCharacter.lowerCharOpt()
         let lowerCipherCharacter = cipherCharacter.lowerChar()
         
         //user entered a non-nil char

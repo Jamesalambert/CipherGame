@@ -42,7 +42,7 @@ extension Optional where Wrapped == Character {
         }
     }
     
-    func upperChar() -> Self {
+    func upperCharOpt() -> Self {
         if let currentValue = self {
             return Character(String(currentValue).uppercased())
         } else {
@@ -50,7 +50,7 @@ extension Optional where Wrapped == Character {
         }
     }
     
-    func lowerChar() -> Self {
+    func lowerCharOpt() -> Self {
         if let currentValue = self {
             return Character(String(currentValue).lowercased())
         } else {
@@ -69,6 +69,7 @@ extension Character {
     func lowerChar() -> Character {
         return Character(String(self).lowercased())
     }
+    
 }
 
 

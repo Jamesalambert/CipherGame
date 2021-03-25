@@ -24,7 +24,13 @@ class CipherPuzzle : ObservableObject {
     }
     
     @Published
-    var currentCiphertextCharacter : Character? = nil
+    var currentCiphertextCharacter : Character? = nil {
+        didSet {
+            if let current = currentCiphertextCharacter, current.isUppercase {
+                currentCiphertextCharacter = Character(String(current).lowercased())
+            }
+        }
+    }
     
     @Published
     var currentUserSelectionIndex : Int? = nil
@@ -88,7 +94,7 @@ class CipherPuzzle : ObservableObject {
                 if allCaps {
                     output = GameInfo(id: newGameTriad.id,
                                       cipherLetter: newGameTriad.cipherLetter.upperChar(),
-                                      userGuessLetter: newGameTriad.userGuessLetter.upperChar())
+                                      userGuessLetter: newGameTriad.userGuessLetter.upperCharOpt())
                 } else {
                     output = GameInfo(id: newGameTriad.id,
                                       cipherLetter: newGameTriad.cipherLetter,
