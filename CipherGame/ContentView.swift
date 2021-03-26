@@ -12,6 +12,8 @@ struct ContentView: View {
     @StateObject
     var viewModel = CipherPuzzle()
     
+    
+    
     var body: some View {
         
         NavigationView {
@@ -87,7 +89,12 @@ struct ContentView: View {
                     
                     ToolbarItem(placement: .navigationBarTrailing ) {
                         Button(action: {
-                            viewModel.allCaps = !viewModel.allCaps
+                            if viewModel.capType == .allCharacters {
+                                viewModel.capType = .none
+                            } else {
+                                viewModel.capType = .allCharacters
+                            }
+                            
                         }, label: {
                                 Image(systemName: "textformat")
                         })
@@ -178,13 +185,13 @@ struct ContentView: View {
                                  puzzleTitle: viewModel.currentPuzzleTitle,
                                  wasTapped: $wasTapped,
                                  textColor: UIColor(Color.highlightColor(for: colorScheme)),
-                                 allCaps: $viewModel.allCaps)
+                                 capType: $viewModel.capType)
                     
                 } else {
                     Text(plainTextLetter.string())
                 }
             }
-            .textCase(viewModel.allCaps ? .uppercase : .lowercase)
+            .textCase(viewModel.capType == .allCharacters ? .uppercase : .lowercase)
             .gesture(plaintextLabelTap)
             .overlay(Rectangle()
                         .frame(width: 30, height: 1, alignment: .bottom)
@@ -265,7 +272,7 @@ struct ContentView: View {
                     Text(String(count)).lineLimit(1)
                     Text(plainChar.string())
                 }
-                .textCase(viewModel.allCaps ? .uppercase : .lowercase)
+                .textCase(viewModel.capType == .allCharacters ? .uppercase : .lowercase)
                 .foregroundColor(
                     viewModel.currentCiphertextCharacter == cipherChar.lowerChar() ?
                         Color.highlightColor(for: colorScheme) : nil )

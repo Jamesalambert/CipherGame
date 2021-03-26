@@ -16,26 +16,21 @@ extension CipherPuzzle{
         let charsOnLastLine = self.data.count % charsPerLine
         
         let data = self.data
-        let cipherChars : [Character?] = data.map{item in item.cipherLetter}
-        let userGuesses = data.map{item in item.userGuessLetter}
+        var cipherChars : [String] = []
+        var userGuesses : [String] = []
+        
+        switch self.capType {
+        case .allCharacters:
+            cipherChars = data.map{item in String(item.cipherLetter).uppercased()}
+            userGuesses = data.map{item in String(item.userGuessLetter ?? " ").uppercased()}
+        default:
+            cipherChars = data.map{item in String(item.cipherLetter)}
+            userGuesses = data.map{item in String(item.userGuessLetter ?? " ")}
+        }
+        
         
         //var index : Int = 0
         var output : String = ""
-        
-
-        func htmlTableRow(from array : ArraySlice<Character?>, withClassName classLabel : String) -> String {
-            
-            var output : String = ""
-            
-            output += "\n<tr class='\(classLabel)'>\n"
-            for char in array {
-                output += "<td>" + char.string() + "</td>"
-            }
-            output += "\n</tr>\n"
-            
-            return output
-        }
-        
 
         output += "<html>\n"
         output += CipherPuzzle.cssStyling
@@ -49,8 +44,8 @@ extension CipherPuzzle{
             let start = line * charsPerLine
             let end  = line * charsPerLine + (line == numberOfLines - 1 ? charsOnLastLine - 1 : charsPerLine)
 
-            output += htmlTableRow(from: cipherChars[start...end], withClassName: "cipherRow")
-            output += htmlTableRow(from: userGuesses[start...end], withClassName: "guessRow")
+            output += htmlTableRow(from: cipherChars[start...end], withClass: "cipherRow", id: nil)
+            output += htmlTableRow(from: userGuesses[start...end], withClass: "guessRow", id: nil)
         }
 
         output += "\n</table>\n"
@@ -68,25 +63,41 @@ extension CipherPuzzle{
         var output = ""
         
         let characters : [String] = letterCount.map {pair in String(pair.0)}
-        let userGuesses = String.alphabet.map {char in String(plaintext(for: char) ?? " ")}
+        let userGuesses : [String] = String.alphabet.map {char in String(plaintext(for: char) ?? " ")}
         let counts : [String] = letterCount.map {pair in String(pair.1)}
-              
+        
+        var rowsToPrint : [[String]] = []
+        
+        switch self.capType {
+        case .allCharacters:
+            rowsToPrint = [characters,userGuesses,counts].map{array in array.map {string in string.uppercased() }}
+        default:
+            rowsToPrint = [characters,userGuesses,counts]
+        }
+        
         output += "\n<h2>character count</h2>\n"
         output += "\n<table id='letterCount'>\n"
         
-        for collection in zip([characters, userGuesses, counts],
-                              ["characters", "userGuesses", "counts"]) {
-            
-            output += "\n<tr id='\(collection.1)'>"
-            for item in collection.0 {
-                output += "<td>"
-                output += String(item)
-                output += "</td>"
-            }
-            output += "\n</tr>\n"
+        for collection in zip(rowsToPrint, ["characters", "userGuesses", "counts"]) {
+            output += htmlTableRow(from: collection.0, withClass: nil, id: collection.1)
         }
 
         output += "\n</table>\n"
+        
+        return output
+    }
+    
+    
+    fileprivate
+    func htmlTableRow<T: Sequence>(from array : T, withClass classLabel : String?, id idLabel : String?) -> String where T.Iterator.Element : StringProtocol {
+        
+        var output : String = ""
+        
+        output += "\n<tr class='\(classLabel ?? " ")' id='\(idLabel ?? " ")'>\n"
+        for chars in array {
+            output += "<td>" + chars + "</td>"
+        }
+        output += "\n</tr>\n"
         
         return output
     }

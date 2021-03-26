@@ -47,7 +47,7 @@ class CipherPuzzle : ObservableObject {
     }
     
     @Published
-    var allCaps : Bool = false
+    var capType : UITextAutocapitalizationType =  UITextAutocapitalizationType.allCharacters
     
     
     //MARK: - public API
@@ -89,17 +89,9 @@ class CipherPuzzle : ObservableObject {
             
             if let newGameTriad = gameRules[difficultyLevel]?(char, index) {
                 
-                var output : GameInfo
-                
-                if allCaps {
-                    output = GameInfo(id: newGameTriad.id,
-                                      cipherLetter: newGameTriad.cipherLetter.upperChar(),
-                                      userGuessLetter: newGameTriad.userGuessLetter.upperCharOpt())
-                } else {
-                    output = GameInfo(id: newGameTriad.id,
+                let output = GameInfo(id: newGameTriad.id,
                                       cipherLetter: newGameTriad.cipherLetter,
                                       userGuessLetter: newGameTriad.userGuessLetter)
-                }
                 
                 puzzleData.append(output)
             }

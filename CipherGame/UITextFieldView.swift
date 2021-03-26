@@ -24,17 +24,24 @@ struct NewTextField : UIViewRepresentable {
     var textColor : UIColor?
     
     var stringToDisplay : String {
-        return letterGuess.string()
+        switch capType {
+        case .allCharacters:
+            return letterGuess.string().uppercased()
+        case .none:
+            return letterGuess.string().lowercased()
+        default:
+            return letterGuess.string()
+        }
+        
     }
     
     @Binding
-    var allCaps : Bool
+    var capType : UITextAutocapitalizationType
     
     func makeUIView(context: Context) -> UITextField {
         let v = UITextField()
         v.delegate = context.coordinator
         v.textAlignment = .center
-        v.autocapitalizationType = allCaps ? .allCharacters : .none
         v.textColor = textColor
         return v
     }
@@ -42,7 +49,6 @@ struct NewTextField : UIViewRepresentable {
 
     func updateUIView(_ uiView: UITextField, context: Context) {
         uiView.text = stringToDisplay
-        uiView.autocapitalizationType = allCaps ? .allCharacters : .none
         uiView.becomeFirstResponder()
     }
     
