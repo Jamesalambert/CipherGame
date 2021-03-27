@@ -49,6 +49,8 @@ class CipherPuzzle : ObservableObject {
     @Published
     var capType : UITextAutocapitalizationType =  UITextAutocapitalizationType.allCharacters
     
+    @Published
+    var fontDesign : Font.Design = .monospaced
     
     //MARK: - public API
     var availablePuzzles : [PuzzleTitle] {

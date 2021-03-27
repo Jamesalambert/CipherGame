@@ -55,7 +55,32 @@ fkr futdd.
         } else {
             puzzles[currentPuzzleIndex].usersGuesses.removeValue(forKey: lowerCipherCharacter)
         }
+        
+//        check to see if the puzzle is solved
+        if self.isSolved(puzzles[currentPuzzleIndex]) {
+            puzzles[currentPuzzleIndex].isSolved = true
+        } else {
+            puzzles[currentPuzzleIndex].isSolved = false
+        }
+        
+        
     }
+    
+    private
+    func isSolved(_ puzzle : Puzzle) -> Bool {
+        
+        //get user's guesses
+        let guesses = String.alphabet.map{char in puzzle.usersGuesses[char]?.0}
+        
+        let userSolution = String(guesses.compactMap{$0})
+        
+        if userSolution == puzzle.solution {
+            return true
+        }
+        
+        return false
+    }
+    
 }
 
 
@@ -66,6 +91,7 @@ struct Puzzle {
     var title : String
     var ciphertext : String
     var solution : String
+    var isSolved : Bool = false
     
     var usersGuesses : Dictionary<Character, (Character, [Int])> = Dictionary()
     
@@ -76,20 +102,6 @@ struct Puzzle {
             output.append((letter, self.ciphertext.number(of: letter)))
         }
         return output
-    }
-    
-    func isSolved() -> Bool {
-        
-        //get user's guesses
-        let guesses = String.alphabet.map{char in usersGuesses[char]?.0}
-        
-        let userSolution = String(guesses.compactMap{$0})
-        
-        if userSolution == solution {
-            return true
-        }
-        
-        return false
     }
     
 }

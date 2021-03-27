@@ -19,6 +19,7 @@ struct ContentView: View {
         NavigationView {
             List{
                 ForEach(viewModel.availablePuzzles) { puzzleTitle in
+                    
                     NavigationLink(puzzleTitle.title,
                                    destination: CipherSolverPage().navigationTitle(puzzleTitle.title),
                                    tag: puzzleTitle.title,
@@ -82,9 +83,11 @@ struct ContentView: View {
                 }
                 .toolbar{
                     ToolbarItem(placement: .navigationBarTrailing){
-                        Button(self.difficultyButtonTitle){
+                        Button(action: {
                             viewModel.difficultyLevel = (viewModel.difficultyLevel + 1) % 3
-                        }
+                        }, label: {
+                            Text(self.difficultyButtonTitle)
+                        })
                     }
                     
                     ToolbarItem(placement: .navigationBarTrailing ) {
@@ -198,7 +201,7 @@ struct ContentView: View {
                         .foregroundColor(.gray),
                      alignment: .bottom )
             .padding(.bottom)
-            .font(.system(.title))
+            .font(.system(.title, design: viewModel.fontDesign))
             .foregroundColor(viewModel.currentCiphertextCharacter == cipherTextLetter.lowerChar() ?
                                 Color.highlightColor(for: colorScheme) : nil)
         }
@@ -272,6 +275,7 @@ struct ContentView: View {
                     Text(String(count)).lineLimit(1)
                     Text(plainChar.string())
                 }
+                .font(.system(.body, design: viewModel.fontDesign))
                 .textCase(viewModel.capType == .allCharacters ? .uppercase : .lowercase)
                 .foregroundColor(
                     viewModel.currentCiphertextCharacter == cipherChar.lowerChar() ?
