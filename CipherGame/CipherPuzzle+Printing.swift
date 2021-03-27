@@ -33,7 +33,7 @@ extension CipherPuzzle{
         var output : String = ""
 
         output += "<html>\n"
-        output += CipherPuzzle.cssStyling
+        output += CipherPuzzle.cssStyling.replacingOccurrences(of: "@@@", with: self.fontDesign.cssName())
         
         output += "\n<h1>\(String(currentPuzzleTitle?.capitalized ?? "error!"))</h1>\n"
         output += HTMLletterCountTable
@@ -109,7 +109,7 @@ extension CipherPuzzle{
 <style>
     body {
         text-align: center;
-        font-family: -apple-system, sans-serif;
+        font-family: @@@;
         margin: 3cm 0cm 3cm 0cm;
     }
 

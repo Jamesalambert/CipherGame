@@ -84,3 +84,20 @@ extension String {
         }
     }
 }
+
+extension Font.Design {
+    func cssName() -> String {
+        switch self {
+        case .default:
+            return "ui-sans-serif"
+        case .monospaced:
+            return "ui-monospace"
+        case .rounded:
+            return "ui-sans-serif"
+        case .serif:
+            return "ui-serif"
+        default:
+            return "ui-sans-serif"
+        }
+    }
+}
