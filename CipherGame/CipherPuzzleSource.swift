@@ -24,9 +24,11 @@ fkr futdd.
     
     static let island = Puzzle(title: "Island", ciphertext: "erfcgyubdj \nbywgyqwy getvhcnxmlapow uhhvfrbh cbh2.", solution: "")
     
+    static let firstBook = Book(puzzles: [space, island])
     
     //MARK: - public
     var puzzles : [Puzzle] = [space, island]
+    //var books : [Book] = [firstBook]
     
     mutating
     func updateUsersGuesses(cipherCharacter : Character,
@@ -104,5 +106,9 @@ struct Puzzle {
         return output
     }
     
+}
+
+struct Book {
+    var puzzles : [Puzzle]
 }
 

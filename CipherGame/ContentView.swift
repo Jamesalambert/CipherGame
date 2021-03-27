@@ -12,19 +12,18 @@ struct ContentView: View {
     @StateObject
     var viewModel = CipherPuzzle()
     
-    
-    
     var body: some View {
-        
         NavigationView {
+
             List{
-                ForEach(viewModel.availablePuzzles) { puzzleTitle in
-                    
-                    NavigationLink(puzzleTitle.title,
-                                   destination: CipherSolverPage().navigationTitle(puzzleTitle.title),
-                                   tag: puzzleTitle.title,
-                                   selection: $viewModel.currentPuzzleTitle)
-                }
+                    ForEach(viewModel.availablePuzzles) { puzzleTitle in
+                        NavigationLink(puzzleTitle.title,
+                                       destination: CipherSolverPage().navigationTitle(puzzleTitle.title),
+                                       tag: puzzleTitle.title,
+                                       selection: $viewModel.currentPuzzleTitle)
+                            .navigationTitle("Puzzles")
+                    }
+                
             }
         }.environmentObject(viewModel)
     }
