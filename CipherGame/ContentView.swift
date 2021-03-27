@@ -14,16 +14,19 @@ struct ContentView: View {
     
     var body: some View {
         NavigationView {
-
-            List{
-                    ForEach(viewModel.availablePuzzles) { puzzleTitle in
+            List {
+                ForEach(viewModel.availableBooks){ bookTitle in
+                    
+                    Text(bookTitle.title).font(.system(.title))
+                        
+                    ForEach(viewModel.puzzleTitles(for: bookTitle.id)){ puzzleTitle in
                         NavigationLink(puzzleTitle.title,
                                        destination: CipherSolverPage().navigationTitle(puzzleTitle.title),
-                                       tag: puzzleTitle.title,
-                                       selection: $viewModel.currentPuzzleTitle)
-                            .navigationTitle("Puzzles")
+                                       tag: puzzleTitle.id,
+                                       selection: $viewModel.currentPuzzleHash)
+                    
                     }
-                
+                }
             }
         }.environmentObject(viewModel)
     }
@@ -134,7 +137,7 @@ struct ContentView: View {
             let printInfo = UIPrintInfo(dictionary: nil)
             
             printInfo.outputType = .general
-            printInfo.jobName = viewModel.currentPuzzleTitle!
+            printInfo.jobName = viewModel.currentPuzzle?.title ?? "cipher"
             printController.printInfo = printInfo
             printController.printFormatter = formatter
 
@@ -183,8 +186,6 @@ struct ContentView: View {
                 if wasTapped, userMadeASelection {
                     
                     NewTextField(letterGuess: $viewModel.userGuess,
-                                 ciphertextLetter: cipherTextLetter,
-                                 puzzleTitle: viewModel.currentPuzzleTitle,
                                  wasTapped: $wasTapped,
                                  textColor: UIColor(Color.highlightColor(for: colorScheme)),
                                  capType: $viewModel.capType)

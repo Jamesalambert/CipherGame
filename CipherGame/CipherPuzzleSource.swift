@@ -20,23 +20,31 @@ hrcefmrq eqi mf arwdz zhrkhy zr zurbhi qrf sd pet ekey. fud itrmi uez e teimr sd
 fuef zdqiz fud zead adzzeod dwdty fumtfy amqbfdz, fud adzzeod zeyz wmomheqcd rqd\
 fkr futdd.
 """,
-                              solution: "escidpoumgvhaqrjntzfbwklyx") //random seed 1 python
+                              solution: "escidpoumgvhaqrjntzfbwklyx",
+                              id: 0) //random seed 1 python
     
-    static let island = Puzzle(title: "Island", ciphertext: "erfcgyubdj \nbywgyqwy getvhcnxmlapow uhhvfrbh cbh2.", solution: "")
+    static let island = Puzzle(title: "Island",
+                               ciphertext: "erfcgyubdj \nbywgyqwy getvhcnxmlapow uhhvfrbh cbh2.",
+                               solution: "",
+                               id: 1 )
     
-    static let firstBook = Book(puzzles: [space, island])
+    static let firstBook = Book(title: "first book",
+                                puzzles: [space, island],
+                                id: 0)
     
     //MARK: - public
-    var puzzles : [Puzzle] = [space, island]
-    //var books : [Book] = [firstBook]
+//    var puzzles : [Puzzle] = [space, island]
+    var books : [Book] = [firstBook]
     
     mutating
     func updateUsersGuesses(cipherCharacter : Character,
                             plaintextCharacter : Character?,
-                            in puzzle : String,
+                            in puzzle : Puzzle,
                             at index : Int){
         
-        guard let currentPuzzleIndex = puzzles.firstIndex(where: {$0.title == puzzle}) else {return}
+        guard let currentPuzzleIndexPath = self.indexPath(for: puzzle) else {return}
+        let bookIndex = currentPuzzleIndexPath.item
+        let puzzleIndex = currentPuzzleIndexPath.section
         
         //discard uppercase!
         let lowerPlainCharacter = plaintextCharacter.lowerCharOpt()
@@ -46,23 +54,23 @@ fkr futdd.
         if let lowerPlainCharacter = lowerPlainCharacter {
 
             var newGuessArray : [Int] = [index]
-            if let guessIndices = puzzles[currentPuzzleIndex].usersGuesses[lowerCipherCharacter]?.1 {
+            if let guessIndices = puzzle.usersGuesses[lowerCipherCharacter]?.1 {
                 newGuessArray = guessIndices + newGuessArray
             }
             
             //update model
-            puzzles[currentPuzzleIndex].usersGuesses[lowerCipherCharacter] = (lowerPlainCharacter, newGuessArray)
+            books[bookIndex].puzzles[puzzleIndex].usersGuesses[lowerCipherCharacter] = (lowerPlainCharacter, newGuessArray)
             
             //remove guess
         } else {
-            puzzles[currentPuzzleIndex].usersGuesses.removeValue(forKey: lowerCipherCharacter)
+            books[bookIndex].puzzles[puzzleIndex].usersGuesses.removeValue(forKey: lowerCipherCharacter)
         }
         
 //        check to see if the puzzle is solved
-        if self.isSolved(puzzles[currentPuzzleIndex]) {
-            puzzles[currentPuzzleIndex].isSolved = true
+        if self.isSolved(books[bookIndex].puzzles[puzzleIndex]) {
+            books[bookIndex].puzzles[puzzleIndex].isSolved = true
         } else {
-            puzzles[currentPuzzleIndex].isSolved = false
+            books[bookIndex].puzzles[puzzleIndex].isSolved = false
         }
         
         
@@ -83,18 +91,30 @@ fkr futdd.
         return false
     }
     
+    private
+    func indexPath(for puzzle: Puzzle) -> IndexPath? {
+        guard let bookIndex = books.firstIndex(where: {book in book.puzzles.contains(puzzle)} ) else {return nil}
+        guard let puzzleIndex = books[bookIndex].puzzles.firstIndex(of: puzzle) else {return nil}
+        
+        return IndexPath(item: bookIndex, section: puzzleIndex)
+    }
+    
 }
 
 
 
 
-struct Puzzle {
-        
+struct Puzzle : Hashable{
+    
+    static func == (lhs: Puzzle, rhs: Puzzle) -> Bool {
+        return lhs.id == rhs.id
+    }
+
     var title : String
     var ciphertext : String
     var solution : String
     var isSolved : Bool = false
-    
+    var id : Int
     var usersGuesses : Dictionary<Character, (Character, [Int])> = Dictionary()
     
     func letterCount() -> [(Character,Int)] {
@@ -106,9 +126,24 @@ struct Puzzle {
         return output
     }
     
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(title)
+        hasher.combine(solution)
+        hasher.combine(isSolved)
+    }
+    
 }
 
-struct Book {
+struct Book : Hashable{
+   
+    var title : String
     var puzzles : [Puzzle]
+    var id : Int
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+        hasher.combine(title)
+    }
 }
 

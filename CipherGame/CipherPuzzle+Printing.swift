@@ -35,7 +35,7 @@ extension CipherPuzzle{
         output += "<html>\n"
         output += CipherPuzzle.cssStyling.replacingOccurrences(of: "@@@", with: self.fontDesign.cssName())
         
-        output += "\n<h1>\(String(currentPuzzleTitle?.capitalized ?? "error!"))</h1>\n"
+        output += "\n<h1>\(String(currentPuzzle?.title.capitalized ?? "error!"))</h1>\n"
         output += HTMLletterCountTable
         
         output += "\n<table id='ciphertext'>\n"

@@ -15,11 +15,20 @@ class CipherPuzzle : ObservableObject {
     var model : Game = Game()
     
     @Published
-    var currentPuzzleTitle : String? = "space"
+    var currentPuzzleHash : Int? {
+        didSet{
+            print("Set Puzzle title\npuzzle: \(currentPuzzleHash ?? 0)")
+        }
+    }
+
     
     var currentPuzzle : Puzzle? {
-        guard let currentPuzzleTitle = self.currentPuzzleTitle else {return nil}
-        guard let currentPuzzle = model.puzzles.first(where: {$0.title == currentPuzzleTitle}) else {return nil}
+        guard let currentPuzzleHash = self.currentPuzzleHash else {return nil}
+        
+        let puzzles = model.books.map{book in book.puzzles}.joined()
+        
+        guard let currentPuzzle = puzzles.first(where: {$0.hashValue == currentPuzzleHash}) else {return nil}
+        
         return currentPuzzle
     }
     
@@ -53,14 +62,21 @@ class CipherPuzzle : ObservableObject {
     var fontDesign : Font.Design = .monospaced
     
     //MARK: - public API
-    var availablePuzzles : [PuzzleTitle] {
-        
+    
+    var availableBooks : [PuzzleTitle]{
         var out : [PuzzleTitle] = []
-        for (index, puzzle) in model.puzzles.enumerated() {
-            out.append(PuzzleTitle(id: index,
-                                   title: puzzle.title))
+        
+        for book in model.books {
+            out.append(PuzzleTitle(id: book.hashValue,
+                                   title: book.title))
         }
         return out
+    }
+
+    
+    func puzzleTitles(for bookHash : Int) -> [PuzzleTitle] {
+        guard let book = model.books.first(where: {book in book.hashValue == bookHash}) else {return []}
+        return book.puzzles.map{puzzle in PuzzleTitle(id: puzzle.hashValue, title: puzzle.title)}
     }
     
     
@@ -72,11 +88,11 @@ class CipherPuzzle : ObservableObject {
         }
         
         set {
-            //ensure lowercase
+            guard let currentPuzzle = currentPuzzle else {return}
             
             model.updateUsersGuesses(cipherCharacter: currentCiphertextCharacter!,
                                      plaintextCharacter: newValue,
-                                     in: currentPuzzleTitle!,
+                                     in: currentPuzzle,
                                      at: currentUserSelectionIndex!)
         }
     }

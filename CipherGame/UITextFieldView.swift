@@ -13,11 +13,7 @@ struct NewTextField : UIViewRepresentable {
     
     @Binding
     var letterGuess : Character?
-    
-    var ciphertextLetter : Character
-    
-    var puzzleTitle : String?
-    
+            
     @Binding
     var wasTapped : Bool
     
@@ -54,9 +50,7 @@ struct NewTextField : UIViewRepresentable {
     
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(ciphertextLetter: ciphertextLetter,
-                    guess: $letterGuess,
-                    puzzleTitle: puzzleTitle!,
+        Coordinator(guess: $letterGuess,
                     wasTapped: $wasTapped)
     }
     
@@ -64,16 +58,10 @@ struct NewTextField : UIViewRepresentable {
     class Coordinator : NSObject, UITextFieldDelegate {
         
         var guess : Binding<Character?>
-        var ciphertextLetter : Character
-        var puzzleTitle : String
         var wasTapped : Binding<Bool>
         
-        init(ciphertextLetter: Character, guess : Binding<Character?>,
-             puzzleTitle : String, wasTapped : Binding<Bool>){
-            
-            self.ciphertextLetter = ciphertextLetter
+        init(guess : Binding<Character?>, wasTapped : Binding<Bool>){
             self.guess = guess
-            self.puzzleTitle = puzzleTitle
             self.wasTapped = wasTapped
         }
         
