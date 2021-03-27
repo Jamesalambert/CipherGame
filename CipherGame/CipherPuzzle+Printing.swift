@@ -20,7 +20,7 @@ extension CipherPuzzle{
         var userGuesses : [String] = []
         
         switch self.capType {
-        case .allCharacters:
+        case 3:
             cipherChars = data.map{item in String(item.cipherLetter).uppercased()}
             userGuesses = data.map{item in String(item.userGuessLetter ?? " ").uppercased()}
         default:
@@ -51,7 +51,7 @@ extension CipherPuzzle{
         output += "\n</table>\n"
         output += "\n</html>\n"
         
-        print(output)
+//        print(output)
         return output
         
     }
@@ -69,7 +69,7 @@ extension CipherPuzzle{
         var rowsToPrint : [[String]] = []
         
         switch self.capType {
-        case .allCharacters:
+        case 3:
             rowsToPrint = [characters,userGuesses,counts].map{array in array.map {string in string.uppercased() }}
         default:
             rowsToPrint = [characters,userGuesses,counts]

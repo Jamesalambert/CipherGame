@@ -24,8 +24,8 @@ fkr futdd.
                               id: 0) //random seed 1 python
     
     static let island = Puzzle(title: "Island",
-                               ciphertext: "erfcgyubdj \nbywgyqwy getvhcnxmlapow uhhvfrbh cbh2.",
-                               solution: "",
+                               ciphertext: "erfcgyubdj \nbywgyqwy \tgetvhcnxmlapow uhhvfrbh cbh2.",
+                               solution: "a",
                                id: 1 )
     
     static let firstBook = Book(title: "first book",
@@ -133,6 +133,19 @@ struct Puzzle : Hashable{
         hasher.combine(isSolved)
     }
     
+    init(title : String, ciphertext: String, solution : String, id : Int){
+        self.title = title
+        self.solution = solution
+        self.id = id
+        
+        //remove most whitespace
+        var removeChars = CharacterSet.whitespacesAndNewlines
+        removeChars.remove(charactersIn: " ")
+        
+        self.ciphertext = ciphertext.removeCharacters(in: removeChars)
+        
+    }
+    
 }
 
 struct Book : Hashable{
@@ -146,4 +159,6 @@ struct Book : Hashable{
         hasher.combine(title)
     }
 }
+
+
 

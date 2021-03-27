@@ -21,9 +21,9 @@ struct NewTextField : UIViewRepresentable {
     
     var stringToDisplay : String {
         switch capType {
-        case .allCharacters:
+        case 3:
             return letterGuess.string().uppercased()
-        case .none:
+        case 0:
             return letterGuess.string().lowercased()
         default:
             return letterGuess.string()
@@ -32,7 +32,7 @@ struct NewTextField : UIViewRepresentable {
     }
     
     @Binding
-    var capType : UITextAutocapitalizationType
+    var capType : Int
     
     func makeUIView(context: Context) -> UITextField {
         let v = UITextField()

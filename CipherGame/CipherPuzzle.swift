@@ -15,22 +15,7 @@ class CipherPuzzle : ObservableObject {
     var model : Game = Game()
     
     @Published
-    var currentPuzzleHash : Int? {
-        didSet{
-            print("Set Puzzle title\npuzzle: \(currentPuzzleHash ?? 0)")
-        }
-    }
-
-    
-    var currentPuzzle : Puzzle? {
-        guard let currentPuzzleHash = self.currentPuzzleHash else {return nil}
-        
-        let puzzles = model.books.map{book in book.puzzles}.joined()
-        
-        guard let currentPuzzle = puzzles.first(where: {$0.hashValue == currentPuzzleHash}) else {return nil}
-        
-        return currentPuzzle
-    }
+    var currentPuzzleHash : Int?
     
     @Published
     var currentCiphertextCharacter : Character? = nil {
@@ -56,12 +41,22 @@ class CipherPuzzle : ObservableObject {
     }
     
     @Published
-    var capType : UITextAutocapitalizationType =  UITextAutocapitalizationType.allCharacters
+    var capType : Int = 3
     
     @Published
     var fontDesign : Font.Design = .monospaced
     
     //MARK: - public API
+    
+    var currentPuzzle : Puzzle? {
+        guard let currentPuzzleHash = self.currentPuzzleHash else {return nil}
+        
+        let puzzles = model.books.map{book in book.puzzles}.joined()
+        
+        guard let currentPuzzle = puzzles.first(where: {$0.hashValue == currentPuzzleHash}) else {return nil}
+        
+        return currentPuzzle
+    }
     
     var availableBooks : [PuzzleTitle]{
         var out : [PuzzleTitle] = []
@@ -79,6 +74,12 @@ class CipherPuzzle : ObservableObject {
         return book.puzzles.map{puzzle in PuzzleTitle(id: puzzle.hashValue, title: puzzle.title)}
     }
     
+    func puzzleIsCompleted(hash : Int) -> Bool{
+         guard let puzzle = model.books.map{book in book.puzzles}.joined()
+                .first(where: {puzzle in puzzle.hashValue == hash}) else {return false}
+        
+        return puzzle.isSolved
+    }
     
     var userGuess : Character? {
         
@@ -121,7 +122,6 @@ class CipherPuzzle : ObservableObject {
     var letterCount : [(Character, Int)] {return currentPuzzle?.letterCount() ?? []}
     
     func plaintext(for ciphertext : Character) -> Character?{
-                
         return currentPuzzle!.usersGuesses[ciphertext]?.0
     }
     

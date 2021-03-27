@@ -12,9 +12,12 @@ struct ContentView: View {
     @StateObject
     var viewModel = CipherPuzzle()
     
+    @Environment(\.colorScheme)
+    var colorScheme : ColorScheme
+    
     var body: some View {
         NavigationView {
-            List {
+            List{
                 ForEach(viewModel.availableBooks){ bookTitle in
                     
                     Text(bookTitle.title).font(.system(.title))
@@ -24,7 +27,9 @@ struct ContentView: View {
                                        destination: CipherSolverPage().navigationTitle(puzzleTitle.title),
                                        tag: puzzleTitle.id,
                                        selection: $viewModel.currentPuzzleHash)
-                    
+                            .foregroundColor(viewModel.puzzleIsCompleted(hash: puzzleTitle.id) ?
+                                                Color.completedColor(for: colorScheme) : nil)
+                        
                     }
                 }
             }
@@ -84,39 +89,31 @@ struct ContentView: View {
                
                 }
                 .toolbar{
-                    ToolbarItem(placement: .navigationBarTrailing){
-                        Button(action: {
-                            viewModel.difficultyLevel = (viewModel.difficultyLevel + 1) % 3
-                        }, label: {
-                            Text(self.difficultyButtonTitle)
-                        })
-                    }
                     
-                    ToolbarItem(placement: .navigationBarTrailing ) {
-                        Button(action: {
-                            if viewModel.capType == .allCharacters {
-                                viewModel.capType = .none
-                            } else {
-                                viewModel.capType = .allCharacters
-                            }
-                            
-                        }, label: {
-                                Image(systemName: "textformat")
-                        })
-                    }
-                    
-                    ToolbarItem(placement: .navigationBarTrailing){
-                        GeometryReader { geometry in
-                            Button(action: {
-                                print(animatingFrom: geometry.frame(in: CoordinateSpace.local))
-                            }, label: {
-                                if colorScheme == ColorScheme.light{
-                                    Image(systemName: "printer.fill")
-                                } else {
-                                    Image(systemName: "printer")
-                                }
-                            })
+                    Menu {
+                        
+                        Picker("level", selection: $viewModel.difficultyLevel){
+                            Text("easy").tag(0)
+                            Text("medium").tag(1)
+                            Text("hard").tag(2)
                         }
+                        
+                        Picker(selection: $viewModel.capType, label: Image(systemName: "textformat")){
+                            Text("capitals").tag(3)
+                            Text("lowercase").tag(0)
+                        }
+                        
+                        Button(action: print, label: {
+                            if colorScheme == ColorScheme.light{
+                                Image(systemName: "printer.fill")
+                            } else {
+                                Label("print", systemImage: "printer")
+                            }
+                        })
+                       
+                        
+                    } label : {
+                        Image(systemName: "ellipsis")
                     }
                 }
             }
@@ -126,6 +123,10 @@ struct ContentView: View {
         func columns(screenWidth : CGFloat) -> [GridItem] {
             return Array(repeating: GridItem(.fixed(20)),
                          count: Int(screenWidth / 40))
+        }
+    
+        func print(){
+            self.print(animatingFrom: CGRect.zero)
         }
             
         private
@@ -194,7 +195,7 @@ struct ContentView: View {
                     Text(plainTextLetter.string())
                 }
             }
-            .textCase(viewModel.capType == .allCharacters ? .uppercase : .lowercase)
+            .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
             .gesture(plaintextLabelTap)
             .overlay(Rectangle()
                         .frame(width: 30, height: 1, alignment: .bottom)
@@ -276,7 +277,7 @@ struct ContentView: View {
                     Text(plainChar.string())
                 }
                 .font(.system(.body, design: viewModel.fontDesign))
-                .textCase(viewModel.capType == .allCharacters ? .uppercase : .lowercase)
+                .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
                 .foregroundColor(
                     viewModel.currentCiphertextCharacter == cipherChar.lowerChar() ?
                         Color.highlightColor(for: colorScheme) : nil )

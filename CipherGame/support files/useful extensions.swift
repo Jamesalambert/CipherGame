@@ -9,8 +9,8 @@ import SwiftUI
 
 //TODO: need better theme management
 extension Color {
-    static let blue = Color.blue
-    static let orange = Color.orange
+//    static let blue = Color.blue
+//    static let orange = Color.orange
     
     static func highlightColor(for colorScheme : ColorScheme) -> Color{
         if colorScheme == .light {
@@ -19,6 +19,16 @@ extension Color {
             return blue
         }
     }
+    
+    static func completedColor(for colorScheme : ColorScheme) -> Color{
+        if colorScheme == .light {
+            return blue
+        } else {
+            return yellow
+        }
+    }
+    
+    
 }
 
 //used for hard setting
@@ -83,6 +93,18 @@ extension String {
             nextChar == character ? total + 1 : total
         }
     }
+    
+    
+
+    func removeCharacters(in set : CharacterSet) -> String {
+        
+        return self.filter{ (character) -> Bool in
+            character.unicodeScalars.contains(where: {
+                !set.contains($0) })
+        }
+    }
+    
+    
 }
 
 extension Font.Design {
