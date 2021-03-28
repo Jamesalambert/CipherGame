@@ -22,6 +22,15 @@ extension Color {
     }
     
     static
+    func ciphertext(for colorScheme : ColorScheme) -> Color {
+        if colorScheme == .light {
+            return black
+        } else {
+            return Color.init(white: 0.8)
+        }
+    }
+    
+    static
     func backgroundColor(for colorScheme : ColorScheme) -> Color {
         if colorScheme == .light {
             let lightGray = Color.init(white: 0.95)

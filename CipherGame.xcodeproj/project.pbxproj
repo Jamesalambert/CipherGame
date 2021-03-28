@@ -10,6 +10,7 @@
 		AA31EAA3260BE32A0031D56C /* CipherPuzzle+Printing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */; };
 		AA31EAAE260BE3E80031D56C /* CipherPuzzle+Difficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */; };
 		AA31EAB4260BE5370031D56C /* useful extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAB3260BE5370031D56C /* useful extensions.swift */; };
+		AA3ED4472611493300B25B4A /* ContentView + letter count.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ED4462611493300B25B4A /* ContentView + letter count.swift */; };
 		AA8F640C26053E2E005B148F /* UITextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F640B26053E2E005B148F /* UITextFieldView.swift */; };
 		AA97669F2601651A0076B879 /* CipherGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97669E2601651A0076B879 /* CipherGameApp.swift */; };
 		AA9766A12601651A0076B879 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766A02601651A0076B879 /* ContentView.swift */; };
@@ -42,6 +43,7 @@
 		AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle+Printing.swift"; sourceTree = "<group>"; };
 		AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle+Difficulty.swift"; sourceTree = "<group>"; };
 		AA31EAB3260BE5370031D56C /* useful extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "useful extensions.swift"; sourceTree = "<group>"; };
+		AA3ED4462611493300B25B4A /* ContentView + letter count.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + letter count.swift"; sourceTree = "<group>"; };
 		AA8F640B26053E2E005B148F /* UITextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldView.swift; sourceTree = "<group>"; };
 		AA97669B2601651A0076B879 /* CipherGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CipherGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA97669E2601651A0076B879 /* CipherGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherGameApp.swift; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 			children = (
 				AA97669E2601651A0076B879 /* CipherGameApp.swift */,
 				AA9766A02601651A0076B879 /* ContentView.swift */,
+				AA3ED4462611493300B25B4A /* ContentView + letter count.swift */,
 				AA8F640B26053E2E005B148F /* UITextFieldView.swift */,
 				AA9766D126016EB60076B879 /* CipherPuzzle.swift */,
 				AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */,
@@ -289,6 +292,7 @@
 				AA9766CD26016DED0076B879 /* CipherPuzzleSource.swift in Sources */,
 				AA9766A12601651A0076B879 /* ContentView.swift in Sources */,
 				AA97669F2601651A0076B879 /* CipherGameApp.swift in Sources */,
+				AA3ED4472611493300B25B4A /* ContentView + letter count.swift in Sources */,
 				AA8F640C26053E2E005B148F /* UITextFieldView.swift in Sources */,
 				AA31EAAE260BE3E80031D56C /* CipherPuzzle+Difficulty.swift in Sources */,
 				AA31EAB4260BE5370031D56C /* useful extensions.swift in Sources */,
