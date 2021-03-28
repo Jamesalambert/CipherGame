@@ -284,17 +284,26 @@ struct PairCount : View {
             
             Group {
                 Text(String(cipherChar))
-                Text(String(count)).lineLimit(1)
-                Text(plainChar.string())
+                Text(count > 0 ? String(count) : "-").lineLimit(1)
+                Text(plainChar.string()).foregroundColor(Color.plaintext(for: colorScheme))
             }
             .font(.system(.body, design: viewModel.fontDesign))
             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
-            .foregroundColor(
-                viewModel.currentCiphertextCharacter == cipherChar.lowerChar() ?
-                    Color.highlightColor(for: colorScheme) : nil )
+            .foregroundColor(foregroundColor)
+            
             Spacer()
         }
     }
+    
+    var foregroundColor : Color? {
+        if count == 0 {
+            return Color.gray
+        } else if viewModel.currentCiphertextCharacter == cipherChar.lowerChar() {
+            return Color.highlightColor(for: colorScheme)
+        }
+        return nil
+    }
+    
 }
         
 
