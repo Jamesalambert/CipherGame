@@ -9,18 +9,39 @@ import SwiftUI
 
 //TODO: need better theme management
 extension Color {
-//    static let blue = Color.blue
-//    static let orange = Color.orange
     
-    static func highlightColor(for colorScheme : ColorScheme) -> Color{
+    static let myOrange = #colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1)
+    
+    static
+    func plaintext(for colorScheme : ColorScheme) -> Color {
         if colorScheme == .light {
-            return orange
+            return Color(myOrange)
+        } else {
+            return Color(myOrange)
+        }
+    }
+    
+    static
+    func backgroundColor(for colorScheme : ColorScheme) -> Color {
+        if colorScheme == .light {
+            let lightGray = Color.init(white: 0.95)
+            return lightGray
+        } else {
+            return black
+        }
+    }
+    
+    static
+    func highlightColor(for colorScheme : ColorScheme) -> Color{
+        if colorScheme == .light {
+            return blue
         } else {
             return blue
         }
     }
     
-    static func completedColor(for colorScheme : ColorScheme) -> Color{
+    static
+    func completedColor(for colorScheme : ColorScheme) -> Color{
         if colorScheme == .light {
             return blue
         } else {

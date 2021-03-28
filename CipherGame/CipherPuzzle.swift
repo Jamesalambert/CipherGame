@@ -30,12 +30,10 @@ class CipherPuzzle : ObservableObject {
     var currentUserSelectionIndex : Int? = nil
     
     @Published
-    var difficultyLevel : Int = 0 {
+    var difficultyLevel : UInt = 0 {
         didSet{
-            if difficultyLevel > gameRules.count {
-                difficultyLevel = gameRules.count - 1
-            } else if difficultyLevel < 0 {
-                difficultyLevel = 0
+            if difficultyLevel > (gameRules.count - 1) {
+                difficultyLevel = UInt(gameRules.count - 1)
             }
         }
     }
@@ -106,7 +104,7 @@ class CipherPuzzle : ObservableObject {
         
         for (index, char) in self.currentPuzzle!.ciphertext.enumerated() {
             
-            if let newGameTriad = gameRules[difficultyLevel]?(char, index) {
+            if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, index) {
                 
                 let output = GameInfo(id: newGameTriad.id,
                                       cipherLetter: newGameTriad.cipherLetter,
