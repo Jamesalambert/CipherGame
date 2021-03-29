@@ -11,7 +11,7 @@ extension CipherPuzzle{
     
     var printableHTML : String {
                 
-        let charsPerLine = 30
+        let charsPerLine = 40
         let numberOfLines = Int(ceil(Double(self.data.count) / Double(charsPerLine)))
         let charsOnLastLine = self.data.count % charsPerLine
         
@@ -64,7 +64,10 @@ extension CipherPuzzle{
         
         let characters : [String] = letterCount.map {pair in String(pair.0)}
         let userGuesses : [String] = String.alphabet.map {char in String(plaintext(for: char) ?? " ")}
-        let counts : [String] = letterCount.map {pair in String(pair.1)}
+        var counts : [String] = letterCount.map {pair in String(pair.1)}
+        
+        //replace zeros with -
+        counts = counts.map{number in number == "0" ? "-" : number}
         
         var rowsToPrint : [[String]] = []
         
