@@ -46,8 +46,7 @@ extension CipherPuzzle{
             let start = line * CipherPuzzle.charsPerLine
             let end  = line * CipherPuzzle.charsPerLine + (line == numberOfLines - 1 ? charsOnLastLine - 1 : CipherPuzzle.charsPerLine)
 
-            output += htmlTableRow(from: cipherChars[start...end], withClass: "cipherRow", id: nil)
-            output += htmlTableRow(from: userGuesses[start...end], withClass: "guessRow", id: nil)
+            output += htmlPuzzleRow(from: cipherChars[start...end], secondArray: userGuesses[start...end], withClass: "row", id: nil)
         }
 
         output += "\n</table>\n"
@@ -111,6 +110,35 @@ extension CipherPuzzle{
     }
     
     
+    
+    fileprivate
+    func htmlPuzzleRow<T: Sequence>(from firstArray : T, secondArray : T, withClass classLabel : String?, id idLabel : String?) -> String where T.Iterator.Element : StringProtocol {
+        
+        let tableData = zip(firstArray, secondArray)
+        
+        var output : String = ""
+        
+        let classHTML = (classLabel != nil) ? "class='\(classLabel ?? "")'" : ""
+        let idHTML = (idLabel != nil) ? "id='\(idLabel ?? "")'" : ""
+        
+        
+        
+        output += "\n<tr \(classHTML) \(idHTML)>\n"
+        
+        
+        for (ciphertext, plaintext) in tableData {
+            output += "\n<td>"
+            output += "<p class='cipherRow'>" + ciphertext + "</p>"
+            output += "<p class='guessRow'>" + plaintext + "</p>"
+            output += "</td>\n"
+        }
+        
+        output += "\n</tr>\n"
+        
+        return output
+    }    
+    
+    
     static let cssStyling : String  = """
 
 <head>
@@ -133,20 +161,6 @@ extension CipherPuzzle{
         text-align: center;
     }
     
-    #ciphertext {
-        border-collapse: collapse;
-    }
-
-    .cipherRow td {
-        padding-top : 0.5cm;
-        color: red;
-    }
-        
-    .guessRow td {
-        height: 8mm;
-        border-bottom: 1px solid gray;
-    }
-    
     #letterCount {
         border-collapse: collapse;
         border-top: 1.5px solid black;
@@ -165,6 +179,25 @@ extension CipherPuzzle{
     #userGuesses td {
         height: 8mm;
     }
+
+    #ciphertext {
+        border-collapse: collapse;
+    }
+
+    .cipherRow {
+        height: 5mm;
+        padding-top : 0.5cm;
+        color: red;
+    }
+                    
+    .guessRow {
+        height: 5mm;
+    }
+        
+    #ciphertext td {
+        border-bottom: 1px solid gray;
+    }
+
 
 </style>
 </head>\n
