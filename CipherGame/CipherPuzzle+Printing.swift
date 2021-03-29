@@ -9,11 +9,13 @@ import Foundation
 
 extension CipherPuzzle{
     
+    static let charsPerLine = 40
+    
     var printableHTML : String {
                 
-        let charsPerLine = 40
-        let numberOfLines = Int(ceil(Double(self.data.count) / Double(charsPerLine)))
-        let charsOnLastLine = self.data.count % charsPerLine
+        //let charsPerLine = 40
+        let numberOfLines = Int(ceil(Double(self.data.count) / Double(CipherPuzzle.charsPerLine)))
+        let charsOnLastLine = self.data.count % CipherPuzzle.charsPerLine
         
         let data = self.data
         var cipherChars : [String] = []
@@ -41,8 +43,8 @@ extension CipherPuzzle{
         output += "\n<table id='ciphertext'>\n"
         
         for line in 0..<numberOfLines {
-            let start = line * charsPerLine
-            let end  = line * charsPerLine + (line == numberOfLines - 1 ? charsOnLastLine - 1 : charsPerLine)
+            let start = line * CipherPuzzle.charsPerLine
+            let end  = line * CipherPuzzle.charsPerLine + (line == numberOfLines - 1 ? charsOnLastLine - 1 : CipherPuzzle.charsPerLine)
 
             output += htmlTableRow(from: cipherChars[start...end], withClass: "cipherRow", id: nil)
             output += htmlTableRow(from: userGuesses[start...end], withClass: "guessRow", id: nil)
@@ -51,7 +53,7 @@ extension CipherPuzzle{
         output += "\n</table>\n"
         output += "\n</html>\n"
         
-//        print(output)
+        print(output)
         return output
         
     }
@@ -96,7 +98,10 @@ extension CipherPuzzle{
         
         var output : String = ""
         
-        output += "\n<tr class='\(classLabel ?? " ")' id='\(idLabel ?? " ")'>\n"
+        let classHTML = (classLabel != nil) ? "class='\(classLabel ?? "")'" : ""
+        let idHTML = (idLabel != nil) ? "id='\(idLabel ?? "")'" : ""
+        
+        output += "\n<tr \(classHTML) \(idHTML)>\n"
         for chars in array {
             output += "<td>" + chars + "</td>"
         }
