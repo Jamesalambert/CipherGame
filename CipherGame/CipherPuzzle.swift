@@ -98,15 +98,11 @@ class CipherPuzzle : ObservableObject {
     
     var data : [GameInfo] {
      
-        guard self.currentPuzzle != nil else {
-            
-            return []
-            
-        }
+        guard let currentPuzzle = self.currentPuzzle else {return []}
         
         var puzzleData = Array<GameInfo>()
         
-        for (index, char) in self.currentPuzzle!.ciphertext.enumerated() {
+        for (index, char) in currentPuzzle.ciphertext.enumerated() {
             
             if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, index) {
                 

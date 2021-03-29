@@ -11,7 +11,7 @@ extension CipherPuzzle {
     
     //MARK:- difficulty
     
-    var gameRules : [ Int : (Character, Int) -> GameInfo? ]{
+    var gameRules : [ Int : (Character, Int) -> GameInfo?]{
         return [0 : easyGameInfo,
                 1 : mediumGameInfo,
                 2 : hardGameInfo]
@@ -35,9 +35,11 @@ extension CipherPuzzle {
     
     private
     func mediumGameInfo(for ciphertext : Character, at index: Int) -> GameInfo? {
+                
         if String.alphabet.contains(ciphertext) {
             return easyGameInfo(for: ciphertext, at: index)
         }
+        
         return nil
     }
     
@@ -57,6 +59,7 @@ extension CipherPuzzle {
             }
         }
         
+        //not close to the user's guess index
         mediumLevel?.userGuessLetter = nil
         return mediumLevel
     }

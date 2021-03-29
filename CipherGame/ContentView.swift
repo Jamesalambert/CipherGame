@@ -29,9 +29,6 @@ struct ContentView: View {
                             NavigationLink(destination: CipherSolverPage().navigationTitle(puzzleTitle.title), tag: puzzleTitle.id, selection: $viewModel.currentPuzzleHash){
                                             label(for: puzzleTitle)
                             }
-//                            .foregroundColor(viewModel.puzzleIsCompleted(hash: puzzleTitle.id) ?
-//                                                Color.completedColor(for: colorScheme) : nil)
-                            
                         }
                     }
                 }
@@ -196,9 +193,11 @@ struct ContentView: View {
         
         var body : some View {
             
-                VStack{
+            VStack{
                     Text(String(cipherTextLetter))
-                        
+                        .fixedSize()
+//                        .background(Color.green)
+                    
                     Spacer()
                     
                     if wasTapped, userMadeASelection {
@@ -210,10 +209,11 @@ struct ContentView: View {
                         
                     } else {
                         Text(plainTextLetter.string())
-                            .foregroundColor(Color.plaintext(for: colorScheme))
+                                .foregroundColor(Color.plaintext(for: colorScheme))
+                                .fixedSize()
+//                                .background(Color.red)
                     }
                 }
-                .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
                 .gesture(plaintextLabelTap)
                 .overlay(Rectangle()
                             .frame(width: 30, height: 1, alignment: .bottom)
@@ -222,6 +222,7 @@ struct ContentView: View {
                 .padding(.top)
                 .font(.system(.title, design: viewModel.fontDesign))
                 .foregroundColor(foregroundColor(for: colorScheme))
+                .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
         }
         
         private
