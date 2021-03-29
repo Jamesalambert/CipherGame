@@ -24,7 +24,7 @@ struct LetterCount : View {
                 Text("Character Count")
                 
                 ScrollView(.horizontal) {
-                    LazyVGrid(columns: self.columns(screenWidth: geometry.size.width)) {
+                    LazyVGrid(columns: self.columns(screenWidth: geometry.size.width), alignment: .center) {
                         
                         if letterCount.count > 0 {
                             
@@ -35,7 +35,8 @@ struct LetterCount : View {
                                             count: letterCount[index].1)
                             }
                         }
-                    }//.background(Color.blue)
+                    }.frame(minWidth: geometry.size.width) //centers the grid in the scrollview
+                    //.background(Color.blue)
                 }//.background(Color.green)
             }//.background(Color.red)
         
