@@ -98,7 +98,11 @@ class CipherPuzzle : ObservableObject {
     
     var data : [GameInfo] {
      
-        guard self.currentPuzzle != nil else {return []}
+        guard self.currentPuzzle != nil else {
+            
+            return []
+            
+        }
         
         var puzzleData = Array<GameInfo>()
         
@@ -123,18 +127,12 @@ class CipherPuzzle : ObservableObject {
         return currentPuzzle!.usersGuesses[ciphertext]?.0
     }
     
-   
     
-    
-    
-    
-    //MARK:- structs
-    
-    struct PuzzleTitle : Identifiable, Hashable {
-        var id : Int
-        var title : String
-    }
-    
+}
+
+struct PuzzleTitle : Identifiable, Hashable {
+    var id : Int
+    var title : String
 }
 
 struct GameInfo : Identifiable {

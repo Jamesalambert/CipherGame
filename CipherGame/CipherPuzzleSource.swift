@@ -20,12 +20,12 @@ hrcefmrq eqi mf arwdz zhrkhy zr zurbhi qrf sd pet ekey. fud itrmi uez e teimr sd
 fuef zdqiz fud zead adzzeod dwdty fumtfy amqbfdz, fud adzzeod zeyz wmomheqcd rqd\
 fkr futdd.
 """,
-                              solution: "escidpoumgvhaqrjntzfbwklyx",
+                              keyAlphabet: "escidpoumgvhaqrjntzfbwklyx",
                               id: 0) //random seed 1 python
     
     static let island = Puzzle(title: "Island",
                                ciphertext: "erfcgyubdj \nbywgyqwy \tgetvhcnxmlapow uhhvfrbh cbh2.",
-                               solution: "a",
+                               keyAlphabet: "b",
                                id: 1 )
     
     static let firstBook = Book(title: "first book",
@@ -112,7 +112,13 @@ struct Puzzle : Hashable{
 
     var title : String
     var ciphertext : String
-    var solution : String
+    
+    private
+    var keyAlphabet : String        //the original key alphabet
+    
+    var solution : String {
+        return keyAlphabet.filter{character in ciphertext.number(of: character) > 0}
+    }
     var isSolved : Bool = false
     var id : Int
     var usersGuesses : Dictionary<Character, (Character, [Int])> = Dictionary()
@@ -130,12 +136,11 @@ struct Puzzle : Hashable{
         hasher.combine(id)
         hasher.combine(title)
         hasher.combine(solution)
-        hasher.combine(isSolved)
     }
     
-    init(title : String, ciphertext: String, solution : String, id : Int){
+    init(title : String, ciphertext: String, keyAlphabet : String, id : Int){
         self.title = title
-        self.solution = solution
+        self.keyAlphabet = keyAlphabet
         self.id = id
         
         //remove most whitespace

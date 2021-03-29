@@ -9,8 +9,6 @@ import SwiftUI
 
 extension ContentView {
     
-    
-    
 struct LetterCount : View {
     
     @EnvironmentObject

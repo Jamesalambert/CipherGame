@@ -25,17 +25,28 @@ struct ContentView: View {
                         Text(bookTitle.title).font(.system(.title))
                         
                         ForEach(viewModel.puzzleTitles(for: bookTitle.id)){ puzzleTitle in
-                            NavigationLink(puzzleTitle.title,
-                                           destination: CipherSolverPage().navigationTitle(puzzleTitle.title),
-                                           tag: puzzleTitle.id,
-                                           selection: $viewModel.currentPuzzleHash)
-                                .foregroundColor(viewModel.puzzleIsCompleted(hash: puzzleTitle.id) ?
-                                                    Color.completedColor(for: colorScheme) : nil)
+
+                            NavigationLink(destination: CipherSolverPage().navigationTitle(puzzleTitle.title), tag: puzzleTitle.id, selection: $viewModel.currentPuzzleHash){
+                                            label(for: puzzleTitle)
+                            }
+//                            .foregroundColor(viewModel.puzzleIsCompleted(hash: puzzleTitle.id) ?
+//                                                Color.completedColor(for: colorScheme) : nil)
+                            
                         }
                     }
                 }
             }.environmentObject(viewModel)
         }
+    }
+    
+    private func label(for puzzleTitle : PuzzleTitle) -> some View {
+        var icon = ""
+        if viewModel.puzzleIsCompleted(hash: puzzleTitle.id) {
+            icon = "checkmark.circle.fill"
+        }
+        
+        return Label(puzzleTitle.title, systemImage: icon)
+        
     }
     
     
@@ -211,8 +222,6 @@ struct ContentView: View {
                 .padding(.top)
                 .font(.system(.title, design: viewModel.fontDesign))
                 .foregroundColor(foregroundColor(for: colorScheme))
-            
-            
         }
         
         private
@@ -229,9 +238,7 @@ struct ContentView: View {
 
     
 
-        
-
-
+    
 
 struct ContentView_Previews: PreviewProvider {
     
