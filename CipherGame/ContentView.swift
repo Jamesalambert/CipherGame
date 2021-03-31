@@ -41,9 +41,7 @@ struct ContentView: View {
         if viewModel.puzzleIsCompleted(hash: puzzleTitle.id) {
             icon = "checkmark.circle.fill"
         }
-        
         return Label(puzzleTitle.title, systemImage: icon)
-        
     }
     
     
@@ -82,6 +80,26 @@ struct ContentView: View {
             
             GeometryReader { geometry in
                 VStack{
+                    
+                   
+//                        List{
+//                            ForEach(viewModel.puzzleLines, id: \.id){ puzzleLine in
+//                                HStack{
+//                                    Text(String(puzzleLine.id))
+//                                    ForEach(puzzleLine.characters){ cipherPair in
+//                                        CipherSolverCharacterPair(
+//                                            userMadeASelection: $userMadeASelection,
+//                                            cipherTextLetter: cipherPair.cipherLetter,
+//                                            plainTextLetter: cipherPair.userGuessLetter,
+//                                            indexInTheCipher: cipherPair.id)
+//                                            .frame(width: geometry.size.width / 30, height: nil, alignment: .center)
+//                                    }
+//                                }
+//                            }
+//                        }//.gesture(scrollViewTap)
+                    
+                    
+                    
                     
                     ScrollView {
                         LazyVGrid(columns: columns(screenWidth: geometry.size.width), spacing: 0) {
@@ -195,8 +213,8 @@ struct ContentView: View {
             
             VStack{
                     Text(String(cipherTextLetter))
+                        .gesture(plaintextLabelTap)
                         .fixedSize()
-//                        .background(Color.green)
                     
                     Spacer()
                     
@@ -209,12 +227,11 @@ struct ContentView: View {
                         
                     } else {
                         Text(plainTextLetter.string())
+                                .gesture(plaintextLabelTap)
                                 .foregroundColor(Color.plaintext(for: colorScheme))
                                 .fixedSize()
-//                                .background(Color.red)
                     }
                 }
-                .gesture(plaintextLabelTap)
                 .overlay(Rectangle()
                             .frame(width: 30, height: 1, alignment: .bottom)
                             .foregroundColor(.gray),

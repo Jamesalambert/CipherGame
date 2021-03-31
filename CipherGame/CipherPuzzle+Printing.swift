@@ -121,13 +121,11 @@ extension CipherPuzzle{
         let classHTML = (classLabel != nil) ? "class='\(classLabel ?? "")'" : ""
         let idHTML = (idLabel != nil) ? "id='\(idLabel ?? "")'" : ""
         
-        
-        
         output += "\n<tr \(classHTML) \(idHTML)>\n"
         
         
         for (ciphertext, plaintext) in tableData {
-            output += "\n<td>"
+            output += "<td>"
             output += "<p class='cipherRow'>" + ciphertext + "</p>"
             output += "<p class='guessRow'>" + plaintext + "</p>"
             output += "</td>\n"
@@ -136,72 +134,21 @@ extension CipherPuzzle{
         output += "\n</tr>\n"
         
         return output
-    }    
-    
-    
-    static let cssStyling : String  = """
-
-<head>
-<style>
-    body {
-        text-align: center;
-        font-family: @@@;
-        margin: 3cm 0cm 3cm 0cm;
-    }
-
-    h1 {
-        padding-bottom: 2cm;
-    }
-
-    table {
-        max-width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-        margin-bottom: 2cm;
-        text-align: center;
     }
     
-    #letterCount {
-        border-collapse: collapse;
-        border-top: 1.5px solid black;
-        border-bottom: 1.5px solid black;
-    }
-
-    #letterCount td{
-        border-bottom: 0.5px solid gray;
-        padding: 0.1cm 0.1cm 0.1cm 0.1cm;
-    }
     
-    #characters td {
-        color : red;
-    }
+    static let cssStyling = { () -> String in
+        if let url = Bundle.main.path(forResource: "CipherPrint", ofType: "css"){
+            do {
+                return try String(contentsOfFile: url)
+            }
+            catch{
+                return "unable fo find CipherPuzzle.css"
+            }
+        }
+        return "couldn't find css file in bundle"
+    }()
     
-    #userGuesses td {
-        height: 8mm;
-    }
-
-    #ciphertext {
-        border-collapse: collapse;
-    }
-
-    .cipherRow {
-        height: 5mm;
-        padding-top : 0.5cm;
-        color: red;
-    }
-                    
-    .guessRow {
-        height: 5mm;
-    }
-        
-    #ciphertext td {
-        border-bottom: 1px solid gray;
-    }
-
-
-</style>
-</head>\n
-"""
 
 }
 

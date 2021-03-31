@@ -97,25 +97,69 @@ class CipherPuzzle : ObservableObject {
     }
     
     var data : [GameInfo] {
-     
+
         guard let currentPuzzle = self.currentPuzzle else {return []}
-        
+
         var puzzleData = Array<GameInfo>()
-        
+
         for (index, char) in currentPuzzle.ciphertext.enumerated() {
-            
+
             if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, index) {
-                
+
                 let output = GameInfo(id: newGameTriad.id,
                                       cipherLetter: newGameTriad.cipherLetter,
                                       userGuessLetter: newGameTriad.userGuessLetter)
-                
+
                 puzzleData.append(output)
             }
         }
-        
+
         return puzzleData
     }
+    
+//Experimental!
+//    var puzzleLines : [ PuzzleLine ]{
+//        guard let currentPuzzle = self.currentPuzzle else {return []}
+//
+//        let charsPerLine = 20
+//        let numberOfLines = Int(ceil(Double(currentPuzzle.ciphertext.count) / Double(charsPerLine))) - 1
+//
+//        var output : [ PuzzleLine ] = []
+//
+//        var startIdx = currentPuzzle.ciphertext.startIndex
+//        var endIdx = currentPuzzle.ciphertext.count < charsPerLine ? currentPuzzle.ciphertext.endIndex : currentPuzzle.ciphertext.index(startIdx, offsetBy: charsPerLine - 1)
+//
+//        for line in 0..<numberOfLines {
+//
+//            let lineCipherChars = currentPuzzle.ciphertext[startIdx...endIdx]
+//
+//            var lineChars : [GameInfo] = []
+//
+//            for (index, char) in lineCipherChars.enumerated() {
+//                if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, index) {
+//
+//                    let output = GameInfo(id: newGameTriad.id,
+//                                          cipherLetter: newGameTriad.cipherLetter,
+//                                          userGuessLetter: newGameTriad.userGuessLetter)
+//
+//                    lineChars.append(output)
+//                }
+//            }
+//            output.append(PuzzleLine(id: line, characters: lineChars))
+//
+//            //update indices
+//            startIdx = currentPuzzle.ciphertext.index(startIdx, offsetBy: charsPerLine)
+//
+//            if line == numberOfLines - 1{
+//                endIdx = currentPuzzle.ciphertext.endIndex
+//            } else {
+//                endIdx = currentPuzzle.ciphertext.index(endIdx, offsetBy: charsPerLine)
+//            }
+//
+//        }
+//        return output
+//    }
+
     
     var letterCount : [(Character, Int)] {return currentPuzzle?.letterCount() ?? []}
     
@@ -131,9 +175,13 @@ struct PuzzleTitle : Identifiable, Hashable {
     var title : String
 }
 
-struct GameInfo : Identifiable {
-    
+struct GameInfo : Hashable, Identifiable {
     var id: Int
     var cipherLetter : Character
     var userGuessLetter : Character?
+}
+
+struct PuzzleLine : Identifiable, Hashable{
+    var id: Int
+    var characters : [GameInfo]
 }
