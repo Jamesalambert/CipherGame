@@ -20,20 +20,16 @@ hrcefmrq eqi mf arwdz zhrkhy zr zurbhi qrf sd pet ekey. fud itrmi uez e teimr sd
 fuef zdqiz fud zead adzzeod dwdty fumtfy amqbfdz, fud adzzeod zeyz wmomheqcd rqd\
 fkr futdd.
 """,
-                              keyAlphabet: "escidpoumgvhaqrjntzfbwklyx",
-                              id: 0) //random seed 1 python
+                              keyAlphabet: "escidpoumgvhaqrjntzfbwklyx") //random seed 1 python
     
     static let island = Puzzle(title: "Island",
                                ciphertext: "erfcgyubdj \nbywgyqwy \tgetvhcnxmlapow uhhvfrbh cbh2.",
-                               keyAlphabet: "b",
-                               id: 1 )
+                               keyAlphabet: "b")
     
     static let firstBook = Book(title: "first book",
-                                puzzles: [space, island],
-                                id: 0)
+                                puzzles: [space, island])
     
     //MARK: - public
-//    var puzzles : [Puzzle] = [space, island]
     var books : [Book] = [firstBook]
     
     mutating
@@ -119,36 +115,33 @@ struct Puzzle : Hashable{
     var solution : String {
         return keyAlphabet.filter{character in ciphertext.number(of: character) > 0}
     }
+    
     var isSolved : Bool = false
-    var id : Int
+    var id = UUID()
     var usersGuesses : Dictionary<Character, (Character, [Int])> = Dictionary()
     
     func letterCount() -> [(Character,Int)] {
         var output : [(Character,Int)] = []
         
         for letter in String.alphabet {
-            output.append((letter, self.ciphertext.number(of: letter)))
+            output.append((letter, ciphertext.number(of: letter)))
         }
         return output
     }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
-        hasher.combine(title)
-        hasher.combine(solution)
     }
     
-    init(title : String, ciphertext: String, keyAlphabet : String, id : Int){
+    init(title : String, ciphertext: String, keyAlphabet : String){
         self.title = title
         self.keyAlphabet = keyAlphabet
-        self.id = id
         
         //remove most whitespace
         var removeChars = CharacterSet.whitespacesAndNewlines
-        removeChars.remove(charactersIn: " ")
+        removeChars.remove(charactersIn: " ") //leave spaces!
         
         self.ciphertext = ciphertext.removeCharacters(in: removeChars)
-        
     }
     
 }
@@ -157,12 +150,12 @@ struct Book : Hashable{
    
     var title : String
     var puzzles : [Puzzle]
-    var id : Int
+    var id = UUID()
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
-        hasher.combine(title)
     }
+    
 }
 
 

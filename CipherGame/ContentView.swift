@@ -17,9 +17,8 @@ struct ContentView: View {
     
     var body: some View {
         
-        ZStack{
             NavigationView {
-                List{
+                List(){
                     ForEach(viewModel.availableBooks){ bookTitle in
                         
                         Text(bookTitle.title).font(.system(.title))
@@ -33,7 +32,6 @@ struct ContentView: View {
                     }
                 }
             }.environmentObject(viewModel)
-        }
     }
     
     private func label(for puzzleTitle : PuzzleTitle) -> some View {
@@ -81,34 +79,44 @@ struct ContentView: View {
             GeometryReader { geometry in
                 VStack{
                     
-                   
+//Experimental
 //                        List{
-//                            ForEach(viewModel.puzzleLines, id: \.id){ puzzleLine in
+//                            ForEach(viewModel.puzzleLines){ puzzleLine in
 //                                HStack{
+//                                    Spacer()
+//                                        .gesture(scrollViewTap)
+//
 //                                    Text(String(puzzleLine.id))
+//
+//                                    Spacer()
+//                                        .gesture(scrollViewTap)
+//
 //                                    ForEach(puzzleLine.characters){ cipherPair in
+//
 //                                        CipherSolverCharacterPair(
 //                                            userMadeASelection: $userMadeASelection,
 //                                            cipherTextLetter: cipherPair.cipherLetter,
 //                                            plainTextLetter: cipherPair.userGuessLetter,
 //                                            indexInTheCipher: cipherPair.id)
-//                                            .frame(width: geometry.size.width / 30, height: nil, alignment: .center)
+//                                        .frame(width: geometry.size.width / 40, height: nil, alignment: .center)
+//
 //                                    }
+//                                    Spacer()
+//                                        .gesture(scrollViewTap)
 //                                }
 //                            }
-//                        }//.gesture(scrollViewTap)
-                    
-                    
-                    
+//                        }
+//                    //.gesture(scrollViewTap) // causes problems
+                
                     
                     ScrollView {
-                        LazyVGrid(columns: columns(screenWidth: geometry.size.width), spacing: 0) {
+                        LazyVGrid(columns: columns(screenWidth: geometry.size.width) ,spacing: 0, pinnedViews: [.sectionHeaders]) {
                             ForEach(viewModel.data){ cipherPair in
-                                CipherSolverCharacterPair(
-                                    userMadeASelection: $userMadeASelection,
-                                    cipherTextLetter: cipherPair.cipherLetter,
-                                    plainTextLetter: cipherPair.userGuessLetter,
-                                    indexInTheCipher: cipherPair.id)
+                                    CipherSolverCharacterPair(
+                                        userMadeASelection: $userMadeASelection,
+                                        cipherTextLetter: cipherPair.cipherLetter,
+                                        plainTextLetter: cipherPair.userGuessLetter,
+                                        indexInTheCipher: cipherPair.id)
                             }
                         }
                     }.gesture(scrollViewTap)
@@ -206,6 +214,7 @@ struct ContentView: View {
                 userMadeASelection = true
                 viewModel.currentUserSelectionIndex = indexInTheCipher
                 viewModel.currentCiphertextCharacter = cipherTextLetter
+                print("tap")
             }
         }
         

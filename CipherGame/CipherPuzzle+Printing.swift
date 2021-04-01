@@ -52,7 +52,7 @@ extension CipherPuzzle{
         output += "\n</table>\n"
         output += "\n</html>\n"
         
-        print(output)
+//        print(output)
         return output
         
     }
@@ -132,7 +132,6 @@ extension CipherPuzzle{
         }
         
         output += "\n</tr>\n"
-        
         return output
     }
     

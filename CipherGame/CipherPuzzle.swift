@@ -43,7 +43,7 @@ class CipherPuzzle : ObservableObject {
     
     @Published
     var fontDesign : Font.Design = .monospaced
-    
+        
     //MARK: - public API
     
     var currentPuzzle : Puzzle? {
@@ -118,50 +118,42 @@ class CipherPuzzle : ObservableObject {
     }
     
 //Experimental!
-//    var puzzleLines : [ PuzzleLine ]{
+    
+//var charsPerLine : Int = 30
+
+    
+//    func puzzlines(for width : CGFloat) -> [PuzzleLine] {
+//        charsPerLine = Int(width / 30)
+//        return puzzleLines
+//    }
+//
+//    var puzzleLines : [PuzzleLine]{
 //        guard let currentPuzzle = self.currentPuzzle else {return []}
 //
-//        let charsPerLine = 20
-//        let numberOfLines = Int(ceil(Double(currentPuzzle.ciphertext.count) / Double(charsPerLine))) - 1
+//        let gameLines = currentPuzzle.ciphertext.asLines(of: charsPerLine).enumerated().map { (ciphertextLineNumber, ciphertextLine) -> PuzzleLine in
 //
-//        var output : [ PuzzleLine ] = []
+//            let puzzleLine = ciphertextLine.enumerated().compactMap{ (index, char) -> GameInfo? in
 //
-//        var startIdx = currentPuzzle.ciphertext.startIndex
-//        var endIdx = currentPuzzle.ciphertext.count < charsPerLine ? currentPuzzle.ciphertext.endIndex : currentPuzzle.ciphertext.index(startIdx, offsetBy: charsPerLine - 1)
+//                let ciphertextIndex = ciphertextLineNumber * charsPerLine + index
 //
-//        for line in 0..<numberOfLines {
+//                if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, ciphertextIndex) {
 //
-//            let lineCipherChars = currentPuzzle.ciphertext[startIdx...endIdx]
-//
-//            var lineChars : [GameInfo] = []
-//
-//            for (index, char) in lineCipherChars.enumerated() {
-//                if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, index) {
-//
-//                    let output = GameInfo(id: newGameTriad.id,
+//                    let characterPair = GameInfo(id: newGameTriad.id,
 //                                          cipherLetter: newGameTriad.cipherLetter,
 //                                          userGuessLetter: newGameTriad.userGuessLetter)
-//
-//                    lineChars.append(output)
+//                    return characterPair
 //                }
+//                return nil
 //            }
-//            output.append(PuzzleLine(id: line, characters: lineChars))
-//
-//            //update indices
-//            startIdx = currentPuzzle.ciphertext.index(startIdx, offsetBy: charsPerLine)
-//
-//            if line == numberOfLines - 1{
-//                endIdx = currentPuzzle.ciphertext.endIndex
-//            } else {
-//                endIdx = currentPuzzle.ciphertext.index(endIdx, offsetBy: charsPerLine)
-//            }
-//
+//            ret[]urn PuzzleLine(id: ciphertextLineNumber, characters: puzzleLine)
 //        }
-//        return output
+//        return gameLines
 //    }
 
     
-    var letterCount : [(Character, Int)] {return currentPuzzle?.letterCount() ?? []}
+    var letterCount : [(Character, Int)] {
+        return currentPuzzle?.letterCount() ?? []
+    }
     
     func plaintext(for ciphertext : Character) -> Character?{
         return currentPuzzle!.usersGuesses[ciphertext]?.0

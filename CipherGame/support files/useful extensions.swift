@@ -134,6 +134,16 @@ extension String {
         }
     }
     
+    func asLines(of length : Int) -> [String] {
+        
+        let result = stride(from: 0, to: self.count, by: length).map{ lineBreakIndex in
+            
+            self[self.index(self.startIndex, offsetBy: lineBreakIndex) ..<
+                    self.index(self.startIndex, offsetBy: min(lineBreakIndex + length, self.count))]
+        }
+        return result.map{String($0)}
+    }
+    
     
 }
 
