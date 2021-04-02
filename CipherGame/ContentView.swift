@@ -25,8 +25,9 @@ struct ContentView: View {
                         
                         ForEach(viewModel.puzzleTitles(for: bookTitle.id)){ puzzleTitle in
 
-                            NavigationLink(destination: CipherSolverPage().navigationTitle(puzzleTitle.title), tag: puzzleTitle.id, selection: $viewModel.currentPuzzleHash){
-                                            label(for: puzzleTitle)
+                            NavigationLink(destination: CipherSolverPage().navigationTitle(puzzleTitle.title),
+                                           tag: puzzleTitle.id,
+                                           selection: $viewModel.currentPuzzleHash){label(for: puzzleTitle)
                             }
                         }
                     }
@@ -34,7 +35,8 @@ struct ContentView: View {
             }.environmentObject(viewModel)
     }
     
-    private func label(for puzzleTitle : PuzzleTitle) -> some View {
+    private
+    func label(for puzzleTitle : PuzzleTitle) -> some View {
         var icon = ""
         if viewModel.puzzleIsCompleted(hash: puzzleTitle.id) {
             icon = "checkmark.circle.fill"
@@ -131,7 +133,9 @@ struct ContentView: View {
                     
                     ToolbarItem(placement: .navigationBarTrailing){
                         Button(self.difficultyButtonTitle){
-                            viewModel.difficultyLevel = (viewModel.difficultyLevel + 1) % 3
+                            withAnimation{
+                                viewModel.difficultyLevel = (viewModel.difficultyLevel + 1) % 3
+                            }
                         }
                     }
                     
@@ -162,12 +166,13 @@ struct ContentView: View {
             }
         }
         
-        
+        private
         func columns(screenWidth : CGFloat) -> [GridItem] {
             return Array(repeating: GridItem(.fixed(20)),
                          count: Int(screenWidth / 40))
         }
         
+        private
         func printCipherPage() {
             
             let formatter = UIMarkupTextPrintFormatter(markupText: viewModel.printableHTML)
@@ -206,7 +211,7 @@ struct ContentView: View {
         var plainTextLetter : Character?
         var indexInTheCipher : Int?
         
-        
+        private
         var plaintextLabelTap : some Gesture {
             TapGesture(count: 1).onEnded{
                 //flip value
@@ -239,6 +244,7 @@ struct ContentView: View {
                                 .gesture(plaintextLabelTap)
                                 .foregroundColor(Color.plaintext(for: colorScheme))
                                 .fixedSize()
+                            .transition(.slide)
                     }
                 }
                 .overlay(Rectangle()

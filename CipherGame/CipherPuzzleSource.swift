@@ -11,6 +11,7 @@ import Foundation
 struct Game {
     
     //MARK: - public
+    private(set)
     var books : [Book]
     
     mutating
@@ -25,24 +26,24 @@ struct Game {
         
         //discard uppercase!
         let lowerPlainCharacter = plaintextCharacter.lowerCharOpt()
-        let lowerCipherCharacter = cipherCharacter.lowerChar()
+        let lowerCipherCharacter = String(cipherCharacter.lowerChar())
         
         //user entered a non-nil char
         if let lowerPlainCharacter = lowerPlainCharacter {
             
             //update model
-            books[bookIndex].puzzles[puzzleIndex].usersGuesses[String(lowerCipherCharacter)] = String(lowerPlainCharacter)
+            books[bookIndex].puzzles[puzzleIndex].usersGuesses[lowerCipherCharacter] = String(lowerPlainCharacter)
             
-            if let _ = books[bookIndex].puzzles[puzzleIndex].guessIndices[String(lowerCipherCharacter)] {
-                books[bookIndex].puzzles[puzzleIndex].guessIndices[String(lowerCipherCharacter)]?.insert(index)
+            if let _ = books[bookIndex].puzzles[puzzleIndex].guessIndices[lowerCipherCharacter] {
+                books[bookIndex].puzzles[puzzleIndex].guessIndices[lowerCipherCharacter]?.insert(index)
             } else {
-                books[bookIndex].puzzles[puzzleIndex].guessIndices[String(lowerCipherCharacter)] = [index]
+                books[bookIndex].puzzles[puzzleIndex].guessIndices[lowerCipherCharacter] = [index]
             }
             
             //remove guess for ciphertext character
         } else {
-            books[bookIndex].puzzles[puzzleIndex].usersGuesses.removeValue(forKey: String(lowerCipherCharacter))
-            books[bookIndex].puzzles[puzzleIndex].guessIndices.removeValue(forKey: String(lowerCipherCharacter))
+            books[bookIndex].puzzles[puzzleIndex].usersGuesses.removeValue(forKey: lowerCipherCharacter)
+            books[bookIndex].puzzles[puzzleIndex].guessIndices.removeValue(forKey: lowerCipherCharacter)
         }
     }
     
@@ -92,7 +93,7 @@ struct Puzzle : Hashable, Codable{
     var title : String
     var ciphertext : String
     var plaintext : String
-    var keyAlphabet : String        //the original key alphabet
+    var keyAlphabet : String        //the original key alphabet, use for encrypting
     var solution : String          //what the user needs to figure out (the message may not use all letters)
     var isSolved : Bool {
         let userGuessLetters = usersGuesses.values.sorted(by: {$0 < $1}).joined()

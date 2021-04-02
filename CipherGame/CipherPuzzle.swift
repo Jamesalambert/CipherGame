@@ -159,7 +159,7 @@ class CipherPuzzle : ObservableObject {
         for keyChar in currentPuzzle.letterCount.keys {
             output.append((Character(keyChar), currentPuzzle.letterCount[keyChar] ?? 0))
         }
-
+        
         return output.sorted {
             if self.difficultyLevel == 0 {
                 return ($0.count > $1.count) || (($0.count == $1.count) && ($0.character < $1.character))

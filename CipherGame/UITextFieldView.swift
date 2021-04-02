@@ -86,7 +86,10 @@ struct NewTextField : UIViewRepresentable {
         }
         
         func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-            self.guess.wrappedValue = string.first
+            
+            withAnimation{
+                self.guess.wrappedValue = string.first
+            }
             return true
         }
        

@@ -77,6 +77,7 @@ struct PairCount : View {
             }.font(.system(.body, design: viewModel.fontDesign))
             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
             .foregroundColor(foregroundColor)
+            
             Spacer()
         }
     }
