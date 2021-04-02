@@ -152,7 +152,15 @@ class CipherPuzzle : ObservableObject {
 
     
     var letterCount : [(Character, Int)] {
-        return currentPuzzle?.letterCount() ?? []
+        guard let currentPuzzle = currentPuzzle else {return []}
+        
+        var output : [(character:Character, count:Int)] = []
+        
+        for keyChar in currentPuzzle.letterCount.keys {
+            output.append((Character(keyChar), currentPuzzle.letterCount[keyChar] ?? 0))
+        }
+
+        return output.sorted { $0.character < $1.character}
     }
     
     func plaintext(for ciphertext : Character) -> Character?{

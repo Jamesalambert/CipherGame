@@ -10,27 +10,27 @@ import Foundation
 
 struct Game {
     
-    static let space = Puzzle(title: "space",
-                              plaintext: """
-fr hrcefd fud amzzmqo itrmi yrb kmhh qddi fr ftewdh fr fmfeq, fud hetodzf arrq\
-rp zefbtq. fud itrmi kez zbjjrzdi fr hrrv prt zmoqz rp hmpd rq fumz zfteqod arrq\
-sbf imzejjdetdi futdd arqfuz mqfr mfz amzzmrq. fud dlecf hrcefmrq ceq sd prbqi\
-mq yrbt zumj'z crajbfdt is rqd futdd futdd. fud itrmi heqidi wdty chrzd fr fumz\
-hrcefmrq eqi mf arwdz zhrkhy zr zurbhi qrf sd pet ekey. fud itrmi uez e teimr sdecrq\
-fuef zdqiz fud zead adzzeod dwdty fumtfy amqbfdz, fud adzzeod zeyz wmomheqcd rqd\
-fkr futdd.
-""",
-                              keyAlphabet: "escidpoumgvhaqrjntzfbwklyx") //random seed 1 python
-    
-    static let island = Puzzle(title: "Island",
-                               plaintext: "erfcgyubdj \nbywgyqwy \tgetvhcnxmlapow uhhvfrbh cbh2.",
-                               keyAlphabet: "b")
-    
-    static let firstBook = Book(title: "first book",
-                                puzzles: [space, island])
+//    static let space = Puzzle(title: "space",
+//                              plaintext: """
+//fr hrcefd fud amzzmqo itrmi yrb kmhh qddi fr ftewdh fr fmfeq, fud hetodzf arrq\
+//rp zefbtq. fud itrmi kez zbjjrzdi fr hrrv prt zmoqz rp hmpd rq fumz zfteqod arrq\
+//sbf imzejjdetdi futdd arqfuz mqfr mfz amzzmrq. fud dlecf hrcefmrq ceq sd prbqi\
+//mq yrbt zumj'z crajbfdt is rqd futdd futdd. fud itrmi heqidi wdty chrzd fr fumz\
+//hrcefmrq eqi mf arwdz zhrkhy zr zurbhi qrf sd pet ekey. fud itrmi uez e teimr sdecrq\
+//fuef zdqiz fud zead adzzeod dwdty fumtfy amqbfdz, fud adzzeod zeyz wmomheqcd rqd\
+//fkr futdd.
+//""",
+//                              keyAlphabet: "escidpoumgvhaqrjntzfbwklyx") //random seed 1 python
+//
+//    static let island = Puzzle(title: "Island",
+//                               plaintext: "erfcgyubdj \nbywgyqwy \tgetvhcnxmlapow uhhvfrbh cbh2.",
+//                               keyAlphabet: "b")
+//
+//    static let firstBook = Book(title: "first book",
+//                                puzzles: [space, island])
     
     //MARK: - public
-    var books : [Book]// = [firstBook]
+    var books : [Book]
     
     mutating
     func updateUsersGuesses(cipherCharacter : Character,
@@ -77,13 +77,10 @@ fkr futdd.
         
         //get user's guesses
         let guesses : String = String.alphabet.compactMap{char in (puzzle.usersGuesses[String(char)])}.joined()
-        
-        //let userSolution = guesses.compactMap{$0}
-        
+                
         if guesses == puzzle.solution {
             return true
         }
-        
         return false
     }
     
@@ -134,26 +131,13 @@ struct Puzzle : Hashable, Codable{
     var title : String
     var ciphertext : String
     var plaintext : String
-    private
     var keyAlphabet : String        //the original key alphabet
-    
-    var solution : String {
-        return keyAlphabet.filter{character in ciphertext.number(of: character) > 0}
-    }
-    
+    var solution : String          //what the user needs to figure out (the message may not use all letters)
     var isSolved : Bool = false
     var id = UUID()
     var usersGuesses : [String : String] = Dictionary()
     var guessIndices : [String : Set<Int>] = Dictionary()
-    
-    func letterCount() -> [(Character,Int)] {
-        var output : [(Character,Int)] = []
-        
-        for letter in String.alphabet {
-            output.append((letter, ciphertext.number(of: letter)))
-        }
-        return output
-    }
+    var letterCount : [String : Int]
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
@@ -161,6 +145,15 @@ struct Puzzle : Hashable, Codable{
     
     init(title : String, plaintext: String, keyAlphabet : String){
         
+        ///Helper functions
+        func letterCount(in ciphertext : String) -> [String : Int]{
+            var output : [String : Int] = [:]
+            for letter in String.alphabet {
+                output[String(letter)]  = Int(ciphertext.number(of: letter))
+            }
+            return output
+        }
+
         func encryptCipher(_ plaintext : String, with key : String) -> String{
             
             let plaintext : [String] = plaintext.map{char in String(char)}
@@ -194,18 +187,25 @@ struct Puzzle : Hashable, Codable{
             return ciphertext
 
         }
+        ///
         
         self.title = title
         self.keyAlphabet = keyAlphabet
-        self.plaintext = plaintext
+        self.plaintext = plaintext.lowercased()
+        
         
         //remove most whitespace
         var removeChars = CharacterSet.whitespacesAndNewlines
         removeChars.remove(charactersIn: " ") //leave spaces!
         
         //create ciphertext
-        self.ciphertext = encryptCipher(plaintext.removeCharacters(in: removeChars),
+        let ciphertext = encryptCipher(self.plaintext.removeCharacters(in: removeChars),
                                         with: keyAlphabet)
+        
+        self.ciphertext = ciphertext
+        self.solution = keyAlphabet.filter{character in ciphertext.number(of: character) > 0}
+        
+        self.letterCount = letterCount(in: self.ciphertext)
     }
     
     

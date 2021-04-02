@@ -13,7 +13,7 @@ struct LetterCount : View {
     
     @EnvironmentObject
     var viewModel : CipherPuzzle
-    var letterCount : [(Character,Int)]
+    var letterCount : [(character:Character, count:Int)]
     
     var body : some View {
         
@@ -29,10 +29,10 @@ struct LetterCount : View {
                         if letterCount.count > 0 {
                             
                             ForEach(0..<letterCount.count) { index in
-                                let cipherChar = letterCount[index].0
+                                let cipherChar = letterCount[index].character
                                 PairCount(cipherChar: cipherChar,
                                             plainChar: viewModel.plaintext(for: cipherChar),
-                                            count: letterCount[index].1)
+                                            count: letterCount[index].count)
                             }
                         }
                     }.frame(minWidth: geometry.size.width) //centers the grid in the scrollview
