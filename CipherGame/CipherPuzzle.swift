@@ -145,7 +145,7 @@ class CipherPuzzle : ObservableObject {
 //                }
 //                return nil
 //            }
-//            ret[]urn PuzzleLine(id: ciphertextLineNumber, characters: puzzleLine)
+//            return PuzzleLine(id: ciphertextLineNumber, characters: puzzleLine)
 //        }
 //        return gameLines
 //    }
@@ -160,7 +160,13 @@ class CipherPuzzle : ObservableObject {
             output.append((Character(keyChar), currentPuzzle.letterCount[keyChar] ?? 0))
         }
 
-        return output.sorted { $0.character < $1.character}
+        return output.sorted {
+            if self.difficultyLevel == 0 {
+                return ($0.count > $1.count) || (($0.count == $1.count) && ($0.character < $1.character))
+            } else {
+                return $0.character < $1.character
+            }
+        }
     }
     
     func plaintext(for ciphertext : Character) -> Character?{

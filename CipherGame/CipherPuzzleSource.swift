@@ -10,25 +10,6 @@ import Foundation
 
 struct Game {
     
-//    static let space = Puzzle(title: "space",
-//                              plaintext: """
-//fr hrcefd fud amzzmqo itrmi yrb kmhh qddi fr ftewdh fr fmfeq, fud hetodzf arrq\
-//rp zefbtq. fud itrmi kez zbjjrzdi fr hrrv prt zmoqz rp hmpd rq fumz zfteqod arrq\
-//sbf imzejjdetdi futdd arqfuz mqfr mfz amzzmrq. fud dlecf hrcefmrq ceq sd prbqi\
-//mq yrbt zumj'z crajbfdt is rqd futdd futdd. fud itrmi heqidi wdty chrzd fr fumz\
-//hrcefmrq eqi mf arwdz zhrkhy zr zurbhi qrf sd pet ekey. fud itrmi uez e teimr sdecrq\
-//fuef zdqiz fud zead adzzeod dwdty fumtfy amqbfdz, fud adzzeod zeyz wmomheqcd rqd\
-//fkr futdd.
-//""",
-//                              keyAlphabet: "escidpoumgvhaqrjntzfbwklyx") //random seed 1 python
-//
-//    static let island = Puzzle(title: "Island",
-//                               plaintext: "erfcgyubdj \nbywgyqwy \tgetvhcnxmlapow uhhvfrbh cbh2.",
-//                               keyAlphabet: "b")
-//
-//    static let firstBook = Book(title: "first book",
-//                                puzzles: [space, island])
-    
     //MARK: - public
     var books : [Book]
     
@@ -63,25 +44,6 @@ struct Game {
             books[bookIndex].puzzles[puzzleIndex].usersGuesses.removeValue(forKey: String(lowerCipherCharacter))
             books[bookIndex].puzzles[puzzleIndex].guessIndices.removeValue(forKey: String(lowerCipherCharacter))
         }
-        
-//        check to see if the puzzle is solved
-        if self.isSolved(books[bookIndex].puzzles[puzzleIndex]) {
-            books[bookIndex].puzzles[puzzleIndex].isSolved = true
-        } else {
-            books[bookIndex].puzzles[puzzleIndex].isSolved = false
-        }
-    }
-    
-    private
-    func isSolved(_ puzzle : Puzzle) -> Bool {
-        
-        //get user's guesses
-        let guesses : String = String.alphabet.compactMap{char in (puzzle.usersGuesses[String(char)])}.joined()
-                
-        if guesses == puzzle.solution {
-            return true
-        }
-        return false
     }
     
     private
@@ -116,7 +78,6 @@ struct Game {
     
     
     
-    
 }
 
 
@@ -133,7 +94,10 @@ struct Puzzle : Hashable, Codable{
     var plaintext : String
     var keyAlphabet : String        //the original key alphabet
     var solution : String          //what the user needs to figure out (the message may not use all letters)
-    var isSolved : Bool = false
+    var isSolved : Bool {
+        let userGuessLetters = usersGuesses.values.sorted(by: {$0 < $1}).joined()
+        return userGuessLetters == solution
+    }
     var id = UUID()
     var usersGuesses : [String : String] = Dictionary()
     var guessIndices : [String : Set<Int>] = Dictionary()
@@ -145,7 +109,7 @@ struct Puzzle : Hashable, Codable{
     
     init(title : String, plaintext: String, keyAlphabet : String){
         
-        ///Helper functions
+        //Helper functions
         func letterCount(in ciphertext : String) -> [String : Int]{
             var output : [String : Int] = [:]
             for letter in String.alphabet {
@@ -187,14 +151,13 @@ struct Puzzle : Hashable, Codable{
             return ciphertext
 
         }
-        ///
+        //helper funcs
         
         self.title = title
         self.keyAlphabet = keyAlphabet
         self.plaintext = plaintext.lowercased()
         
-        
-        //remove most whitespace
+        //remove whitespace except spaces
         var removeChars = CharacterSet.whitespacesAndNewlines
         removeChars.remove(charactersIn: " ") //leave spaces!
         

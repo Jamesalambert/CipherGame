@@ -39,7 +39,7 @@ struct ContentView: View {
         if viewModel.puzzleIsCompleted(hash: puzzleTitle.id) {
             icon = "checkmark.circle.fill"
         }
-        return Label(puzzleTitle.title, systemImage: icon)
+        return Label(puzzleTitle.title, systemImage: icon).accentColor(Color.highlightColor(for: colorScheme))
     }
     
     
