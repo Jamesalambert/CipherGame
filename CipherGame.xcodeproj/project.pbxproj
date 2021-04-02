@@ -21,6 +21,7 @@
 		AA9766BC2601651E0076B879 /* CipherGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766BB2601651E0076B879 /* CipherGameUITests.swift */; };
 		AA9766CD26016DED0076B879 /* CipherPuzzleSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */; };
 		AA9766D226016EB60076B879 /* CipherPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766D126016EB60076B879 /* CipherPuzzle.swift */; };
+		AAE626EB261663EF004BF125 /* puzzles.json in Resources */ = {isa = PBXBuildFile; fileRef = AAE626EA261663EF004BF125 /* puzzles.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +62,7 @@
 		AA9766BD2601651E0076B879 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherPuzzleSource.swift; sourceTree = "<group>"; };
 		AA9766D126016EB60076B879 /* CipherPuzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherPuzzle.swift; sourceTree = "<group>"; };
+		AAE626EA261663EF004BF125 /* puzzles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = puzzles.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 		AA31EAB2260BE5210031D56C /* support files */ = {
 			isa = PBXGroup;
 			children = (
+				AAE626E9261663C3004BF125 /* puzzles */,
 				AA5D867C2614F680008D3B44 /* CipherPrint.css */,
 				AA31EAB3260BE5370031D56C /* useful extensions.swift */,
 			);
@@ -160,6 +163,14 @@
 				AA9766BD2601651E0076B879 /* Info.plist */,
 			);
 			path = CipherGameUITests;
+			sourceTree = "<group>";
+		};
+		AAE626E9261663C3004BF125 /* puzzles */ = {
+			isa = PBXGroup;
+			children = (
+				AAE626EA261663EF004BF125 /* puzzles.json */,
+			);
+			path = puzzles;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,6 +277,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA9766A62601651D0076B879 /* Preview Assets.xcassets in Resources */,
+				AAE626EB261663EF004BF125 /* puzzles.json in Resources */,
 				AA5D867D2614F680008D3B44 /* CipherPrint.css in Resources */,
 				AA9766A32601651D0076B879 /* Assets.xcassets in Resources */,
 			);

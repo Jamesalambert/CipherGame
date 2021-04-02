@@ -72,6 +72,16 @@ extension Array where Element == Int {
     }
 }
 
+extension Set where Element == Int {
+    func containsItem(within distance : Int, of index : Int)-> Bool {
+       return self.contains(where: { item in abs(item - index) <= distance})
+    }
+}
+
+
+
+
+
 extension Optional where Wrapped == Character {
     
     func string() -> String {

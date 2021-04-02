@@ -53,7 +53,7 @@ extension CipherPuzzle {
         
         var mediumLevel = mediumGameInfo(for: ciphertext, at: index)
         
-        if let guessIndices = currentPuzzle?.usersGuesses[ciphertext]?.1 {
+        if let guessIndices = currentPuzzle?.guessIndices[String(ciphertext)] {
             if guessIndices.containsItem(within: 20, of: index){
                 return mediumLevel
             }

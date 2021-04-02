@@ -156,7 +156,10 @@ class CipherPuzzle : ObservableObject {
     }
     
     func plaintext(for ciphertext : Character) -> Character?{
-        return currentPuzzle!.usersGuesses[ciphertext]?.0
+        if let plaintextCharacter = currentPuzzle!.usersGuesses[String(ciphertext)] {
+            return Character(plaintextCharacter)
+        }
+        return nil
     }
     
     

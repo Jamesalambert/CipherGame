@@ -11,7 +11,7 @@ import Foundation
 struct Game {
     
     static let space = Puzzle(title: "space",
-                              ciphertext: """
+                              plaintext: """
 fr hrcefd fud amzzmqo itrmi yrb kmhh qddi fr ftewdh fr fmfeq, fud hetodzf arrq\
 rp zefbtq. fud itrmi kez zbjjrzdi fr hrrv prt zmoqz rp hmpd rq fumz zfteqod arrq\
 sbf imzejjdetdi futdd arqfuz mqfr mfz amzzmrq. fud dlecf hrcefmrq ceq sd prbqi\
@@ -23,14 +23,14 @@ fkr futdd.
                               keyAlphabet: "escidpoumgvhaqrjntzfbwklyx") //random seed 1 python
     
     static let island = Puzzle(title: "Island",
-                               ciphertext: "erfcgyubdj \nbywgyqwy \tgetvhcnxmlapow uhhvfrbh cbh2.",
+                               plaintext: "erfcgyubdj \nbywgyqwy \tgetvhcnxmlapow uhhvfrbh cbh2.",
                                keyAlphabet: "b")
     
     static let firstBook = Book(title: "first book",
                                 puzzles: [space, island])
     
     //MARK: - public
-    var books : [Book] = [firstBook]
+    var books : [Book]// = [firstBook]
     
     mutating
     func updateUsersGuesses(cipherCharacter : Character,
@@ -48,18 +48,20 @@ fkr futdd.
         
         //user entered a non-nil char
         if let lowerPlainCharacter = lowerPlainCharacter {
-
-            var newGuessArray : [Int] = [index]
-            if let guessIndices = puzzle.usersGuesses[lowerCipherCharacter]?.1 {
-                newGuessArray = guessIndices + newGuessArray
-            }
             
             //update model
-            books[bookIndex].puzzles[puzzleIndex].usersGuesses[lowerCipherCharacter] = (lowerPlainCharacter, newGuessArray)
+            books[bookIndex].puzzles[puzzleIndex].usersGuesses[String(lowerCipherCharacter)] = String(lowerPlainCharacter)
             
-            //remove guess
+            if let _ = books[bookIndex].puzzles[puzzleIndex].guessIndices[String(lowerCipherCharacter)] {
+                books[bookIndex].puzzles[puzzleIndex].guessIndices[String(lowerCipherCharacter)]?.insert(index)
+            } else {
+                books[bookIndex].puzzles[puzzleIndex].guessIndices[String(lowerCipherCharacter)] = [index]
+            }
+            
+            //remove guess for ciphertext character
         } else {
-            books[bookIndex].puzzles[puzzleIndex].usersGuesses.removeValue(forKey: lowerCipherCharacter)
+            books[bookIndex].puzzles[puzzleIndex].usersGuesses.removeValue(forKey: String(lowerCipherCharacter))
+            books[bookIndex].puzzles[puzzleIndex].guessIndices.removeValue(forKey: String(lowerCipherCharacter))
         }
         
 //        check to see if the puzzle is solved
@@ -68,19 +70,17 @@ fkr futdd.
         } else {
             books[bookIndex].puzzles[puzzleIndex].isSolved = false
         }
-        
-        
     }
     
     private
     func isSolved(_ puzzle : Puzzle) -> Bool {
         
         //get user's guesses
-        let guesses = String.alphabet.map{char in puzzle.usersGuesses[char]?.0}
+        let guesses : String = String.alphabet.compactMap{char in (puzzle.usersGuesses[String(char)])}.joined()
         
-        let userSolution = String(guesses.compactMap{$0})
+        //let userSolution = guesses.compactMap{$0}
         
-        if userSolution == puzzle.solution {
+        if guesses == puzzle.solution {
             return true
         }
         
@@ -95,12 +95,37 @@ fkr futdd.
         return IndexPath(item: bookIndex, section: puzzleIndex)
     }
     
+    
+    init(){
+        self.books = []
+        guard let JSONurl = Bundle.main.url(forResource: "puzzles", withExtension: "json") else {return}
+        do {
+            if let data = try String(contentsOf: JSONurl).data(using: .utf8) {
+                
+                let puzzles = try JSONDecoder().decode([ReadablePuzzle].self, from: data)
+                self.books = [Book(title: "first book",
+                                   puzzles: puzzles.map{ puzzle in
+                                    
+                                    Puzzle(title: puzzle.title,
+                                           plaintext: puzzle.plaintext,
+                                           keyAlphabet: puzzle.keyAlphabet)
+                                })]
+            }
+        }
+        catch {
+            print("error Couldn't read inut json file \(JSONurl)")
+        }
+    }
+    
+    
+    
+    
 }
 
 
 
 
-struct Puzzle : Hashable{
+struct Puzzle : Hashable, Codable{
     
     static func == (lhs: Puzzle, rhs: Puzzle) -> Bool {
         return lhs.id == rhs.id
@@ -108,7 +133,7 @@ struct Puzzle : Hashable{
 
     var title : String
     var ciphertext : String
-    
+    var plaintext : String
     private
     var keyAlphabet : String        //the original key alphabet
     
@@ -118,7 +143,8 @@ struct Puzzle : Hashable{
     
     var isSolved : Bool = false
     var id = UUID()
-    var usersGuesses : Dictionary<Character, (Character, [Int])> = Dictionary()
+    var usersGuesses : [String : String] = Dictionary()
+    var guessIndices : [String : Set<Int>] = Dictionary()
     
     func letterCount() -> [(Character,Int)] {
         var output : [(Character,Int)] = []
@@ -133,20 +159,62 @@ struct Puzzle : Hashable{
         hasher.combine(id)
     }
     
-    init(title : String, ciphertext: String, keyAlphabet : String){
+    init(title : String, plaintext: String, keyAlphabet : String){
+        
+        func encryptCipher(_ plaintext : String, with key : String) -> String{
+            
+            let plaintext : [String] = plaintext.map{char in String(char)}
+            let wheel : [Int : String] = {
+                
+                var dict : [Int : String] = [:]
+                for (index,char) in key.enumerated(){
+                    dict[index] = String(char)
+                }
+            return dict
+            }()
+            let alphabet : [String] = String.alphabet.map{char in String(char)}
+            
+            var ciphertext = ""
+            
+            for plainChar in plaintext {
+                if alphabet.contains(plainChar){
+                    //get index
+                    var indexOfCharInAlphabet = 0
+                    for index in 0..<alphabet.count{
+                        if alphabet[index] == plainChar{
+                            indexOfCharInAlphabet = index
+                            break
+                        }
+                    }
+                    ciphertext.append(wheel[indexOfCharInAlphabet] ?? "")
+                } else {
+                    ciphertext.append(plainChar)
+                }
+            }
+            return ciphertext
+
+        }
+        
         self.title = title
         self.keyAlphabet = keyAlphabet
+        self.plaintext = plaintext
         
         //remove most whitespace
         var removeChars = CharacterSet.whitespacesAndNewlines
         removeChars.remove(charactersIn: " ") //leave spaces!
         
-        self.ciphertext = ciphertext.removeCharacters(in: removeChars)
+        //create ciphertext
+        self.ciphertext = encryptCipher(plaintext.removeCharacters(in: removeChars),
+                                        with: keyAlphabet)
     }
+    
+    
+        
+    
     
 }
 
-struct Book : Hashable{
+struct Book : Hashable, Codable{
    
     var title : String
     var puzzles : [Puzzle]
@@ -158,5 +226,10 @@ struct Book : Hashable{
     
 }
 
+struct ReadablePuzzle : Codable {
+    var title : String
+    var plaintext : String
+    var keyAlphabet : String
+}
 
 
