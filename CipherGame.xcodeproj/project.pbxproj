@@ -22,6 +22,7 @@
 		AA9766CD26016DED0076B879 /* CipherPuzzleSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */; };
 		AA9766D226016EB60076B879 /* CipherPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766D126016EB60076B879 /* CipherPuzzle.swift */; };
 		AAE626EB261663EF004BF125 /* puzzles.json in Resources */ = {isa = PBXBuildFile; fileRef = AAE626EA261663EF004BF125 /* puzzles.json */; };
+		AAE6270D2617ED50004BF125 /* Rebecca's Garden.json in Resources */ = {isa = PBXBuildFile; fileRef = AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +64,7 @@
 		AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherPuzzleSource.swift; sourceTree = "<group>"; };
 		AA9766D126016EB60076B879 /* CipherPuzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherPuzzle.swift; sourceTree = "<group>"; };
 		AAE626EA261663EF004BF125 /* puzzles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = puzzles.json; sourceTree = "<group>"; };
+		AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Rebecca's Garden.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,6 +171,7 @@
 			isa = PBXGroup;
 			children = (
 				AAE626EA261663EF004BF125 /* puzzles.json */,
+				AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */,
 			);
 			path = puzzles;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 			files = (
 				AA9766A62601651D0076B879 /* Preview Assets.xcassets in Resources */,
 				AAE626EB261663EF004BF125 /* puzzles.json in Resources */,
+				AAE6270D2617ED50004BF125 /* Rebecca's Garden.json in Resources */,
 				AA5D867D2614F680008D3B44 /* CipherPrint.css in Resources */,
 				AA9766A32601651D0076B879 /* Assets.xcassets in Resources */,
 			);

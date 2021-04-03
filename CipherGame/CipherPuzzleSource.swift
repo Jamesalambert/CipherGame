@@ -10,6 +10,8 @@ import Foundation
 
 struct Game {
     
+    static let bookNames = ["Rebecca's Garden"]
+    
     //MARK: - public
     private(set)
     var books : [Book]
@@ -58,23 +60,31 @@ struct Game {
     
     init(){
         self.books = []
-        guard let JSONurl = Bundle.main.url(forResource: "puzzles", withExtension: "json") else {return}
-        do {
-            if let data = try String(contentsOf: JSONurl).data(using: .utf8) {
-                
-                let puzzles = try JSONDecoder().decode([ReadablePuzzle].self, from: data)
-                self.books = [Book(title: "first book",
-                                   puzzles: puzzles.map{ puzzle in
-                                    
-                                    Puzzle(title: puzzle.title,
-                                           plaintext: puzzle.plaintext,
-                                           keyAlphabet: puzzle.keyAlphabet)
-                                })]
+
+        for bookName in Game.bookNames {
+            
+            guard let JSONurl = Bundle.main.url(forResource: bookName, withExtension: "json") else {return}
+            
+            do {
+                if let data = try String(contentsOf: JSONurl).data(using: .utf8) {
+                    
+                    let puzzles = try JSONDecoder().decode([ReadablePuzzle].self, from: data)
+                    
+                    let newPuzzles = puzzles.map{ puzzle in
+                        Puzzle(title: puzzle.title,
+                               plaintext: puzzle.plaintext,
+                               keyAlphabet: puzzle.keyAlphabet)
+                        }
+                    
+                    self.books.append(Book(title: bookName, puzzles: newPuzzles))
+                }
+            }
+            catch {
+                print("error Couldn't read inut json file \(JSONurl)")
             }
         }
-        catch {
-            print("error Couldn't read inut json file \(JSONurl)")
-        }
+        
+        
     }
     
     
@@ -96,8 +106,16 @@ struct Puzzle : Hashable, Codable{
     var keyAlphabet : String        //the original key alphabet, use for encrypting
     var solution : String          //what the user needs to figure out (the message may not use all letters)
     var isSolved : Bool {
-        let userGuessLetters = usersGuesses.values.sorted(by: {$0 < $1}).joined()
-        return userGuessLetters == solution
+        
+        var guesses : String = ""
+        let alphabet = String.alphabet.map({String($0)})
+        
+        for letter in alphabet {
+            let guess : String = alphabet.first(where: {char in usersGuesses[char] == letter}) ?? ""
+            guesses.append(guess)
+        }
+        
+        return guesses == solution
     }
     var id = UUID()
     var usersGuesses : [String : String] = Dictionary()
