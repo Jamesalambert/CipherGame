@@ -18,26 +18,26 @@ struct ContentView: View {
     var body: some View {
         
             NavigationView {
-                List(){
+                List{
                     ForEach(viewModel.availableBooks){ bookTitle in
                         
-                        Text(bookTitle.title).font(.system(.title))
-                        
-                        ForEach(viewModel.puzzleTitles(for: bookTitle.id)){ puzzleTitle in
+                        Section(header: Text(bookTitle.title)
+                                    .font(.system(.title))){
+                            ForEach(viewModel.puzzleTitles(for: bookTitle.id)){ puzzleTitle in
 
-                            NavigationLink(destination: CipherSolverPage()
-                                                        .navigationTitle(puzzleTitle.title),
-                                           tag: puzzleTitle.id,
-                                           selection: $viewModel.currentPuzzleHash){
-                                if puzzleTitle.isSolved {
-                                    label(for: puzzleTitle)
-                                        .labelStyle(DefaultLabelStyle())
-                                } else {
-                                    label(for: puzzleTitle)
-                                        .labelStyle(TitleOnlyLabelStyle())
-                                }
-                                
+                                NavigationLink(destination: CipherSolverPage()
+                                                            .navigationTitle(puzzleTitle.title),
+                                               tag: puzzleTitle.id,
+                                               selection: $viewModel.currentPuzzleHash){
                                     
+                                    if puzzleTitle.isSolved {
+                                        label(for: puzzleTitle)
+                                            .labelStyle(DefaultLabelStyle())
+                                    } else {
+                                        label(for: puzzleTitle)
+                                            .labelStyle(TitleOnlyLabelStyle())
+                                    }
+                                }
                             }
                         }
                     }
