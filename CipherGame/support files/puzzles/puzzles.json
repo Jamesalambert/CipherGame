@@ -10,8 +10,8 @@
     },
     {
         "title": "test!",
-        "plaintext": "abcdefg",
-        "keyAlphabet": "abcdefg"
+        "plaintext": "abxy",
+        "keyAlphabet": "abcd"
     }
 ]
 

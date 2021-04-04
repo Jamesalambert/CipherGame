@@ -25,9 +25,19 @@ struct ContentView: View {
                         
                         ForEach(viewModel.puzzleTitles(for: bookTitle.id)){ puzzleTitle in
 
-                            NavigationLink(destination: CipherSolverPage().navigationTitle(puzzleTitle.title),
+                            NavigationLink(destination: CipherSolverPage()
+                                                        .navigationTitle(puzzleTitle.title),
                                            tag: puzzleTitle.id,
-                                           selection: $viewModel.currentPuzzleHash){label(for: puzzleTitle)
+                                           selection: $viewModel.currentPuzzleHash){
+                                if puzzleTitle.isSolved {
+                                    label(for: puzzleTitle)
+                                        .labelStyle(DefaultLabelStyle())
+                                } else {
+                                    label(for: puzzleTitle)
+                                        .labelStyle(TitleOnlyLabelStyle())
+                                }
+                                
+                                    
                             }
                         }
                     }
@@ -37,11 +47,10 @@ struct ContentView: View {
     
     private
     func label(for puzzleTitle : PuzzleTitle) -> some View {
-        var icon = ""
-        if viewModel.puzzleIsCompleted(hash: puzzleTitle.id) {
-            icon = "checkmark.circle.fill"
-        }
-        return Label(puzzleTitle.title, systemImage: icon).accentColor(Color.highlightColor(for: colorScheme))
+        let label = Label(puzzleTitle.title, systemImage: "checkmark.circle.fill")
+            .accentColor(Color.highlightColor(for: colorScheme))
+        
+        return label
     }
     
     
@@ -55,6 +64,7 @@ struct ContentView: View {
         var colorScheme : ColorScheme
         
         @State
+        private
         var userMadeASelection : Bool = false
         
         var scrollViewTap : some Gesture {
@@ -67,11 +77,11 @@ struct ContentView: View {
         var difficultyButtonTitle : String {
             switch viewModel.difficultyLevel {
             case 0:
-                return "🍸"
+                return "easy"
             case 1:
-                return "🍷"
+                return "medium"
             default:
-                return "☕️"
+                return "hard"
             }
         }
         
@@ -181,7 +191,7 @@ struct ContentView: View {
             
             let printInfo = UIPrintInfo(dictionary: nil)
             printInfo.outputType = .general
-            printInfo.jobName = viewModel.currentPuzzle?.title ?? "cipher"
+            printInfo.jobName = viewModel.currentPuzzle.title
             
             printController.printInfo = printInfo
             printController.printFormatter = formatter
@@ -205,6 +215,9 @@ struct ContentView: View {
         private
         var wasTapped = false
         
+        @State
+        var isSolved : Bool = false
+        
         @Binding
         var userMadeASelection : Bool
         var cipherTextLetter : Character
@@ -223,16 +236,16 @@ struct ContentView: View {
             }
         }
         
-        var body : some View {
-            
+        
+        @ViewBuilder
+        func standardCipherPair(displayPlaintext : Bool) -> some View {
             VStack{
                 Text(String(cipherTextLetter))
-                    .gesture(plaintextLabelTap)
                     .fixedSize()
                 
                 Spacer()
                 
-                if wasTapped, userMadeASelection {
+                if wasTapped, userMadeASelection, displayPlaintext {
                     
                     NewTextField(letterGuess: $viewModel.userGuess,
                                     wasTapped: $wasTapped,
@@ -241,8 +254,8 @@ struct ContentView: View {
                     
                 } else {
                     Text(plainTextLetter.string())
-                            .gesture(plaintextLabelTap)
                             .foregroundColor(Color.plaintext(for: colorScheme))
+                        .frame(height : 30)
                             .fixedSize()
                             .transition(.slide)
                 }
@@ -255,7 +268,42 @@ struct ContentView: View {
             .font(.system(.title, design: viewModel.fontDesign))
             .foregroundColor(foregroundColor(for: colorScheme))
             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
+        }
+    
+        @ViewBuilder
+        func plaintextOnly() -> some View {
+            VStack{
 
+                Text(plainTextLetter.string())
+                    .foregroundColor(Color.plaintext(for: colorScheme))
+                .frame(height : 30)
+                    .fixedSize()
+                    .transition(.slide)
+                
+            }
+            .overlay(Rectangle()
+                        .frame(width: 30, height: 1, alignment: .bottom)
+                        .foregroundColor(Color.plaintext(for: colorScheme)),
+                        alignment: .bottom )
+            .padding(.top)
+            .font(.system(.title, design: viewModel.fontDesign))
+            .foregroundColor(foregroundColor(for: colorScheme))
+            .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
+        }
+        
+        var body : some View {
+            
+            if viewModel.currentPuzzle.isSolved{
+                plaintextOnly()
+            } else {
+                //spaces and punctuation aren't tappable/editable
+                if cipherTextLetter.isPunctuation || cipherTextLetter.isWhitespace {
+                    standardCipherPair(displayPlaintext: false)
+                } else {
+                    standardCipherPair(displayPlaintext: true)
+                        .gesture(plaintextLabelTap)
+                }
+            }
         }
         
         private

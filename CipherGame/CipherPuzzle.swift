@@ -46,12 +46,13 @@ class CipherPuzzle : ObservableObject {
         
     //MARK: - public API
     
-    var currentPuzzle : Puzzle? {
-        guard let currentPuzzleHash = self.currentPuzzleHash else {return nil}
+    var currentPuzzle : Puzzle {
+        guard let currentPuzzleHash = self.currentPuzzleHash else {
+            return Puzzle(title: "?", plaintext: "?", keyAlphabet: "a")}
         
         let puzzles = model.books.map{book in book.puzzles}.joined()
         
-        guard let currentPuzzle = puzzles.first(where: {$0.hashValue == currentPuzzleHash}) else {return nil}
+        guard let currentPuzzle = puzzles.first(where: {$0.hashValue == currentPuzzleHash}) else {return Puzzle(title: "?", plaintext: "?", keyAlphabet: "a")}
         
         return currentPuzzle
     }
@@ -61,7 +62,8 @@ class CipherPuzzle : ObservableObject {
         
         for book in model.books {
             out.append(PuzzleTitle(id: book.hashValue,
-                                   title: book.title))
+                                   title: book.title,
+                                   isSolved: book.isSolved))
         }
         return out
     }
@@ -69,7 +71,9 @@ class CipherPuzzle : ObservableObject {
     
     func puzzleTitles(for bookHash : Int) -> [PuzzleTitle] {
         guard let book = model.books.first(where: {book in book.hashValue == bookHash}) else {return []}
-        return book.puzzles.map{puzzle in PuzzleTitle(id: puzzle.hashValue, title: puzzle.title)}
+        return book.puzzles.map{puzzle in PuzzleTitle(id: puzzle.hashValue,
+                                                      title: puzzle.title,
+                                                      isSolved: puzzle.isSolved)}
     }
     
     func puzzleIsCompleted(hash : Int) -> Bool{
@@ -87,7 +91,7 @@ class CipherPuzzle : ObservableObject {
         }
         
         set {
-            guard let currentPuzzle = currentPuzzle else {return}
+            //guard let currentPuzzle = currentPuzzle else {return}
             
             model.updateUsersGuesses(cipherCharacter: currentCiphertextCharacter!,
                                      plaintextCharacter: newValue,
@@ -98,7 +102,7 @@ class CipherPuzzle : ObservableObject {
     
     var data : [GameInfo] {
 
-        guard let currentPuzzle = self.currentPuzzle else {return []}
+        //guard let currentPuzzle = self.currentPuzzle else {return []}
 
         var puzzleData = Array<GameInfo>()
 
@@ -152,7 +156,7 @@ class CipherPuzzle : ObservableObject {
 
     
     var letterCount : [(Character, Int)] {
-        guard let currentPuzzle = currentPuzzle else {return []}
+        //guard let currentPuzzle = currentPuzzle else {return []}
         
         var output : [(character:Character, count:Int)] = []
         
@@ -170,7 +174,7 @@ class CipherPuzzle : ObservableObject {
     }
     
     func plaintext(for ciphertext : Character) -> Character?{
-        if let plaintextCharacter = currentPuzzle!.usersGuesses[String(ciphertext)] {
+        if let plaintextCharacter = currentPuzzle.usersGuesses[String(ciphertext)] {
             return Character(plaintextCharacter)
         }
         return nil
@@ -182,6 +186,7 @@ class CipherPuzzle : ObservableObject {
 struct PuzzleTitle : Identifiable, Hashable {
     var id : Int
     var title : String
+    var isSolved : Bool
 }
 
 struct GameInfo : Hashable, Identifiable {

@@ -183,7 +183,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AA9766C02601651E0076B879 /* Build configuration list for PBXNativeTarget "CipherGame" */;
 			buildPhases = (
-				AAEE3AB4261A5A39008E2233 /* SwiftLint */,
 				AA9766972601651A0076B879 /* Sources */,
 				AA9766982601651A0076B879 /* Frameworks */,
 				AA9766992601651A0076B879 /* Resources */,
@@ -303,27 +302,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		AAEE3AB4261A5A39008E2233 /* SwiftLint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = SwiftLint;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		AA9766972601651A0076B879 /* Sources */ = {

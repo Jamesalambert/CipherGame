@@ -10,7 +10,7 @@ import Foundation
 
 struct Game {
     
-    static let bookNames = ["Rebecca's Garden"]
+    static let bookNames = ["puzzles", "Rebecca's Garden"]
     
     //MARK: - public
     private(set)
@@ -201,6 +201,7 @@ struct Book : Hashable, Codable{
     var title : String
     var puzzles : [Puzzle]
     var id = UUID()
+    var isSolved : Bool = false
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
