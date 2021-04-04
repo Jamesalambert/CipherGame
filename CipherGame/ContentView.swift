@@ -67,11 +67,11 @@ struct ContentView: View {
         var difficultyButtonTitle : String {
             switch viewModel.difficultyLevel {
             case 0:
-                return "easy"
+                return "🍸"
             case 1:
-                return "medium"
+                return "🍷"
             default:
-                return "hard"
+                return "☕️"
             }
         }
         
@@ -226,35 +226,36 @@ struct ContentView: View {
         var body : some View {
             
             VStack{
-                    Text(String(cipherTextLetter))
-                        .gesture(plaintextLabelTap)
-                        .fixedSize()
+                Text(String(cipherTextLetter))
+                    .gesture(plaintextLabelTap)
+                    .fixedSize()
+                
+                Spacer()
+                
+                if wasTapped, userMadeASelection {
                     
-                    Spacer()
+                    NewTextField(letterGuess: $viewModel.userGuess,
+                                    wasTapped: $wasTapped,
+                                    textColor: UIColor(Color.highlightColor(for: colorScheme)),
+                                    capType: $viewModel.capType)
                     
-                    if wasTapped, userMadeASelection {
-                        
-                        NewTextField(letterGuess: $viewModel.userGuess,
-                                        wasTapped: $wasTapped,
-                                        textColor: UIColor(Color.highlightColor(for: colorScheme)),
-                                        capType: $viewModel.capType)
-                        
-                    } else {
-                        Text(plainTextLetter.string())
-                                .gesture(plaintextLabelTap)
-                                .foregroundColor(Color.plaintext(for: colorScheme))
-                                .fixedSize()
+                } else {
+                    Text(plainTextLetter.string())
+                            .gesture(plaintextLabelTap)
+                            .foregroundColor(Color.plaintext(for: colorScheme))
+                            .fixedSize()
                             .transition(.slide)
-                    }
                 }
-                .overlay(Rectangle()
-                            .frame(width: 30, height: 1, alignment: .bottom)
-                            .foregroundColor(.gray),
-                            alignment: .bottom )
-                .padding(.top)
-                .font(.system(.title, design: viewModel.fontDesign))
-                .foregroundColor(foregroundColor(for: colorScheme))
-                .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
+            }
+            .overlay(Rectangle()
+                        .frame(width: 30, height: 1, alignment: .bottom)
+                        .foregroundColor(Color.plaintext(for: colorScheme)),
+                        alignment: .bottom )
+            .padding(.top)
+            .font(.system(.title, design: viewModel.fontDesign))
+            .foregroundColor(foregroundColor(for: colorScheme))
+            .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
+
         }
         
         private
