@@ -24,14 +24,16 @@
     }
     
     #letterCount {
+        font-size: small;
         border-collapse: collapse;
         border-top: 1.5px solid black;
         border-bottom: 1.5px solid black;
     }
 
     #letterCount td{
+        min-width: 3mm;
         border-bottom: 0.5px solid gray;
-        padding: 0.1cm 0.1cm 0.1cm 0.1cm;
+        padding: 0.1cm 0.05cm 0.1cm 0.05cm;
     }
     
     #characters td {
