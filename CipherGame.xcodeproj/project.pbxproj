@@ -24,6 +24,7 @@
 		AAE626EB261663EF004BF125 /* puzzles.json in Resources */ = {isa = PBXBuildFile; fileRef = AAE626EA261663EF004BF125 /* puzzles.json */; };
 		AAE6270D2617ED50004BF125 /* Rebecca's Garden.json in Resources */ = {isa = PBXBuildFile; fileRef = AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */; };
 		AAEE3AEC261A813A008E2233 /* ContentView + CipherSolverPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */; };
+		AAEE3AF7261B8676008E2233 /* lessons.json in Resources */ = {isa = PBXBuildFile; fileRef = AAEE3AF6261B8676008E2233 /* lessons.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +68,7 @@
 		AAE626EA261663EF004BF125 /* puzzles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = puzzles.json; sourceTree = "<group>"; };
 		AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Rebecca's Garden.json"; sourceTree = "<group>"; };
 		AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + CipherSolverPage.swift"; sourceTree = "<group>"; };
+		AAEE3AF6261B8676008E2233 /* lessons.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lessons.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				AAE626EA261663EF004BF125 /* puzzles.json */,
+				AAEE3AF6261B8676008E2233 /* lessons.json */,
 				AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */,
 			);
 			path = puzzles;
@@ -287,6 +290,7 @@
 				AAE6270D2617ED50004BF125 /* Rebecca's Garden.json in Resources */,
 				AA5D867D2614F680008D3B44 /* CipherPrint.css in Resources */,
 				AA9766A32601651D0076B879 /* Assets.xcassets in Resources */,
+				AAEE3AF7261B8676008E2233 /* lessons.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

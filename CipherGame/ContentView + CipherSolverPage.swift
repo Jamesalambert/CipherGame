@@ -76,17 +76,25 @@ extension ContentView {
                 
                     
                     ScrollView {
-                        LazyVGrid(columns: columns(screenWidth: geometry.size.width) ,spacing: 0, pinnedViews: [.sectionHeaders]) {
-                            ForEach(viewModel.data){ cipherPair in
-                                    CipherSolverCharacterPair(
-                                        userMadeASelection: $userMadeASelection,
-                                        cipherTextLetter: cipherPair.cipherLetter,
-                                        plainTextLetter: cipherPair.userGuessLetter,
-                                        indexInTheCipher: cipherPair.id)
+                        
+                        VStack(alignment: .leading, spacing: nil){
+                            Text(viewModel.headerText).fixedSize(horizontal: false, vertical: true)
+                            Spacer().frame(height: geometry.size.height/20)
+                            LazyVGrid(columns: columns(screenWidth: geometry.size.width) ,spacing: 0, pinnedViews: [.sectionHeaders]) {
+                                ForEach(viewModel.data){ cipherPair in
+                                        CipherSolverCharacterPair(
+                                            userMadeASelection: $userMadeASelection,
+                                            cipherTextLetter: cipherPair.cipherLetter,
+                                            plainTextLetter: cipherPair.userGuessLetter,
+                                            indexInTheCipher: cipherPair.id)
+                                }
                             }
+                            Spacer().frame(height: geometry.size.height/20)
+                            Text(viewModel.footerText)
                         }
+
                     }.gesture(scrollViewTap)
-                    .padding(.top, geometry.size.height/20)
+                    .padding(.all, geometry.size.height/20)
                     
                     LetterCount(letterCount: viewModel.letterCount)
                         .frame(width: geometry.size.width, height: 100, alignment: .bottom)

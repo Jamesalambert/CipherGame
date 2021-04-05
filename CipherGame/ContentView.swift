@@ -21,28 +21,63 @@ struct ContentView: View {
                 List{
                     ForEach(viewModel.availableBooks){ bookTitle in
                         
-                        Section(header: Text(bookTitle.title)
-                                    .font(.system(.title))){
-                            ForEach(viewModel.puzzleTitles(for: bookTitle.id)){ puzzleTitle in
+                        Section(header: bookSectionLabel(for: bookTitle) ){
+                            
+                            if !viewModel.hiddenBookHashes.contains(bookTitle.hashValue){
+                                ForEach(viewModel.puzzleTitles(for: bookTitle.id)){ puzzleTitle in
 
-                                NavigationLink(destination: CipherSolverPage()
-                                                            .navigationTitle(puzzleTitle.title),
-                                               tag: puzzleTitle.id,
-                                               selection: $viewModel.currentPuzzleHash){
-                                    
-                                    if puzzleTitle.isSolved {
-                                        label(for: puzzleTitle)
-                                            .labelStyle(DefaultLabelStyle())
-                                    } else {
-                                        label(for: puzzleTitle)
-                                            .labelStyle(TitleOnlyLabelStyle())
-                                    }
+                                    NavigationLink(destination: CipherSolverPage()
+                                                                .navigationTitle(puzzleTitle.title),
+                                                   tag: puzzleTitle.id,
+                                                   selection: $viewModel.currentPuzzleHash){
+                                        
+                                        if puzzleTitle.isSolved {
+                                            label(for: puzzleTitle)
+                                                .labelStyle(DefaultLabelStyle())
+                                        } else {
+                                            label(for: puzzleTitle)
+                                                .labelStyle(TitleOnlyLabelStyle())
+                                        }
+                                    }.transition(.slide)
                                 }
                             }
                         }
                     }
                 }
             }.environmentObject(viewModel)
+    }
+    
+    @ViewBuilder
+    private
+    func bookSectionLabel(for bookTitle : PuzzleTitle) -> some View{
+        HStack{
+            if viewModel.hiddenBookHashes.contains(bookTitle.hashValue){
+                Button(action: {show(bookHash: bookTitle.hashValue)}){
+                    Label("show", systemImage: "arrowtriangle.right.fill")
+                        .labelStyle(IconOnlyLabelStyle())
+                }
+            } else {
+                Button(action: {hide(bookHash: bookTitle.hashValue)}){
+                    Label("show", systemImage: "arrowtriangle.down.fill")
+                        .labelStyle(IconOnlyLabelStyle())
+                }
+            }
+            Text(bookTitle.title).font(.system(.title))
+            Spacer()
+        }
+    }
+    
+    private
+    func hide(bookHash : Int){
+        withAnimation{
+            viewModel.hiddenBookHashes.append(bookHash)
+        }
+    }
+    private
+    func show(bookHash : Int) {
+        withAnimation{
+            viewModel.hiddenBookHashes.removeAll(where: {$0 == bookHash})
+        }
     }
     
     private

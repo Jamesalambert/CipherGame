@@ -18,6 +18,9 @@ class CipherPuzzle : ObservableObject {
     var currentPuzzleHash : Int?
     
     @Published
+    var hiddenBookHashes : [Int] = []
+    
+    @Published
     var currentCiphertextCharacter : Character? = nil {
         didSet {
             if let current = currentCiphertextCharacter, current.isUppercase {
@@ -48,11 +51,11 @@ class CipherPuzzle : ObservableObject {
     
     var currentPuzzle : Puzzle {
         guard let currentPuzzleHash = self.currentPuzzleHash else {
-            return Puzzle(title: "?", plaintext: "?", keyAlphabet: "a")}
+            return Puzzle(title: "?", plaintext: "?",header: "?", footer: "?", keyAlphabet: "a")}
         
         let puzzles = model.books.map{book in book.puzzles}.joined()
         
-        guard let currentPuzzle = puzzles.first(where: {$0.hashValue == currentPuzzleHash}) else {return Puzzle(title: "?", plaintext: "?", keyAlphabet: "a")}
+        guard let currentPuzzle = puzzles.first(where: {$0.hashValue == currentPuzzleHash}) else {return Puzzle(title: "?", plaintext: "?",header: "?", footer: "?", keyAlphabet: "a")}
         
         return currentPuzzle
     }
@@ -67,7 +70,14 @@ class CipherPuzzle : ObservableObject {
         }
         return out
     }
-
+    
+    var headerText : String {
+        return currentPuzzle.header
+    }
+    
+    var footerText : String {
+        return currentPuzzle.footer
+    }
     
     func puzzleTitles(for bookHash : Int) -> [PuzzleTitle] {
         guard let book = model.books.first(where: {book in book.hashValue == bookHash}) else {return []}
@@ -82,6 +92,8 @@ class CipherPuzzle : ObservableObject {
         
         return puzzle.isSolved
     }
+    
+   
     
     var userGuess : Character? {
         

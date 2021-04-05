@@ -10,7 +10,7 @@ import Foundation
 
 struct Game {
     
-    static let bookNames = ["puzzles", "Rebecca's Garden"]
+    static let bookNames = ["lessons","puzzles", "Rebecca's Garden"]
     
     //MARK: - public
     private(set)
@@ -73,6 +73,8 @@ struct Game {
                     let newPuzzles = puzzles.map{ puzzle in
                         Puzzle(title: puzzle.title,
                                plaintext: puzzle.plaintext,
+                               header: puzzle.header,
+                               footer: puzzle.footer,
                                keyAlphabet: puzzle.keyAlphabet)
                         }
                     
@@ -103,6 +105,8 @@ struct Puzzle : Hashable, Codable{
     var title : String
     var ciphertext : String
     var plaintext : String
+    var header : String
+    var footer : String
     var keyAlphabet : String        //the original key alphabet, use for encrypting
     var solution : String          //what the user needs to figure out (the message may not use all letters)
     var isSolved : Bool {
@@ -126,7 +130,7 @@ struct Puzzle : Hashable, Codable{
         hasher.combine(id)
     }
     
-    init(title : String, plaintext: String, keyAlphabet : String){
+    init(title : String, plaintext: String, header: String, footer : String, keyAlphabet : String){
         
         //Helper functions
         func letterCount(in ciphertext : String) -> [String : Int]{
@@ -175,6 +179,8 @@ struct Puzzle : Hashable, Codable{
         self.title = title
         self.keyAlphabet = keyAlphabet
         self.plaintext = plaintext.lowercased()
+        self.header = header
+        self.footer = footer
         
         //remove whitespace except spaces
         var removeChars = CharacterSet.whitespacesAndNewlines
@@ -211,7 +217,9 @@ struct Book : Hashable, Codable{
 
 struct ReadablePuzzle : Codable {
     var title : String
+    var header: String
     var plaintext : String
+    var footer : String
     var keyAlphabet : String
 }
 
