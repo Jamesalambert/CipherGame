@@ -17,76 +17,31 @@ struct ContentView: View {
     
     var body: some View {
         
-            NavigationView {
-                List{
-                    ForEach(viewModel.availableBooks){ bookTitle in
+        NavigationView {
+            List{
+                ForEach(viewModel.availableBooks){ bookTitle in
+                    
+                    Section(header: Text(bookTitle.title).font(.system(.title))){
                         
-                        Section(header: bookSectionLabel(for: bookTitle) ){
+                        ForEach(viewModel.puzzleTitles(for: bookTitle.id)){ puzzleTitle in
                             
-                            if !viewModel.hiddenBookHashes.contains(bookTitle.hashValue){
-                                ForEach(viewModel.puzzleTitles(for: bookTitle.id)){ puzzleTitle in
-
-                                    NavigationLink(destination: CipherSolverPage()
-                                                                .navigationTitle(puzzleTitle.title),
-                                                   tag: puzzleTitle.id,
-                                                   selection: $viewModel.currentPuzzleHash){
-                                        
-                                        if puzzleTitle.isSolved {
-                                            label(for: puzzleTitle)
-                                                .labelStyle(DefaultLabelStyle())
-                                        } else {
-                                            label(for: puzzleTitle)
-                                                .labelStyle(TitleOnlyLabelStyle())
-                                        }
-                                    }.transition(.slide)
+                            NavigationLink(destination: CipherSolverPage()
+                                            .navigationTitle(puzzleTitle.title),
+                                           tag: puzzleTitle.id,
+                                           selection: $viewModel.currentPuzzleHash){
+                                Text(puzzleTitle.title)
+                                
+                                if puzzleTitle.isSolved{
+                                    Image(systemName: "checkmark.circle")
+                                        .foregroundColor(Color.highlightColor(for: colorScheme))
                                 }
-                            }
+                            }.transition(.slide)
                         }
                     }
                 }
-            }.environmentObject(viewModel)
+            }.listStyle(SidebarListStyle())
+        }.environmentObject(viewModel)
     }
-    
-    @ViewBuilder
-    private
-    func bookSectionLabel(for bookTitle : PuzzleTitle) -> some View{
-        HStack{
-            if viewModel.hiddenBookHashes.contains(bookTitle.hashValue){
-                Button(action: {show(bookHash: bookTitle.hashValue)}){
-                    Label("show", systemImage: "arrowtriangle.right.fill")
-                        .labelStyle(IconOnlyLabelStyle())
-                }
-            } else {
-                Button(action: {hide(bookHash: bookTitle.hashValue)}){
-                    Label("show", systemImage: "arrowtriangle.down.fill")
-                        .labelStyle(IconOnlyLabelStyle())
-                }
-            }
-            Text(bookTitle.title).font(.system(.title))
-            Spacer()
-        }
-    }
-    
-    private
-    func hide(bookHash : Int){
-        withAnimation{
-            viewModel.hiddenBookHashes.append(bookHash)
-        }
-    }
-    private
-    func show(bookHash : Int) {
-        withAnimation{
-            viewModel.hiddenBookHashes.removeAll(where: {$0 == bookHash})
-        }
-    }
-    
-    private
-    func label(for puzzleTitle : PuzzleTitle) -> some View {
-        let label = Label(puzzleTitle.title,
-                          systemImage: "checkmark.circle.fill")
-            .accentColor(Color.highlightColor(for: colorScheme))
-        return label
-    }    
 }
 
     

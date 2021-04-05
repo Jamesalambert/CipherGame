@@ -18,9 +18,6 @@ class CipherPuzzle : ObservableObject {
     var currentPuzzleHash : Int?
     
     @Published
-    var hiddenBookHashes : [Int] = []
-    
-    @Published
     var currentCiphertextCharacter : Character? = nil {
         didSet {
             if let current = currentCiphertextCharacter, current.isUppercase {
