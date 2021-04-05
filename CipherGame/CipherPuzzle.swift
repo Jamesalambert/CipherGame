@@ -44,6 +44,9 @@ class CipherPuzzle : ObservableObject {
     @Published
     var fontDesign : Font.Design = .monospaced
         
+    @Published
+    var showLessons : Bool = true
+    
     //MARK: - public API
     
     var currentPuzzle : Puzzle {
@@ -60,7 +63,12 @@ class CipherPuzzle : ObservableObject {
     var availableBooks : [PuzzleTitle]{
         var out : [PuzzleTitle] = []
         
-        for book in model.books {
+        var books = model.books
+        if !showLessons {
+            books.removeAll(where: {$0.title == "lessons"})
+        }
+        
+        for book in books {
             out.append(PuzzleTitle(id: book.hashValue,
                                    title: book.title,
                                    isSolved: book.isSolved))

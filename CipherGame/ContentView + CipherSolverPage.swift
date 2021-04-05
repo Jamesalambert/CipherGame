@@ -118,7 +118,6 @@ extension ContentView {
                                 Text("lowercase").tag(0)
                             }
                             
-                            
                             Picker("font style", selection: $viewModel.fontDesign){
                                 Text("typewriter").tag(Font.Design.monospaced)
                                 Text("rounded").tag(Font.Design.rounded)
@@ -137,6 +136,7 @@ extension ContentView {
                 }
             }
         }
+        
         
         private
         func columns(screenWidth : CGFloat) -> [GridItem] {
