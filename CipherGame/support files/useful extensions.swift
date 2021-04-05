@@ -43,7 +43,7 @@ extension Color {
     static
     func highlightColor(for colorScheme : ColorScheme) -> Color{
         if colorScheme == .light {
-            return blue
+            return orange
         } else {
             return blue
         }

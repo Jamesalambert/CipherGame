@@ -38,21 +38,25 @@ extension CipherPuzzle{
         output += CipherPuzzle.cssStyling.replacingOccurrences(of: "@@@", with: self.fontDesign.cssName())
         
         output += "\n<h1>\(String(currentPuzzle.title.capitalized))</h1>\n"
+        
         output += HTMLletterCountTable
         
-        output += "\n<table id='ciphertext'>\n"
+        output += "<p class='text'>" + self.currentPuzzle.header + "</p>"
         
+        output += "\n<table id='ciphertext'>\n"
         for line in 0..<numberOfLines {
             let start = line * CipherPuzzle.charsPerLine
             let end  = line * CipherPuzzle.charsPerLine + (line == numberOfLines - 1 ? charsOnLastLine - 1 : CipherPuzzle.charsPerLine)
 
             output += htmlPuzzleRow(from: cipherChars[start...end], secondArray: userGuesses[start...end], withClass: "row", id: nil)
         }
-
         output += "\n</table>\n"
+
+        output += "<p class='text'>" + self.currentPuzzle.footer + "</p>"
+
         output += "\n</html>\n"
         
-//        print(output)
+        print(output)
         return output
         
     }

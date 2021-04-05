@@ -21,7 +21,7 @@ struct ContentView: View {
             List{
                 ForEach(viewModel.availableBooks){ bookTitle in
                     
-                    Section(header: Text(bookTitle.title).font(.system(.title))){
+                    Section(header: Text(bookTitle.title.capitalized).font(.system(.title))){
                         
                         ForEach(viewModel.puzzleTitles(for: bookTitle.id)){ puzzleTitle in
                             
