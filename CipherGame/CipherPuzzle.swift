@@ -12,10 +12,10 @@ class CipherPuzzle : ObservableObject {
         
     @Published
     private
-    var model : Game = Game()
+    var model : Game
     
     @Published
-    var currentPuzzleHash : Int?
+    var currentPuzzleHash : UUID?
     
     @Published
     var currentCiphertextCharacter : Character? = nil {
@@ -51,11 +51,12 @@ class CipherPuzzle : ObservableObject {
     
     var currentPuzzle : Puzzle {
         guard let currentPuzzleHash = self.currentPuzzleHash else {
-            return Puzzle(title: "?", plaintext: "?",header: "?", footer: "?", keyAlphabet: "a")}
+            return Puzzle(title: "?", plaintext: "?",header: "?", footer: "?", keyAlphabet: "a", id: UUID())}
         
         let puzzles = model.books.map{book in book.puzzles}.joined()
         
-        guard let currentPuzzle = puzzles.first(where: {$0.hashValue == currentPuzzleHash}) else {return Puzzle(title: "?", plaintext: "?",header: "?", footer: "?", keyAlphabet: "a")}
+        guard let currentPuzzle = puzzles.first(where: {$0.id == currentPuzzleHash}) else {
+            return Puzzle(title: "?", plaintext: "?",header: "?", footer: "?", keyAlphabet: "a", id: UUID())}
         
         return currentPuzzle
     }
@@ -69,7 +70,7 @@ class CipherPuzzle : ObservableObject {
         }
         
         for book in books {
-            out.append(PuzzleTitle(id: book.hashValue,
+            out.append(PuzzleTitle(id: book.id,
                                    title: book.title,
                                    isSolved: book.isSolved))
         }
@@ -84,16 +85,16 @@ class CipherPuzzle : ObservableObject {
         return currentPuzzle.footer
     }
     
-    func puzzleTitles(for bookHash : Int) -> [PuzzleTitle] {
-        guard let book = model.books.first(where: {book in book.hashValue == bookHash}) else {return []}
-        return book.puzzles.map{puzzle in PuzzleTitle(id: puzzle.hashValue,
+    func puzzleTitles(for bookHash : UUID) -> [PuzzleTitle] {
+        guard let book = model.books.first(where: {book in book.id == bookHash}) else {return []}
+        return book.puzzles.map{puzzle in PuzzleTitle(id: puzzle.id,
                                                       title: puzzle.title,
                                                       isSolved: puzzle.isSolved)}
     }
     
-    func puzzleIsCompleted(hash : Int) -> Bool{
+    func puzzleIsCompleted(hash : UUID) -> Bool{
          guard let puzzle = model.books.map{book in book.puzzles}.joined()
-                .first(where: {puzzle in puzzle.hashValue == hash}) else {return false}
+                .first(where: {puzzle in puzzle.id == hash}) else {return false}
         
         return puzzle.isSolved
     }
@@ -197,11 +198,17 @@ class CipherPuzzle : ObservableObject {
         return nil
     }
     
+    init() {
+        self.model = Game()
+        self.currentPuzzleHash = self.model.firstHash
+    }
+    
+    
     
 }
 
 struct PuzzleTitle : Identifiable, Hashable {
-    var id : Int
+    var id : UUID
     var title : String
     var isSolved : Bool
 }

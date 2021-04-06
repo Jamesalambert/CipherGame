@@ -106,7 +106,7 @@ extension ContentView {
                     ToolbarItem(placement: .navigationBarTrailing){
                         Button(self.difficultyButtonTitle){
                             withAnimation{
-                                viewModel.difficultyLevel = (viewModel.difficultyLevel + 1) % 3
+                                viewModel.difficultyLevel = (viewModel.difficultyLevel + 1) % UInt(viewModel.gameRules.count)
                             }
                         }
                     }

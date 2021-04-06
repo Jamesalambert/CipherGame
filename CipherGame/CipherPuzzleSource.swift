@@ -11,10 +11,12 @@ import Foundation
 struct Game {
     
     static let bookNames = ["lessons","puzzles", "Rebecca's Garden"]
+    static let firstPuzzle = (book: "lessons", puzzle: "pattern words")
     
     //MARK: - public
     private(set)
     var books : [Book]
+    var firstHash : UUID?
     
     mutating
     func updateUsersGuesses(cipherCharacter : Character,
@@ -69,26 +71,37 @@ struct Game {
                 if let data = try String(contentsOf: JSONurl).data(using: .utf8) {
                     
                     let puzzles = try JSONDecoder().decode([ReadablePuzzle].self, from: data)
-                    
+
                     let newPuzzles = puzzles.map{ puzzle in
+                        
                         Puzzle(title: puzzle.title,
                                plaintext: puzzle.plaintext,
                                header: puzzle.header,
                                footer: puzzle.footer,
-                               keyAlphabet: puzzle.keyAlphabet)
+                               keyAlphabet: puzzle.keyAlphabet,
+                               id: id(for: puzzle.title, in: bookName))
                         }
                     
                     self.books.append(Book(title: bookName, puzzles: newPuzzles))
                 }
             }
             catch {
-                print("error Couldn't read inut json file \(JSONurl)")
+                print("error Couldn't read input json file \(JSONurl)")
             }
         }
-        
-        
     }
     
+    private
+    mutating
+    func id(for puzzleTitle : String, in bookTitle : String) -> UUID {
+        
+        let id = UUID()
+        
+        if Game.firstPuzzle.book == bookTitle && Game.firstPuzzle.puzzle == puzzleTitle {
+            firstHash = id
+        }
+        return id
+    }
     
     
 }
@@ -121,7 +134,7 @@ struct Puzzle : Hashable, Codable{
         
         return guesses == solution
     }
-    var id = UUID()
+    var id : UUID
     var usersGuesses : [String : String] = Dictionary()
     var guessIndices : [String : Set<Int>] = Dictionary()
     var letterCount : [String : Int]
@@ -130,7 +143,7 @@ struct Puzzle : Hashable, Codable{
         hasher.combine(id)
     }
     
-    init(title : String, plaintext: String, header: String, footer : String, keyAlphabet : String){
+    init(title : String, plaintext: String, header: String, footer : String, keyAlphabet : String, id: UUID){
         
         //Helper functions
         func letterCount(in ciphertext : String) -> [String : Int]{
@@ -181,6 +194,7 @@ struct Puzzle : Hashable, Codable{
         self.plaintext = plaintext.lowercased()
         self.header = header
         self.footer = footer
+        self.id = id
         
         //remove whitespace except spaces
         var removeChars = CharacterSet.whitespacesAndNewlines

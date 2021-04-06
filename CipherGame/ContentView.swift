@@ -62,7 +62,7 @@ struct ContentView: View {
             }.alert(isPresented: $deletingLessons){
                 Alert(title: Text("Hide lessons?"),
                       message: Text("you can undo this in settings"),
-                      dismissButton: .destructive(Text("Hide them.")){
+                      dismissButton: .default(Text("Hide them.")){
                     withAnimation{
                         viewModel.showLessons = false
                     }
