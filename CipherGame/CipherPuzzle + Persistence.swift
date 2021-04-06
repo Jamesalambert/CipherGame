@@ -25,19 +25,16 @@ extension CipherPuzzle {
     
     func load() {
         DispatchQueue.global(qos: .background).async { [weak self] in
-            guard let data = try? Data(contentsOf: Self.fileURL) else {
-                //first time running we init the model using the code in the appBundle
-                DispatchQueue.main.async {
-                    self?.model = Game()
-                    self?.currentPuzzleHash = self?.model.lastOpenPuzzleHash
-                }
-                return
-            }
+            
+            //if this fails we fall back to the blank Game() inited by the viewModel
+            guard let data = try? Data(contentsOf: Self.fileURL) else {return}
+            
             guard let savedGame = try? JSONDecoder().decode(Game.self, from: data) else {
                 fatalError("couldn't decode data to type 'Game'")
             }
             DispatchQueue.main.async {
                 self?.model = savedGame
+                //set last open puzzle to the current one.
                 self?.currentPuzzleHash = self?.model.lastOpenPuzzleHash
             }
         }
@@ -48,14 +45,9 @@ extension CipherPuzzle {
             guard let model = self?.model else {
                 fatalError("couldn't get data to save")
             }
-            
-            var modelState = model
-            modelState.lastOpenPuzzleHash = self?.currentPuzzleHash
-            
-            guard let dataToSave = try? JSONEncoder().encode(modelState) else {
+            guard let dataToSave = try? JSONEncoder().encode(model) else {
                 fatalError("couldn't encode game data")
             }
-            
             do{
                 let outfile = Self.fileURL
                 try dataToSave.write(to: outfile)

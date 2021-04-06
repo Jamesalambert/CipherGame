@@ -16,7 +16,9 @@ class CipherPuzzle : ObservableObject {
     @Published
     var currentPuzzleHash : UUID?{
         didSet{
-            model.lastOpenPuzzleHash = currentPuzzleHash
+            if let currentPuzzleHash = currentPuzzleHash {
+                model.lastOpenPuzzleHash = currentPuzzleHash
+            }
         }
     }
     
