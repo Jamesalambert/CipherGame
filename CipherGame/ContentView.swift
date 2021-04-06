@@ -10,10 +10,15 @@ import SwiftUI
 struct ContentView: View {
     
     @StateObject
-    var viewModel = CipherPuzzle()
-    
+    var viewModel : CipherPuzzle //= CipherPuzzle()
+        
     @Environment(\.colorScheme)
     var colorScheme : ColorScheme
+    
+    @Environment(\.scenePhase)
+    var scenePhase : ScenePhase
+    
+    let saveAction : () -> Void
     
     @State
     private
@@ -47,6 +52,11 @@ struct ContentView: View {
             }.listStyle(GroupedListStyle())
             .toolbar{toolbar()}
         }.environmentObject(viewModel)
+        .onChange(of: scenePhase) { phase in
+            if phase == .inactive {
+                saveAction()
+            }
+        }
     }
     
     @ViewBuilder
@@ -91,7 +101,7 @@ struct ContentView_Previews: PreviewProvider {
         
         let game = CipherPuzzle()
         Group {
-            ContentView(viewModel: game)
+            ContentView(viewModel: game, saveAction: {})
         }
     }
 }

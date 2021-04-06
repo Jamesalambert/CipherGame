@@ -25,6 +25,7 @@
 		AAE6270D2617ED50004BF125 /* Rebecca's Garden.json in Resources */ = {isa = PBXBuildFile; fileRef = AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */; };
 		AAEE3AEC261A813A008E2233 /* ContentView + CipherSolverPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */; };
 		AAEE3AF7261B8676008E2233 /* lessons.json in Resources */ = {isa = PBXBuildFile; fileRef = AAEE3AF6261B8676008E2233 /* lessons.json */; };
+		AAEE3B11261CEE30008E2233 /* CipherPuzzle + Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEE3B10261CEE30008E2233 /* CipherPuzzle + Persistence.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Rebecca's Garden.json"; sourceTree = "<group>"; };
 		AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + CipherSolverPage.swift"; sourceTree = "<group>"; };
 		AAEE3AF6261B8676008E2233 /* lessons.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lessons.json; sourceTree = "<group>"; };
+		AAEE3B10261CEE30008E2233 /* CipherPuzzle + Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle + Persistence.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,6 +137,7 @@
 				AA3ED4462611493300B25B4A /* ContentView + letter count.swift */,
 				AA8F640B26053E2E005B148F /* UITextFieldView.swift */,
 				AA9766D126016EB60076B879 /* CipherPuzzle.swift */,
+				AAEE3B10261CEE30008E2233 /* CipherPuzzle + Persistence.swift */,
 				AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */,
 				AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */,
 				AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */,
@@ -323,6 +326,7 @@
 				AA3ED4472611493300B25B4A /* ContentView + letter count.swift in Sources */,
 				AA8F640C26053E2E005B148F /* UITextFieldView.swift in Sources */,
 				AA31EAAE260BE3E80031D56C /* CipherPuzzle+Difficulty.swift in Sources */,
+				AAEE3B11261CEE30008E2233 /* CipherPuzzle + Persistence.swift in Sources */,
 				AA31EAB4260BE5370031D56C /* useful extensions.swift in Sources */,
 				AA9766D226016EB60076B879 /* CipherPuzzle.swift in Sources */,
 			);

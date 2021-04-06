@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct Game {
+struct Game : Codable {
     
     static let bookNames = ["lessons", "Rebecca's Garden"]
     static let firstPuzzle = (book: "lessons", puzzle: "pattern words")

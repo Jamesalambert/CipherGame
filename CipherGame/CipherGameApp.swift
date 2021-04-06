@@ -10,9 +10,17 @@ import SwiftUI
 @main
 struct CipherGameApp: App {
     
+    @ObservedObject private var viewModel = CipherPuzzle()
+    
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ContentView(viewModel: viewModel){
+                //this is the saveAction being inited by a trailing closure
+                viewModel.save()
+            }
+                .onAppear{
+                    viewModel.load()
+                }
         }
     }
 }

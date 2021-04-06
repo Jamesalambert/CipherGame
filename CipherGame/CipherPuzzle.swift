@@ -11,7 +11,7 @@ import SwiftUI
 class CipherPuzzle : ObservableObject {
         
     @Published
-    private
+    
     var model : Game
     
     @Published

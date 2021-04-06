@@ -23,8 +23,6 @@ class CipherGameTests: XCTestCase {
         // This is an example of a performance test case.
         let cipherPuzzleViewModel = CipherPuzzle()
         
-        //cipherPuzzleViewModel.currentPuzzleHash = cipherPuzzleViewModel.puzzleTitles(for: 0).first?.id
-
         self.measure {
             let _ = cipherPuzzleViewModel.data
         }
@@ -33,9 +31,7 @@ class CipherGameTests: XCTestCase {
     func testLoadPuzzleUI() throws {
         
         let cipherPuzzleViewModel = CipherPuzzle()
-        
-        //cipherPuzzleViewModel.currentPuzzleHash = cipherPuzzleViewModel.puzzleTitles(for: 0).first?.id
-        
+                
         self.measure {
             let _ = ContentView(viewModel: cipherPuzzleViewModel)
         }
@@ -44,6 +40,7 @@ class CipherGameTests: XCTestCase {
     func testPuzzles() throws {
         let puzzleModel = Game()
         
+        //make sure there's a first puzzle
         assert(puzzleModel.firstHash != nil)
         
         let puzzles = puzzleModel.books.flatMap{book in book.puzzles}
