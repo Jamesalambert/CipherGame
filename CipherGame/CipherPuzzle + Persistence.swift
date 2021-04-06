@@ -26,12 +26,11 @@ extension CipherPuzzle {
     func load() {
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let data = try? Data(contentsOf: Self.fileURL) else {
-                //for non-release builds we init the model using the code in the appBundle
-                #if DEBUG
+                //first time running we init the model using the code in the appBundle
                 DispatchQueue.main.async {
                     self?.model = Game()
+                    self?.currentPuzzleHash = self?.model.lastOpenPuzzleHash
                 }
-                #endif
                 return
             }
             guard let savedGame = try? JSONDecoder().decode(Game.self, from: data) else {
@@ -39,6 +38,7 @@ extension CipherPuzzle {
             }
             DispatchQueue.main.async {
                 self?.model = savedGame
+                self?.currentPuzzleHash = self?.model.lastOpenPuzzleHash
             }
         }
     }
@@ -48,7 +48,11 @@ extension CipherPuzzle {
             guard let model = self?.model else {
                 fatalError("couldn't get data to save")
             }
-            guard let dataToSave = try? JSONEncoder().encode(model) else {
+            
+            var modelState = model
+            modelState.lastOpenPuzzleHash = self?.currentPuzzleHash
+            
+            guard let dataToSave = try? JSONEncoder().encode(modelState) else {
                 fatalError("couldn't encode game data")
             }
             

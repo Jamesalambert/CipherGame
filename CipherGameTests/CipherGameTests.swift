@@ -41,7 +41,7 @@ class CipherGameTests: XCTestCase {
         let puzzleModel = Game()
         
         //make sure there's a first puzzle
-        assert(puzzleModel.firstHash != nil)
+        assert(puzzleModel.lastOpenPuzzleHash != nil)
         
         let puzzles = puzzleModel.books.flatMap{book in book.puzzles}
         

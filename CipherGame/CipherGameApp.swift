@@ -18,9 +18,9 @@ struct CipherGameApp: App {
                 //this is the saveAction being inited by a trailing closure
                 viewModel.save()
             }
-                .onAppear{
-                    viewModel.load()
-                }
+            .onAppear{
+                viewModel.load()
+            }
         }
     }
 }

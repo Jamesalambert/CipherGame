@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
     @StateObject
-    var viewModel : CipherPuzzle //= CipherPuzzle()
+    var viewModel : CipherPuzzle
         
     @Environment(\.colorScheme)
     var colorScheme : ColorScheme

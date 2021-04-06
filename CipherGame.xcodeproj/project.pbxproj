@@ -103,6 +103,7 @@
 			children = (
 				AAE626E9261663C3004BF125 /* puzzles */,
 				AA5D867C2614F680008D3B44 /* CipherPrint.css */,
+				AA8F640B26053E2E005B148F /* UITextFieldView.swift */,
 				AA31EAB3260BE5370031D56C /* useful extensions.swift */,
 			);
 			path = "support files";
@@ -135,7 +136,6 @@
 				AA9766A02601651A0076B879 /* ContentView.swift */,
 				AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */,
 				AA3ED4462611493300B25B4A /* ContentView + letter count.swift */,
-				AA8F640B26053E2E005B148F /* UITextFieldView.swift */,
 				AA9766D126016EB60076B879 /* CipherPuzzle.swift */,
 				AAEE3B10261CEE30008E2233 /* CipherPuzzle + Persistence.swift */,
 				AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */,

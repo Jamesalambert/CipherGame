@@ -16,7 +16,7 @@ struct Game : Codable {
     //MARK: - public
     private(set)
     var books : [Book]
-    var firstHash : UUID?
+    var lastOpenPuzzleHash : UUID?
     
     mutating
     func updateUsersGuesses(cipherCharacter : Character,
@@ -98,7 +98,7 @@ struct Game : Codable {
         let id = UUID()
         
         if Game.firstPuzzle.book == bookTitle && Game.firstPuzzle.puzzle == puzzleTitle {
-            firstHash = id
+            lastOpenPuzzleHash = id
         }
         return id
     }

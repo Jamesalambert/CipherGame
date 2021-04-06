@@ -11,11 +11,14 @@ import SwiftUI
 class CipherPuzzle : ObservableObject {
         
     @Published
-    
     var model : Game
     
     @Published
-    var currentPuzzleHash : UUID?
+    var currentPuzzleHash : UUID?{
+        didSet{
+            model.lastOpenPuzzleHash = currentPuzzleHash
+        }
+    }
     
     @Published
     var currentCiphertextCharacter : Character? = nil {
@@ -51,12 +54,12 @@ class CipherPuzzle : ObservableObject {
     
     var currentPuzzle : Puzzle {
         guard let currentPuzzleHash = self.currentPuzzleHash else {
-            return Puzzle(title: "?", plaintext: "?",header: "?", footer: "?", keyAlphabet: "a", id: UUID())}
+            return Puzzle(title: "A", plaintext: "A",header: "A", footer: "A", keyAlphabet: "a", id: UUID())}
         
         let puzzles = model.books.map{book in book.puzzles}.joined()
         
         guard let currentPuzzle = puzzles.first(where: {$0.id == currentPuzzleHash}) else {
-            return Puzzle(title: "?", plaintext: "?",header: "?", footer: "?", keyAlphabet: "a", id: UUID())}
+            return Puzzle(title: "!", plaintext: "!",header: "!", footer: "!", keyAlphabet: "a", id: UUID())}
         
         return currentPuzzle
     }
@@ -200,7 +203,7 @@ class CipherPuzzle : ObservableObject {
     
     init() {
         self.model = Game()
-        self.currentPuzzleHash = self.model.firstHash
+        self.currentPuzzleHash = self.model.lastOpenPuzzleHash
     }
     
     
