@@ -10,7 +10,7 @@ import Foundation
 
 struct Game {
     
-    static let bookNames = ["lessons","puzzles", "Rebecca's Garden"]
+    static let bookNames = ["lessons", "Rebecca's Garden"]
     static let firstPuzzle = (book: "lessons", puzzle: "pattern words")
     
     //MARK: - public

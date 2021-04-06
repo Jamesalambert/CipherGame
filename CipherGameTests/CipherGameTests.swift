@@ -23,7 +23,7 @@ class CipherGameTests: XCTestCase {
         // This is an example of a performance test case.
         let cipherPuzzleViewModel = CipherPuzzle()
         
-        cipherPuzzleViewModel.currentPuzzleHash = cipherPuzzleViewModel.puzzleTitles(for: 0).first?.id
+        //cipherPuzzleViewModel.currentPuzzleHash = cipherPuzzleViewModel.puzzleTitles(for: 0).first?.id
 
         self.measure {
             let _ = cipherPuzzleViewModel.data
@@ -34,7 +34,7 @@ class CipherGameTests: XCTestCase {
         
         let cipherPuzzleViewModel = CipherPuzzle()
         
-        cipherPuzzleViewModel.currentPuzzleHash = cipherPuzzleViewModel.puzzleTitles(for: 0).first?.id
+        //cipherPuzzleViewModel.currentPuzzleHash = cipherPuzzleViewModel.puzzleTitles(for: 0).first?.id
         
         self.measure {
             let _ = ContentView(viewModel: cipherPuzzleViewModel)
@@ -44,12 +44,23 @@ class CipherGameTests: XCTestCase {
     func testPuzzles() throws {
         let puzzleModel = Game()
         
+        assert(puzzleModel.firstHash != nil)
+        
         let puzzles = puzzleModel.books.flatMap{book in book.puzzles}
-        //any uppercase?
-        assert(!puzzles.contains(where: {puzzle in puzzle.plaintext.contains(where: {char in char.isUppercase})}))
-        assert(!puzzles.contains(where: {puzzle in puzzle.keyAlphabet.count != 26}))
-        assert(!puzzles.contains(where: {puzzle in puzzle.plaintext.count != puzzle.ciphertext.count}))
-        assert(!puzzles.contains(where: {puzzle in puzzle.plaintext.contains(where: {char in char.isWhitespace && char != " "})}))
+        
+        for puzzle in puzzles {
+            //any uppercase in plaintext?
+            assert(!puzzle.plaintext.contains(where: {char in char.isUppercase}))
+            //key alphabet has 26 chars
+            assert(puzzle.keyAlphabet.count == 26)
+            //plain and ciphertext are equal lengths
+            assert(puzzle.plaintext.count == puzzle.ciphertext.count)
+            //no whitespace except spaces
+            assert(!puzzle.plaintext.contains(where: {char in char.isWhitespace && char != " "}))
+        }
+        
+        
+        
     }
     
 }
