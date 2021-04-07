@@ -17,17 +17,21 @@ extension CipherPuzzle {
                 2 : hardGameInfo]
     }
     
-    func quickHint() -> Void {
-        let alphabet = String.alphabet.map{Character(extendedGraphemeClusterLiteral: $0)}
+    var hintFunction : [Int : () -> Character?]{
+        return [0 : easyHintChar,
+                1 : hardHintChar,
+                2 : hardHintChar]
+    }
     
-        //chars that occur in the cipher arranged alphabetically
-        let cipherLetters = self.letterCount.filter{$0.count != 0}.map{$0.character}.sorted(by: {$0 < $1})
+    func quickHint() -> Void {
+        
+        let alphabet = String.alphabet.map{Character(extendedGraphemeClusterLiteral: $0)}
         
         //dict that maps ciphertext to plaintext
         let plaintextFor = Dictionary(uniqueKeysWithValues: zip(currentPuzzle.keyAlphabet.map{Character(extendedGraphemeClusterLiteral: $0)}, alphabet))
-        
+
         //get alphabetically first unguessed cipher char
-        guard let firstUnguessedCipherChar = cipherLetters.first(where: {!currentPuzzle.usersGuesses.keys.contains(String($0))}) else {return}
+        guard let firstUnguessedCipherChar = hintFunction[Int(difficultyLevel)]?() else {return}
         
         //get location of first occurance of the ciphertext char
         guard let indexInCiphertext = currentPuzzle.ciphertext.firstIndex(of: firstUnguessedCipherChar) else {return}
@@ -45,6 +49,30 @@ extension CipherPuzzle {
                                  in: currentPuzzle,
                                  at: hintIndex)
     }
+    
+    
+    private
+    func easyHintChar() -> Character? {
+        //chars that occur in the cipher arranged alphabetically
+        let cipherLetters = self.letterCount.filter{$0.count != 0}.sorted(by: {$0.count > $1.count}).map{$0.character}
+    
+        //get numerically first unguessed cipher char
+        guard let firstUnguessedCipherChar = cipherLetters.first(where: {!currentPuzzle.usersGuesses.keys.contains(String($0))}) else {return nil}
+        
+        return firstUnguessedCipherChar
+    }
+    
+    private
+    func hardHintChar() -> Character? {
+        //chars that occur in the cipher arranged alphabetically
+        let cipherLetters = self.letterCount.filter{$0.count != 0}.map{$0.character}.sorted(by: {$0 < $1})
+    
+        //get alphabetically first unguessed cipher char
+        guard let firstUnguessedCipherChar = cipherLetters.first(where: {!currentPuzzle.usersGuesses.keys.contains(String($0))}) else {return nil}
+        
+        return firstUnguessedCipherChar
+    }
+    
     
     private
     func easyGameInfo(for ciphertext : Character, at index : Int) -> GameInfo? {
