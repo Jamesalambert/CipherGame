@@ -261,19 +261,22 @@ extension ContentView {
                 
                 Spacer()
                 
-                if wasTapped, userMadeASelection, displayPlaintext {
-                    
-                    NewTextField(letterGuess: $viewModel.userGuess,
-                                    wasTapped: $wasTapped,
-                                    textColor: UIColor(Color.highlightColor(for: colorScheme)),
-                                    capType: $viewModel.capType)
-                    
-                } else {
-                    Text(plainTextLetter.string())
+                ZStack{
+                    if wasTapped, userMadeASelection, displayPlaintext {
+                        
+                        NewTextField(letterGuess: $viewModel.userGuess,
+                                        wasTapped: $wasTapped,
+                                        textColor: UIColor(Color.highlightColor(for: colorScheme)),
+                                        capType: $viewModel.capType)
+                        
+                    } //else {
+                        Text(plainTextLetter.string())
+                            .frame(height : 30)
                             .foregroundColor(Color.plaintext(for: colorScheme))
-                        .frame(height : 30)
+                            .opacity(wasTapped && userMadeASelection && displayPlaintext ? 0 : 1)
                             .fixedSize()
-                            .transition(.slide)
+                            .scaleEffect(plainTextLetter != nil ? 1 : 0)
+                    //}
                 }
             }
             .overlay(Rectangle()
@@ -300,7 +303,7 @@ extension ContentView {
             }
             .overlay(Rectangle()
                         .frame(width: 30, height: 1, alignment: .bottom)
-                        .foregroundColor(Color.plaintext(for: colorScheme)),
+            .foregroundColor(Color.plaintext(for: colorScheme)),
                         alignment: .bottom )
             .padding(.top)
             .font(.system(.title, design: viewModel.fontDesign))
