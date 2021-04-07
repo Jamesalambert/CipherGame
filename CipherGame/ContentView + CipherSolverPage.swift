@@ -269,14 +269,13 @@ extension ContentView {
                                         textColor: UIColor(Color.highlightColor(for: colorScheme)),
                                         capType: $viewModel.capType)
                         
-                    } //else {
+                    }
                         Text(plainTextLetter.string())
                             .frame(height : 30)
                             .foregroundColor(Color.plaintext(for: colorScheme))
                             .opacity(wasTapped && userMadeASelection && displayPlaintext ? 0 : 1)
                             .fixedSize()
-                            .scaleEffect(plainTextLetter != nil ? 1 : 0)
-                    //}
+                            .scaleEffect(plainTextLetter.string() == "" ? 0.1 : 1)
                 }
             }
             .overlay(Rectangle()

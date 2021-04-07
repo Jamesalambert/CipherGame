@@ -34,17 +34,13 @@ struct ContentView: View {
                             footer: bookFooter(for: book)){
                         
                         ForEach(viewModel.puzzleTitles(for: book.id)){ puzzle in
-                            
                             NavigationLink(destination: CipherSolverPage()
                                             .navigationTitle(puzzle.title),
                                            tag: puzzle.id,
                                            selection: $viewModel.currentPuzzleHash){
-                                Text("\(puzzle.index + 1). \(puzzle.title)")
                                 
-                                if puzzle.isSolved{
-                                    Image(systemName: "checkmark.circle")
-                                        .foregroundColor(Color.highlightColor(for: colorScheme))
-                                }
+                                puzzleEntry(for: puzzle)
+                                
                             }.transition(.slide)
                         }
                     }.transition(.slide)
@@ -62,24 +58,43 @@ struct ContentView: View {
     
     @ViewBuilder
     func bookHeader(for bookTitle : PuzzleTitle) -> some View {
-        Text(bookTitle.title.capitalized).font(.system(.title))
+        HStack{
+            Spacer()
+            Text(bookTitle.title.capitalized).font(.system(.title))
+            Spacer()
+        }
+    }
+    
+    @ViewBuilder
+    func puzzleEntry(for bookTitle : PuzzleTitle) -> some View {
+        
+        Text("\(bookTitle.index + 1). \(bookTitle.title)").lineLimit(1)
+        
+        if bookTitle.isSolved{
+            Image(systemName: "checkmark.circle")
+                .foregroundColor(Color.highlightColor(for: colorScheme))
+        }
     }
     
     @ViewBuilder
     func bookFooter(for bookTitle : PuzzleTitle)-> some View {
         if bookTitle.title == "lessons" {
-            Button("hide lessons"){
-                deletingLessons = true
-            }.alert(isPresented: $deletingLessons){
-    
-                Alert(title: Text("Hide lessons?"),
-                      message: Text("you can undo this in settings"),
-                      primaryButton: .default(Text("Hide them"), action: {
-                        withAnimation{
-                            viewModel.showLessons = false
-                        }
-                      }),
-                      secondaryButton: .cancel())
+            HStack{
+                Spacer()
+                Button("hide lessons"){
+                    deletingLessons = true
+                }.alert(isPresented: $deletingLessons){
+        
+                    Alert(title: Text("Hide lessons?"),
+                          message: Text("you can undo this in settings"),
+                          primaryButton: .default(Text("Hide them"), action: {
+                            withAnimation{
+                                viewModel.showLessons = false
+                            }
+                          }),
+                          secondaryButton: .cancel())
+                }
+                Spacer()
             }
         }
     }
