@@ -21,6 +21,10 @@ extension ContentView {
         private
         var userMadeASelection : Bool = false
         
+        @State
+        private
+        var resettingPuzzle : Bool = false
+        
         var scrollViewTap : some Gesture {
             TapGesture(count: 1).onEnded{
                 userMadeASelection = false
@@ -80,6 +84,7 @@ extension ContentView {
                         VStack(alignment: .leading, spacing: nil){
                             Text(viewModel.headerText).fixedSize(horizontal: false, vertical: true)
                             Spacer().frame(height: geometry.size.height/20)
+                            
                             LazyVGrid(columns: columns(screenWidth: geometry.size.width) ,spacing: 0, pinnedViews: [.sectionHeaders]) {
                                 ForEach(viewModel.data){ cipherPair in
                                         CipherSolverCharacterPair(
@@ -89,6 +94,8 @@ extension ContentView {
                                             indexInTheCipher: cipherPair.id)
                                 }
                             }
+                            
+                            
                             Spacer().frame(height: geometry.size.height/20)
                             Text(viewModel.footerText)
                         }
@@ -99,6 +106,17 @@ extension ContentView {
                     LetterCount(letterCount: viewModel.letterCount)
                         .frame(width: geometry.size.width, height: 100, alignment: .bottom)
                     
+                }
+                .alert(isPresented: $resettingPuzzle){
+                    
+                    Alert(title: Text("Reset puzzle?"),
+                          message: Text("You'll loose all your work and it can't be undone!"),
+                          primaryButton: .cancel(),
+                          secondaryButton: .destructive(Text("Reset")){
+                            withAnimation{
+                                viewModel.reset()
+                            }
+                          })
                 }
                 .background(Color.backgroundColor(for: colorScheme))
                 .toolbar{
@@ -111,10 +129,21 @@ extension ContentView {
                                 Text("hard").tag(UInt(2))
                             }
                             
-                            Button("quick hint"){
-                                viewModel.quickHint()
+                            if !viewModel.currentPuzzle.isSolved{
+                                Button("quick hint"){
+                                    withAnimation{
+                                        viewModel.quickHint()
+                                    }
+                                }
                             }
                             
+                            if viewModel.currentPuzzle.usersGuesses.count > 0 {
+                                Button("reset puzzle"){
+                                    withAnimation{
+                                        resettingPuzzle = true
+                                    }
+                                }
+                            }
                         } label: {
                             Label("difficulty", systemImage: "dial")
                         }

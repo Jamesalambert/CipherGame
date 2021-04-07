@@ -19,6 +19,17 @@ struct Game : Codable {
     var lastOpenPuzzleHash : UUID?
     
     mutating
+    func reset(_ puzzle : Puzzle){
+        guard let currentPuzzleIndexPath = self.indexPath(for: puzzle) else {return}
+        let bookIndex = currentPuzzleIndexPath.item
+        let puzzleIndex = currentPuzzleIndexPath.section
+        
+        //reset guesses and indices
+        books[bookIndex].puzzles[puzzleIndex].usersGuesses.removeAll()
+        books[bookIndex].puzzles[puzzleIndex].guessIndices.removeAll()
+    }
+    
+    mutating
     func updateUsersGuesses(cipherCharacter : Character,
                             plaintextCharacter : Character?,
                             in puzzle : Puzzle,

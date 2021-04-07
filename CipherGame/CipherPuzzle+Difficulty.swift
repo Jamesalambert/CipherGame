@@ -23,6 +23,11 @@ extension CipherPuzzle {
                 2 : hardHintChar]
     }
     
+    
+    func reset() -> Void{
+        model.reset(currentPuzzle)
+    }
+    
     func quickHint() -> Void {
         
         let alphabet = String.alphabet.map{Character(extendedGraphemeClusterLiteral: $0)}
