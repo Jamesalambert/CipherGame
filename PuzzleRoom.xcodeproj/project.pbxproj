@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA14EB48261E12D3004AFD15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA14EB47261E12D3004AFD15 /* Assets.xcassets */; };
 		AA31EAA3260BE32A0031D56C /* CipherPuzzle+Printing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */; };
 		AA31EAAE260BE3E80031D56C /* CipherPuzzle+Difficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */; };
 		AA31EAB4260BE5370031D56C /* useful extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAB3260BE5370031D56C /* useful extensions.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AA14EB47261E12D3004AFD15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle+Printing.swift"; sourceTree = "<group>"; };
 		AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle+Difficulty.swift"; sourceTree = "<group>"; };
 		AA31EAB3260BE5370031D56C /* useful extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "useful extensions.swift"; sourceTree = "<group>"; };
@@ -101,6 +103,7 @@
 		AA31EAB2260BE5210031D56C /* support files */ = {
 			isa = PBXGroup;
 			children = (
+				AA14EB47261E12D3004AFD15 /* Assets.xcassets */,
 				AAE626E9261663C3004BF125 /* puzzles */,
 				AA5D867C2614F680008D3B44 /* CipherPrint.css */,
 				AA8F640B26053E2E005B148F /* UITextFieldView.swift */,
@@ -263,7 +266,7 @@
 					};
 				};
 			};
-			buildConfigurationList = AA9766962601651A0076B879 /* Build configuration list for PBXProject "CipherGame" */;
+			buildConfigurationList = AA9766962601651A0076B879 /* Build configuration list for PBXProject "PuzzleRoom" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -292,6 +295,7 @@
 				AAE626EB261663EF004BF125 /* puzzles.json in Resources */,
 				AAE6270D2617ED50004BF125 /* Rebecca's Garden.json in Resources */,
 				AA5D867D2614F680008D3B44 /* CipherPrint.css in Resources */,
+				AA14EB48261E12D3004AFD15 /* Assets.xcassets in Resources */,
 				AA9766A32601651D0076B879 /* Assets.xcassets in Resources */,
 				AAEE3AF7261B8676008E2233 /* lessons.json in Resources */,
 			);
@@ -611,7 +615,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		AA9766962601651A0076B879 /* Build configuration list for PBXProject "CipherGame" */ = {
+		AA9766962601651A0076B879 /* Build configuration list for PBXProject "PuzzleRoom" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				AA9766BE2601651E0076B879 /* Debug */,
