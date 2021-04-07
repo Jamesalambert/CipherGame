@@ -134,7 +134,6 @@ extension String {
         }
     }
     
-    
 
     func removeCharacters(in set : CharacterSet) -> String {
         

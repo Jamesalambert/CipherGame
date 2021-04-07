@@ -104,10 +104,19 @@ extension ContentView {
                 .toolbar{
                     
                     ToolbarItem(placement: .navigationBarTrailing){
-                        Button(self.difficultyButtonTitle){
-                            withAnimation{
-                                viewModel.difficultyLevel = (viewModel.difficultyLevel + 1) % UInt(viewModel.gameRules.count)
+                        Menu{
+                            Picker("difficulty", selection: $viewModel.difficultyLevel){
+                                Text("easy").tag(UInt(0))
+                                Text("medium").tag(UInt(1))
+                                Text("hard").tag(UInt(2))
                             }
+                            
+                            Button("quick hint"){
+                                viewModel.quickHint()
+                            }
+                            
+                        } label: {
+                            Label("difficulty", systemImage: "dial")
                         }
                     }
                     

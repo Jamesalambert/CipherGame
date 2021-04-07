@@ -175,7 +175,7 @@ class CipherPuzzle : ObservableObject {
 //    }
 
     
-    var letterCount : [(Character, Int)] {
+    var letterCount : [(character: Character, count: Int)] {
         //guard let currentPuzzle = currentPuzzle else {return []}
         
         var output : [(character:Character, count:Int)] = []
