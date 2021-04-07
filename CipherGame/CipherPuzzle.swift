@@ -74,8 +74,9 @@ class CipherPuzzle : ObservableObject {
             books.removeAll(where: {$0.title == Game.firstPuzzle.book})
         }
         
-        for book in books {
-            out.append(PuzzleTitle(id: book.id,
+        for (index, book) in books.enumerated() {
+            out.append(PuzzleTitle(index: index,
+                                   id: book.id,
                                    title: book.title,
                                    isSolved: book.isSolved))
         }
@@ -92,7 +93,8 @@ class CipherPuzzle : ObservableObject {
     
     func puzzleTitles(for bookHash : UUID) -> [PuzzleTitle] {
         guard let book = model.books.first(where: {book in book.id == bookHash}) else {return []}
-        return book.puzzles.map{puzzle in PuzzleTitle(id: puzzle.id,
+        return book.puzzles.enumerated().map{(index, puzzle) in PuzzleTitle(index: index,
+                                                      id: puzzle.id,
                                                       title: puzzle.title,
                                                       isSolved: puzzle.isSolved)}
     }
@@ -208,6 +210,7 @@ class CipherPuzzle : ObservableObject {
 }
 
 struct PuzzleTitle : Identifiable, Hashable {
+    var index : Int
     var id : UUID
     var title : String
     var isSolved : Bool

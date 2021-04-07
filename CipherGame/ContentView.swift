@@ -39,7 +39,7 @@ struct ContentView: View {
                                             .navigationTitle(puzzle.title),
                                            tag: puzzle.id,
                                            selection: $viewModel.currentPuzzleHash){
-                                Text(puzzle.title)
+                                Text("\(puzzle.index + 1). \(puzzle.title)")
                                 
                                 if puzzle.isSolved{
                                     Image(systemName: "checkmark.circle")
