@@ -71,7 +71,7 @@ class CipherPuzzle : ObservableObject {
         
         var books = model.books
         if !showLessons {
-            books.removeAll(where: {$0.title == "lessons"})
+            books.removeAll(where: {$0.title == Game.firstPuzzle.book})
         }
         
         for book in books {
@@ -104,18 +104,13 @@ class CipherPuzzle : ObservableObject {
         return puzzle.isSolved
     }
     
-   
-    
     var userGuess : Character? {
-        
         get {
             guard let current = currentCiphertextCharacter else {return nil}
             return self.plaintext(for: current)
         }
         
         set {
-            //guard let currentPuzzle = currentPuzzle else {return}
-            
             model.updateUsersGuesses(cipherCharacter: currentCiphertextCharacter!,
                                      plaintextCharacter: newValue,
                                      in: currentPuzzle,

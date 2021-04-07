@@ -26,7 +26,7 @@ struct ContentView: View {
     
     var body: some View {
         
-        NavigationView {
+        NavigationView{
             List{
                 ForEach(viewModel.availableBooks){ book in
                     
@@ -49,7 +49,8 @@ struct ContentView: View {
                         }
                     }.transition(.slide)
                 }
-            }.listStyle(GroupedListStyle())
+            }.navigationTitle("Code Books")
+            .listStyle(InsetGroupedListStyle())
             .toolbar{toolbar()}
         }.environmentObject(viewModel)
         .onChange(of: scenePhase) { phase in
@@ -70,13 +71,15 @@ struct ContentView: View {
             Button("hide lessons"){
                 deletingLessons = true
             }.alert(isPresented: $deletingLessons){
+    
                 Alert(title: Text("Hide lessons?"),
                       message: Text("you can undo this in settings"),
-                      dismissButton: .default(Text("Hide them.")){
-                    withAnimation{
-                        viewModel.showLessons = false
-                    }
-                })
+                      primaryButton: .default(Text("Hide them"), action: {
+                        withAnimation{
+                            viewModel.showLessons = false
+                        }
+                      }),
+                      secondaryButton: .cancel())
             }
         }
     }

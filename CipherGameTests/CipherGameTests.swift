@@ -33,7 +33,7 @@ class CipherGameTests: XCTestCase {
         let cipherPuzzleViewModel = CipherPuzzle()
                 
         self.measure {
-            let _ = ContentView(viewModel: cipherPuzzleViewModel)
+            let _ = ContentView(viewModel: cipherPuzzleViewModel, saveAction: {})
         }
     }
     
