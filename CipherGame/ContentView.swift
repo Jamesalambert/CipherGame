@@ -38,10 +38,8 @@ struct ContentView: View {
                                             .navigationTitle(puzzle.title),
                                            tag: puzzle.id,
                                            selection: $viewModel.currentPuzzleHash){
-                                
                                 puzzleEntry(for: puzzle)
-                                
-                            }.transition(.slide)
+                            }
                         }
                     }.transition(.slide)
                 }

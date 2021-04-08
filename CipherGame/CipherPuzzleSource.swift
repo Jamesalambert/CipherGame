@@ -133,8 +133,8 @@ struct Puzzle : Hashable, Codable{
     var footer : String
     var keyAlphabet : String        //the original key alphabet, use for encrypting
     var solution : String          //what the user needs to figure out (the message may not use all letters)
+   
     var isSolved : Bool {
-        
         var guesses : String = ""
         let alphabet = String.alphabet.map({String($0)})
         
@@ -142,9 +142,9 @@ struct Puzzle : Hashable, Codable{
             let guess : String = alphabet.first(where: {char in usersGuesses[char] == letter}) ?? ""
             guesses.append(guess)
         }
-        
         return guesses == solution
     }
+    
     var id : UUID
     var usersGuesses : [String : String] = Dictionary()
     var guessIndices : [String : Set<Int>] = Dictionary()
