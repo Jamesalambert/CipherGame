@@ -11,7 +11,7 @@ extension ContentView {
     //    MARK:- the puzzle
     struct CipherSolverPage : View {
         
-        static let letterAnimation : CGFloat(0.75)
+        static let letterAnimation = 0.75
         
         @EnvironmentObject
         var viewModel : CipherPuzzle
@@ -84,42 +84,30 @@ extension ContentView {
                     ScrollView {
                         
                         VStack(alignment: .leading, spacing: nil){
-                            Group{
                                 Text(viewModel.headerText).fixedSize(horizontal: false, vertical: true)
                                 Spacer().frame(height: geometry.size.height/20)
-                                
-                                if viewModel.currentPuzzle.isSolved {
-                                    Text(viewModel.currentPuzzle.plaintext)
-                                        .foregroundColor(Color.plaintext(for: colorScheme))
-                                        .font(.system(.title, design: viewModel.fontDesign))
-                                        .fixedSize(horizontal: false, vertical: true)
-                                        .transition(.slide)
-                                        .animation(.easeInOut(duration: Self.letterAnimation))
-                                } else {
-                                    LazyVGrid(columns: columns(screenWidth: geometry.size.width),
-                                              spacing: 0,
-                                              pinnedViews: [.sectionHeaders]){
-                                        ForEach(viewModel.data){ cipherPair in
-                                                CipherSolverCharacterPair(
-                                                    userMadeASelection: $userMadeASelection,
-                                                    cipherTextLetter: cipherPair.cipherLetter,
-                                                    plainTextLetter: cipherPair.userGuessLetter,
-                                                    indexInTheCipher: cipherPair.id)
-                                        }
+
+                                LazyVGrid(columns: columns(screenWidth: geometry.size.width),
+                                          spacing: 0,
+                                          pinnedViews: [.sectionHeaders]){
+                                    ForEach(viewModel.data){ cipherPair in
+                                            CipherSolverCharacterPair(
+                                                userMadeASelection: $userMadeASelection,
+                                                cipherTextLetter: cipherPair.cipherLetter,
+                                                plainTextLetter: cipherPair.userGuessLetter,
+                                                indexInTheCipher: cipherPair.id)
                                     }
-                                    .transition(.slide)
-                                    .animation(.easeInOut(duration: Self.letterAnimation))
                                 }
+                    
+                                
                                 Spacer().frame(height: geometry.size.height/20)
                                 Text(viewModel.footerText)
-                            }
                         }
                     }.gesture(scrollViewTap)
                     .padding(.all, geometry.size.height/20)
-                    
-                    LetterCount(letterCount: viewModel.letterCount)
+                                        
+                    LetterCount()
                         .frame(width: geometry.size.width, height: 100, alignment: .bottom)
-                    
                 }
                 .alert(isPresented: $resettingPuzzle){
                     
@@ -137,26 +125,30 @@ extension ContentView {
                     
                     ToolbarItem(placement: .navigationBarTrailing){
                         Menu{
-                            #if DEBUG
-                            Button("solve!"){
-                                while !viewModel.currentPuzzle.isSolved {
-                                    withAnimation{
-                                        viewModel.quickHint()
+                                                        
+                            if !viewModel.currentPuzzle.isSolved {
+                                
+                                #if DEBUG
+                                Button("solve!"){
+                                    while !viewModel.currentPuzzle.isSolved {
+                                        withAnimation{
+                                            viewModel.quickHint()
+                                        }
                                     }
                                 }
-                            }
-                            #endif
-                            
-                            Picker("difficulty", selection: $viewModel.difficultyLevel){
-                                Text("easy").tag(UInt(0))
-                                Text("medium").tag(UInt(1))
-                                Text("hard").tag(UInt(2))
-                            }
-                            
-                            if !viewModel.currentPuzzle.isSolved{
-                                Button("quick hint"){
-                                    withAnimation{
-                                        viewModel.quickHint()
+                                #endif
+                                
+                                Picker("difficulty", selection: $viewModel.difficultyLevel){
+                                    Text("easy").tag(UInt(0))
+                                    Text("medium").tag(UInt(1))
+                                    Text("hard").tag(UInt(2))
+                                }
+                                
+                                if !viewModel.currentPuzzle.isSolved{
+                                    Button("quick hint"){
+                                        withAnimation{
+                                            viewModel.quickHint()
+                                        }
                                     }
                                 }
                             }
@@ -230,6 +222,8 @@ extension ContentView {
     
     struct CipherSolverCharacterPair : View {
         
+        static let duration = 2.0
+        
         @EnvironmentObject
         var viewModel : CipherPuzzle
         
@@ -239,9 +233,6 @@ extension ContentView {
         @State
         private
         var wasTapped = false
-        
-        @State
-        var isSolved : Bool = false
         
         @Binding
         var userMadeASelection : Bool
@@ -261,46 +252,53 @@ extension ContentView {
         }
         
         var body : some View {
-                //spaces and punctuation aren't tappable/editable
-                if cipherTextLetter.isPunctuation || cipherTextLetter.isWhitespace {
-                    standardCipherPair(displayPlaintext: false)
-                } else {
-                    standardCipherPair(displayPlaintext: true)
-                        .gesture(plaintextLabelTap)
-                }
+            if viewModel.currentPuzzle.isSolved{
+                standardCipherPair(displayPlaintext: true)
+            } else if cipherTextLetter.isPunctuation || cipherTextLetter.isWhitespace {
+                standardCipherPair(displayPlaintext: false)
+            } else {
+                standardCipherPair(displayPlaintext: true)
+                    .gesture(plaintextLabelTap)
+            }
         }
-        
+    
         
         @ViewBuilder
         private
         func standardCipherPair(displayPlaintext : Bool) -> some View {
             VStack{
-                Text(String(cipherTextLetter))
-                    .fixedSize()
                 
+                //ciphertext
+                if !viewModel.currentPuzzle.isSolved{
+                    Text(String(cipherTextLetter))
+                        .fixedSize()
+                        
+                }
+            
                 Spacer()
                 
                 ZStack{
-                    if wasTapped, userMadeASelection, displayPlaintext {
+                    
+                    if displayPlaintext {
                         
-                        NewTextField(letterGuess: $viewModel.userGuess,
-                                        wasTapped: $wasTapped,
-                                        textColor: UIColor(Color.highlightColor(for: colorScheme)),
-                                        capType: $viewModel.capType)
-                        
+                        if wasTapped, userMadeASelection {
+                            
+                            NewTextField(letterGuess: $viewModel.userGuess,
+                                            wasTapped: $wasTapped,
+                                            textColor: UIColor(Color.highlightColor(for: colorScheme)),
+                                            capType: $viewModel.capType)
+                        } else {
+                            //plaintext
+                            Text(plainTextLetter.string())
+                                .frame(height : 30)
+                                .foregroundColor(Color.plaintext(for: colorScheme))
+                                .fixedSize()
+                        }
                     }
-                        Text(plainTextLetter.string())
-                            .frame(height : 30)
-                            .foregroundColor(Color.plaintext(for: colorScheme))
-                            .opacity(wasTapped && userMadeASelection && displayPlaintext ? 0 : 1)
-                            .fixedSize()
-                            .scaleEffect(plainTextLetter.string() == "" ? 0.1 : 1)
-                            .transition(.slide)
-                            .id(indexInTheCipher)
                 }
             }
             .overlay(Rectangle()
-                        .frame(width: 30, height: 1, alignment: .bottom)
+                        .frame(width: 30, height: 2, alignment: .bottom)
                         .foregroundColor(Color.plaintext(for: colorScheme)),
                         alignment: .bottom )
             .padding(.top)
@@ -308,32 +306,6 @@ extension ContentView {
             .foregroundColor(foregroundColor(for: colorScheme))
             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
         }
-    
-        
-        
-        
-//        @ViewBuilder
-//        private
-//        func plaintextOnly() -> some View {
-//            VStack{
-//
-//                Text(plainTextLetter.string())
-//                    .foregroundColor(Color.plaintext(for: colorScheme))
-//                    .frame(height : 30)
-//                    .fixedSize()
-//                    .transition(.slide)
-//                    .id(indexInTheCipher)
-//
-//            }
-//            .overlay(Rectangle()
-//                        .frame(width: 30, height: 1, alignment: .bottom)
-//                        .foregroundColor(Color.plaintext(for: colorScheme)),
-//                        alignment: .bottom )
-//            .padding(.top)
-//            .font(.system(.title, design: viewModel.fontDesign))
-//            .foregroundColor(foregroundColor(for: colorScheme))  //selection highlight
-//            .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
-//        }
         
         private
         func foregroundColor(for colorScheme : ColorScheme) -> Color {

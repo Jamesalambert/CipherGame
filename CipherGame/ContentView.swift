@@ -41,7 +41,7 @@ struct ContentView: View {
                                 puzzleEntry(for: puzzle)
                             }
                         }
-                    }.transition(.slide)
+                    }
                 }
             }.navigationTitle("Code Books")
             .listStyle(InsetGroupedListStyle())

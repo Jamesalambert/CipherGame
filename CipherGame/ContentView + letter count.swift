@@ -14,28 +14,27 @@ extension ContentView {
         @EnvironmentObject
         var viewModel : CipherPuzzle
         
-        var letterCount : [(character:Character, count:Int)]
+        //var letterCount : [(character:Character, count:Int)]
         
         var body : some View {
             
             GeometryReader { geometry in
                 
                 VStack {
-                    //Divider()
                     Text("Character Count")
                     
                     ScrollView(.horizontal) {
                         LazyVGrid(columns: self.columns(screenWidth: geometry.size.width), alignment: .center) {
                             
-                            if letterCount.count > 0 {
                                 
-                                ForEach(0..<letterCount.count) { index in
-                                    let cipherChar = letterCount[index].character
+                            ForEach(viewModel.characterCount) { letterCountTriple in
+                                    let cipherChar = letterCountTriple.character
                                     PairCount(cipherChar: cipherChar,
                                               plainChar: viewModel.plaintext(for: cipherChar),
-                                              count: letterCount[index].count)
-                                }
+                                              count: letterCountTriple.count)
+                                        .animation(.easeInOut)
                             }
+                            
                         }.frame(minWidth: geometry.size.width) //centers the grid in the scrollview
                         //.background(Color.blue)
                     }//.background(Color.green)
@@ -52,8 +51,8 @@ extension ContentView {
     }
     
     
-    struct PairCount : View {
-        
+    struct PairCount : View, Hashable {
+
         @EnvironmentObject
         var viewModel : CipherPuzzle
         
@@ -68,9 +67,9 @@ extension ContentView {
             VStack {
                 Group {
                     Text(String(cipherChar))
-                    
+                        
                     Text(count > 0 ? String(count) : "-").lineLimit(1)
-                    
+
                     Text(plainChar.string()).foregroundColor(Color.plaintext(for: colorScheme))
                 }.font(.system(.body, design: viewModel.fontDesign))
                 .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
@@ -89,5 +88,15 @@ extension ContentView {
             }
             return Color.ciphertext(for: colorScheme)
         }
+        
+        //Hashable
+        var id = UUID()
+        static func == (lhs: ContentView.PairCount, rhs: ContentView.PairCount) -> Bool {
+            return (lhs.id == rhs.id)
+        }
+        func hash(into hasher: inout Hasher) {
+            hasher.combine(id)
+        }
+        // Hashable
     }
 }

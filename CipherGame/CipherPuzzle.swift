@@ -18,6 +18,8 @@ class CipherPuzzle : ObservableObject {
         didSet{
             if let currentPuzzleHash = currentPuzzleHash {
                 model.lastOpenPuzzleHash = currentPuzzleHash
+                characterCount = letterCount.map{pair in
+                    CharacterCount(character: pair.character, count: pair.count)}
             }
         }
     }
@@ -40,8 +42,11 @@ class CipherPuzzle : ObservableObject {
             if difficultyLevel > (gameRules.count - 1) {
                 difficultyLevel = UInt(gameRules.count - 1)
             }
+            characterCount = letterCount.map{pair in
+                CharacterCount(character: pair.character, count: pair.count)}
         }
     }
+    
     
     @Published
     var capType : Int = 3
@@ -51,6 +56,9 @@ class CipherPuzzle : ObservableObject {
         
     @Published
     var showLessons : Bool = true
+    
+    @Published
+    var characterCount : [CharacterCount] = []
     
     //MARK: - public API
     
@@ -176,7 +184,6 @@ class CipherPuzzle : ObservableObject {
 
     
     var letterCount : [(character: Character, count: Int)] {
-        //guard let currentPuzzle = currentPuzzle else {return []}
         
         var output : [(character:Character, count:Int)] = []
         
@@ -225,4 +232,12 @@ struct GameInfo : Hashable, Identifiable {
 struct PuzzleLine : Identifiable, Hashable{
     var id: Int
     var characters : [GameInfo]
+}
+
+struct CharacterCount : Identifiable {
+    var id : Character {
+        return character
+    }
+    var character : Character
+    var count : Int
 }
