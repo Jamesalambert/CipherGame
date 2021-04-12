@@ -34,10 +34,10 @@ struct ContentView: View {
                             footer: bookFooter(for: book)){
                         
                         ForEach(viewModel.puzzleTitles(for: book.id)){ puzzle in
-                            NavigationLink(destination: CipherSolverPage()
-                                            .navigationTitle(puzzle.title),
+                            NavigationLink(destination: CipherSolverPage().navigationTitle(puzzle.title),
                                            tag: puzzle.id,
                                            selection: $viewModel.currentPuzzleHash){
+                                
                                 puzzleEntry(for: puzzle)
                             }
                         }

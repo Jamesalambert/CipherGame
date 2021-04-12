@@ -50,67 +50,14 @@ extension ContentView {
             
             GeometryReader { geometry in
                 VStack{
+                    cipherPuzzleView(with: geometry)
+                        .gesture(scrollViewTap)
+                        .padding(.all, geometry.size.height/20)
                     
-//Experimental
-//                        List{
-//                            ForEach(viewModel.puzzleLines){ puzzleLine in
-//                                HStack{
-//                                    Spacer()
-//                                        .gesture(scrollViewTap)
-//
-//                                    Text(String(puzzleLine.id))
-//
-//                                    Spacer()
-//                                        .gesture(scrollViewTap)
-//
-//                                    ForEach(puzzleLine.characters){ cipherPair in
-//
-//                                        CipherSolverCharacterPair(
-//                                            userMadeASelection: $userMadeASelection,
-//                                            cipherTextLetter: cipherPair.cipherLetter,
-//                                            plainTextLetter: cipherPair.userGuessLetter,
-//                                            indexInTheCipher: cipherPair.id)
-//                                        .frame(width: geometry.size.width / 40, height: nil, alignment: .center)
-//
-//                                    }
-//                                    Spacer()
-//                                        .gesture(scrollViewTap)
-//                                }
-//                            }
-//                        }
-//                    //.gesture(scrollViewTap) // causes problems
-                
-                    
-                    ScrollView {
-                        
-                        VStack(alignment: .leading, spacing: nil){
-                                Text(viewModel.headerText)
-                                    .fixedSize(horizontal: false, vertical: true)
-                                Spacer()
-                                    .frame(height: geometry.size.height/20)
-
-                                LazyVGrid(columns: columns(screenWidth: geometry.size.width),
-                                          spacing: 0,
-                                          pinnedViews: [.sectionHeaders]){
-                                    ForEach(viewModel.data){ cipherPair in
-                                            CipherSolverCharacterPair(
-                                                userMadeASelection: $userMadeASelection,
-                                                cipherTextLetter: cipherPair.cipherLetter,
-                                                plainTextLetter: cipherPair.userGuessLetter,
-                                                indexInTheCipher: cipherPair.id)
-                                    }
-                                }
-
-                                Spacer().frame(height: geometry.size.height/20)
-                                Text(viewModel.footerText)
-                        }
-
-                    }.gesture(scrollViewTap)
-                    .padding(.all, geometry.size.height/20)
-                                        
                     LetterCount()
                         .frame(width: geometry.size.width, height: 100, alignment: .bottom)
                 }
+                .background(Color.backgroundColor(for: colorScheme))
                 .alert(isPresented: $resettingPuzzle){
                     
                     Alert(title: Text("Reset puzzle?"),
@@ -122,77 +69,131 @@ extension ContentView {
                             }
                           })
                 }
-                .background(Color.backgroundColor(for: colorScheme))
-                .toolbar{
-                    
-                    ToolbarItem(placement: .navigationBarTrailing){
-                        Menu{
-                                                        
-                            if !viewModel.currentPuzzle.isSolved {
-                                
-                                #if DEBUG
-                                Button("solve!"){
-                                    while !viewModel.currentPuzzle.isSolved {
-                                        withAnimation{
-                                            viewModel.quickHint()
-                                        }
-                                    }
-                                }
-                                #endif
-                                
-                                Picker("difficulty", selection: $viewModel.difficultyLevel){
-                                    Text("easy").tag(UInt(0))
-                                    Text("medium").tag(UInt(1))
-                                    Text("hard").tag(UInt(2))
-                                }
-                                
-                                if !viewModel.currentPuzzle.isSolved{
-                                    Button("quick hint"){
-                                        withAnimation{
-                                            viewModel.quickHint()
-                                        }
-                                    }
-                                }
+                .toolbar{toolbarView()}
+            }
+        }
+        
+        @ViewBuilder
+        func cipherPuzzleView(with geometry : GeometryProxy) -> some View {
+            ScrollView {
+                VStack(alignment: .leading, spacing: nil){
+                        Text(viewModel.headerText)
+                            .fixedSize(horizontal: false, vertical: true)
+                        Spacer()
+                            .frame(height: geometry.size.height/20)
+
+                        LazyVGrid(columns: columns(screenWidth: geometry.size.width),
+                                  spacing: 0,
+                                  pinnedViews: [.sectionHeaders]){
+                            ForEach(viewModel.data){ cipherPair in
+                                    CipherSolverCharacterPair(
+                                        userMadeASelection: $userMadeASelection,
+                                        cipherTextLetter: cipherPair.cipherLetter,
+                                        plainTextLetter: cipherPair.userGuessLetter,
+                                        indexInTheCipher: cipherPair.id)
                             }
-                            
-                            if viewModel.currentPuzzle.usersGuesses.count > 0 {
-                                Button("reset puzzle"){
-                                    withAnimation{
-                                        resettingPuzzle = true
-                                    }
-                                }
-                            }
-                        } label: {
-                            Label("difficulty", systemImage: "dial")
                         }
-                    }
-                    
-                    ToolbarItem(placement: .navigationBarTrailing){
-                        Menu{
-                            Picker("text display", selection: $viewModel.capType){
-                                Text("CAPITALS").tag(3)
-                                Text("lowercase").tag(0)
-                            }
-                            
-                            Picker("font style", selection: $viewModel.fontDesign){
-                                Text("typewriter").tag(Font.Design.monospaced)
-                                Text("rounded").tag(Font.Design.rounded)
-                                Text("serif").tag(Font.Design.serif)
-                            }
-                        } label: {
-                            Label("text", systemImage: "textformat")
-                        }
-                    }
-                    
-                    ToolbarItem(placement: .navigationBarTrailing){
-                        Button(action: printCipherPage, label: {
-                            Label("print", systemImage: "printer")
-                        })
-                    }
+                        Spacer().frame(height: geometry.size.height/20)
+                        Text(viewModel.footerText)
                 }
             }
         }
         
+        
+        @ToolbarContentBuilder
+        func toolbarView() -> some ToolbarContent {
+            
+                ToolbarItem(placement: .navigationBarTrailing){
+                    Menu{
+                        if !viewModel.currentPuzzle.isSolved {
+                            
+                            #if DEBUG
+                            Button("solve!"){
+                                while !viewModel.currentPuzzle.isSolved {
+                                    withAnimation{
+                                        viewModel.quickHint()
+                                    }
+                                }
+                            }
+                            #endif
+                            
+                            Picker("difficulty", selection: $viewModel.difficultyLevel){
+                                Text("easy").tag(UInt(0))
+                                Text("medium").tag(UInt(1))
+                                Text("hard").tag(UInt(2))
+                            }
+                            
+                            if !viewModel.currentPuzzle.isSolved{
+                                Button("quick hint"){
+                                    withAnimation{
+                                        viewModel.quickHint()
+                                    }
+                                }
+                            }
+                        }
+                        
+                        if viewModel.currentPuzzle.usersGuesses.count > 0 {
+                            Button("reset puzzle"){
+                                withAnimation{
+                                    resettingPuzzle = true
+                                }
+                            }
+                        }
+                    } label: {
+                        Label("difficulty", systemImage: "dial")
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing){
+                    Menu{
+                        Picker("text display", selection: $viewModel.capType){
+                            Text("CAPITALS").tag(3)
+                            Text("lowercase").tag(0)
+                        }
+                        
+                        Picker("font style", selection: $viewModel.fontDesign){
+                            Text("typewriter").tag(Font.Design.monospaced)
+                            Text("rounded").tag(Font.Design.rounded)
+                            Text("serif").tag(Font.Design.serif)
+                        }
+                    } label: {
+                        Label("text", systemImage: "textformat")
+                    }
+                }
+                
+                ToolbarItem(placement: .navigationBarTrailing){
+                    Button(action: printCipherPage, label: {
+                        Label("print", systemImage: "printer")
+                    })
+                }
+        }
+        
+        
+//        test using a list vs a grid. Buggy but maybe helpful.
+        @ViewBuilder
+        func cipherPuzzleViewEXP(with geometry : GeometryProxy) -> some View {
+//            List{
+//                ForEach(viewModel.puzzleLines){ puzzleLine in
+//                    HStack{
+//                        Spacer()
+//                            .gesture(scrollViewTap)
+//                        Text(String(puzzleLine.id))
+//                        Spacer()
+//                            .gesture(scrollViewTap)
+//                        ForEach(puzzleLine.characters){ cipherPair in
+//                            CipherSolverCharacterPair(
+//                                userMadeASelection: $userMadeASelection,
+//                                cipherTextLetter: cipherPair.cipherLetter,
+//                                plainTextLetter: cipherPair.userGuessLetter,
+//                                indexInTheCipher: cipherPair.id)
+//                                .frame(width: geometry.size.width / 40, height: nil, alignment: .center)
+//                        }
+//                        Spacer()
+//                            .gesture(scrollViewTap)
+//                    }
+//                }
+//            }
+        }
         
         private
         func columns(screenWidth : CGFloat) -> [GridItem] {
