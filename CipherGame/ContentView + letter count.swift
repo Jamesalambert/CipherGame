@@ -14,14 +14,12 @@ extension ContentView {
         @EnvironmentObject
         var viewModel : CipherPuzzle
         
-        //var letterCount : [(character:Character, count:Int)]
-        
         var body : some View {
             
             GeometryReader { geometry in
                 
                 VStack {
-                    Text("Character Count")
+                    Text("Character Count").font(.system(.subheadline))
                     
                     ScrollView(.horizontal) {
                         LazyVGrid(columns: self.columns(screenWidth: geometry.size.width), alignment: .center) {
@@ -51,7 +49,7 @@ extension ContentView {
     }
     
     
-    struct PairCount : View, Hashable {
+    struct PairCount : View {
 
         @EnvironmentObject
         var viewModel : CipherPuzzle
@@ -66,12 +64,13 @@ extension ContentView {
         var body : some View {
             VStack {
                 Group {
-                    Text(String(cipherChar))
+                    Text(String(cipherChar)).fontWeight(.semibold)
                         
                     Text(count > 0 ? String(count) : "-").lineLimit(1)
 
                     Text(plainChar.string()).foregroundColor(Color.plaintext(for: colorScheme))
-                }.font(.system(.body, design: viewModel.fontDesign))
+                }
+                .font(.system(.body, design: viewModel.fontDesign))
                 .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
                 .foregroundColor(foregroundColor)
                 
@@ -88,15 +87,5 @@ extension ContentView {
             }
             return Color.ciphertext(for: colorScheme)
         }
-        
-        //Hashable
-        var id = UUID()
-        static func == (lhs: ContentView.PairCount, rhs: ContentView.PairCount) -> Bool {
-            return (lhs.id == rhs.id)
-        }
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(id)
-        }
-        // Hashable
     }
 }

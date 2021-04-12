@@ -84,8 +84,10 @@ extension ContentView {
                     ScrollView {
                         
                         VStack(alignment: .leading, spacing: nil){
-                                Text(viewModel.headerText).fixedSize(horizontal: false, vertical: true)
-                                Spacer().frame(height: geometry.size.height/20)
+                                Text(viewModel.headerText)
+                                    .fixedSize(horizontal: false, vertical: true)
+                                Spacer()
+                                    .frame(height: geometry.size.height/20)
 
                                 LazyVGrid(columns: columns(screenWidth: geometry.size.width),
                                           spacing: 0,
@@ -98,11 +100,11 @@ extension ContentView {
                                                 indexInTheCipher: cipherPair.id)
                                     }
                                 }
-                    
-                                
+
                                 Spacer().frame(height: geometry.size.height/20)
                                 Text(viewModel.footerText)
                         }
+
                     }.gesture(scrollViewTap)
                     .padding(.all, geometry.size.height/20)
                                         
@@ -195,7 +197,7 @@ extension ContentView {
         private
         func columns(screenWidth : CGFloat) -> [GridItem] {
             return Array(repeating: GridItem(.fixed(20)),
-                         count: Int(screenWidth / 40))
+                         count: Int(screenWidth / 35))
         }
         
         private
@@ -221,9 +223,7 @@ extension ContentView {
     
     
     struct CipherSolverCharacterPair : View {
-        
-        static let duration = 2.0
-        
+                
         @EnvironmentObject
         var viewModel : CipherPuzzle
         
@@ -272,7 +272,6 @@ extension ContentView {
                 if !viewModel.currentPuzzle.isSolved{
                     Text(String(cipherTextLetter))
                         .fixedSize()
-                        
                 }
             
                 Spacer()
@@ -280,7 +279,6 @@ extension ContentView {
                 ZStack{
                     
                     if displayPlaintext {
-                        
                         if wasTapped, userMadeASelection {
                             
                             NewTextField(letterGuess: $viewModel.userGuess,
