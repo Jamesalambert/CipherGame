@@ -19,6 +19,9 @@ extension ContentView {
         @Environment(\.colorScheme)
         var colorScheme : ColorScheme
         
+        @Environment(\.bookTheme)
+        var bookTheme : BookTheme
+        
         @State
         private
         var userMadeASelection : Bool = false
@@ -44,7 +47,7 @@ extension ContentView {
                     LetterCount()
                         .frame(width: geometry.size.width, height: 100, alignment: .bottom)
                 }
-                .background(Color.backgroundColor(for: colorScheme))
+                .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
                 .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
                 .toolbar{toolbarView()}
             }
@@ -218,6 +221,9 @@ extension ContentView {
         @Environment(\.colorScheme)
         var colorScheme : ColorScheme
         
+        @Environment(\.bookTheme)
+        var bookTheme : BookTheme
+        
         @State
         private
         var wasTapped = false
@@ -294,11 +300,26 @@ extension ContentView {
         }
         
         private
-        func foregroundColor(for colorScheme : ColorScheme) -> Color {
+        func foregroundColor(for colorScheme : ColorScheme) -> Color? {
             if viewModel.currentCiphertextCharacter == cipherTextLetter.lowerChar() {
-                return Color.highlightColor(for: colorScheme)
+                return viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)
             }
-            return Color.ciphertext(for: colorScheme)
+            return viewModel.theme.color(of: .ciphertext, for: bookTheme, in: colorScheme)
+        }
+    }
+}
+
+private struct BookThemeKey : EnvironmentKey {
+    static let defaultValue: BookTheme = .defaultTheme
+}
+
+extension EnvironmentValues {
+    var bookTheme : BookTheme {
+        get {
+            self[BookThemeKey.self]
+        }
+        set {
+            self[BookThemeKey.self] = newValue
         }
     }
 }

@@ -96,9 +96,11 @@ struct Game : Codable {
                                keyAlphabet: puzzle.keyAlphabet,
                                id: id(for: puzzle.title, in: bookName))
                         }
+                    
                     self.books.append(Book(title: bookName,
                                            puzzles: newPuzzles,
-                                           theme: Self.themeFor[bookName]))
+                                           theme: Self.themeFor[bookName] ?? .defaultTheme))
+                    print(bookName)
                 }
             }
             catch {
@@ -236,7 +238,7 @@ struct Book : Hashable, Codable{
     var puzzles : [Puzzle]
     var id = UUID()
     var isSolved : Bool = false
-    let theme : BookTheme?
+    var theme : BookTheme = .defaultTheme
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
