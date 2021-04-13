@@ -34,41 +34,18 @@ extension ContentView {
             }
         }
         
-        var difficultyButtonTitle : String {
-            switch viewModel.difficultyLevel {
-            case 0:
-                return "easy"
-            case 1:
-                return "medium"
-            default:
-                return "hard"
-            }
-        }
-        
         
         var body : some View {
-            
             GeometryReader { geometry in
                 VStack{
                     cipherPuzzleView(with: geometry)
                         .gesture(scrollViewTap)
                         .padding(.all, geometry.size.height/20)
-                    
                     LetterCount()
                         .frame(width: geometry.size.width, height: 100, alignment: .bottom)
                 }
                 .background(Color.backgroundColor(for: colorScheme))
-                .alert(isPresented: $resettingPuzzle){
-                    
-                    Alert(title: Text("Reset puzzle?"),
-                          message: Text("You'll loose all your work and it can't be undone!"),
-                          primaryButton: .cancel(),
-                          secondaryButton: .destructive(Text("Reset")){
-                            withAnimation{
-                                viewModel.reset()
-                            }
-                          })
-                }
+                .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
                 .toolbar{toolbarView()}
             }
         }
@@ -194,6 +171,18 @@ extension ContentView {
 //                }
 //            }
         }
+        
+        func resetPuzzleAlert() -> Alert {
+            Alert(title: Text("Reset puzzle?"),
+                  message: Text("You'll loose all your work and it can't be undone!"),
+                  primaryButton: .cancel(),
+                  secondaryButton: .destructive(Text("Reset")){
+                    withAnimation{
+                        viewModel.reset()
+                    }
+                  })
+        }
+        
         
         private
         func columns(screenWidth : CGFloat) -> [GridItem] {
