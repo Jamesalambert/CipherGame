@@ -9,7 +9,11 @@ import SwiftUI
 
 
 class CipherPuzzle : ObservableObject {
-        
+    
+    
+    @Published
+    var theme : ThemeDelegateProtocol = ThemeManager()
+    
     @Published
     var model : Game
     
@@ -102,6 +106,7 @@ class CipherPuzzle : ObservableObject {
     func puzzleTitles(for bookHash : UUID) -> [PuzzleTitle] {
         guard let book = model.books.first(where: {book in book.id == bookHash}) else {return []}
         return book.puzzles.enumerated().map{(index, puzzle) in PuzzleTitle(index: index,
+                                                    theme: book.theme?.rawValue,
                                                       id: puzzle.id,
                                                       title: puzzle.title,
                                                       isSolved: puzzle.isSolved)}
@@ -218,6 +223,7 @@ class CipherPuzzle : ObservableObject {
 
 struct PuzzleTitle : Identifiable, Hashable {
     var index : Int
+    var theme : Int?
     var id : UUID
     var title : String
     var isSolved : Bool

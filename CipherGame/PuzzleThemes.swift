@@ -11,19 +11,19 @@ import SwiftUI
 class ThemeManager : ThemeDelegateProtocol {
 
     //MARK:- ThemeDelegateProtocol
-    func color(of item: Item, for bookID : Int, in colorScheme : ColorScheme ) -> Color? {
+    func color(of item: Item, for bookID : Int?, in colorScheme : ColorScheme ) -> Color? {
         return Self.theme(for: bookID).color(for: item, in: colorScheme)
     }
     
-    func size(of shape: Shape, for bookID : Int) -> Double? {
+    func size(of shape: Shape, for bookID : Int?) -> Double? {
         return Self.theme(for: bookID).size(for: shape)
     }
     
-    func time(for animation: Animation, for bookID : Int) -> Double? {
+    func time(for animation: Animation, for bookID : Int?) -> Double? {
         return Self.theme(for: bookID).time(for: animation)
     }
     
-    func font(for text : TextType, for bookID : Int) -> Font? {
+    func font(for text : TextType, for bookID : Int?) -> Font? {
         return Self.theme(for: bookID).font(for: text)
     }
     //MARK:- End ThemeDelegate
@@ -37,12 +37,16 @@ class ThemeManager : ThemeDelegateProtocol {
     let defaultColors : [ColorContext : Color] = [
         ColorContext(item: .ciphertext, colorScheme: .light) : Color.black,
         ColorContext(item: .ciphertext, colorScheme: .dark) : Color.init(white: 0.8),
+        
         ColorContext(item: .plaintext, colorScheme: .light) : Color.blue,
         ColorContext(item: .plaintext, colorScheme: .dark) : myOrange,
+        
         ColorContext(item: .puzzleBackground, colorScheme: .light) : Color.init(white: 0.95),
         ColorContext(item: .puzzleBackground, colorScheme: .dark) : Color.black,
+        
         ColorContext(item: .highlight, colorScheme: .light) : Color.orange,
         ColorContext(item: .highlight, colorScheme: .dark) : Color.blue,
+        
         ColorContext(item: .completed, colorScheme: .light) : Color.blue,
         ColorContext(item: .completed, colorScheme: .dark) : Color.yellow,
     ]
@@ -65,7 +69,7 @@ class ThemeManager : ThemeDelegateProtocol {
         
     private
     static
-    func theme(for bookID : Int) -> ThemeStructure {
+    func theme(for bookID : Int?) -> ThemeStructure {
         
         switch bookID {
         default:
@@ -85,10 +89,10 @@ class ThemeManager : ThemeDelegateProtocol {
 //MARK:- Protocol
 
 protocol ThemeDelegateProtocol {
-    func color(of item : Item, for BookID : Int, in colorScheme : ColorScheme) -> Color?
-    func size(of shape: Shape, for bookID : Int) -> Double?
-    func time(for animation: Animation, for bookID : Int) -> Double?
-    func font(for text : TextType, for BookID : Int) -> Font?
+    func color(of item : Item, for BookID : Int?, in colorScheme : ColorScheme) -> Color?
+    func size(of shape: Shape, for bookID : Int?) -> Double?
+    func time(for animation: Animation, for bookID : Int?) -> Double?
+    func font(for text : TextType, for BookID : Int?) -> Font?
 }
 
 

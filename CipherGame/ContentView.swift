@@ -34,7 +34,8 @@ struct ContentView: View {
                             footer: bookFooter(for: book)){
                         
                         ForEach(viewModel.puzzleTitles(for: book.id)){ puzzle in
-                            NavigationLink(destination: CipherSolverPage().navigationTitle(puzzle.title),
+                            NavigationLink(destination: CipherSolverPage()
+                                                            .navigationTitle(puzzle.title),
                                            tag: puzzle.id,
                                            selection: $viewModel.currentPuzzleHash){
                                 
@@ -70,7 +71,7 @@ struct ContentView: View {
         
         if bookTitle.isSolved{
             Image(systemName: "checkmark.circle")
-                .foregroundColor(Color.highlightColor(for: colorScheme))
+                .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTitle.theme, in: colorScheme))
         }
     }
     

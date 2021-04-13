@@ -12,6 +12,9 @@ struct Game : Codable {
     
     static let bookNames = ["lessons", "Rebecca's Garden"]
     static let firstPuzzle = (book: "lessons", puzzle: "pattern words")
+    static let themeFor : [String : BookTheme] = [
+        "lessons" : .defaultTheme
+    ]
     
     //MARK: - public
     private(set)
@@ -92,8 +95,9 @@ struct Game : Codable {
                                keyAlphabet: puzzle.keyAlphabet,
                                id: id(for: puzzle.title, in: bookName))
                         }
-                    
-                    self.books.append(Book(title: bookName, puzzles: newPuzzles))
+                    self.books.append(Book(title: bookName,
+                                           puzzles: newPuzzles,
+                                           theme: Self.themeFor[bookName]))
                 }
             }
             catch {
@@ -105,9 +109,7 @@ struct Game : Codable {
     private
     mutating
     func id(for puzzleTitle : String, in bookTitle : String) -> UUID {
-        
         let id = UUID()
-        
         if Game.firstPuzzle.book == bookTitle && Game.firstPuzzle.puzzle == puzzleTitle {
             lastOpenPuzzleHash = id
         }
@@ -233,19 +235,22 @@ struct Book : Hashable, Codable{
     var puzzles : [Puzzle]
     var id = UUID()
     var isSolved : Bool = false
+    let theme : BookTheme?
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
-    
 }
 
 struct ReadablePuzzle : Codable {
     var title : String
-    var header: String
+    var header : String
     var plaintext : String
     var footer : String
     var keyAlphabet : String
 }
 
+enum BookTheme : Int, Codable {
+    case defaultTheme = 0
+}
 
