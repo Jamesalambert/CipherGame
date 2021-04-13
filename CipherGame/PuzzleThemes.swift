@@ -12,76 +12,82 @@ class ThemeManager : ThemeDelegateProtocol {
 
     //MARK:- ThemeDelegateProtocol
     func color(of item: Item, for bookID : Int?, in colorScheme : ColorScheme ) -> Color? {
-        return Self.theme(for: bookID).color(for: item, in: colorScheme)
+        return Self.theme(for: bookID).color(ColorContext(item: item, colorScheme: colorScheme))
     }
     
     func size(of shape: Shape, for bookID : Int?) -> Double? {
-        return Self.theme(for: bookID).size(for: shape)
+        return Self.theme(for: bookID).size(SizeContext(shape: shape))
     }
     
     func time(for animation: Animation, for bookID : Int?) -> Double? {
-        return Self.theme(for: bookID).time(for: animation)
+        return Self.theme(for: bookID).time(TimeContext(animation: animation))
     }
     
     func font(for text : TextType, for bookID : Int?) -> Font? {
-        return Self.theme(for: bookID).font(for: text)
+        return Self.theme(for: bookID).font(FontContext(text: text))
     }
     //MARK:- End ThemeDelegate
         
     
     //defaults
-    static let myOrange = {Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1))}()
+    private
+    static func defaultColors(_ context : ColorContext) -> Color {
+        let myOrange = {Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1))}()
+        let defaults : [ColorContext : Color] = [
+            ColorContext(item: .ciphertext, colorScheme: .light) : Color.black,
+            ColorContext(item: .ciphertext, colorScheme: .dark) : Color.init(white: 0.8),
+            
+            ColorContext(item: .plaintext, colorScheme: .light) : Color.blue,
+            ColorContext(item: .plaintext, colorScheme: .dark) : myOrange,
+            
+            ColorContext(item: .puzzleBackground, colorScheme: .light) : Color.init(white: 0.95),
+            ColorContext(item: .puzzleBackground, colorScheme: .dark) : Color.black,
+            
+            ColorContext(item: .highlight, colorScheme: .light) : Color.orange,
+            ColorContext(item: .highlight, colorScheme: .dark) : Color.blue,
+            
+            ColorContext(item: .completed, colorScheme: .light) : Color.blue,
+            ColorContext(item: .completed, colorScheme: .dark) : Color.yellow,
+        ]
+        return defaults[context] ?? Color.red
+    }
+   
     
-    fileprivate
-    static
-    let defaultColors : [ColorContext : Color] = [
-        ColorContext(item: .ciphertext, colorScheme: .light) : Color.black,
-        ColorContext(item: .ciphertext, colorScheme: .dark) : Color.init(white: 0.8),
-        
-        ColorContext(item: .plaintext, colorScheme: .light) : Color.blue,
-        ColorContext(item: .plaintext, colorScheme: .dark) : myOrange,
-        
-        ColorContext(item: .puzzleBackground, colorScheme: .light) : Color.init(white: 0.95),
-        ColorContext(item: .puzzleBackground, colorScheme: .dark) : Color.black,
-        
-        ColorContext(item: .highlight, colorScheme: .light) : Color.orange,
-        ColorContext(item: .highlight, colorScheme: .dark) : Color.blue,
-        
-        ColorContext(item: .completed, colorScheme: .light) : Color.blue,
-        ColorContext(item: .completed, colorScheme: .dark) : Color.yellow,
-    ]
+    private
+    static func defaultSizes(context : SizeContext) -> Double {
+        let defaults : [SizeContext : Double] = [
+            SizeContext(shape: .puzzlePadding) : 0.05
+        ]
+        return defaults[context] ?? 1.0
+    }
     
-    fileprivate
-    static
-    let defaultSizes : [SizeContext : Double] = [
-        SizeContext(shape: .puzzlePadding) : 0.05
-    ]
     
-    fileprivate
-    static
-    let defaultTimes : [TimeContext : Double] = [
-        TimeContext(animation: .text): 0.75
-    ]
+    private
+    static func defaultTimes(context : TimeContext) -> Double {
+        let defaults : [TimeContext : Double] = [
+            TimeContext(animation: .text): 0.75
+        ]
+        return defaults[context] ?? 0.75
+    }
     
-    fileprivate
-    static
-    let defaultFonts : [FontContext : Font] = [:]
-        
+    
+    private
+    static func defaultFonts(context : FontContext) -> Font {
+        let defaults : [FontContext : Font] = [:]
+        return defaults[context] ?? Font.system(.body)
+    }    
+    
     private
     static
     func theme(for bookID : Int?) -> ThemeStructure {
-        
         switch bookID {
         default:
-            return ThemeStructure(colors: defaultColors,
-                                  sizes: defaultSizes,
-                                  times: defaultTimes,
-                                  fonts: defaultFonts)
+            return ThemeStructure(color: defaultColors,
+                                  size: defaultSizes,
+                                  time: defaultTimes,
+                                  font: defaultFonts)
         }
-        
     }
-  
-   
 }
 
 
@@ -95,9 +101,7 @@ protocol ThemeDelegateProtocol {
     func font(for text : TextType, for BookID : Int?) -> Font?
 }
 
-
-
-//MARK:- types
+//MARK:- Public types
 enum Item : Hashable {
     case ciphertext
     case plaintext
@@ -124,27 +128,10 @@ enum TextType {
 
 //MARK:- Private
 private struct ThemeStructure {
-    
-    let colors : [ColorContext : Color]
-    let sizes : [SizeContext : Double]
-    let times : [TimeContext : Double]
-    let fonts : [FontContext : Font]
-    
-    func color(for item : Item, in colorScheme : ColorScheme) -> Color? {
-        return colors[ColorContext(item: item, colorScheme: colorScheme)]
-    }
-    
-    func size(for shape : Shape) -> Double? {
-        return sizes[SizeContext(shape: shape)]
-    }
-    
-    func time(for item : Animation) -> Double? {
-        return times[TimeContext(animation: item)]
-    }
-    
-    func font(for text : TextType) -> Font? {
-        return fonts[FontContext(text: text)]
-    }
+    var color : (ColorContext) -> Color
+    var size : (SizeContext) -> Double
+    var time : (TimeContext) -> Double
+    var font : (FontContext) -> Font
 }
 
 

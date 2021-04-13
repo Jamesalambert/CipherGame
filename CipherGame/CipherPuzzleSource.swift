@@ -13,7 +13,8 @@ struct Game : Codable {
     static let bookNames = ["lessons", "Rebecca's Garden"]
     static let firstPuzzle = (book: "lessons", puzzle: "pattern words")
     static let themeFor : [String : BookTheme] = [
-        "lessons" : .defaultTheme
+        "lessons" : .defaultTheme,
+        "Rebecca's Garden" : .treasure
     ]
     
     //MARK: - public
@@ -252,5 +253,6 @@ struct ReadablePuzzle : Codable {
 
 enum BookTheme : Int, Codable {
     case defaultTheme = 0
+    case treasure = 1
 }
 

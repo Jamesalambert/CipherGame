@@ -15,16 +15,13 @@ extension ContentView {
         var viewModel : CipherPuzzle
         
         var body : some View {
-            
             GeometryReader { geometry in
-                
                 VStack {
+                    
                     Text("Character Count").font(.system(.subheadline))
                     
                     ScrollView(.horizontal) {
                         LazyVGrid(columns: self.columns(screenWidth: geometry.size.width), alignment: .center) {
-                            
-                                
                             ForEach(viewModel.characterCount) { letterCountTriple in
                                     let cipherChar = letterCountTriple.character
                                     PairCount(cipherChar: cipherChar,

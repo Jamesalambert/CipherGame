@@ -183,7 +183,6 @@ extension ContentView {
                   })
         }
         
-        
         private
         func columns(screenWidth : CGFloat) -> [GridItem] {
             return Array(repeating: GridItem(.fixed(20)),
@@ -192,7 +191,6 @@ extension ContentView {
         
         private
         func printCipherPage() {
-            
             let formatter = UIMarkupTextPrintFormatter(markupText: viewModel.printableHTML)
             
             let printController = UIPrintInteractionController.shared
@@ -302,7 +300,5 @@ extension ContentView {
             }
             return Color.ciphertext(for: colorScheme)
         }
-        
-        
     }
 }
