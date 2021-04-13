@@ -23,6 +23,7 @@
 		AA9766CD26016DED0076B879 /* CipherPuzzleSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */; };
 		AA9766D226016EB60076B879 /* CipherPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766D126016EB60076B879 /* CipherPuzzle.swift */; };
 		AAE55ABC261FBDAC0019407E /* ContentView + Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE55ABB261FBDAC0019407E /* ContentView + Blur.swift */; };
+		AAE55ADF2624E4220019407E /* PuzzleThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE55ADE2624E4220019407E /* PuzzleThemes.swift */; };
 		AAE626EB261663EF004BF125 /* puzzles.json in Resources */ = {isa = PBXBuildFile; fileRef = AAE626EA261663EF004BF125 /* puzzles.json */; };
 		AAE6270D2617ED50004BF125 /* Rebecca's Garden.json in Resources */ = {isa = PBXBuildFile; fileRef = AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */; };
 		AAEE3AEC261A813A008E2233 /* ContentView + CipherSolverPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */; };
@@ -70,6 +71,7 @@
 		AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherPuzzleSource.swift; sourceTree = "<group>"; };
 		AA9766D126016EB60076B879 /* CipherPuzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherPuzzle.swift; sourceTree = "<group>"; };
 		AAE55ABB261FBDAC0019407E /* ContentView + Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + Blur.swift"; sourceTree = "<group>"; };
+		AAE55ADE2624E4220019407E /* PuzzleThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleThemes.swift; sourceTree = "<group>"; };
 		AAE626EA261663EF004BF125 /* puzzles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = puzzles.json; sourceTree = "<group>"; };
 		AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Rebecca's Garden.json"; sourceTree = "<group>"; };
 		AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + CipherSolverPage.swift"; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				AA97669E2601651A0076B879 /* CipherGameApp.swift */,
+				AAE55ADE2624E4220019407E /* PuzzleThemes.swift */,
 				AA9766A02601651A0076B879 /* ContentView.swift */,
 				AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */,
 				AA3ED4462611493300B25B4A /* ContentView + letter count.swift */,
@@ -332,6 +335,7 @@
 				AAEE3AEC261A813A008E2233 /* ContentView + CipherSolverPage.swift in Sources */,
 				AA97669F2601651A0076B879 /* CipherGameApp.swift in Sources */,
 				AA3ED4472611493300B25B4A /* ContentView + letter count.swift in Sources */,
+				AAE55ADF2624E4220019407E /* PuzzleThemes.swift in Sources */,
 				AA8F640C26053E2E005B148F /* UITextFieldView.swift in Sources */,
 				AA31EAAE260BE3E80031D56C /* CipherPuzzle+Difficulty.swift in Sources */,
 				AAEE3B11261CEE30008E2233 /* CipherPuzzle + Persistence.swift in Sources */,
