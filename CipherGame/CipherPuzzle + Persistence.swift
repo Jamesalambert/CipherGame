@@ -55,8 +55,12 @@ extension CipherPuzzle {
                 fatalError("can't write to file")
             }
             
-            
+//            See which fonts are installed!
+//            for font in UIFont.familyNames{
+//                for type in UIFont.fontNames(forFamilyName: font) {
+//                    print(type)
+//                }
+//            }
         }
     }
-    
 }

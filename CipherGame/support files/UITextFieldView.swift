@@ -17,7 +17,7 @@ struct NewTextField : UIViewRepresentable {
     @Binding
     var wasTapped : Bool
     
-    var textColor : UIColor?
+    var textColor : Color?
     
     var stringToDisplay : String {
         switch capType {
@@ -38,7 +38,7 @@ struct NewTextField : UIViewRepresentable {
         let v = UITextField()
         v.delegate = context.coordinator
         v.textAlignment = .center
-        v.textColor = textColor
+        v.textColor = UIColor(textColor ?? Color.white)
         return v
     }
 

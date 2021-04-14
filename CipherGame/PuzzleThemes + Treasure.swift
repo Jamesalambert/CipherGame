@@ -16,23 +16,21 @@ extension ThemeManager {
     
     private
     static func treasureColors(_ context : ColorContext) -> Color {
-        let defaults : [ColorContext : Color] = [
-            ColorContext(item: .ciphertext, colorScheme: .light) : Color.red,
-            ColorContext(item: .ciphertext, colorScheme: .dark) : Color.red,
-            
-            ColorContext(item: .plaintext, colorScheme: .light) : Color.init(white: 0.6),
-            ColorContext(item: .plaintext, colorScheme: .dark) : Color.init(white: 0.6),
-            
-            ColorContext(item: .puzzleBackground, colorScheme: .light) : Color.init(white: 0.95),
-            ColorContext(item: .puzzleBackground, colorScheme: .dark) : Color.black,
-            
-            ColorContext(item: .highlight, colorScheme: .light) : Color.yellow,
-            ColorContext(item: .highlight, colorScheme: .dark) : Color.yellow,
-            
-            ColorContext(item: .completed, colorScheme: .light) : Color.red,
-            ColorContext(item: .completed, colorScheme: .dark) : Color.red,
-        ]
-        return defaults[context] ?? Color.red
+        
+        switch context.item{
+        case .ciphertext:
+            return context.colorScheme == .light ? Color.black : Color.gray
+        case .plaintext:
+            return context.colorScheme == .light ? Color.blue : Color.orange
+        case .puzzleLines:
+            return Color.red
+        case .highlight:
+            return context.colorScheme == .light ? Color.orange : Color.blue
+        case .completed:
+            return context.colorScheme == .light ? Color.red : Color.red
+        case .puzzleBackground:
+            return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
+        }
     }
     
     
@@ -40,6 +38,68 @@ extension ThemeManager {
     static func treasureFonts(context : FontContext) -> Font {
         let defaults : [FontContext : Font] = [:]
         return defaults[context] ?? Font.system(.body)
+    }
+    
+    
+    
+    
+    
+    static let spaceTheme = ThemeStructure(color: spaceColors,
+                                              size: ThemeStructure.defaultSizes,
+                                              time: ThemeStructure.defaultTimes,
+                                              font: spaceFonts)
+    
+    private
+    static func spaceColors(_ context : ColorContext) -> Color {
+        
+        switch context.item{
+        case .ciphertext:
+            return context.colorScheme == .light ? Color.black : Color.gray
+        case .plaintext:
+            return context.colorScheme == .light ? Color.blue : Color.orange
+        case .puzzleLines:
+            return Color.red
+        case .highlight:
+            return context.colorScheme == .light ? Color.orange : Color.blue
+        case .completed:
+            return context.colorScheme == .light ? Color.red : Color.red
+        case .puzzleBackground:
+            return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
+        }
+    }
+    
+    
+    private
+    static func spaceFonts(context : FontContext) -> Font {
+                
+        let themeFont = "LucidaConsole"
+    
+        switch context.text {
+        case .title:
+            return Font.custom(themeFont, size: 30)
+        case .largeTitle:
+            return Font.custom(themeFont, size: 40)
+        case .title2:
+            return Font.custom(themeFont, size: 30)
+        case .title3:
+            return Font.custom(themeFont, size: 30)
+        case .headline:
+            return Font.custom(themeFont, size: 30)
+        case .subheadline:
+            return Font.custom(themeFont, size: 20)
+        case .body:
+            return Font.custom(themeFont, size: 20)
+        case .callout:
+            return Font.custom(themeFont, size: 30)
+        case .footnote:
+            return Font.custom(themeFont, size: 20)
+        case .caption:
+            return Font.custom(themeFont, size: 20)
+        case .caption2:
+            return Font.custom(themeFont, size: 20)
+        @unknown default:
+            return Font.custom(themeFont, size: 30)
+        }
     }
     
     

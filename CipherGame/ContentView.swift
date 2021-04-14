@@ -67,7 +67,8 @@ struct ContentView: View {
     @ViewBuilder
     func puzzleEntry(for bookTitle : PuzzleTitle) -> some View {
         
-        Text("\(bookTitle.index + 1). \(bookTitle.title)").lineLimit(1)
+        Text("\(bookTitle.index + 1). \(bookTitle.title)")
+            .lineLimit(1)
         
         if bookTitle.isSolved{
             Image(systemName: "checkmark.circle")

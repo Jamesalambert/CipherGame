@@ -59,6 +59,7 @@ extension ContentView {
                 VStack(alignment: .leading, spacing: nil){
                         Text(viewModel.headerText)
                             .fixedSize(horizontal: false, vertical: true)
+                            .font(viewModel.theme.font(for: .body, for: bookTheme))
                         Spacer()
                             .frame(height: geometry.size.height/20)
 
@@ -75,6 +76,7 @@ extension ContentView {
                         }
                         Spacer().frame(height: geometry.size.height/20)
                         Text(viewModel.footerText)
+                            .font(viewModel.theme.font(for: .body, for: bookTheme))
                 }
             }
         }
@@ -131,11 +133,11 @@ extension ContentView {
                             Text("lowercase").tag(0)
                         }
                         
-                        Picker("font style", selection: $viewModel.fontDesign){
-                            Text("typewriter").tag(Font.Design.monospaced)
-                            Text("rounded").tag(Font.Design.rounded)
-                            Text("serif").tag(Font.Design.serif)
-                        }
+//                        Picker("font style", selection: $viewModel.fontDesign){
+//                            Text("typewriter").tag(Font.Design.monospaced)
+//                            Text("rounded").tag(Font.Design.rounded)
+//                            Text("serif").tag(Font.Design.serif)
+//                        }
                     } label: {
                         Label("text", systemImage: "textformat")
                     }
@@ -277,13 +279,15 @@ extension ContentView {
                             
                             NewTextField(letterGuess: $viewModel.userGuess,
                                             wasTapped: $wasTapped,
-                                            textColor: UIColor(Color.highlightColor(for: colorScheme)),
+                                            textColor: viewModel.theme.color(of: .highlight,
+                                                                             for: bookTheme, in: colorScheme),
                                             capType: $viewModel.capType)
                         } else {
                             //plaintext
                             Text(plainTextLetter.string())
                                 .frame(height : 30)
-                                .foregroundColor(Color.plaintext(for: colorScheme))
+                                .foregroundColor(viewModel.theme.color(of: .plaintext,
+                                                                       for: bookTheme, in: colorScheme))
                                 .fixedSize()
                         }
                     }
@@ -291,10 +295,12 @@ extension ContentView {
             }
             .overlay(Rectangle()
                         .frame(width: 30, height: 2, alignment: .bottom)
-                        .foregroundColor(Color.plaintext(for: colorScheme)),
+                        .foregroundColor(viewModel.theme.color(of: .puzzleLines,
+                                                               for: bookTheme, in: colorScheme)),
                         alignment: .bottom )
             .padding(.top)
-            .font(.system(.title, design: viewModel.fontDesign))
+            .font(viewModel.theme.font(for: .title, for: bookTheme))
+            //.font(.system(.title, design: viewModel.fontDesign))
             .foregroundColor(foregroundColor(for: colorScheme))
             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
         }

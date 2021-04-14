@@ -14,11 +14,15 @@ extension ContentView {
         @EnvironmentObject
         var viewModel : CipherPuzzle
         
+        @Environment(\.bookTheme)
+        var bookTheme : BookTheme
+        
         var body : some View {
             GeometryReader { geometry in
                 VStack {
                     
-                    Text("Character Count").font(.system(.subheadline))
+                    Text("Character Count")
+                        .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
                     
                     ScrollView(.horizontal) {
                         LazyVGrid(columns: self.columns(screenWidth: geometry.size.width), alignment: .center) {
@@ -51,6 +55,9 @@ extension ContentView {
         @EnvironmentObject
         var viewModel : CipherPuzzle
         
+        @Environment(\.bookTheme)
+        var bookTheme : BookTheme
+        
         var cipherChar : Character
         var plainChar : Character?
         var count : Int
@@ -65,9 +72,11 @@ extension ContentView {
                         
                     Text(count > 0 ? String(count) : "-").lineLimit(1)
 
-                    Text(plainChar.string()).foregroundColor(Color.plaintext(for: colorScheme))
+                    Text(plainChar.string()).foregroundColor(viewModel.theme.color(of: .plaintext,
+                                                                                   for: bookTheme, in: colorScheme))
                 }
-                .font(.system(.body, design: viewModel.fontDesign))
+                .font(viewModel.theme.font(for: .body, for: bookTheme))
+                //.font(.system(.body, design: viewModel.fontDesign))
                 .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
                 .foregroundColor(foregroundColor)
                 
@@ -80,9 +89,11 @@ extension ContentView {
             if count == 0 {
                 return Color.gray
             } else if viewModel.currentCiphertextCharacter == cipherChar.lowerChar() {
-                return Color.highlightColor(for: colorScheme)
+                return viewModel.theme.color(of: .highlight,
+                                             for: bookTheme, in: colorScheme)
             }
-            return Color.ciphertext(for: colorScheme)
+            return viewModel.theme.color(of: .ciphertext,
+                                         for: bookTheme, in: colorScheme)
         }
     }
 }
