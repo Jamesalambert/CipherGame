@@ -12,7 +12,8 @@ extension ThemeManager {
     static let treasureTheme = ThemeStructure(color: treasureColors,
                                               size: ThemeStructure.defaultSizes,
                                               time: ThemeStructure.defaultTimes,
-                                              font: treasureFonts)
+                                              font: treasureFonts,
+                                              images: ThemeStructure.defaultImages)
     
     private
     static func treasureColors(_ context : ColorContext) -> Color {
@@ -43,28 +44,33 @@ extension ThemeManager {
     
     
     
+//    Space Theme ////////////////////////////////////
+    
     
     static let spaceTheme = ThemeStructure(color: spaceColors,
                                               size: ThemeStructure.defaultSizes,
                                               time: ThemeStructure.defaultTimes,
-                                              font: spaceFonts)
+                                              font: spaceFonts,
+                                              images: spaceImages)
     
     private
     static func spaceColors(_ context : ColorContext) -> Color {
         
+        let cyan = Color(#colorLiteral(red: 0, green: 0.6404201388, blue: 0.8557960391, alpha: 1))
+        let yellow = Color(#colorLiteral(red: 1, green: 0.9398623705, blue: 0.01244911458, alpha: 1))
         switch context.item{
         case .ciphertext:
-            return context.colorScheme == .light ? Color.black : Color.gray
+            return context.colorScheme == .light ? Color.gray : Color.gray
         case .plaintext:
-            return context.colorScheme == .light ? Color.blue : Color.orange
+            return context.colorScheme == .light ? yellow : yellow
         case .puzzleLines:
-            return Color.red
+            return cyan
         case .highlight:
-            return context.colorScheme == .light ? Color.orange : Color.blue
+            return context.colorScheme == .light ? Color.orange : Color.orange
         case .completed:
             return context.colorScheme == .light ? Color.red : Color.red
         case .puzzleBackground:
-            return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
+            return Color.black
         }
     }
     
@@ -99,6 +105,16 @@ extension ThemeManager {
             return Font.custom(themeFont, size: 20)
         @unknown default:
             return Font.custom(themeFont, size: 30)
+        }
+    }
+    
+    private
+    static func spaceImages(context: ImageContext) -> Image? {
+        switch context.item {
+        case .puzzleBackground:
+            return Image("stars")
+        default:
+            return nil
         }
     }
     

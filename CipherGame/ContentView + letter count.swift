@@ -17,6 +17,9 @@ extension ContentView {
         @Environment(\.bookTheme)
         var bookTheme : BookTheme
         
+        @Environment(\.colorScheme)
+        var colorScheme : ColorScheme
+        
         var body : some View {
             GeometryReader { geometry in
                 VStack {
@@ -37,7 +40,7 @@ extension ContentView {
                         }.frame(minWidth: geometry.size.width) //centers the grid in the scrollview
                         //.background(Color.blue)
                     }//.background(Color.green)
-                }//.background(Color.red)
+                }.background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
             }
         }
         

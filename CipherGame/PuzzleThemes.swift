@@ -41,6 +41,10 @@ class ThemeManager : ThemeDelegateProtocol {
     func font(for text : Font.TextStyle, for themeName : BookTheme) -> Font? {
         return Self.theme(for: themeName).font(FontContext(text: text))
     }
+    
+    func image(for item: Item, for bookName: BookTheme) -> Image? {
+        return Self.theme(for: bookName).images(ImageContext(item: item))
+    }
     //MARK:- End ThemeDelegate
         
 //  ---------Theme----------
@@ -49,7 +53,8 @@ class ThemeManager : ThemeDelegateProtocol {
     static let defaultTheme = ThemeStructure(color: ThemeStructure.defaultColors,
                                              size: ThemeStructure.defaultSizes,
                                              time: ThemeStructure.defaultTimes,
-                                             font: ThemeStructure.defaultFonts)
+                                             font: ThemeStructure.defaultFonts,
+                                             images: ThemeStructure.defaultImages)
 
     
     //MARK:- Private
@@ -58,6 +63,7 @@ class ThemeManager : ThemeDelegateProtocol {
         var size : (SizeContext) -> Double
         var time : (TimeContext) -> Double
         var font : (FontContext) -> Font
+        var images : (ImageContext) -> Image?
         
         static func defaultColors(_ context : ColorContext) -> Color {
             let myOrange = {Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1))}()
@@ -98,6 +104,10 @@ class ThemeManager : ThemeDelegateProtocol {
         static func defaultFonts(context : FontContext) -> Font {
             return Font.system(context.text)
         }
+        
+        static func defaultImages(context : ImageContext) -> Image? {
+            return nil
+        }
     }
 
     //accessible in extension of this class
@@ -116,7 +126,11 @@ class ThemeManager : ThemeDelegateProtocol {
 
     struct FontContext : Hashable {
         var text : Font.TextStyle
-    } 
+    }
+    
+    struct ImageContext : Hashable {
+        var item : Item
+    }
 }
 
 
@@ -128,6 +142,7 @@ protocol ThemeDelegateProtocol {
     func size(of shape: Shape, for bookName : BookTheme) -> Double?
     func time(for animation: Animation, for bookName : BookTheme) -> Double?
     func font(for text : Font.TextStyle, for bookName : BookTheme) -> Font?
+    func image(for item : Item, for bookName : BookTheme) -> Image?
 }
 
 //MARK:- Public types

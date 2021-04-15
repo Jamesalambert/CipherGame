@@ -44,10 +44,12 @@ extension ContentView {
                     cipherPuzzleView(with: geometry)
                         .gesture(scrollViewTap)
                         .padding(.all, geometry.size.height/20)
+                    
                     LetterCount()
+                        .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
                         .frame(width: geometry.size.width, height: 100, alignment: .bottom)
                 }
-                .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
+                .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
                 .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
                 .toolbar{toolbarView()}
             }
@@ -327,5 +329,12 @@ extension EnvironmentValues {
         set {
             self[BookThemeKey.self] = newValue
         }
+    }
+}
+
+extension EdgeInsets {
+    static
+    func zero() -> EdgeInsets {
+        return EdgeInsets(top: 0.0, leading: 0.0, bottom: 0.0, trailing: 0.0)
     }
 }
