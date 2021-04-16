@@ -84,16 +84,23 @@ extension ContentView {
                                 .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
                     }
                 }
+                if userMadeASelection{
+                    LetterPicker().position(CGPoint(x: CGFloat(100), y: CGFloat(100)))
+                }
             }
-            if userMadeASelection{
-                LetterPicker()
-            }
+            
         }
         
         @ViewBuilder
         func LetterPicker() -> some View {
             LazyVGrid(columns: columns()){
-               
+                ForEach(String.alphabet.map{$0}, id: \.self){ character in
+                    Text(String(character))
+                        .onTapGesture {
+                            viewModel.userGuess = character
+                            userMadeASelection = false
+                        }
+                }
             }
         }
         
