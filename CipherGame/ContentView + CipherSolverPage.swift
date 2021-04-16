@@ -234,10 +234,6 @@ extension ContentView {
         @Environment(\.bookTheme)
         var bookTheme : BookTheme
         
-//        @State
-//        private
-//        var wasTapped = false
-        
         @Binding
         var tappedIndex : Int
         
@@ -252,7 +248,6 @@ extension ContentView {
             TapGesture(count: 1)
                 .onEnded{
                     //flip value
-//                    wasTapped = true
                     tappedIndex = indexInTheCipher
                     userMadeASelection = true
                     viewModel.currentUserSelectionIndex = indexInTheCipher
@@ -288,16 +283,17 @@ extension ContentView {
                 ZStack{
                     
                     if displayPlaintext {
-                        if tappedIndex == indexInTheCipher, userMadeASelection {
-                            LetterPicker()
-                        }
                         //plaintext
                         Text(plainTextLetter.string())
                             .frame(height : 30)
                             .foregroundColor(viewModel.theme.color(of: .plaintext,
                                                                    for: bookTheme, in: colorScheme))
                             .fixedSize()
+                            .zIndex(1.0)
                         
+                        if tappedIndex == indexInTheCipher, userMadeASelection {
+                            LetterPicker().fixedSize().zIndex(2.0)
+                        }
                     }
                 }
             }
@@ -315,21 +311,23 @@ extension ContentView {
         
         @ViewBuilder
         func LetterPicker() -> some View {
-            LazyVGrid(columns: columns()){
-                ForEach(String.alphabet.map{$0}, id: \.self){ character in
-                    Text(String(character))
-                        .onTapGesture {
-                            viewModel.userGuess = character
-                            userMadeASelection = false
-                        }
-                        .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+            ScrollView(.horizontal){
+                LazyVGrid(columns: columns()){
+                    ForEach(String.alphabet.map{$0}, id: \.self){ character in
+                        Text(String(character))
+                            .onTapGesture {
+                                viewModel.userGuess = character
+                                userMadeASelection = false
+                            }
+                            .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                    }
                 }
-            }
+            }.background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
         }
         
         private func columns() -> [GridItem] {
             return Array(repeating: GridItem(.fixed(20)),
-                         count: 6)
+                         count: 26)
         }
         
         
