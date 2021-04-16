@@ -100,6 +100,7 @@ extension ContentView {
                             viewModel.userGuess = character
                             userMadeASelection = false
                         }
+                        .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
                 }
             }
         }
@@ -299,26 +300,26 @@ extension ContentView {
             
                 Spacer()
                 
-                ZStack{
+//                ZStack{
                     
                     if displayPlaintext {
-                        if wasTapped, userMadeASelection {
+//                        if wasTapped, userMadeASelection {
                             
-                            NewTextField(letterGuess: $viewModel.userGuess,
-                                            wasTapped: $wasTapped,
-                                            textColor: viewModel.theme.color(of: .highlight,
-                                                                             for: bookTheme, in: colorScheme),
-                                            capType: $viewModel.capType)
-                        } else {
+//                            NewTextField(letterGuess: $viewModel.userGuess,
+//                                            wasTapped: $wasTapped,
+//                                            textColor: viewModel.theme.color(of: .highlight,
+//                                                                             for: bookTheme, in: colorScheme),
+//                                            capType: $viewModel.capType)
+//                        } else {
                             //plaintext
                             Text(plainTextLetter.string())
                                 .frame(height : 30)
                                 .foregroundColor(viewModel.theme.color(of: .plaintext,
                                                                        for: bookTheme, in: colorScheme))
                                 .fixedSize()
-                        }
+//                        }
                     }
-                }
+//                }
             }
             .overlay(Rectangle()
                         .frame(width: 30, height: 2, alignment: .bottom)
