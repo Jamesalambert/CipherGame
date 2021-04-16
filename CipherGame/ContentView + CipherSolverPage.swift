@@ -58,10 +58,11 @@ extension ContentView {
         @ViewBuilder
         func cipherPuzzleView(with geometry : GeometryProxy) -> some View {
             ScrollView {
-                VStack(alignment: .leading, spacing: nil){
+                VStack(alignment: .center, spacing: nil){
                         Text(viewModel.headerText)
                             .fixedSize(horizontal: false, vertical: true)
                             .font(viewModel.theme.font(for: .body, for: bookTheme))
+                            .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
                         Spacer()
                             .frame(height: geometry.size.height/20)
 
@@ -79,6 +80,7 @@ extension ContentView {
                         Spacer().frame(height: geometry.size.height/20)
                         Text(viewModel.footerText)
                             .font(viewModel.theme.font(for: .body, for: bookTheme))
+                            .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
                 }
             }
         }

@@ -26,6 +26,7 @@ extension ContentView {
                     
                     Text("Character Count")
                         .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
+                        .foregroundColor(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme))
                     
                     ScrollView(.horizontal) {
                         LazyVGrid(columns: self.columns(screenWidth: geometry.size.width), alignment: .center) {
