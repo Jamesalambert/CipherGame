@@ -28,13 +28,9 @@ extension ContentView {
         
         @State
         private
-        var positionOfSelectedLetter : CGPoint = CGPoint.zero
-        
-        @State
-        private
         var resettingPuzzle : Bool = false
         
-        var scrollViewTap : some Gesture {
+        var deselectTap : some Gesture {
             TapGesture(count: 1).onEnded{
                 userMadeASelection = false
                 viewModel.currentCiphertextCharacter = nil
@@ -46,7 +42,7 @@ extension ContentView {
             GeometryReader { geometry in
                 VStack{
                     cipherPuzzleView(with: geometry)
-                        .gesture(scrollViewTap)
+                        .gesture(deselectTap)
                         .padding(.all, geometry.size.height/20)
                     
                     LetterCount()
@@ -75,7 +71,6 @@ extension ContentView {
                                       pinnedViews: [.sectionHeaders]){
                                 ForEach(viewModel.data){ cipherPair in
                                         CipherSolverCharacterPair(
-                                            positionOfLetter: $positionOfSelectedLetter,
                                             userMadeASelection: $userMadeASelection,
                                             cipherTextLetter: cipherPair.cipherLetter,
                                             plainTextLetter: cipherPair.userGuessLetter,
@@ -240,9 +235,6 @@ extension ContentView {
         var wasTapped = false
         
         @Binding
-        var positionOfLetter : CGPoint
-        
-        @Binding
         var userMadeASelection : Bool
         var cipherTextLetter : Character
         var plainTextLetter : Character?
@@ -290,11 +282,6 @@ extension ContentView {
                     if displayPlaintext {
                         if wasTapped, userMadeASelection {
                             LetterPicker()
-//                            NewTextField(letterGuess: $viewModel.userGuess,
-//                                            wasTapped: $wasTapped,
-//                                            textColor: viewModel.theme.color(of: .highlight,
-//                                                                             for: bookTheme, in: colorScheme),
-//                                            capType: $viewModel.capType)
                         }
                         //plaintext
                         Text(plainTextLetter.string())
@@ -313,7 +300,6 @@ extension ContentView {
                         alignment: .bottom )
             .padding(.top)
             .font(viewModel.theme.font(for: .title, for: bookTheme))
-            //.font(.system(.title, design: viewModel.fontDesign))
             .foregroundColor(foregroundColor(for: colorScheme))
             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
         }
@@ -326,11 +312,13 @@ extension ContentView {
                     Text(String(character))
                         .onTapGesture {
                             viewModel.userGuess = character
-                            wasTapped = false
+                            
                             userMadeASelection = false
                         }
                         .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
                 }
+            }.onDisappear{
+                wasTapped = false
             }
         }
         
