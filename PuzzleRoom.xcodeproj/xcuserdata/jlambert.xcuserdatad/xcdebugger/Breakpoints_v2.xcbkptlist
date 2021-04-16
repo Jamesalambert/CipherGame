@@ -30,8 +30,8 @@
             filePath = "CipherGame/ContentView + CipherSolverPage.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "291"
-            endingLineNumber = "291"
+            startingLineNumber = "307"
+            endingLineNumber = "307"
             landmarkName = "standardCipherPair(displayPlaintext:)"
             landmarkType = "7">
          </BreakpointContent>

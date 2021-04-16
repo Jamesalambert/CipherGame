@@ -57,34 +57,50 @@ extension ContentView {
         
         @ViewBuilder
         func cipherPuzzleView(with geometry : GeometryProxy) -> some View {
-            ScrollView {
-                VStack(alignment: .center, spacing: nil){
-                        Text(viewModel.headerText)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .font(viewModel.theme.font(for: .body, for: bookTheme))
-                            .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-                        Spacer()
-                            .frame(height: geometry.size.height/20)
+            ZStack{
+                ScrollView {
+                    VStack(alignment: .center, spacing: nil){
+                            Text(viewModel.headerText)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .font(viewModel.theme.font(for: .body, for: bookTheme))
+                                .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                            Spacer()
+                                .frame(height: geometry.size.height/20)
 
-                        LazyVGrid(columns: columns(screenWidth: geometry.size.width),
-                                  spacing: 0,
-                                  pinnedViews: [.sectionHeaders]){
-                            ForEach(viewModel.data){ cipherPair in
-                                    CipherSolverCharacterPair(
-                                        userMadeASelection: $userMadeASelection,
-                                        cipherTextLetter: cipherPair.cipherLetter,
-                                        plainTextLetter: cipherPair.userGuessLetter,
-                                        indexInTheCipher: cipherPair.id)
+                            LazyVGrid(columns: columns(screenWidth: geometry.size.width),
+                                      spacing: 0,
+                                      pinnedViews: [.sectionHeaders]){
+                                ForEach(viewModel.data){ cipherPair in
+                                        CipherSolverCharacterPair(
+                                            userMadeASelection: $userMadeASelection,
+                                            cipherTextLetter: cipherPair.cipherLetter,
+                                            plainTextLetter: cipherPair.userGuessLetter,
+                                            indexInTheCipher: cipherPair.id)
+                                }
                             }
-                        }
-                        Spacer().frame(height: geometry.size.height/20)
-                        Text(viewModel.footerText)
-                            .font(viewModel.theme.font(for: .body, for: bookTheme))
-                            .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                            Spacer().frame(height: geometry.size.height/20)
+                            Text(viewModel.footerText)
+                                .font(viewModel.theme.font(for: .body, for: bookTheme))
+                                .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                    }
                 }
+            }
+            if userMadeASelection{
+                LetterPicker()
             }
         }
         
+        @ViewBuilder
+        func LetterPicker() -> some View {
+            LazyVGrid(columns: columns()){
+               
+            }
+        }
+        
+        private func columns() -> [GridItem] {
+            return Array(repeating: GridItem(.fixed(20)),
+                         count: 6)
+        }
         
         @ToolbarContentBuilder
         func toolbarView() -> some ToolbarContent {
