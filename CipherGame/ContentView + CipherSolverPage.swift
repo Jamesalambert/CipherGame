@@ -28,6 +28,10 @@ extension ContentView {
         
         @State
         private
+        var tappedIndex : Int = 0
+        
+        @State
+        private
         var resettingPuzzle : Bool = false
         
         var deselectTap : some Gesture {
@@ -71,7 +75,7 @@ extension ContentView {
                                       pinnedViews: [.sectionHeaders]){
                                 ForEach(viewModel.data){ cipherPair in
                                         CipherSolverCharacterPair(
-                                            userMadeASelection: $userMadeASelection,
+                                            tappedIndex: $tappedIndex, userMadeASelection: $userMadeASelection,
                                             cipherTextLetter: cipherPair.cipherLetter,
                                             plainTextLetter: cipherPair.userGuessLetter,
                                             indexInTheCipher: cipherPair.id)
@@ -230,22 +234,26 @@ extension ContentView {
         @Environment(\.bookTheme)
         var bookTheme : BookTheme
         
-        @State
-        private
-        var wasTapped = false
+//        @State
+//        private
+//        var wasTapped = false
+        
+        @Binding
+        var tappedIndex : Int
         
         @Binding
         var userMadeASelection : Bool
         var cipherTextLetter : Character
         var plainTextLetter : Character?
-        var indexInTheCipher : Int?
+        var indexInTheCipher : Int
                 
         private
         var plaintextLabelTap : some Gesture {
             TapGesture(count: 1)
                 .onEnded{
                     //flip value
-                    wasTapped = true
+//                    wasTapped = true
+                    tappedIndex = indexInTheCipher
                     userMadeASelection = true
                     viewModel.currentUserSelectionIndex = indexInTheCipher
                     viewModel.currentCiphertextCharacter = cipherTextLetter
@@ -280,7 +288,7 @@ extension ContentView {
                 ZStack{
                     
                     if displayPlaintext {
-                        if wasTapped, userMadeASelection {
+                        if tappedIndex == indexInTheCipher, userMadeASelection {
                             LetterPicker()
                         }
                         //plaintext
@@ -312,13 +320,10 @@ extension ContentView {
                     Text(String(character))
                         .onTapGesture {
                             viewModel.userGuess = character
-                            
                             userMadeASelection = false
                         }
                         .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
                 }
-            }.onDisappear{
-                wasTapped = false
             }
         }
         
