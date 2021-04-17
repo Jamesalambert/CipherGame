@@ -151,7 +151,7 @@ var charsPerLine : Int = 30
     }
     
     func plaintext(for ciphertext : Character, in puzzle : Puzzle) -> Character?{
-        if let plaintextCharacter = puzzle.usersGuesses[String(ciphertext)] {
+        if let plaintextCharacter = currentPuzzle.usersGuesses[String(ciphertext)] {
             return Character(plaintextCharacter)
         }
         return nil
@@ -165,14 +165,6 @@ var charsPerLine : Int = 30
     
     
 }
-
-//struct PuzzleTitle : Identifiable, Hashable {
-//    var index : Int
-//    var theme : BookTheme
-//    var id : UUID
-//    var title : String
-//    var isSolved : Bool
-//}
 
 struct GameInfo : Hashable, Identifiable {
     var id: Int

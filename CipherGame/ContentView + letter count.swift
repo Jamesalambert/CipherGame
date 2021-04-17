@@ -29,7 +29,7 @@ extension ContentView {
         var body : some View {
             GeometryReader { geometry in
                 VStack {
-                    
+                    Text(String(viewModel.currentPuzzle.usersGuesses.count))
                     Text("Character Count")
                         .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
                         .foregroundColor(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme))
@@ -40,7 +40,8 @@ extension ContentView {
                                     let cipherChar = letterCountTriple.character
                                     PairCount(cipherChar: cipherChar,
                                               plainChar: viewModel.plaintext(for: cipherChar, in: puzzle),
-                                              count: letterCountTriple.count, currentCiphertextCharacter: $currentCiphertextCharacter)
+                                              count: letterCountTriple.count,
+                                              currentCiphertextCharacter: $currentCiphertextCharacter)
                                         .animation(.easeInOut)
                             }
                             
@@ -84,7 +85,7 @@ extension ContentView {
                     Text(String(cipherChar)).fontWeight(.semibold)
                         
                     Text(count > 0 ? String(count) : "-").lineLimit(1)
-
+                    
                     Text(plainChar.string()).foregroundColor(viewModel.theme.color(of: .plaintext,
                                                                                    for: bookTheme, in: colorScheme))
                 }

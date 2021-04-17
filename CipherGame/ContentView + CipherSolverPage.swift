@@ -272,9 +272,11 @@ extension ContentView {
         func standardCipherPair(displayPlaintext : Bool) -> some View {
             
             Menu {
-                LetterMenu().onAppear{
-                    currentCiphertextCharacter = cipherTextLetter
-                }
+                LetterMenu()
+                    .menuStyle(BorderlessButtonMenuStyle())
+                    .onAppear{
+                        currentCiphertextCharacter = cipherTextLetter
+                    }
             } label: {
                 VStack{
                     //ciphertext
@@ -307,19 +309,33 @@ extension ContentView {
 
         }
         
+        private
         func LetterMenu() -> some View {
-            ForEach(String.alphabet.map{$0}, id: \.self){ character in
-                Button {
+            
+            Group{
+                
+                Button("-"){
                     withAnimation{
-                        viewModel.guess(cipherTextLetter, is: character,
+                        viewModel.guess(cipherTextLetter, is: nil,
                                         at: indexInTheCipher, for: puzzle)
                     }
-                } label: {
-                    Text((String(character))).frame(width: 20)
                 }
-                .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                
+                ForEach(String.alphabet.map{$0}, id: \.self){ character in
+                    Button {
+                        withAnimation{
+                            viewModel.guess(cipherTextLetter, is: character,
+                                            at: indexInTheCipher, for: puzzle)
+                        }
+                    } label: {
+                        Text((String(character))).frame(width: 20)
+                    }
+                }
             }
+            .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
         }
+  
+        
         
         private
         func foregroundColor(for colorScheme : ColorScheme) -> Color? {
