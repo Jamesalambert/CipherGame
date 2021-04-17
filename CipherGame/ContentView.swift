@@ -28,13 +28,13 @@ struct ContentView: View {
         
         NavigationView{
             List{
-                ForEach(viewModel.availableBooks){ book in
+                ForEach(viewModel.installedBooks){ book in
                     
-                    Section(header: bookHeader(for: book),
-                            footer: bookFooter(for: book)){
+                    Section(header: bookHeader(for: book.title),
+                            footer: bookFooter(for: book.title)){
                         
-                        ForEach(viewModel.puzzleTitles(for: book.id)){ puzzle in
-                            NavigationLink(destination: CipherSolverPage(puzzleHash: puzzle.id )
+                        ForEach(book.puzzles){ puzzle in
+                            NavigationLink(destination: CipherSolverPage(puzzle: puzzle )
                                                             .environment(\.bookTheme, book.theme)
                                                             .navigationTitle(puzzle.title),
                                            tag: puzzle.id,
@@ -57,29 +57,29 @@ struct ContentView: View {
     }
     
     @ViewBuilder
-    func bookHeader(for bookTitle : PuzzleTitle) -> some View {
+    func bookHeader(for bookTitle : String) -> some View {
         HStack{
             Spacer()
-            Text(bookTitle.title.capitalized).font(.system(.title))
+            Text(bookTitle.capitalized).font(.system(.title))
             Spacer()
         }
     }
     
     @ViewBuilder
-    func puzzleEntry(for bookTitle : PuzzleTitle) -> some View {
+    func puzzleEntry(for puzzle : Puzzle) -> some View {
         
-        Text("\(bookTitle.index + 1). \(bookTitle.title)")
+        Text("\(puzzle.title)")
             .lineLimit(1)
         
-        if bookTitle.isSolved{
+        if puzzle.isSolved{
             Image(systemName: "checkmark.circle")
-                .foregroundColor(viewModel.theme.color(of: .completed, for: bookTitle.theme, in: colorScheme))
+//                .foregroundColor(viewModel.theme.color(of: .completed, for: bookTheme, in: colorScheme))
         }
     }
     
     @ViewBuilder
-    func bookFooter(for bookTitle : PuzzleTitle)-> some View {
-        if bookTitle.title == "lessons" {
+    func bookFooter(for bookTitle : String)-> some View {
+        if bookTitle == "lessons" {
             HStack{
                 Spacer()
                 Button("hide lessons"){

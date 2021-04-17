@@ -23,7 +23,10 @@ extension ContentView {
         var bookTheme : BookTheme
         
         @State
-        var puzzleHash : UUID
+        var puzzle : Puzzle
+        
+        @State
+        var currentCiphertextCharacter : Character? = nil
         
         @State
         private
@@ -35,7 +38,7 @@ extension ContentView {
                     cipherPuzzleView(with: geometry)
                         .padding(.all, geometry.size.height/20)
                     
-                    LetterCount()
+                    LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter)
                         .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
                         .frame(width: geometry.size.width, height: 100, alignment: .bottom)
                 }
@@ -49,7 +52,7 @@ extension ContentView {
         func cipherPuzzleView(with geometry : GeometryProxy) -> some View {
                 ScrollView {
                     VStack(alignment: .center, spacing: nil){
-                            Text(viewModel.headerText)
+                        Text(puzzle.header)
                                 .fixedSize(horizontal: false, vertical: true)
                                 .font(viewModel.theme.font(for: .body, for: bookTheme))
                                 .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
@@ -61,14 +64,15 @@ extension ContentView {
                                       pinnedViews: [.sectionHeaders]){
                                 ForEach(viewModel.data){ cipherPair in
                                         CipherSolverCharacterPair(
-                                            puzzleHash: $puzzleHash,
+                                            puzzle: $puzzle,
+                                            currentCiphertextCharacter: $currentCiphertextCharacter,
                                             cipherTextLetter: cipherPair.cipherLetter,
                                             plainTextLetter: cipherPair.userGuessLetter,
                                             indexInTheCipher: cipherPair.id)
                                 }
                             }
                             Spacer().frame(height: geometry.size.height/20)
-                            Text(viewModel.footerText)
+                        Text(puzzle.footer)
                                 .font(viewModel.theme.font(for: .body, for: bookTheme))
                                 .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
                     }
@@ -242,26 +246,29 @@ extension ContentView {
         var bookTheme : BookTheme
         
         @Binding
-        var puzzleHash : UUID
+        var puzzle : Puzzle
+        
+        @Binding
+        var currentCiphertextCharacter : Character?
         
         var cipherTextLetter : Character
         var plainTextLetter : Character?
         var indexInTheCipher : Int
         
         
-        private
-        var plaintextLabelTap : some Gesture {
-            TapGesture(count: 1)
-                .onEnded{
-                    //flip value
-                    withAnimation{
-                        //tappedIndex = indexInTheCipher
-                        //userMadeASelection = true
-                        viewModel.currentUserSelectionIndex = indexInTheCipher
-                        viewModel.currentCiphertextCharacter = cipherTextLetter
-                    }
-                }
-        }
+//        private
+//        var plaintextLabelTap : some Gesture {
+//            TapGesture(count: 1)
+//                .onEnded{
+//                    //flip value
+//                    withAnimation{
+//                        //tappedIndex = indexInTheCipher
+//                        //userMadeASelection = true
+//                        viewModel.currentUserSelectionIndex = indexInTheCipher
+//                        viewModel.currentCiphertextCharacter = cipherTextLetter
+//                    }
+//                }
+//        }
         
         var body : some View {
             if viewModel.currentPuzzle.isSolved{
@@ -270,7 +277,7 @@ extension ContentView {
                     standardCipherPair(displayPlaintext: false)
                 } else {
                         standardCipherPair(displayPlaintext: true)
-                            .gesture(plaintextLabelTap)
+//                            .gesture(plaintextLabelTap)
                 }
         }
     
@@ -282,7 +289,9 @@ extension ContentView {
             //ciphertext
             if !viewModel.currentPuzzle.isSolved{
                 Menu {
-                    LetterMenu()
+                    LetterMenu().onAppear{
+                        currentCiphertextCharacter = cipherTextLetter
+                    }
                 } label: {
                     VStack{
                         Text(String(cipherTextLetter))
@@ -324,7 +333,7 @@ extension ContentView {
             ForEach(String.alphabet.map{$0}, id: \.self){ character in
                 Button {
                     withAnimation{
-                        viewModel.guess(cipherTextLetter, is: character, at: indexInTheCipher, for: puzzleHash)
+                        viewModel.guess(cipherTextLetter, is: character, at: indexInTheCipher, for: puzzle)
                     }
                 } label: {
                     Text((String(character))).frame(width: 20)
@@ -335,7 +344,7 @@ extension ContentView {
         
         private
         func foregroundColor(for colorScheme : ColorScheme) -> Color? {
-            if viewModel.currentCiphertextCharacter == cipherTextLetter.lowerChar() {
+            if currentCiphertextCharacter == cipherTextLetter.lowerChar() {
                 return viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)
             }
             return viewModel.theme.color(of: .ciphertext, for: bookTheme, in: colorScheme)

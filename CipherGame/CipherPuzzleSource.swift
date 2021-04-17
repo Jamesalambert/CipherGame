@@ -36,24 +36,13 @@ struct Game : Codable {
     mutating
     func update(cipherCharacter : Character,
                             plaintextCharacter : Character?,
-                            in puzzleHash : UUID,
+                            in puzzle : Puzzle,
                             at index : Int){
-        
-        guard let bookIndex = books.firstIndex(where: {
-            $0.puzzles.contains(where: { book in
-                book.id == puzzleHash
-            })
-        }) else {return}
-        
-        guard let puzzleIndex = books[bookIndex].puzzles.firstIndex(where: {
-            $0.id == puzzleHash
-        }) else {return}
-        
-        
+    
         
         updateUsersGuesses(cipherCharacter: cipherCharacter,
                            plaintextCharacter: plaintextCharacter,
-                           in: books[bookIndex].puzzles[puzzleIndex], at: index)
+                           in: puzzle, at: index)
     }
     
     
@@ -149,7 +138,7 @@ struct Game : Codable {
 
 
 
-struct Puzzle : Hashable, Codable{
+struct Puzzle : Hashable, Codable, Identifiable{
     
     static func == (lhs: Puzzle, rhs: Puzzle) -> Bool {
         return lhs.id == rhs.id
@@ -256,7 +245,7 @@ struct Puzzle : Hashable, Codable{
     
 }
 
-struct Book : Hashable, Codable{
+struct Book : Hashable, Codable, Identifiable{
    
     var title : String
     var puzzles : [Puzzle]
