@@ -36,8 +36,10 @@ extension ContentView {
         
         var deselectTap : some Gesture {
             TapGesture(count: 1).onEnded{
-                userMadeASelection = false
-                viewModel.currentCiphertextCharacter = nil
+                withAnimation{
+                    userMadeASelection = false
+                    viewModel.currentCiphertextCharacter = nil
+                }
             }
         }
         
@@ -75,7 +77,8 @@ extension ContentView {
                                       pinnedViews: [.sectionHeaders]){
                                 ForEach(viewModel.data){ cipherPair in
                                         CipherSolverCharacterPair(
-                                            tappedIndex: $tappedIndex, userMadeASelection: $userMadeASelection,
+                                            tappedIndex: $tappedIndex,
+                                            userMadeASelection: $userMadeASelection,
                                             cipherTextLetter: cipherPair.cipherLetter,
                                             plainTextLetter: cipherPair.userGuessLetter,
                                             indexInTheCipher: cipherPair.id)
@@ -160,18 +163,23 @@ extension ContentView {
         
         
 //        test using a list vs a grid. Buggy but maybe helpful.
-        @ViewBuilder
-        func cipherPuzzleViewEXP(with geometry : GeometryProxy) -> some View {
+//        @ViewBuilder
+//        func cipherPuzzleViewEXP(with geometry : GeometryProxy) -> some View {
 //            List{
+//
+//                Text(viewModel.headerText)
+//                    .fixedSize(horizontal: false, vertical: true)
+//                    .font(viewModel.theme.font(for: .body, for: bookTheme))
+//                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+//
 //                ForEach(viewModel.puzzleLines){ puzzleLine in
-//                    HStack{
+//                    HStack(alignment: .bottom, spacing: 0){
 //                        Spacer()
-//                            .gesture(scrollViewTap)
 //                        Text(String(puzzleLine.id))
 //                        Spacer()
-//                            .gesture(scrollViewTap)
 //                        ForEach(puzzleLine.characters){ cipherPair in
 //                            CipherSolverCharacterPair(
+//                                tappedIndex: $tappedIndex,
 //                                userMadeASelection: $userMadeASelection,
 //                                cipherTextLetter: cipherPair.cipherLetter,
 //                                plainTextLetter: cipherPair.userGuessLetter,
@@ -179,11 +187,27 @@ extension ContentView {
 //                                .frame(width: geometry.size.width / 40, height: nil, alignment: .center)
 //                        }
 //                        Spacer()
-//                            .gesture(scrollViewTap)
 //                    }
+//
+//                    if line(puzzleLine.id, contains: tappedIndex){
+//                        LetterPicker()
+//                    }
+//
 //                }
+//
+//                Text(viewModel.footerText)
+//                    .font(viewModel.theme.font(for: .body, for: bookTheme))
+//                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+//
+//
 //            }
-        }
+//
+//        }
+//
+//        private func line(_ line : Int, contains index : Int) -> Bool {
+//            return line == Int(floor(Double(index / viewModel.charsPerLine)))
+//        }
+        
         
         func resetPuzzleAlert() -> Alert {
             Alert(title: Text("Reset puzzle?"),
@@ -242,16 +266,19 @@ extension ContentView {
         var cipherTextLetter : Character
         var plainTextLetter : Character?
         var indexInTheCipher : Int
-                
+        
+        
         private
         var plaintextLabelTap : some Gesture {
             TapGesture(count: 1)
                 .onEnded{
                     //flip value
-                    tappedIndex = indexInTheCipher
-                    userMadeASelection = true
-                    viewModel.currentUserSelectionIndex = indexInTheCipher
-                    viewModel.currentCiphertextCharacter = cipherTextLetter
+                    withAnimation{
+                        tappedIndex = indexInTheCipher
+                        userMadeASelection = true
+                        viewModel.currentUserSelectionIndex = indexInTheCipher
+                        viewModel.currentCiphertextCharacter = cipherTextLetter
+                    }
                 }
         }
         
@@ -270,56 +297,61 @@ extension ContentView {
         @ViewBuilder
         private
         func standardCipherPair(displayPlaintext : Bool) -> some View {
-            VStack{
-                
+            
                 //ciphertext
                 if !viewModel.currentPuzzle.isSolved{
-                    Text(String(cipherTextLetter))
-                        .fixedSize()
-                }
-            
-                Spacer()
-                
-                ZStack{
-                    
-                    if displayPlaintext {
-                        //plaintext
-                        Text(plainTextLetter.string())
-                            .frame(height : 30)
-                            .foregroundColor(viewModel.theme.color(of: .plaintext,
-                                                                   for: bookTheme, in: colorScheme))
-                            .fixedSize()
-                            .zIndex(1.0)
-                        
-                        if tappedIndex == indexInTheCipher, userMadeASelection {
-                            LetterPicker().fixedSize().zIndex(2.0)
+                    Menu {
+                        LetterMenu()
+                    } label: {
+                        VStack{
+                            Text(String(cipherTextLetter))
+                                .fixedSize()
+                            
+                            Spacer()
+                            
+                            ZStack{
+                                
+                                if displayPlaintext {
+                                    //plaintext
+                                    Text(plainTextLetter.string())
+                                        .frame(height : 30)
+                                        .foregroundColor(viewModel.theme.color(of: .plaintext,
+                                                                               for: bookTheme, in: colorScheme))
+                                        .fixedSize()
+                                       
+            //                        if tappedIndex == indexInTheCipher, userMadeASelection {
+            //                            LetterPicker()
+            //                                .fixedSize()
+            //                        }
+                                }
+                            }
                         }
+                        .overlay(Rectangle()
+                                    .frame(width: 30, height: 2, alignment: .bottom)
+                                    .foregroundColor(viewModel.theme.color(of: .puzzleLines,
+                                                                           for: bookTheme, in: colorScheme)),
+                                    alignment: .bottom )
+                        .padding(.top)
+                        .font(viewModel.theme.font(for: .title, for: bookTheme))
+                        .foregroundColor(foregroundColor(for: colorScheme))
+                        .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
                     }
                 }
-            }
-            .overlay(Rectangle()
-                        .frame(width: 30, height: 2, alignment: .bottom)
-                        .foregroundColor(viewModel.theme.color(of: .puzzleLines,
-                                                               for: bookTheme, in: colorScheme)),
-                        alignment: .bottom )
-            .padding(.top)
-            .font(viewModel.theme.font(for: .title, for: bookTheme))
-            .foregroundColor(foregroundColor(for: colorScheme))
-            .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
         }
-        
-        
+    
         @ViewBuilder
         func LetterPicker() -> some View {
             ScrollView(.horizontal){
                 LazyVGrid(columns: columns()){
                     ForEach(String.alphabet.map{$0}, id: \.self){ character in
-                        Text(String(character))
-                            .onTapGesture {
+                        Text(String(character)).onTapGesture {
+                            withAnimation{
                                 viewModel.userGuess = character
+                                tappedIndex = indexInTheCipher
                                 userMadeASelection = false
                             }
-                            .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                        }
+                        .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
                     }
                 }
             }.background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
@@ -327,11 +359,23 @@ extension ContentView {
         
         private func columns() -> [GridItem] {
             return Array(repeating: GridItem(.fixed(20)),
-                         count: 26)
+                         count: 6)
         }
         
-        
-        
+        func LetterMenu() -> some View {
+            ForEach(String.alphabet.map{$0}, id: \.self){ character in
+                Button {
+                    withAnimation{
+                        viewModel.userGuess = character
+                        tappedIndex = indexInTheCipher
+                        userMadeASelection = false
+                    }
+                } label: {
+                    Text((String(character))).frame(width: 20)
+                }
+                .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+            }
+        }
         
         private
         func foregroundColor(for colorScheme : ColorScheme) -> Color? {
