@@ -81,14 +81,12 @@ class CipherPuzzle : ObservableObject {
                                  at: index)
     }
     
-    var data : [GameInfo] {
-
-        //guard let currentPuzzle = self.currentPuzzle else {return []}
-
+    func data(for puzzle : Puzzle) -> [GameInfo] {
         var puzzleData = Array<GameInfo>()
 
-        for (index, char) in currentPuzzle.ciphertext.enumerated() {
-
+        for (index, char) in puzzle.ciphertext.enumerated() {
+            
+            //need current puzzle here because it talks to the model!
             if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, index, currentPuzzle) {
 
                 let output = GameInfo(id: newGameTriad.id,
@@ -98,7 +96,6 @@ class CipherPuzzle : ObservableObject {
                 puzzleData.append(output)
             }
         }
-
         return puzzleData
     }
     
@@ -169,13 +166,13 @@ var charsPerLine : Int = 30
     
 }
 
-struct PuzzleTitle : Identifiable, Hashable {
-    var index : Int
-    var theme : BookTheme
-    var id : UUID
-    var title : String
-    var isSolved : Bool
-}
+//struct PuzzleTitle : Identifiable, Hashable {
+//    var index : Int
+//    var theme : BookTheme
+//    var id : UUID
+//    var title : String
+//    var isSolved : Bool
+//}
 
 struct GameInfo : Hashable, Identifiable {
     var id: Int

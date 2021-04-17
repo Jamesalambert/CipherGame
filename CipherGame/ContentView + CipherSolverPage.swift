@@ -63,7 +63,7 @@ extension ContentView {
                             LazyVGrid(columns: columns(screenWidth: geometry.size.width),
                                       spacing: 0,
                                       pinnedViews: [.sectionHeaders]){
-                                ForEach(viewModel.data){ cipherPair in
+                                ForEach(viewModel.data(for: puzzle)){ cipherPair in
                                         CipherSolverCharacterPair(
                                             puzzle: $puzzle,
                                             currentCiphertextCharacter: $currentCiphertextCharacter,
@@ -311,7 +311,8 @@ extension ContentView {
             ForEach(String.alphabet.map{$0}, id: \.self){ character in
                 Button {
                     withAnimation{
-                        viewModel.guess(cipherTextLetter, is: character, at: indexInTheCipher, for: puzzle)
+                        viewModel.guess(cipherTextLetter, is: character,
+                                        at: indexInTheCipher, for: puzzle)
                     }
                 } label: {
                     Text((String(character))).frame(width: 20)

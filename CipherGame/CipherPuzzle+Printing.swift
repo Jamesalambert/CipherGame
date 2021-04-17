@@ -14,10 +14,13 @@ extension CipherPuzzle{
     var printableHTML : String {
                 
         //let charsPerLine = 40
-        let numberOfLines = Int(ceil(Double(self.data.count) / Double(CipherPuzzle.charsPerLine)))
-        let charsOnLastLine = self.data.count % CipherPuzzle.charsPerLine
         
-        let data = self.data
+        let data = self.data(for: currentPuzzle)
+        
+        let numberOfLines = Int(ceil(Double(data.count) / Double(CipherPuzzle.charsPerLine)))
+        let charsOnLastLine = data.count % CipherPuzzle.charsPerLine
+        
+        //let data = self.data
         var cipherChars : [String] = []
         var userGuesses : [String] = []
         
