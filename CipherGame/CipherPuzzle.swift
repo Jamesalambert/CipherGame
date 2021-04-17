@@ -136,6 +136,14 @@ class CipherPuzzle : ObservableObject {
         }
     }
     
+    
+    //new alternative to above var
+    func guess(_ cipherCharacter : Character, is plainCharacter : Character?, at index : Int, for puzzleHash : UUID ) {
+        
+        model.update(cipherCharacter: cipherCharacter, plaintextCharacter: plainCharacter, in: puzzleHash, at: index)
+        
+    }
+    
     var data : [GameInfo] {
 
         //guard let currentPuzzle = self.currentPuzzle else {return []}

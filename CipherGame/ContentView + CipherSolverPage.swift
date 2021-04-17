@@ -23,6 +23,9 @@ extension ContentView {
         var bookTheme : BookTheme
         
         @State
+        var puzzleHash : UUID
+        
+        @State
         private
         var userMadeASelection : Bool = false
         
@@ -77,6 +80,7 @@ extension ContentView {
                                       pinnedViews: [.sectionHeaders]){
                                 ForEach(viewModel.data){ cipherPair in
                                         CipherSolverCharacterPair(
+                                            puzzleHash: $puzzleHash,
                                             tappedIndex: $tappedIndex,
                                             userMadeASelection: $userMadeASelection,
                                             cipherTextLetter: cipherPair.cipherLetter,
@@ -259,6 +263,9 @@ extension ContentView {
         var bookTheme : BookTheme
         
         @Binding
+        var puzzleHash : UUID
+        
+        @Binding
         var tappedIndex : Int
         
         @Binding
@@ -274,8 +281,8 @@ extension ContentView {
                 .onEnded{
                     //flip value
                     withAnimation{
-                        tappedIndex = indexInTheCipher
-                        userMadeASelection = true
+                        //tappedIndex = indexInTheCipher
+                        //userMadeASelection = true
                         viewModel.currentUserSelectionIndex = indexInTheCipher
                         viewModel.currentCiphertextCharacter = cipherTextLetter
                     }
@@ -298,45 +305,45 @@ extension ContentView {
         private
         func standardCipherPair(displayPlaintext : Bool) -> some View {
             
-                //ciphertext
-                if !viewModel.currentPuzzle.isSolved{
-                    Menu {
-                        LetterMenu()
-                    } label: {
-                        VStack{
-                            Text(String(cipherTextLetter))
-                                .fixedSize()
+            //ciphertext
+            if !viewModel.currentPuzzle.isSolved{
+                Menu {
+                    LetterMenu()
+                } label: {
+                    VStack{
+                        Text(String(cipherTextLetter))
+                            .fixedSize()
+                        
+                        Spacer()
+                        
+                        ZStack{
                             
-                            Spacer()
-                            
-                            ZStack{
+                            if displayPlaintext {
+                                //plaintext
+                                Text(plainTextLetter.string())
+                                    .frame(height : 30)
+                                    .foregroundColor(viewModel.theme.color(of: .plaintext,
+                                                                           for: bookTheme, in: colorScheme))
+                                    .fixedSize()
                                 
-                                if displayPlaintext {
-                                    //plaintext
-                                    Text(plainTextLetter.string())
-                                        .frame(height : 30)
-                                        .foregroundColor(viewModel.theme.color(of: .plaintext,
-                                                                               for: bookTheme, in: colorScheme))
-                                        .fixedSize()
-                                       
-            //                        if tappedIndex == indexInTheCipher, userMadeASelection {
-            //                            LetterPicker()
-            //                                .fixedSize()
-            //                        }
-                                }
+                                //                        if tappedIndex == indexInTheCipher, userMadeASelection {
+                                //                            LetterPicker()
+                                //                                .fixedSize()
+                                //                        }
                             }
                         }
-                        .overlay(Rectangle()
-                                    .frame(width: 30, height: 2, alignment: .bottom)
-                                    .foregroundColor(viewModel.theme.color(of: .puzzleLines,
-                                                                           for: bookTheme, in: colorScheme)),
-                                    alignment: .bottom )
-                        .padding(.top)
-                        .font(viewModel.theme.font(for: .title, for: bookTheme))
-                        .foregroundColor(foregroundColor(for: colorScheme))
-                        .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
                     }
+                    .overlay(Rectangle()
+                                .frame(width: 30, height: 2, alignment: .bottom)
+                                .foregroundColor(viewModel.theme.color(of: .puzzleLines,
+                                                                       for: bookTheme, in: colorScheme)),
+                             alignment: .bottom )
+                    .padding(.top)
+                    .font(viewModel.theme.font(for: .title, for: bookTheme))
+                    .foregroundColor(foregroundColor(for: colorScheme))
+                    .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
                 }
+            }
         }
     
         @ViewBuilder
@@ -346,9 +353,10 @@ extension ContentView {
                     ForEach(String.alphabet.map{$0}, id: \.self){ character in
                         Text(String(character)).onTapGesture {
                             withAnimation{
-                                viewModel.userGuess = character
-                                tappedIndex = indexInTheCipher
-                                userMadeASelection = false
+                                viewModel.guess(cipherTextLetter, is: character, at: indexInTheCipher, for: puzzleHash)
+//                                viewModel.userGuess = character
+//                                tappedIndex = indexInTheCipher
+//                                userMadeASelection = false
                             }
                         }
                         .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))

@@ -34,6 +34,30 @@ struct Game : Codable {
     }
     
     mutating
+    func update(cipherCharacter : Character,
+                            plaintextCharacter : Character?,
+                            in puzzleHash : UUID,
+                            at index : Int){
+        
+        guard let bookIndex = books.firstIndex(where: {
+            $0.puzzles.contains(where: { book in
+                book.id == puzzleHash
+            })
+        }) else {return}
+        
+        guard let puzzleIndex = books[bookIndex].puzzles.firstIndex(where: {
+            $0.id == puzzleHash
+        }) else {return}
+        
+        
+        
+        updateUsersGuesses(cipherCharacter: cipherCharacter,
+                           plaintextCharacter: plaintextCharacter,
+                           in: books[bookIndex].puzzles[puzzleIndex], at: index)
+    }
+    
+    
+    mutating
     func updateUsersGuesses(cipherCharacter : Character,
                             plaintextCharacter : Character?,
                             in puzzle : Puzzle,
