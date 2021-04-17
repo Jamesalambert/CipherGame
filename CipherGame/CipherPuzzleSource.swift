@@ -33,17 +33,17 @@ struct Game : Codable {
         books[bookIndex].puzzles[puzzleIndex].guessIndices.removeAll()
     }
     
-    mutating
-    func update(cipherCharacter : Character,
-                            plaintextCharacter : Character?,
-                            in puzzle : Puzzle,
-                            at index : Int){
-    
-        
-        updateUsersGuesses(cipherCharacter: cipherCharacter,
-                           plaintextCharacter: plaintextCharacter,
-                           in: puzzle, at: index)
-    }
+//    mutating
+//    func update(cipherCharacter : Character,
+//                            plaintextCharacter : Character?,
+//                            in puzzle : Puzzle,
+//                            at index : Int){
+//    
+//        
+//        updateUsersGuesses(cipherCharacter: cipherCharacter,
+//                           plaintextCharacter: plaintextCharacter,
+//                           in: puzzle, at: index)
+//    }
     
     
     mutating

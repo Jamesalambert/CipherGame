@@ -255,29 +255,13 @@ extension ContentView {
         var plainTextLetter : Character?
         var indexInTheCipher : Int
         
-        
-//        private
-//        var plaintextLabelTap : some Gesture {
-//            TapGesture(count: 1)
-//                .onEnded{
-//                    //flip value
-//                    withAnimation{
-//                        //tappedIndex = indexInTheCipher
-//                        //userMadeASelection = true
-//                        viewModel.currentUserSelectionIndex = indexInTheCipher
-//                        viewModel.currentCiphertextCharacter = cipherTextLetter
-//                    }
-//                }
-//        }
-        
         var body : some View {
-            if viewModel.currentPuzzle.isSolved{
+            if puzzle.isSolved{
                     standardCipherPair(displayPlaintext: true)
                 } else if cipherTextLetter.isPunctuation || cipherTextLetter.isWhitespace {
                     standardCipherPair(displayPlaintext: false)
                 } else {
                         standardCipherPair(displayPlaintext: true)
-//                            .gesture(plaintextLabelTap)
                 }
         }
     
@@ -286,47 +270,40 @@ extension ContentView {
         private
         func standardCipherPair(displayPlaintext : Bool) -> some View {
             
-            //ciphertext
-            if !viewModel.currentPuzzle.isSolved{
-                Menu {
-                    LetterMenu().onAppear{
-                        currentCiphertextCharacter = cipherTextLetter
-                    }
-                } label: {
-                    VStack{
-                        Text(String(cipherTextLetter))
-                            .fixedSize()
-                        
-                        Spacer()
-                        
-                        ZStack{
-                            
-                            if displayPlaintext {
-                                //plaintext
-                                Text(plainTextLetter.string())
-                                    .frame(height : 30)
-                                    .foregroundColor(viewModel.theme.color(of: .plaintext,
-                                                                           for: bookTheme, in: colorScheme))
-                                    .fixedSize()
-                                
-                                //                        if tappedIndex == indexInTheCipher, userMadeASelection {
-                                //                            LetterPicker()
-                                //                                .fixedSize()
-                                //                        }
-                            }
+            Menu {
+                LetterMenu().onAppear{
+                    currentCiphertextCharacter = cipherTextLetter
+                }
+            } label: {
+                VStack{
+                    //ciphertext
+                    Text(String(cipherTextLetter))
+                        .fixedSize()
+                    
+                    Spacer()
+                    
+                    ZStack{
+                        if displayPlaintext {
+                            //plaintext
+                            Text(plainTextLetter.string())
+                                .frame(height : 30)
+                                .foregroundColor(viewModel.theme.color(of: .plaintext,
+                                                                       for: bookTheme, in: colorScheme))
+                                .fixedSize()
                         }
                     }
-                    .overlay(Rectangle()
-                                .frame(width: 30, height: 2, alignment: .bottom)
-                                .foregroundColor(viewModel.theme.color(of: .puzzleLines,
-                                                                       for: bookTheme, in: colorScheme)),
-                             alignment: .bottom )
-                    .padding(.top)
-                    .font(viewModel.theme.font(for: .title, for: bookTheme))
-                    .foregroundColor(foregroundColor(for: colorScheme))
-                    .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
                 }
+                .overlay(Rectangle()
+                            .frame(width: 30, height: 2, alignment: .bottom)
+                            .foregroundColor(viewModel.theme.color(of: .puzzleLines,
+                                                                   for: bookTheme, in: colorScheme)),
+                         alignment: .bottom )
+                .padding(.top)
+                .font(viewModel.theme.font(for: .title, for: bookTheme))
+                .foregroundColor(foregroundColor(for: colorScheme))
+                .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
             }
+
         }
         
         func LetterMenu() -> some View {

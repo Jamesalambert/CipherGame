@@ -28,17 +28,6 @@ class CipherPuzzle : ObservableObject {
         }
     }
     
-//    @Published
-//    var currentCiphertextCharacter : Character? = nil {
-//        didSet {
-//            if let current = currentCiphertextCharacter, current.isUppercase {
-//                currentCiphertextCharacter = Character(String(current).lowercased())
-//            }
-//        }
-//    }
-//    
-//    @Published
-//    var currentUserSelectionIndex : Int? = nil
     
     @Published
     var difficultyLevel : UInt = 0 {
@@ -82,74 +71,14 @@ class CipherPuzzle : ObservableObject {
         return model.books
     }
     
-//    var availableBooks : [PuzzleTitle]{
-//        var out : [PuzzleTitle] = []
-//        
-//        var books = model.books
-//        if !showLessons {
-//            books.removeAll(where: {$0.title == Game.firstPuzzle.book})
-//        }
-//        
-//        for (index, book) in books.enumerated() {
-//            out.append(PuzzleTitle(index: index,
-//                                   theme: book.theme,
-//                                   id: book.id,
-//                                   title: book.title,
-//                                   isSolved: book.isSolved))
-//        }
-//        return out
-//    }
     
-//    var headerText : String {
-//        return currentPuzzle.header
-//    }
-//
-//    var footerText : String {
-//        return currentPuzzle.footer
-//    }
-    
-//    func puzzleTitles(for bookHash : UUID) -> [PuzzleTitle] {
-//        guard let book = model.books.first(where: {book in book.id == bookHash}) else {return []}
-//        return book.puzzles.enumerated().map{(index, puzzle) in
-//                                                PuzzleTitle(index: index,
-//                                                            theme: book.theme,
-//                                                            id: puzzle.id,
-//                                                            title: puzzle.title,
-//                                                            isSolved: puzzle.isSolved)}
-//    }
-    
-//    func puzzleIsCompleted(hash : UUID) -> Bool{
-//         guard let puzzle = model.books.map{book in book.puzzles}.joined()
-//                .first(where: {puzzle in puzzle.id == hash}) else {return false}
-//        
-//        return puzzle.isSolved
-//    }
-    
-//    var userGuess : Character? {
-//        get {
-//            guard let current = currentCiphertextCharacter else {return nil}
-//            return self.plaintext(for: current)
-//        }
-//
-//        set {
-////            guard let currentCiphertextCharacter = currentCiphertextCharacter else {return}
-//            model.updateUsersGuesses(cipherCharacter: currentCiphertextCharacter!,
-//                                     plaintextCharacter: newValue,
-//                                     in: currentPuzzle,
-//                                     at: currentUserSelectionIndex!)
-//        }
-//    }
-    
-    
-    //new alternative to above var
-    func guess(_ cipherCharacter : Character, is plainCharacter : Character?, at index : Int, for puzzle : Puzzle ) {
+    func guess(_ cipherCharacter : Character, is plainCharacter : Character?,
+               at index : Int, for puzzle : Puzzle ) {
         
-//        model.update(cipherCharacter: cipherCharacter, plaintextCharacter: plainCharacter, in: puzzle, at: index)
         model.updateUsersGuesses(cipherCharacter: cipherCharacter,
                                  plaintextCharacter: plainCharacter,
                                  in: puzzle,
                                  at: index)
-        
     }
     
     var data : [GameInfo] {
