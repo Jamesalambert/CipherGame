@@ -38,7 +38,8 @@ extension ContentView {
                     cipherPuzzleView(with: geometry)
                         .padding(.all, geometry.size.height/20)
                     
-                    LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter)
+                    LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
+                                puzzle: $puzzle)
                         .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
                         .frame(width: geometry.size.width, height: 100, alignment: .bottom)
                 }

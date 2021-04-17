@@ -89,7 +89,7 @@ class CipherPuzzle : ObservableObject {
 
         for (index, char) in currentPuzzle.ciphertext.enumerated() {
 
-            if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, index) {
+            if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, index, currentPuzzle) {
 
                 let output = GameInfo(id: newGameTriad.id,
                                       cipherLetter: newGameTriad.cipherLetter,
@@ -121,7 +121,7 @@ var charsPerLine : Int = 30
 
                 let ciphertextIndex = ciphertextLineNumber * charsPerLine + index
 
-                if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, ciphertextIndex) {
+                if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, ciphertextIndex, currentPuzzle) {
 
                     let characterPair = GameInfo(id: newGameTriad.id,
                                           cipherLetter: newGameTriad.cipherLetter,
@@ -153,8 +153,8 @@ var charsPerLine : Int = 30
         }
     }
     
-    func plaintext(for ciphertext : Character) -> Character?{
-        if let plaintextCharacter = currentPuzzle.usersGuesses[String(ciphertext)] {
+    func plaintext(for ciphertext : Character, in puzzle : Puzzle) -> Character?{
+        if let plaintextCharacter = puzzle.usersGuesses[String(ciphertext)] {
             return Character(plaintextCharacter)
         }
         return nil

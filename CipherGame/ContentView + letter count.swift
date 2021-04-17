@@ -23,6 +23,9 @@ extension ContentView {
         @Binding
         var currentCiphertextCharacter : Character?
         
+        @Binding
+        var puzzle : Puzzle
+        
         var body : some View {
             GeometryReader { geometry in
                 VStack {
@@ -36,7 +39,7 @@ extension ContentView {
                             ForEach(viewModel.characterCount) { letterCountTriple in
                                     let cipherChar = letterCountTriple.character
                                     PairCount(cipherChar: cipherChar,
-                                              plainChar: viewModel.plaintext(for: cipherChar),
+                                              plainChar: viewModel.plaintext(for: cipherChar, in: puzzle),
                                               count: letterCountTriple.count, currentCiphertextCharacter: $currentCiphertextCharacter)
                                         .animation(.easeInOut)
                             }
