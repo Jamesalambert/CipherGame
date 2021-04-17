@@ -11,7 +11,7 @@ extension CipherPuzzle {
     
     //MARK:- difficulty
     
-    var gameRules : [ Int : (Character, Int, Puzzle) -> GameInfo?]{
+    var gameRules : [ Int : (Character, Int) -> GameInfo?]{
         return [0 : easyGameInfo,
                 1 : mediumGameInfo,
                 2 : hardGameInfo]
@@ -80,29 +80,29 @@ extension CipherPuzzle {
     
     
     private
-    func easyGameInfo(for ciphertext : Character, at index : Int, in puzzle : Puzzle) -> GameInfo? {
+    func easyGameInfo(for ciphertext : Character, at index : Int) -> GameInfo? {
         
         let newPair = GameInfo(id: index,
                                cipherLetter: ciphertext,
-                               userGuessLetter: plaintext(for: ciphertext, in: puzzle))
+                               userGuessLetter: plaintext(for: ciphertext))
         return newPair
     }
     
     
     private
-    func mediumGameInfo(for ciphertext : Character, at index: Int, in puzzle : Puzzle) -> GameInfo? {
+    func mediumGameInfo(for ciphertext : Character, at index: Int) -> GameInfo? {
 
         if String.alphabet.contains(ciphertext) {
-            return easyGameInfo(for: ciphertext, at: index, in: puzzle)
+            return easyGameInfo(for: ciphertext, at: index)
         }
         return nil
     }
     
     
     private
-    func hardGameInfo(for ciphertext : Character, at index: Int, in puzzle : Puzzle) -> GameInfo? {
+    func hardGameInfo(for ciphertext : Character, at index: Int) -> GameInfo? {
         
-        var mediumLevel = mediumGameInfo(for: ciphertext, at: index, in: puzzle)
+        var mediumLevel = mediumGameInfo(for: ciphertext, at: index)
         
         if let guessIndices = currentPuzzle.guessIndices[String(ciphertext)] {
             if guessIndices.containsItem(within: 20, of: index){

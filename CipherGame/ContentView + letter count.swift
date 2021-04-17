@@ -39,7 +39,7 @@ extension ContentView {
                             ForEach(viewModel.characterCount) { letterCountTriple in
                                     let cipherChar = letterCountTriple.character
                                     PairCount(cipherChar: cipherChar,
-                                              plainChar: viewModel.plaintext(for: cipherChar, in: puzzle),
+                                              plainChar: viewModel.plaintext(for: cipherChar),
                                               count: letterCountTriple.count,
                                               currentCiphertextCharacter: $currentCiphertextCharacter)
                                         .animation(.easeInOut)

@@ -71,7 +71,7 @@ extension CipherPuzzle{
         var output = ""
         
         let characters : [String] = letterCount.map {pair in String(pair.0)}
-        let userGuesses : [String] = String.alphabet.map {char in String(plaintext(for: char, in: currentPuzzle) ?? " ")}
+        let userGuesses : [String] = String.alphabet.map {char in String(plaintext(for: char) ?? " ")}
         var counts : [String] = letterCount.map {pair in String(pair.1)}
         
         //replace zeros with -
