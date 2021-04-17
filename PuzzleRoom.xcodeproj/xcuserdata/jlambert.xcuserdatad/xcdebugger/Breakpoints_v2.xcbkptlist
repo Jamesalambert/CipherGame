@@ -7,32 +7,48 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "70E03F5C-BD9B-47D1-9FD3-7C95A6B72206"
+            uuid = "1B135ED2-F10E-4AA6-ADC6-76D153268A66"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CipherGame/ContentView + CipherSolverPage.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
-            landmarkName = "CipherSolverPage"
-            landmarkType = "14">
+            startingLineNumber = "314"
+            endingLineNumber = "314"
+            landmarkName = "foregroundColor(for:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C7C0620E-F692-417C-8B91-7844FA1F4AC1"
+            uuid = "45F646C7-9B63-4ED3-A3FC-1710BFFFBF78"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CipherGame/ContentView + CipherSolverPage.swift"
+            filePath = "CipherGame/CipherPuzzle.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "291"
-            endingLineNumber = "291"
-            landmarkName = "standardCipherPair(displayPlaintext:)"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "guess(_:is:at:for:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4D9CCB36-6ECF-475B-A001-1DA11885AE7C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CipherGame/CipherPuzzle.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
+            landmarkName = "data(for:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
