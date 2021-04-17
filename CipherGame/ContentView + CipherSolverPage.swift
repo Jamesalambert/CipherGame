@@ -27,31 +27,12 @@ extension ContentView {
         
         @State
         private
-        var userMadeASelection : Bool = false
-        
-        @State
-        private
-        var tappedIndex : Int = 0
-        
-        @State
-        private
         var resettingPuzzle : Bool = false
-        
-        var deselectTap : some Gesture {
-            TapGesture(count: 1).onEnded{
-                withAnimation{
-                    userMadeASelection = false
-                    viewModel.currentCiphertextCharacter = nil
-                }
-            }
-        }
-        
         
         var body : some View {
             GeometryReader { geometry in
                 VStack{
                     cipherPuzzleView(with: geometry)
-                        .gesture(deselectTap)
                         .padding(.all, geometry.size.height/20)
                     
                     LetterCount()
@@ -81,8 +62,6 @@ extension ContentView {
                                 ForEach(viewModel.data){ cipherPair in
                                         CipherSolverCharacterPair(
                                             puzzleHash: $puzzleHash,
-                                            tappedIndex: $tappedIndex,
-                                            userMadeASelection: $userMadeASelection,
                                             cipherTextLetter: cipherPair.cipherLetter,
                                             plainTextLetter: cipherPair.userGuessLetter,
                                             indexInTheCipher: cipherPair.id)
@@ -265,11 +244,6 @@ extension ContentView {
         @Binding
         var puzzleHash : UUID
         
-        @Binding
-        var tappedIndex : Int
-        
-        @Binding
-        var userMadeASelection : Bool
         var cipherTextLetter : Character
         var plainTextLetter : Character?
         var indexInTheCipher : Int
@@ -345,38 +319,12 @@ extension ContentView {
                 }
             }
         }
-    
-        @ViewBuilder
-        func LetterPicker() -> some View {
-            ScrollView(.horizontal){
-                LazyVGrid(columns: columns()){
-                    ForEach(String.alphabet.map{$0}, id: \.self){ character in
-                        Text(String(character)).onTapGesture {
-                            withAnimation{
-                                viewModel.guess(cipherTextLetter, is: character, at: indexInTheCipher, for: puzzleHash)
-//                                viewModel.userGuess = character
-//                                tappedIndex = indexInTheCipher
-//                                userMadeASelection = false
-                            }
-                        }
-                        .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-                    }
-                }
-            }.background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
-        }
-        
-        private func columns() -> [GridItem] {
-            return Array(repeating: GridItem(.fixed(20)),
-                         count: 6)
-        }
         
         func LetterMenu() -> some View {
             ForEach(String.alphabet.map{$0}, id: \.self){ character in
                 Button {
                     withAnimation{
-                        viewModel.userGuess = character
-                        tappedIndex = indexInTheCipher
-                        userMadeASelection = false
+                        viewModel.guess(cipherTextLetter, is: character, at: indexInTheCipher, for: puzzleHash)
                     }
                 } label: {
                     Text((String(character))).frame(width: 20)
