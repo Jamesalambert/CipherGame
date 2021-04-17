@@ -20,6 +20,12 @@ extension ContentView {
         @Environment(\.colorScheme)
         var colorScheme : ColorScheme
         
+        @Binding
+        var currentCiphertextCharacter : Character?
+        
+        @Binding
+        var puzzle : Puzzle
+        
         var body : some View {
             GeometryReader { geometry in
                 VStack {
@@ -33,8 +39,8 @@ extension ContentView {
                             ForEach(viewModel.characterCount) { letterCountTriple in
                                     let cipherChar = letterCountTriple.character
                                     PairCount(cipherChar: cipherChar,
-                                              plainChar: viewModel.plaintext(for: cipherChar),
-                                              count: letterCountTriple.count)
+                                              plainChar: viewModel.plaintext(for: cipherChar, in: puzzle),
+                                              count: letterCountTriple.count, currentCiphertextCharacter: $currentCiphertextCharacter)
                                         .animation(.easeInOut)
                             }
                             
@@ -66,6 +72,9 @@ extension ContentView {
         var plainChar : Character?
         var count : Int
         
+        @Binding
+        var currentCiphertextCharacter : Character?
+        
         @Environment (\.colorScheme)
         var colorScheme : ColorScheme
         
@@ -92,7 +101,7 @@ extension ContentView {
         var foregroundColor : Color? {
             if count == 0 {
                 return Color.gray
-            } else if viewModel.currentCiphertextCharacter == cipherChar.lowerChar() {
+            } else if currentCiphertextCharacter == cipherChar.lowerChar() {
                 return viewModel.theme.color(of: .highlight,
                                              for: bookTheme, in: colorScheme)
             }

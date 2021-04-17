@@ -33,6 +33,19 @@ struct Game : Codable {
         books[bookIndex].puzzles[puzzleIndex].guessIndices.removeAll()
     }
     
+//    mutating
+//    func update(cipherCharacter : Character,
+//                            plaintextCharacter : Character?,
+//                            in puzzle : Puzzle,
+//                            at index : Int){
+//    
+//        
+//        updateUsersGuesses(cipherCharacter: cipherCharacter,
+//                           plaintextCharacter: plaintextCharacter,
+//                           in: puzzle, at: index)
+//    }
+    
+    
     mutating
     func updateUsersGuesses(cipherCharacter : Character,
                             plaintextCharacter : Character?,
@@ -125,7 +138,7 @@ struct Game : Codable {
 
 
 
-struct Puzzle : Hashable, Codable{
+struct Puzzle : Hashable, Codable, Identifiable{
     
     static func == (lhs: Puzzle, rhs: Puzzle) -> Bool {
         return lhs.id == rhs.id
@@ -232,7 +245,7 @@ struct Puzzle : Hashable, Codable{
     
 }
 
-struct Book : Hashable, Codable{
+struct Book : Hashable, Codable, Identifiable{
    
     var title : String
     var puzzles : [Puzzle]

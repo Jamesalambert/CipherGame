@@ -28,17 +28,6 @@ class CipherPuzzle : ObservableObject {
         }
     }
     
-    @Published
-    var currentCiphertextCharacter : Character? = nil {
-        didSet {
-            if let current = currentCiphertextCharacter, current.isUppercase {
-                currentCiphertextCharacter = Character(String(current).lowercased())
-            }
-        }
-    }
-    
-    @Published
-    var currentUserSelectionIndex : Int? = nil
     
     @Published
     var difficultyLevel : UInt = 0 {
@@ -78,72 +67,27 @@ class CipherPuzzle : ObservableObject {
         return currentPuzzle
     }
     
-    var availableBooks : [PuzzleTitle]{
-        var out : [PuzzleTitle] = []
+    var installedBooks : [Book] {
+        return model.books
+    }
+    
+    
+    func guess(_ cipherCharacter : Character, is plainCharacter : Character?,
+               at index : Int, for puzzle : Puzzle ) {
         
-        var books = model.books
-        if !showLessons {
-            books.removeAll(where: {$0.title == Game.firstPuzzle.book})
-        }
-        
-        for (index, book) in books.enumerated() {
-            out.append(PuzzleTitle(index: index,
-                                   theme: book.theme,
-                                   id: book.id,
-                                   title: book.title,
-                                   isSolved: book.isSolved))
-        }
-        return out
+        model.updateUsersGuesses(cipherCharacter: cipherCharacter,
+                                 plaintextCharacter: plainCharacter,
+                                 in: puzzle,
+                                 at: index)
     }
     
-    var headerText : String {
-        return currentPuzzle.header
-    }
-    
-    var footerText : String {
-        return currentPuzzle.footer
-    }
-    
-    func puzzleTitles(for bookHash : UUID) -> [PuzzleTitle] {
-        guard let book = model.books.first(where: {book in book.id == bookHash}) else {return []}
-        return book.puzzles.enumerated().map{(index, puzzle) in
-                                                PuzzleTitle(index: index,
-                                                            theme: book.theme,
-                                                            id: puzzle.id,
-                                                            title: puzzle.title,
-                                                            isSolved: puzzle.isSolved)}
-    }
-    
-    func puzzleIsCompleted(hash : UUID) -> Bool{
-         guard let puzzle = model.books.map{book in book.puzzles}.joined()
-                .first(where: {puzzle in puzzle.id == hash}) else {return false}
-        
-        return puzzle.isSolved
-    }
-    
-    var userGuess : Character? {
-        get {
-            guard let current = currentCiphertextCharacter else {return nil}
-            return self.plaintext(for: current)
-        }
-        
-        set {
-            model.updateUsersGuesses(cipherCharacter: currentCiphertextCharacter!,
-                                     plaintextCharacter: newValue,
-                                     in: currentPuzzle,
-                                     at: currentUserSelectionIndex!)
-        }
-    }
-    
-    var data : [GameInfo] {
-
-        //guard let currentPuzzle = self.currentPuzzle else {return []}
-
+    func data(for puzzle : Puzzle) -> [GameInfo] {
         var puzzleData = Array<GameInfo>()
 
-        for (index, char) in currentPuzzle.ciphertext.enumerated() {
-
-            if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, index) {
+        for (index, char) in puzzle.ciphertext.enumerated() {
+            
+            //need current puzzle here because it talks to the model!
+            if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, index, currentPuzzle) {
 
                 let output = GameInfo(id: newGameTriad.id,
                                       cipherLetter: newGameTriad.cipherLetter,
@@ -152,42 +96,41 @@ class CipherPuzzle : ObservableObject {
                 puzzleData.append(output)
             }
         }
-
         return puzzleData
     }
     
 //Experimental!
     
-//var charsPerLine : Int = 30
+var charsPerLine : Int = 30
 
     
-//    func puzzlines(for width : CGFloat) -> [PuzzleLine] {
-//        charsPerLine = Int(width / 30)
-//        return puzzleLines
-//    }
-//
-//    var puzzleLines : [PuzzleLine]{
+    func puzzlines(for width : CGFloat) -> [PuzzleLine] {
+        charsPerLine = Int(width / 30)
+        return puzzleLines
+    }
+
+    var puzzleLines : [PuzzleLine]{
 //        guard let currentPuzzle = self.currentPuzzle else {return []}
-//
-//        let gameLines = currentPuzzle.ciphertext.asLines(of: charsPerLine).enumerated().map { (ciphertextLineNumber, ciphertextLine) -> PuzzleLine in
-//
-//            let puzzleLine = ciphertextLine.enumerated().compactMap{ (index, char) -> GameInfo? in
-//
-//                let ciphertextIndex = ciphertextLineNumber * charsPerLine + index
-//
-//                if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, ciphertextIndex) {
-//
-//                    let characterPair = GameInfo(id: newGameTriad.id,
-//                                          cipherLetter: newGameTriad.cipherLetter,
-//                                          userGuessLetter: newGameTriad.userGuessLetter)
-//                    return characterPair
-//                }
-//                return nil
-//            }
-//            return PuzzleLine(id: ciphertextLineNumber, characters: puzzleLine)
-//        }
-//        return gameLines
-//    }
+
+        let gameLines = currentPuzzle.ciphertext.asLines(of: charsPerLine).enumerated().map { (ciphertextLineNumber, ciphertextLine) -> PuzzleLine in
+
+            let puzzleLine = ciphertextLine.enumerated().compactMap{ (index, char) -> GameInfo? in
+
+                let ciphertextIndex = ciphertextLineNumber * charsPerLine + index
+
+                if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, ciphertextIndex, currentPuzzle) {
+
+                    let characterPair = GameInfo(id: newGameTriad.id,
+                                          cipherLetter: newGameTriad.cipherLetter,
+                                          userGuessLetter: newGameTriad.userGuessLetter)
+                    return characterPair
+                }
+                return nil
+            }
+            return PuzzleLine(id: ciphertextLineNumber, characters: puzzleLine)
+        }
+        return gameLines
+    }
 
     
     var letterCount : [(character: Character, count: Int)] {
@@ -207,8 +150,8 @@ class CipherPuzzle : ObservableObject {
         }
     }
     
-    func plaintext(for ciphertext : Character) -> Character?{
-        if let plaintextCharacter = currentPuzzle.usersGuesses[String(ciphertext)] {
+    func plaintext(for ciphertext : Character, in puzzle : Puzzle) -> Character?{
+        if let plaintextCharacter = puzzle.usersGuesses[String(ciphertext)] {
             return Character(plaintextCharacter)
         }
         return nil
@@ -223,13 +166,13 @@ class CipherPuzzle : ObservableObject {
     
 }
 
-struct PuzzleTitle : Identifiable, Hashable {
-    var index : Int
-    var theme : BookTheme
-    var id : UUID
-    var title : String
-    var isSolved : Bool
-}
+//struct PuzzleTitle : Identifiable, Hashable {
+//    var index : Int
+//    var theme : BookTheme
+//    var id : UUID
+//    var title : String
+//    var isSolved : Bool
+//}
 
 struct GameInfo : Hashable, Identifiable {
     var id: Int

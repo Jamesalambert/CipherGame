@@ -23,29 +23,23 @@ extension ContentView {
         var bookTheme : BookTheme
         
         @State
-        private
-        var userMadeASelection : Bool = false
+        var puzzle : Puzzle
+        
+        @State
+        var currentCiphertextCharacter : Character? = nil
         
         @State
         private
         var resettingPuzzle : Bool = false
         
-        var scrollViewTap : some Gesture {
-            TapGesture(count: 1).onEnded{
-                userMadeASelection = false
-                viewModel.currentCiphertextCharacter = nil
-            }
-        }
-        
-        
         var body : some View {
             GeometryReader { geometry in
                 VStack{
                     cipherPuzzleView(with: geometry)
-                        .gesture(scrollViewTap)
                         .padding(.all, geometry.size.height/20)
                     
-                    LetterCount()
+                    LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
+                                puzzle: $puzzle)
                         .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
                         .frame(width: geometry.size.width, height: 100, alignment: .bottom)
                 }
@@ -57,32 +51,33 @@ extension ContentView {
         
         @ViewBuilder
         func cipherPuzzleView(with geometry : GeometryProxy) -> some View {
-            ScrollView {
-                VStack(alignment: .center, spacing: nil){
-                        Text(viewModel.headerText)
-                            .fixedSize(horizontal: false, vertical: true)
-                            .font(viewModel.theme.font(for: .body, for: bookTheme))
-                            .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-                        Spacer()
-                            .frame(height: geometry.size.height/20)
+                ScrollView {
+                    VStack(alignment: .center, spacing: nil){
+                        Text(puzzle.header)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .font(viewModel.theme.font(for: .body, for: bookTheme))
+                                .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                            Spacer()
+                                .frame(height: geometry.size.height/20)
 
-                        LazyVGrid(columns: columns(screenWidth: geometry.size.width),
-                                  spacing: 0,
-                                  pinnedViews: [.sectionHeaders]){
-                            ForEach(viewModel.data){ cipherPair in
-                                    CipherSolverCharacterPair(
-                                        userMadeASelection: $userMadeASelection,
-                                        cipherTextLetter: cipherPair.cipherLetter,
-                                        plainTextLetter: cipherPair.userGuessLetter,
-                                        indexInTheCipher: cipherPair.id)
+                            LazyVGrid(columns: columns(screenWidth: geometry.size.width),
+                                      spacing: 0,
+                                      pinnedViews: [.sectionHeaders]){
+                                ForEach(viewModel.data(for: puzzle)){ cipherPair in
+                                        CipherSolverCharacterPair(
+                                            puzzle: $puzzle,
+                                            currentCiphertextCharacter: $currentCiphertextCharacter,
+                                            cipherTextLetter: cipherPair.cipherLetter,
+                                            plainTextLetter: cipherPair.userGuessLetter,
+                                            indexInTheCipher: cipherPair.id)
+                                }
                             }
-                        }
-                        Spacer().frame(height: geometry.size.height/20)
-                        Text(viewModel.footerText)
-                            .font(viewModel.theme.font(for: .body, for: bookTheme))
-                            .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                            Spacer().frame(height: geometry.size.height/20)
+                        Text(puzzle.footer)
+                                .font(viewModel.theme.font(for: .body, for: bookTheme))
+                                .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                    }
                 }
-            }
         }
         
         
@@ -156,18 +151,23 @@ extension ContentView {
         
         
 //        test using a list vs a grid. Buggy but maybe helpful.
-        @ViewBuilder
-        func cipherPuzzleViewEXP(with geometry : GeometryProxy) -> some View {
+//        @ViewBuilder
+//        func cipherPuzzleViewEXP(with geometry : GeometryProxy) -> some View {
 //            List{
+//
+//                Text(viewModel.headerText)
+//                    .fixedSize(horizontal: false, vertical: true)
+//                    .font(viewModel.theme.font(for: .body, for: bookTheme))
+//                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+//
 //                ForEach(viewModel.puzzleLines){ puzzleLine in
-//                    HStack{
+//                    HStack(alignment: .bottom, spacing: 0){
 //                        Spacer()
-//                            .gesture(scrollViewTap)
 //                        Text(String(puzzleLine.id))
 //                        Spacer()
-//                            .gesture(scrollViewTap)
 //                        ForEach(puzzleLine.characters){ cipherPair in
 //                            CipherSolverCharacterPair(
+//                                tappedIndex: $tappedIndex,
 //                                userMadeASelection: $userMadeASelection,
 //                                cipherTextLetter: cipherPair.cipherLetter,
 //                                plainTextLetter: cipherPair.userGuessLetter,
@@ -175,11 +175,27 @@ extension ContentView {
 //                                .frame(width: geometry.size.width / 40, height: nil, alignment: .center)
 //                        }
 //                        Spacer()
-//                            .gesture(scrollViewTap)
 //                    }
+//
+//                    if line(puzzleLine.id, contains: tappedIndex){
+//                        LetterPicker()
+//                    }
+//
 //                }
+//
+//                Text(viewModel.footerText)
+//                    .font(viewModel.theme.font(for: .body, for: bookTheme))
+//                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+//
+//
 //            }
-        }
+//
+//        }
+//
+//        private func line(_ line : Int, contains index : Int) -> Bool {
+//            return line == Int(floor(Double(index / viewModel.charsPerLine)))
+//        }
+        
         
         func resetPuzzleAlert() -> Alert {
             Alert(title: Text("Reset puzzle?"),
@@ -230,63 +246,45 @@ extension ContentView {
         @Environment(\.bookTheme)
         var bookTheme : BookTheme
         
-        @State
-        private
-        var wasTapped = false
+        @Binding
+        var puzzle : Puzzle
         
         @Binding
-        var userMadeASelection : Bool
+        var currentCiphertextCharacter : Character?
+        
         var cipherTextLetter : Character
         var plainTextLetter : Character?
-        var indexInTheCipher : Int?
-        
-        private
-        var plaintextLabelTap : some Gesture {
-            TapGesture(count: 1).onEnded{
-                //flip value
-                wasTapped = true
-                userMadeASelection = true
-                viewModel.currentUserSelectionIndex = indexInTheCipher
-                viewModel.currentCiphertextCharacter = cipherTextLetter
-            }
-        }
+        var indexInTheCipher : Int
         
         var body : some View {
-            if viewModel.currentPuzzle.isSolved{
-                standardCipherPair(displayPlaintext: true)
-            } else if cipherTextLetter.isPunctuation || cipherTextLetter.isWhitespace {
-                standardCipherPair(displayPlaintext: false)
-            } else {
-                standardCipherPair(displayPlaintext: true)
-                    .gesture(plaintextLabelTap)
-            }
+            if puzzle.isSolved{
+                    standardCipherPair(displayPlaintext: true)
+                } else if cipherTextLetter.isPunctuation || cipherTextLetter.isWhitespace {
+                    standardCipherPair(displayPlaintext: false)
+                } else {
+                        standardCipherPair(displayPlaintext: true)
+                }
         }
     
         
         @ViewBuilder
         private
         func standardCipherPair(displayPlaintext : Bool) -> some View {
-            VStack{
-                
-                //ciphertext
-                if !viewModel.currentPuzzle.isSolved{
+            
+            Menu {
+                LetterMenu().onAppear{
+                    currentCiphertextCharacter = cipherTextLetter
+                }
+            } label: {
+                VStack{
+                    //ciphertext
                     Text(String(cipherTextLetter))
                         .fixedSize()
-                }
-            
-                Spacer()
-                
-                ZStack{
                     
-                    if displayPlaintext {
-                        if wasTapped, userMadeASelection {
-                            
-                            NewTextField(letterGuess: $viewModel.userGuess,
-                                            wasTapped: $wasTapped,
-                                            textColor: viewModel.theme.color(of: .highlight,
-                                                                             for: bookTheme, in: colorScheme),
-                                            capType: $viewModel.capType)
-                        } else {
+                    Spacer()
+                    
+                    ZStack{
+                        if displayPlaintext {
                             //plaintext
                             Text(plainTextLetter.string())
                                 .frame(height : 30)
@@ -296,22 +294,36 @@ extension ContentView {
                         }
                     }
                 }
+                .overlay(Rectangle()
+                            .frame(width: 30, height: 2, alignment: .bottom)
+                            .foregroundColor(viewModel.theme.color(of: .puzzleLines,
+                                                                   for: bookTheme, in: colorScheme)),
+                         alignment: .bottom )
+                .padding(.top)
+                .font(viewModel.theme.font(for: .title, for: bookTheme))
+                .foregroundColor(foregroundColor(for: colorScheme))
+                .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
             }
-            .overlay(Rectangle()
-                        .frame(width: 30, height: 2, alignment: .bottom)
-                        .foregroundColor(viewModel.theme.color(of: .puzzleLines,
-                                                               for: bookTheme, in: colorScheme)),
-                        alignment: .bottom )
-            .padding(.top)
-            .font(viewModel.theme.font(for: .title, for: bookTheme))
-            //.font(.system(.title, design: viewModel.fontDesign))
-            .foregroundColor(foregroundColor(for: colorScheme))
-            .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
+
+        }
+        
+        func LetterMenu() -> some View {
+            ForEach(String.alphabet.map{$0}, id: \.self){ character in
+                Button {
+                    withAnimation{
+                        viewModel.guess(cipherTextLetter, is: character,
+                                        at: indexInTheCipher, for: puzzle)
+                    }
+                } label: {
+                    Text((String(character))).frame(width: 20)
+                }
+                .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+            }
         }
         
         private
         func foregroundColor(for colorScheme : ColorScheme) -> Color? {
-            if viewModel.currentCiphertextCharacter == cipherTextLetter.lowerChar() {
+            if currentCiphertextCharacter == cipherTextLetter.lowerChar() {
                 return viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)
             }
             return viewModel.theme.color(of: .ciphertext, for: bookTheme, in: colorScheme)
