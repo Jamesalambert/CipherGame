@@ -27,6 +27,12 @@ extension ContentView {
         
         @State
         var currentCiphertextCharacter : Character? = nil
+
+        @State
+        var selectedIndex : Int?
+        
+        @State
+        var displayPhoneLetterPicker : Bool = false
         
         @State
         private
@@ -42,6 +48,14 @@ extension ContentView {
                                 puzzle: $puzzle)
                         .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
                         .frame(width: geometry.size.width, height: 100, alignment: .bottom)
+                    
+                    if displayPhoneLetterPicker{
+                        PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker,
+                                      currentCiphertextCharacter: $currentCiphertextCharacter,
+                                      selectedIndex: $selectedIndex,
+                                      puzzle: $puzzle)
+                            .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? geometry.size.height/5 : 0)
+                    }
                 }
                 .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
                 .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
@@ -68,6 +82,8 @@ extension ContentView {
                                         CipherSolverCharacterPair(
                                             puzzle: $puzzle,
                                             currentCiphertextCharacter: $currentCiphertextCharacter,
+                                            selectedIndex: $selectedIndex,
+                                            displayPhoneLetterPicker: $displayPhoneLetterPicker,
                                             cipherTextLetter: cipherPair.cipherLetter,
                                             plainTextLetter: cipherPair.userGuessLetter,
                                             indexInTheCipher: cipherPair.id)
@@ -80,6 +96,7 @@ extension ContentView {
                     }
                 }
         }
+        
         
         
         @ToolbarContentBuilder
@@ -233,7 +250,42 @@ extension ContentView {
     }
     
     
-    
+    struct PhoneLetterPicker : View {
+
+        @EnvironmentObject
+        var viewModel : CipherPuzzle
+
+        @Binding
+        var displayPhoneLetterPicker : Bool
+
+        @Binding
+        var currentCiphertextCharacter : Character?
+
+        @Binding
+        var selectedIndex : Int?
+
+        @Binding
+        var puzzle : Puzzle
+
+
+        var body: some View {
+            ScrollView(.horizontal){
+                HStack{
+                    ForEach(String.alphabet.map{$0}, id: \.self){character in
+                        Button{
+                            withAnimation{
+                                viewModel.guess(currentCiphertextCharacter!, is: character,
+                                                at: selectedIndex!, for: puzzle)
+                                displayPhoneLetterPicker = false
+                            }
+                        } label: {
+                            Text(String(character))
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     
     struct CipherSolverCharacterPair : View {
@@ -252,115 +304,119 @@ extension ContentView {
         
         @Binding
         var currentCiphertextCharacter : Character?
+
+        @Binding
+        var selectedIndex : Int?
+        
+        @Binding
+        var displayPhoneLetterPicker : Bool
         
         @State
-        var displayLetterPicker : Bool = false
-
+        private
+        var displayTabletLetterPicker : Bool = false
         
         var cipherTextLetter : Character
         var plainTextLetter : Character?
         var indexInTheCipher : Int
 
-        
         var body : some View {
-            if puzzle.isSolved{
-                    standardCipherPair(displayPlaintext: true)
-                } else if cipherTextLetter.isPunctuation || cipherTextLetter.isWhitespace {
-                    standardCipherPair(displayPlaintext: false)
-                } else {
-                    standardCipherPair(displayPlaintext: true).onTapGesture {
-                        displayLetterPicker = true
+            
+            if cipherTextLetter.isPunctuation || cipherTextLetter.isWhitespace {
+                standardCipherPair(displayPlaintext: false)
+            } else if UIDevice.current.userInterfaceIdiom == .pad {
+                
+                standardCipherPair(displayPlaintext: true)
+                    .onTapGesture {
+                        displayTabletLetterPicker = true
                     }
-                }
+                    .popover(isPresented: $displayTabletLetterPicker){letterPopover()}
+            } else {
+                standardCipherPair(displayPlaintext: true)
+                    .onTapGesture {
+                        currentCiphertextCharacter = cipherTextLetter
+                        selectedIndex = indexInTheCipher
+                        displayPhoneLetterPicker = true
+                    }
+            }
         }
-    
+        
+        
         
         @ViewBuilder
         private
         func standardCipherPair(displayPlaintext : Bool) -> some View {
-//            Menu {
-//                LetterMenu()
-//                    .menuStyle(BorderlessButtonMenuStyle())
-//                    .onAppear{
-//                        currentCiphertextCharacter = cipherTextLetter
-//                    }
-//            } label: {
-                VStack{
-                    //ciphertext
-                    Text(String(cipherTextLetter))
+            VStack{
+                Text(String(cipherTextLetter))
+                    .fixedSize()
+                Spacer()
+                
+                if displayPlaintext {
+                    Text(plainTextLetter.string())
+                        .frame(height : 30)
+                        .foregroundColor(viewModel.theme.color(of: .plaintext,
+                                                               for: bookTheme, in: colorScheme))
                         .fixedSize()
-                    
-                    Spacer()
-                    
-                    ZStack{
-                        if displayPlaintext {
-                            //plaintext
-                            Text(plainTextLetter.string())
-                                .frame(height : 30)
-                                .foregroundColor(viewModel.theme.color(of: .plaintext,
-                                                                       for: bookTheme, in: colorScheme))
-                                .fixedSize()
-                        }
-                    }
                 }
-                .overlay(Rectangle()
-                            .frame(width: 30, height: 2, alignment: .bottom)
-                            .foregroundColor(viewModel.theme.color(of: .puzzleLines,
-                                                                   for: bookTheme, in: colorScheme)),
-                         alignment: .bottom )
-                .padding(.top)
-                .font(viewModel.theme.font(for: .title, for: bookTheme))
-                .foregroundColor(foregroundColor(for: colorScheme))
-                .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
-                .popover(isPresented: $displayLetterPicker, attachmentAnchor: .point(UnitPoint(x: 0.5, y: 0.5)), arrowEdge: .top, content: {
-                    
-                    ScrollView(.vertical){
-                        LazyVGrid(columns: Array(repeating: GridItem(.fixed(20)), count: 6)){
-                            ForEach(String.alphabet.map{$0}, id: \.self){ character in
-                                Button{
-                                    viewModel.guess(cipherTextLetter, is: character,
-                                                    at: indexInTheCipher, for: puzzle)
-                                    displayLetterPicker = false
-                                } label: {
-                                    Text(String(character))
-                                        .font(viewModel.theme.font(for: .title, for: bookTheme))
-                                        .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-                                }
-                            }
-                        }
-                    }
-                        
-                })
-//            }
+                
+            }
+            .overlay(Rectangle()
+                        .frame(width: 30, height: 2, alignment: .bottom)
+                        .foregroundColor(viewModel.theme.color(of: .puzzleLines,
+                                                               for: bookTheme, in: colorScheme)),
+                     alignment: .bottom )
+            .padding(.top)
+            .font(viewModel.theme.font(for: .title, for: bookTheme))
+            .foregroundColor(foregroundColor(for: colorScheme))
+            .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
         }
-        
-        
         
         
         private
-        func LetterMenu() -> some View {
-            Group{
-                Button("-"){
-                    withAnimation{
-                        viewModel.guess(cipherTextLetter, is: nil,
-                                        at: indexInTheCipher, for: puzzle)
-                    }
-                }
-                
-                ForEach(String.alphabet.map{$0}, id: \.self){ character in
-                    Button {
-                        withAnimation{
-                            viewModel.guess(cipherTextLetter, is: character,
-                                            at: indexInTheCipher, for: puzzle)
+        func letterPopover() -> some View {
+            ScrollView(.vertical){
+                LazyVGrid(columns: Array(repeating: GridItem(.fixed(20)), count: 6)){
+                    ForEach(String.alphabet.map{$0}, id: \.self){ character in
+                        Button{
+                            withAnimation{
+                                viewModel.guess(cipherTextLetter, is: character,
+                                                at: indexInTheCipher, for: puzzle)
+                                displayTabletLetterPicker = false
+                            }
+                        } label: {
+                            Text(String(character))
+                                .font(viewModel.theme.font(for: .title, for: bookTheme))
+                                .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
                         }
-                    } label: {
-                        let option = String(character)
-                        Text(option)
                     }
                 }
             }
-            .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
         }
+        
+        
+//        private
+//        func LetterMenu() -> some View {
+//            Group{
+//                Button("-"){
+//                    withAnimation{
+//                        viewModel.guess(cipherTextLetter, is: nil,
+//                                        at: indexInTheCipher, for: puzzle)
+//                    }
+//                }
+//
+//                ForEach(String.alphabet.map{$0}, id: \.self){ character in
+//                    Button {
+//                        withAnimation{
+//                            viewModel.guess(cipherTextLetter, is: character,
+//                                            at: indexInTheCipher, for: puzzle)
+//                        }
+//                    } label: {
+//                        let option = String(character)
+//                        Text(option)
+//                    }
+//                }
+//            }
+//            .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+//        }
   
         
         private
