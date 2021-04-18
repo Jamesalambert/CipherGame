@@ -46,6 +46,7 @@ extension ContentView {
                 .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
                 .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
                 .toolbar{toolbarView()}
+            
             }
         }
         
@@ -252,9 +253,14 @@ extension ContentView {
         @Binding
         var currentCiphertextCharacter : Character?
         
+        @State
+        var displayLetterPicker : Bool = false
+
+        
         var cipherTextLetter : Character
         var plainTextLetter : Character?
         var indexInTheCipher : Int
+
         
         var body : some View {
             if puzzle.isSolved{
@@ -262,7 +268,9 @@ extension ContentView {
                 } else if cipherTextLetter.isPunctuation || cipherTextLetter.isWhitespace {
                     standardCipherPair(displayPlaintext: false)
                 } else {
-                        standardCipherPair(displayPlaintext: true)
+                    standardCipherPair(displayPlaintext: true).onTapGesture {
+                        displayLetterPicker = true
+                    }
                 }
         }
     
@@ -270,14 +278,13 @@ extension ContentView {
         @ViewBuilder
         private
         func standardCipherPair(displayPlaintext : Bool) -> some View {
-            
-            Menu {
-                LetterMenu()
-                    .menuStyle(BorderlessButtonMenuStyle())
-                    .onAppear{
-                        currentCiphertextCharacter = cipherTextLetter
-                    }
-            } label: {
+//            Menu {
+//                LetterMenu()
+//                    .menuStyle(BorderlessButtonMenuStyle())
+//                    .onAppear{
+//                        currentCiphertextCharacter = cipherTextLetter
+//                    }
+//            } label: {
                 VStack{
                     //ciphertext
                     Text(String(cipherTextLetter))
@@ -305,15 +312,34 @@ extension ContentView {
                 .font(viewModel.theme.font(for: .title, for: bookTheme))
                 .foregroundColor(foregroundColor(for: colorScheme))
                 .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
-            }
-
+                .popover(isPresented: $displayLetterPicker, attachmentAnchor: .point(UnitPoint(x: 0.5, y: 0.5)), arrowEdge: .top, content: {
+                    
+                    ScrollView(.vertical){
+                        LazyVGrid(columns: Array(repeating: GridItem(.fixed(20)), count: 6)){
+                            ForEach(String.alphabet.map{$0}, id: \.self){ character in
+                                Button{
+                                    viewModel.guess(cipherTextLetter, is: character,
+                                                    at: indexInTheCipher, for: puzzle)
+                                    displayLetterPicker = false
+                                } label: {
+                                    Text(String(character))
+                                        .font(viewModel.theme.font(for: .title, for: bookTheme))
+                                        .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                                }
+                            }
+                        }
+                    }
+                        
+                })
+//            }
         }
+        
+        
+        
         
         private
         func LetterMenu() -> some View {
-            
             Group{
-                
                 Button("-"){
                     withAnimation{
                         viewModel.guess(cipherTextLetter, is: nil,
@@ -336,7 +362,6 @@ extension ContentView {
             .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
         }
   
-        
         
         private
         func foregroundColor(for colorScheme : ColorScheme) -> Color? {
