@@ -54,6 +54,7 @@ extension ContentView {
                                       selectedIndex: $selectedIndex,
                                       puzzle: $puzzle)
                             .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
+                            .transition(.asymmetric(insertion: .move(edge: .bottom), removal: .move(edge: .bottom)))
                             .frame(height: Self.phoneLetterPickerHeight)
                     }
                     
@@ -346,7 +347,8 @@ extension ContentView {
                             displayTabletLetterPicker = true
                         }
                     }
-                    .popover(isPresented: $displayTabletLetterPicker, attachmentAnchor: .point(.bottom), arrowEdge: .leading){letterPopover()}
+                    .popover(isPresented: $displayTabletLetterPicker, attachmentAnchor: .point(.top), arrowEdge: .top){letterPopover()}
+                
             } else {
                 standardCipherPair(displayPlaintext: true)
                     .onTapGesture {
@@ -409,15 +411,18 @@ extension ContentView {
                     }
                 }
                 
-                Button{
-                    withAnimation{
-                        viewModel.guess(cipherTextLetter, is: nil,
-                                        at: indexInTheCipher, for: puzzle)
-                        displayTabletLetterPicker = false
+                if plainTextLetter != nil {
+                    Button{
+                        withAnimation{
+                            viewModel.guess(cipherTextLetter, is: nil,
+                                            at: indexInTheCipher, for: puzzle)
+                            displayTabletLetterPicker = false
+                        }
+                    } label: {
+                        Label("clear", systemImage: "clear")
                     }
-                } label: {
-                    Label("clear", systemImage: "clear")
                 }
+                
                 
             }.padding()
         }
