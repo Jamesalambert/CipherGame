@@ -13,6 +13,9 @@ extension ContentView {
         
         static let letterAnimation = 0.75
         
+        static let phoneLetterPickerHeight = CGFloat(50)
+        static let letterCountHeight = CGFloat(100)
+        
         @EnvironmentObject
         var viewModel : CipherPuzzle
         
@@ -43,21 +46,24 @@ extension ContentView {
                 VStack{
                     cipherPuzzleView(with: geometry)
                         .padding(.all, geometry.size.height/20)
-                    
-                    LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
-                                puzzle: $puzzle)
-                        .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
-                        .frame(width: geometry.size.width, height: 100, alignment: .bottom)
+                        .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
                     
                     if displayPhoneLetterPicker{
                         PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker,
                                       currentCiphertextCharacter: $currentCiphertextCharacter,
                                       selectedIndex: $selectedIndex,
                                       puzzle: $puzzle)
-                            .frame(height: UIDevice.current.userInterfaceIdiom == .phone ? geometry.size.height/5 : 0)
+                            .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
+                            .frame(height: Self.phoneLetterPickerHeight)
                     }
+                    
+                    LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
+                                puzzle: $puzzle)
+                        .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
+                        .frame(width: geometry.size.width, height: Self.letterCountHeight, alignment: .bottom)
+                    
+                    
                 }
-                .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
                 .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
                 .toolbar{toolbarView()}
             
@@ -254,6 +260,12 @@ extension ContentView {
 
         @EnvironmentObject
         var viewModel : CipherPuzzle
+        
+        @Environment(\.bookTheme)
+        var bookTheme : BookTheme
+        
+        @Environment(\.colorScheme)
+        var colorScheme : ColorScheme
 
         @Binding
         var displayPhoneLetterPicker : Bool
@@ -266,7 +278,7 @@ extension ContentView {
 
         @Binding
         var puzzle : Puzzle
-
+    
 
         var body: some View {
             ScrollView(.horizontal){
@@ -280,6 +292,8 @@ extension ContentView {
                             }
                         } label: {
                             Text(String(character))
+                                .font(viewModel.theme.font(for: .title, for: bookTheme))
+                                .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
                         }
                     }
                 }
@@ -327,15 +341,20 @@ extension ContentView {
                 
                 standardCipherPair(displayPlaintext: true)
                     .onTapGesture {
-                        displayTabletLetterPicker = true
+                        withAnimation{
+                            currentCiphertextCharacter = cipherTextLetter
+                            displayTabletLetterPicker = true
+                        }
                     }
-                    .popover(isPresented: $displayTabletLetterPicker){letterPopover()}
+                    .popover(isPresented: $displayTabletLetterPicker, attachmentAnchor: .point(.bottom), arrowEdge: .leading){letterPopover()}
             } else {
                 standardCipherPair(displayPlaintext: true)
                     .onTapGesture {
-                        currentCiphertextCharacter = cipherTextLetter
-                        selectedIndex = indexInTheCipher
-                        displayPhoneLetterPicker = true
+                        withAnimation{
+                            currentCiphertextCharacter = cipherTextLetter
+                            selectedIndex = indexInTheCipher
+                            displayPhoneLetterPicker = true
+                        }
                     }
             }
         }
@@ -374,7 +393,7 @@ extension ContentView {
         private
         func letterPopover() -> some View {
             ScrollView(.vertical){
-                LazyVGrid(columns: Array(repeating: GridItem(.fixed(20)), count: 6)){
+                LazyVGrid(columns: Array(repeating: GridItem(.fixed(20)), count: 13)){
                     ForEach(String.alphabet.map{$0}, id: \.self){ character in
                         Button{
                             withAnimation{
@@ -389,7 +408,18 @@ extension ContentView {
                         }
                     }
                 }
-            }
+                
+                Button{
+                    withAnimation{
+                        viewModel.guess(cipherTextLetter, is: nil,
+                                        at: indexInTheCipher, for: puzzle)
+                        displayTabletLetterPicker = false
+                    }
+                } label: {
+                    Label("clear", systemImage: "clear")
+                }
+                
+            }.padding()
         }
         
         
