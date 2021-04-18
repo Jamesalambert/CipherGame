@@ -68,7 +68,13 @@ class CipherPuzzle : ObservableObject {
     }
     
     var installedBooks : [Book] {
-        return model.books
+        let books = model.books
+        if showLessons {
+            return books
+        } else {
+            let booksWithoutLessons = books.drop(while: {$0.title == "lessons"})
+            return Array(booksWithoutLessons)
+        }
     }
     
     

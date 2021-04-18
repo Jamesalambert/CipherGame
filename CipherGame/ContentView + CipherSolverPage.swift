@@ -328,7 +328,8 @@ extension ContentView {
                                             at: indexInTheCipher, for: puzzle)
                         }
                     } label: {
-                        Text((String(character))).frame(width: 20)
+                        let option = String(character)
+                        Text(option)
                     }
                 }
             }
