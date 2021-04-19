@@ -60,15 +60,15 @@ extension ThemeManager {
         let yellow = Color(#colorLiteral(red: 1, green: 0.9398623705, blue: 0.01244911458, alpha: 1))
         switch context.item{
         case .ciphertext:
-            return context.colorScheme == .light ? Color.gray : Color.gray
+            return Color.gray
         case .plaintext:
-            return context.colorScheme == .light ? yellow : yellow
+            return yellow
         case .puzzleLines:
             return cyan
         case .highlight:
-            return context.colorScheme == .light ? Color.orange : Color.orange
+            return Color.orange
         case .completed:
-            return context.colorScheme == .light ? Color.red : Color.red
+            return Color.red
         case .puzzleBackground:
             return Color.black
         }

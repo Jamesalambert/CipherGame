@@ -30,6 +30,8 @@
 		AAE55AED262628090019407E /* PuzzleThemes + Treasure.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE55AEC262628090019407E /* PuzzleThemes + Treasure.swift */; };
 		AAE626EB261663EF004BF125 /* puzzles.json in Resources */ = {isa = PBXBuildFile; fileRef = AAE626EA261663EF004BF125 /* puzzles.json */; };
 		AAE6270D2617ED50004BF125 /* Rebecca's Garden.json in Resources */ = {isa = PBXBuildFile; fileRef = AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */; };
+		AAE9CE3D262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9CE3C262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift */; };
+		AAE9CE4A262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9CE49262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift */; };
 		AAEE3AEC261A813A008E2233 /* ContentView + CipherSolverPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */; };
 		AAEE3AF7261B8676008E2233 /* lessons.json in Resources */ = {isa = PBXBuildFile; fileRef = AAEE3AF6261B8676008E2233 /* lessons.json */; };
 		AAEE3B11261CEE30008E2233 /* CipherPuzzle + Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEE3B10261CEE30008E2233 /* CipherPuzzle + Persistence.swift */; };
@@ -80,6 +82,8 @@
 		AAE55AEC262628090019407E /* PuzzleThemes + Treasure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleThemes + Treasure.swift"; sourceTree = "<group>"; };
 		AAE626EA261663EF004BF125 /* puzzles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = puzzles.json; sourceTree = "<group>"; };
 		AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Rebecca's Garden.json"; sourceTree = "<group>"; };
+		AAE9CE3C262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + CipherSolverCharacterPair.swift"; sourceTree = "<group>"; };
+		AAE9CE49262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherSolverPage + Toolbar.swift"; sourceTree = "<group>"; };
 		AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + CipherSolverPage.swift"; sourceTree = "<group>"; };
 		AAEE3AF6261B8676008E2233 /* lessons.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lessons.json; sourceTree = "<group>"; };
 		AAEE3B10261CEE30008E2233 /* CipherPuzzle + Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle + Persistence.swift"; sourceTree = "<group>"; };
@@ -159,6 +163,8 @@
 				AAE55AEC262628090019407E /* PuzzleThemes + Treasure.swift */,
 				AA9766A02601651A0076B879 /* ContentView.swift */,
 				AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */,
+				AAE9CE49262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift */,
+				AAE9CE3C262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift */,
 				AA3ED4462611493300B25B4A /* ContentView + letter count.swift */,
 				AAE55ABB261FBDAC0019407E /* ContentView + Blur.swift */,
 				AA9766D126016EB60076B879 /* CipherPuzzle.swift */,
@@ -355,9 +361,11 @@
 				AA97669F2601651A0076B879 /* CipherGameApp.swift in Sources */,
 				AA3ED4472611493300B25B4A /* ContentView + letter count.swift in Sources */,
 				AAE55ADF2624E4220019407E /* PuzzleThemes.swift in Sources */,
+				AAE9CE4A262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift in Sources */,
 				AA8F640C26053E2E005B148F /* UITextFieldView.swift in Sources */,
 				AA31EAAE260BE3E80031D56C /* CipherPuzzle+Difficulty.swift in Sources */,
 				AAEE3B11261CEE30008E2233 /* CipherPuzzle + Persistence.swift in Sources */,
+				AAE9CE3D262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift in Sources */,
 				AA31EAB4260BE5370031D56C /* useful extensions.swift in Sources */,
 				AAE55AED262628090019407E /* PuzzleThemes + Treasure.swift in Sources */,
 				AA9766D226016EB60076B879 /* CipherPuzzle.swift in Sources */,
