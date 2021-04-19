@@ -159,8 +159,6 @@
 			isa = PBXGroup;
 			children = (
 				AA97669E2601651A0076B879 /* CipherGameApp.swift */,
-				AAE55ADE2624E4220019407E /* PuzzleThemes.swift */,
-				AAE55AEC262628090019407E /* PuzzleThemes + Treasure.swift */,
 				AA9766A02601651A0076B879 /* ContentView.swift */,
 				AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */,
 				AAE9CE49262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift */,
@@ -174,6 +172,7 @@
 				AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */,
 				AA9766A22601651D0076B879 /* Assets.xcassets */,
 				AA9766A72601651D0076B879 /* Info.plist */,
+				AAE9CE54262E3DCD001B9E87 /* Themes */,
 				AA31EAB2260BE5210031D56C /* support files */,
 				AA9766A42601651D0076B879 /* Preview Content */,
 			);
@@ -214,6 +213,15 @@
 				AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */,
 			);
 			path = puzzles;
+			sourceTree = "<group>";
+		};
+		AAE9CE54262E3DCD001B9E87 /* Themes */ = {
+			isa = PBXGroup;
+			children = (
+				AAE55ADE2624E4220019407E /* PuzzleThemes.swift */,
+				AAE55AEC262628090019407E /* PuzzleThemes + Treasure.swift */,
+			);
+			path = Themes;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
