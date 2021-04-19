@@ -133,6 +133,10 @@ extension Character {
 extension String {
     
     static let alphabet = "abcdefghijklmnopqrstuvwxyz"
+    static let qwerty = ["qwertyuiop",
+                         "asdfghjkl",
+                         "zxcvbnm"]
+    
     
     func number(of character : Character) -> Int{
         return reduce(0) { (total, nextChar) -> Int in

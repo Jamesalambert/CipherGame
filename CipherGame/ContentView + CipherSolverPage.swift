@@ -14,7 +14,7 @@ extension ContentView {
         static let letterAnimation = 0.75
         
         static let phoneLetterPickerHeight = CGFloat(20)
-        static let letterCountHeight = CGFloat(100)
+        static let letterCountHeight = CGFloat(120)
         
         @EnvironmentObject
         var viewModel : CipherPuzzle
@@ -48,22 +48,28 @@ extension ContentView {
                         .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
                         .padding(.all, geometry.size.height/20)
                     
-                    if displayPhoneLetterPicker{
-                        PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker,
-                                          currentCiphertextCharacter: $currentCiphertextCharacter,
-                                          selectedIndex: $selectedIndex,
-                                          puzzle: $puzzle)
-                            .background(Color.red)
-                            .transition(.asymmetric(insertion: .move(edge: .leading),
-                                                    removal: .move(edge: .leading)))
-                    }
-                    LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
-                                puzzle: $puzzle)
-                        .background(Color.green)
-                        //                        .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
-                        .frame(width: geometry.size.width,
-                               height: Self.letterCountHeight,
-                               alignment: .bottom)
+                    
+                    
+                    Group{
+                        if displayPhoneLetterPicker{
+                            PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker,
+                                              currentCiphertextCharacter: $currentCiphertextCharacter,
+                                              selectedIndex: $selectedIndex,
+                                              puzzle: $puzzle)
+                                .transition(.move(edge: .bottom))
+                        } else {
+                            LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
+                                        puzzle: $puzzle)
+                                .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
+                                
+                                .transition(.move(edge: .bottom))
+                        }
+                    }.frame(width: geometry.size.width,
+                            height: Self.letterCountHeight,
+                            alignment: .bottom)
+                    
+                    
+                    
                     
                 }
                 .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
@@ -203,28 +209,52 @@ extension ContentView {
     @Binding
     var puzzle : Puzzle
 
-    var body: some View {
-        
-            ScrollView(.horizontal){
-                HStack{
-                    ForEach(String.alphabet.map{$0}, id: \.self){character in
-                        Button{
-                            withAnimation{
-                                viewModel.guess(currentCiphertextCharacter!, is: character,
-                                                at: selectedIndex!, for: puzzle)
-                                displayPhoneLetterPicker = false
+        var body: some View {
+            
+            GeometryReader{ geometry in
+                VStack{
+                    ScrollView(.horizontal){
+                        LazyVGrid(columns: Array(repeating: GridItem(.fixed(20)), count: Int(geometry.size.width)/20)){
+                            ForEach(String.alphabet.map{$0}, id: \.self){character in
+                                Button{
+                                    withAnimation{
+                                        viewModel.guess(currentCiphertextCharacter!, is: character,
+                                                        at: selectedIndex!, for: puzzle)
+    //                                    displayPhoneLetterPicker = false
+                                    }
+                                } label: {
+                                    Text(String(character))
+                                        .font(viewModel.theme.font(for: .title, for: bookTheme))
+                                        .foregroundColor(viewModel.theme.color(of: .plaintext, for: bookTheme, in: colorScheme))
+                                        .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
+                                }
                             }
-                        } label: {
-                            Text(String(character))
-                                .font(viewModel.theme.font(for: .title, for: bookTheme))
-                                .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-                                .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
                         }
                     }
+                    HStack{
+                        Spacer()
+                        Button{withAnimation{displayPhoneLetterPicker = false}
+                        } label: {Text("close")}
+                        Spacer()
+                        Button{
+                            withAnimation{
+                                viewModel.guess(currentCiphertextCharacter!, is: nil,
+                                                at: selectedIndex!, for: puzzle)
+                            }
+                        } label: {Label("clear", systemImage: "clear")}
+                        Spacer()
+                    }
                 }
-            }//.background(Color.green)
-        }
-}
+                .padding()
+                .overlay(
+                    RoundedRectangle(cornerRadius: 5)
+                        .stroke(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)!)
+                        .padding()  )
+                
+            }
+            }
+
+    }
 }
 
 private struct BookThemeKey : EnvironmentKey {
