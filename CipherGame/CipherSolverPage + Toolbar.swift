@@ -72,12 +72,13 @@ extension ContentView.CipherSolverPage {
             }
             
             ToolbarItem(placement: .navigationBarTrailing){
+
                 Menu{
                     Picker("text display", selection: $viewModel.capType){
-                        Text("CAPITALS").tag(3)
-                        Text("lowercase").tag(0)
+                        Text("Capitals").tag(3)
+                        Text("Lowercase").tag(0)
                     }
-                    
+
 //                        Picker("font style", selection: $viewModel.fontDesign){
 //                            Text("typewriter").tag(Font.Design.monospaced)
 //                            Text("rounded").tag(Font.Design.rounded)

@@ -190,60 +190,57 @@ extension ContentView {
 //    MARK:- the phone keyboard
     struct PhoneLetterPicker : View {
 
-    @EnvironmentObject
-    var viewModel : CipherPuzzle
-    
-    @Environment(\.bookTheme)
-    var bookTheme : BookTheme
-    
-    @Environment(\.colorScheme)
-    var colorScheme : ColorScheme
+        @EnvironmentObject
+        var viewModel : CipherPuzzle
+        
+        @Environment(\.bookTheme)
+        var bookTheme : BookTheme
+        
+        @Environment(\.colorScheme)
+        var colorScheme : ColorScheme
 
-    @Binding
-    var displayPhoneLetterPicker : Bool
+        @Binding
+        var displayPhoneLetterPicker : Bool
 
-    @Binding
-    var currentCiphertextCharacter : Character?
+        @Binding
+        var currentCiphertextCharacter : Character?
 
-    @Binding
-    var selectedIndex : Int?
+        @Binding
+        var selectedIndex : Int?
 
-    @Binding
-    var puzzle : Puzzle
+        @Binding
+        var puzzle : Puzzle
 
         var body: some View {
-            GeometryReader{ geometry in
-                VStack {
-                    
-                    drawKeyboard(with: geometry)
-                    
-                    HStack{
-                        Spacer()
-                        Button{withAnimation{displayPhoneLetterPicker = false}
-                        } label: {Text("close")}
-                        Spacer()
-                        Button{
-                            withAnimation{
-                                viewModel.guess(currentCiphertextCharacter!, is: nil,
-                                                at: selectedIndex!, for: puzzle)
-                            }
-                        } label: {Label("clear", systemImage: "clear")}
-                        Spacer()
-                    }
-                }
-                .padding()
-                .overlay(
-                    RoundedRectangle(cornerRadius: 5)
-                        .stroke(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)!)
-                        .padding()  )
+            VStack {
+                drawKeyboard()
+                HStack{
+                    Spacer()
+                    Button{withAnimation{displayPhoneLetterPicker = false}
+                    } label: {Text("close")}
+                    Spacer()
+                    Button{
+                        withAnimation{
+                            viewModel.guess(currentCiphertextCharacter!, is: nil,
+                                            at: selectedIndex!, for: puzzle)
+                        }
+                    } label: {Label("clear", systemImage: "clear")}
+                    Spacer()
                 }
             }
-        
-        
+            .padding()
+            .overlay(
+                RoundedRectangle(cornerRadius: 5)
+                    .stroke(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)!)
+                    .padding()  )
+            
+        }
+            
+            
 
-        
+            
         @ViewBuilder
-        func drawKeyboard(with geometry : GeometryProxy) -> some View {
+        func drawKeyboard() -> some View {
             VStack{
                 ForEach(String.qwerty, id:\.self ){line in
                     HStack(spacing: 10){
@@ -252,7 +249,7 @@ extension ContentView {
                             Text(String(character)).onTapGesture {
                                 viewModel.guess(currentCiphertextCharacter!, is: character,
                                                 at: selectedIndex!, for: puzzle)
-//                                    displayPhoneLetterPicker = false
+    //                                    displayPhoneLetterPicker = false
                             }
                             .fixedSize()
                             .font(viewModel.theme.font(for: .title, for: bookTheme))
