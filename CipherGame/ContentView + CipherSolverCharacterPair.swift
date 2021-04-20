@@ -101,25 +101,10 @@ extension ContentView {
         private
         func letterPopover() -> some View {
             ScrollView(.vertical){
-                
                 Button("close"){displayTabletLetterPicker = false}
-                
-                LazyVGrid(columns: Array(repeating: GridItem(.fixed(20)), count: 13)){
-                    ForEach(String.alphabet.map{$0}, id: \.self){ character in
-                        Button{
-                            withAnimation{
-                                viewModel.guess(cipherTextLetter, is: character,
-                                                at: indexInTheCipher, for: puzzle)
-                                displayTabletLetterPicker = false
-                            }
-                        } label: {
-                            Text(String(character))
-                                .font(viewModel.theme.font(for: .title, for: bookTheme))
-                                .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-                        }
-                    }
-                }
-                
+                Spacer()
+                drawKeyboard()
+                Spacer()
                 if plainTextLetter != nil {
                     Button{
                         withAnimation{
@@ -131,9 +116,29 @@ extension ContentView {
                         Label("clear", systemImage: "clear")
                     }
                 }
-                
-                
             }.padding()
+        }
+        
+        
+        @ViewBuilder
+        func drawKeyboard() -> some View {
+            VStack{
+                ForEach(String.qwerty, id:\.self ){line in
+                    HStack(spacing: 10){
+                        ForEach(line.map{$0}, id:\.self){ character in
+                            Text(String(character)).onTapGesture {
+                                viewModel.guess(cipherTextLetter, is: character,
+                                                at: indexInTheCipher, for: puzzle)
+                                displayTabletLetterPicker = false
+                            }
+                            .fixedSize()
+                            .font(viewModel.theme.font(for: .title, for: bookTheme))
+                            .foregroundColor(viewModel.theme.color(of: .plaintext, for: bookTheme, in: colorScheme))
+                            .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
+                        }
+                    }
+                }
+            }
         }
         
         
