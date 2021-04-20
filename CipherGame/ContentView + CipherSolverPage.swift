@@ -13,7 +13,7 @@ extension ContentView {
         
         static let letterAnimation = 0.75
         
-        static let phoneLetterPickerHeight = CGFloat(20)
+        static let phoneLetterPickerHeight = CGFloat(140)
         static let letterCountHeight = CGFloat(120)
         
         @EnvironmentObject
@@ -57,12 +57,14 @@ extension ContentView {
                                               selectedIndex: $selectedIndex,
                                               puzzle: $puzzle)
                                 .transition(.move(edge: .bottom))
+                                .frame(height: Self.phoneLetterPickerHeight)
                         } else {
                             LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
                                         puzzle: $puzzle)
                                 .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
                                 
                                 .transition(.move(edge: .bottom))
+                                .frame(height: Self.letterCountHeight)
                         }
                     }.frame(width: geometry.size.width,
                             height: Self.letterCountHeight,
@@ -210,27 +212,11 @@ extension ContentView {
     var puzzle : Puzzle
 
         var body: some View {
-            
             GeometryReader{ geometry in
-                VStack{
-                    ScrollView(.horizontal){
-                        LazyVGrid(columns: Array(repeating: GridItem(.fixed(20)), count: Int(geometry.size.width)/20)){
-                            ForEach(String.alphabet.map{$0}, id: \.self){character in
-                                Button{
-                                    withAnimation{
-                                        viewModel.guess(currentCiphertextCharacter!, is: character,
-                                                        at: selectedIndex!, for: puzzle)
-    //                                    displayPhoneLetterPicker = false
-                                    }
-                                } label: {
-                                    Text(String(character))
-                                        .font(viewModel.theme.font(for: .title, for: bookTheme))
-                                        .foregroundColor(viewModel.theme.color(of: .plaintext, for: bookTheme, in: colorScheme))
-                                        .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
-                                }
-                            }
-                        }
-                    }
+                VStack {
+                    
+                    drawKeyboard(with: geometry)
+                    
                     HStack{
                         Spacer()
                         Button{withAnimation{displayPhoneLetterPicker = false}
@@ -250,10 +236,44 @@ extension ContentView {
                     RoundedRectangle(cornerRadius: 5)
                         .stroke(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)!)
                         .padding()  )
-                
+                }
             }
-            }
+        
+        
 
+        
+        @ViewBuilder
+        func drawKeyboard(with geometry : GeometryProxy) -> some View {
+            VStack{
+                ForEach(String.qwerty, id:\.self ){line in
+                    HStack(spacing: 10){
+                        ForEach(line.map{$0}, id:\.self){ character in
+                            
+                            Text(String(character)).onTapGesture {
+                                viewModel.guess(currentCiphertextCharacter!, is: character,
+                                                at: selectedIndex!, for: puzzle)
+//                                    displayPhoneLetterPicker = false
+                            }
+                            .fixedSize()
+                            .font(viewModel.theme.font(for: .title, for: bookTheme))
+                            .foregroundColor(viewModel.theme.color(of: .plaintext, for: bookTheme, in: colorScheme))
+                            .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
+                        }
+                    }
+                }
+            }
+        }
+        
+
+        private func columns(for geometry : GeometryProxy) -> [GridItem]{
+            let numberOfCols = geometry.size.width > 480 ? 13 : 9
+            
+            let letterWidth = Int(geometry.size.width / CGFloat(Double(numberOfCols) * 1.4))
+            return Array(repeating: GridItem(.fixed(CGFloat(letterWidth))),
+                         count: numberOfCols)
+        }
+        
+        
     }
 }
 

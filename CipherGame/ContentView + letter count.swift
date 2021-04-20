@@ -48,6 +48,8 @@ extension ContentView {
                         //.background(Color.blue)
                     }//.background(Color.green)
                 }.background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
+                .padding()
+                
             }
         }
         
