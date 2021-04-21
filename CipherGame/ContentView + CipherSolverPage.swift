@@ -54,7 +54,7 @@ extension ContentView {
         
         var body : some View {
             GeometryReader { geometry in
-                VStack{
+                ZStack(alignment: .bottom ){
                     cipherPuzzleView(with: geometry)
                         .padding()
                     Group{
@@ -69,23 +69,24 @@ extension ContentView {
                         } else {
                             LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
                                         puzzle: $puzzle)
-                                .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
-                                
                                 .transition(.move(edge: .bottom))
                                 .frame(height: Self.letterCountHeight)
                         }
-                    }.frame(width: geometry.size.width,
+                    }
+                    .background(Blur(style: colorScheme == .light ? .systemUltraThinMaterialLight : .systemUltraThinMaterialDark))
+                    .frame(width: geometry.size.width,
                             height: Self.letterCountHeight,
                             alignment: .bottom)
                     
                 }
-//                .padding()
+                //                .padding()
                 .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
                 .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
                 .toolbar{toolbarView()}
             }
         }
         
+
         @ViewBuilder
         func cipherPuzzleView(with geometry : GeometryProxy) -> some View {
             ScrollView {
@@ -235,7 +236,6 @@ extension ContentView {
             .overlay(
                 RoundedRectangle(cornerRadius: 5)
                     .stroke(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)!))
-            .background(viewModel.theme.color(of: .keyboardBackground, for: bookTheme, in: colorScheme))
         }
             
             

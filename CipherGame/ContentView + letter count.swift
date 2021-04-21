@@ -47,7 +47,7 @@ extension ContentView {
                         }.frame(minWidth: geometry.size.width) //centers the grid in the scrollview
                         //.background(Color.blue)
                     }//.background(Color.green)
-                }.background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
+                }
                 .padding()
                 
             }
