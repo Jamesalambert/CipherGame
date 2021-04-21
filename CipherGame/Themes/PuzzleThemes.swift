@@ -81,7 +81,11 @@ class ThemeManager : ThemeDelegateProtocol {
                 return context.colorScheme == .light ? myOrange : Color.blue
             case .puzzleBackground:
                 return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
-            }            
+            case .keyboardBackground:
+                return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
+            case .keyboardLetters:
+                return context.colorScheme == .light ? Color.blue : myOrange
+            }
         }
        
         
@@ -153,6 +157,8 @@ enum Item : Hashable {
     case highlight
     case completed
     case puzzleBackground
+    case keyboardBackground
+    case keyboardLetters
 }
 
 enum Shape {

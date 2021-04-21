@@ -53,7 +53,15 @@ extension ContentView {
                             displayTabletLetterPicker.toggle()
                         }
                     }
-                    .popover(isPresented: $displayTabletLetterPicker, attachmentAnchor: .point(.top), arrowEdge: .top){letterPopover()}
+                    .popover(isPresented: $displayTabletLetterPicker,
+                             attachmentAnchor: .point(.top),
+                             arrowEdge: .top){
+                        ZStack{
+                            viewModel.theme.color(of: .keyboardBackground, for: bookTheme, in: colorScheme)
+                                .scaleEffect(1.5)
+                            letterPopover()
+                        }
+                    }
                 
             } else {
                 standardCipherPair(displayPlaintext: true)
@@ -133,7 +141,7 @@ extension ContentView {
                             }
                             .fixedSize()
                             .font(viewModel.theme.font(for: .title, for: bookTheme))
-                            .foregroundColor(viewModel.theme.color(of: .plaintext, for: bookTheme, in: colorScheme))
+                            .foregroundColor(viewModel.theme.color(of: .keyboardLetters, for: bookTheme, in: colorScheme))
                             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
                         }
                     }

@@ -13,7 +13,7 @@ extension ContentView {
         
         static let letterAnimation = 0.75
         
-        static let phoneLetterPickerHeight = CGFloat(140)
+        static let phoneLetterPickerHeight = CGFloat(160)
         static let letterCountHeight = CGFloat(120)
         
         @EnvironmentObject
@@ -41,15 +41,22 @@ extension ContentView {
         private
         var resettingPuzzle : Bool = false
         
+        private
+        var dismissPhoneKeyboard : some Gesture {
+            DragGesture().onChanged{ gesture in
+                if  gesture.translation.height > gesture.translation.width{
+                    withAnimation{
+                        displayPhoneLetterPicker = false
+                    }
+                }
+            }
+        }
+        
         var body : some View {
             GeometryReader { geometry in
                 VStack{
                     cipherPuzzleView(with: geometry)
-                        .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
-                        .padding(.all, geometry.size.height/20)
-                    
-                    
-                    
+                        .padding()
                     Group{
                         if displayPhoneLetterPicker{
                             PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker,
@@ -58,6 +65,7 @@ extension ContentView {
                                               puzzle: $puzzle)
                                 .transition(.move(edge: .bottom))
                                 .frame(height: Self.phoneLetterPickerHeight)
+                                .gesture(dismissPhoneKeyboard)
                         } else {
                             LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
                                         puzzle: $puzzle)
@@ -70,10 +78,9 @@ extension ContentView {
                             height: Self.letterCountHeight,
                             alignment: .bottom)
                     
-                    
-                    
-                    
                 }
+//                .padding()
+                .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
                 .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
                 .toolbar{toolbarView()}
             }
@@ -214,26 +221,21 @@ extension ContentView {
         var body: some View {
             VStack {
                 drawKeyboard()
-                HStack{
-                    Spacer()
-                    Button{withAnimation{displayPhoneLetterPicker = false}
-                    } label: {Text("close")}
-                    Spacer()
-                    Button{
-                        withAnimation{
-                            viewModel.guess(currentCiphertextCharacter!, is: nil,
-                                            at: selectedIndex!, for: puzzle)
-                        }
-                    } label: {Label("clear", systemImage: "clear")}
-                    Spacer()
+                    .padding()
+                Button{
+                    withAnimation{
+                        viewModel.guess(currentCiphertextCharacter!, is: nil,
+                                        at: selectedIndex!, for: puzzle)
+                    }
+                } label: {Label("delete", systemImage: "delete.left")
+                    .foregroundColor(viewModel.theme.color(of: .plaintext, for: bookTheme, in: colorScheme))
                 }
+                Spacer()
             }
-            .padding()
             .overlay(
                 RoundedRectangle(cornerRadius: 5)
-                    .stroke(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)!)
-                    .padding()  )
-            
+                    .stroke(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)!))
+            .background(viewModel.theme.color(of: .keyboardBackground, for: bookTheme, in: colorScheme))
         }
             
             
@@ -243,17 +245,19 @@ extension ContentView {
         func drawKeyboard() -> some View {
             VStack{
                 ForEach(String.qwerty, id:\.self ){line in
-                    HStack(spacing: 10){
+                    HStack(spacing: 12){
                         ForEach(line.map{$0}, id:\.self){ character in
                             
                             Text(String(character)).onTapGesture {
-                                viewModel.guess(currentCiphertextCharacter!, is: character,
-                                                at: selectedIndex!, for: puzzle)
-    //                                    displayPhoneLetterPicker = false
+                                withAnimation{
+                                    viewModel.guess(currentCiphertextCharacter!, is: character,
+                                                    at: selectedIndex!, for: puzzle)
+        //                                    displayPhoneLetterPicker = false
+                                }
                             }
                             .fixedSize()
                             .font(viewModel.theme.font(for: .title, for: bookTheme))
-                            .foregroundColor(viewModel.theme.color(of: .plaintext, for: bookTheme, in: colorScheme))
+                            .foregroundColor(viewModel.theme.color(of: .keyboardLetters, for: bookTheme, in: colorScheme))
                             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
                         }
                     }

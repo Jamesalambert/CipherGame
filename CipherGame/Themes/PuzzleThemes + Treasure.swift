@@ -31,6 +31,10 @@ extension ThemeManager {
             return context.colorScheme == .light ? Color.red : Color.red
         case .puzzleBackground:
             return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
+        case .keyboardBackground:
+            return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
+        case .keyboardLetters:
+            return context.colorScheme == .light ? Color.blue : Color.orange
         }
     }
     
@@ -71,6 +75,10 @@ extension ThemeManager {
             return Color.red
         case .puzzleBackground:
             return Color.black
+        case .keyboardBackground:
+            return Color.init(white: 0.1)
+        case .keyboardLetters:
+            return yellow
         }
     }
     
