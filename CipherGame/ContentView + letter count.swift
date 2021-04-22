@@ -97,8 +97,8 @@ extension ContentView {
                 Group {
                     Text(String(cipherChar)).fontWeight(.semibold)
                         
-                    Text(plainChar.string()).foregroundColor(viewModel.theme.color(of: .plaintext,
-                                                                                   for: bookTheme, in: colorScheme))
+                    Text(plainChar.string())
+                        .foregroundColor(viewModel.theme.color(of: .plaintext, for: bookTheme, in: colorScheme))
                     Text(count > 0 ? String(count) : "-").lineLimit(1)
                 }
                 .fixedSize()

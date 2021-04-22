@@ -76,7 +76,7 @@ class ThemeManager : ThemeDelegateProtocol {
             case .puzzleLines:
                 return context.colorScheme == .light ? Color.blue : myOrange
             case .highlight:
-                return context.colorScheme == .light ? Color.orange : Color.blue
+                return context.colorScheme == .light ? myOrange : Color.blue
             case .completed:
                 return context.colorScheme == .light ? myOrange : Color.blue
             case .puzzleBackground:
