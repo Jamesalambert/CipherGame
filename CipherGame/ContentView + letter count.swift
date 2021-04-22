@@ -45,7 +45,7 @@ extension ContentView {
                                               count: letterCountTriple.count,
                                               currentCiphertextCharacter: $currentCiphertextCharacter)
                                         .animation(.easeInOut)
-                                        //.frame(width: letterCountWidth(for: geometry))
+                                        .frame(width: letterCountWidth(for: geometry))
                                         .onTapGesture {
                                             currentCiphertextCharacter = cipherChar
                                         }
@@ -59,11 +59,11 @@ extension ContentView {
         
         
         
-//        private
-//        func letterCountWidth(for geometry : GeometryProxy) -> CGFloat {
-//            let width = geometry.size.width / 26
-//            return max(width, 20)
-//        }
+        private
+        func letterCountWidth(for geometry : GeometryProxy) -> CGFloat {
+            let width = geometry.size.width / 26
+            return max(width, 30)
+        }
         
         private
         func columns(screenWidth : CGFloat) -> [GridItem] {
