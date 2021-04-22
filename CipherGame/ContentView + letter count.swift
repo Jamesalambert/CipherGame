@@ -13,8 +13,6 @@ extension ContentView {
     
     struct LetterCount : View {
         
-        
-        
         @EnvironmentObject
         var viewModel : CipherPuzzle
         
@@ -39,7 +37,7 @@ extension ContentView {
                         .padding(.top, 10)
                     
                     ScrollView(.horizontal) {
-                        HStack(spacing: letterCountSpacing(for: geometry)){
+                        HStack(spacing: nil){
                             ForEach(viewModel.characterCount) { letterCountTriple in
                                     let cipherChar = letterCountTriple.character
                                     PairCount(cipherChar: cipherChar,
@@ -47,6 +45,7 @@ extension ContentView {
                                               count: letterCountTriple.count,
                                               currentCiphertextCharacter: $currentCiphertextCharacter)
                                         .animation(.easeInOut)
+                                        //.frame(width: letterCountWidth(for: geometry))
                                         .onTapGesture {
                                             currentCiphertextCharacter = cipherChar
                                         }
@@ -54,18 +53,17 @@ extension ContentView {
                         }
                         .frame(minWidth: geometry.size.width) //centers the stack in the scrollview
                     }
-                }                
+                }
             }
         }
         
         
         
-        private
-        func letterCountSpacing(for geometry : GeometryProxy) -> CGFloat {
-            let totalLetterWidth = 26 * ContentView.LetterCountLetterWidth
-            let spacing = (geometry.size.width - totalLetterWidth) / 26
-            return max(spacing, 20)
-        }
+//        private
+//        func letterCountWidth(for geometry : GeometryProxy) -> CGFloat {
+//            let width = geometry.size.width / 26
+//            return max(width, 20)
+//        }
         
         private
         func columns(screenWidth : CGFloat) -> [GridItem] {
@@ -103,6 +101,7 @@ extension ContentView {
                                                                                    for: bookTheme, in: colorScheme))
                     Text(count > 0 ? String(count) : "-").lineLimit(1)
                 }
+                .fixedSize()
                 .font(viewModel.theme.font(for: .body, for: bookTheme))
                 //.font(.system(.body, design: viewModel.fontDesign))
                 .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)

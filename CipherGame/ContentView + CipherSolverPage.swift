@@ -77,6 +77,7 @@ extension ContentView {
                         }
                     }
                     .background(Blur(style: .systemUltraThinMaterialDark))
+                    .cornerRadius(5)
                     .frame(width: geometry.size.width,
                             height: Self.letterCountHeight,
                             alignment: .bottom)
@@ -237,9 +238,10 @@ extension ContentView {
                 }
                 Spacer()
             }
-            .overlay(
-                RoundedRectangle(cornerRadius: 5)
-                    .stroke(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)!))
+//            .overlay(
+//                RoundedRectangle(cornerRadius: 5)
+//                    .stroke(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)!),
+//                alignment: .center)
         }
             
             
@@ -259,7 +261,7 @@ extension ContentView {
         //                                    displayPhoneLetterPicker = false
                                 }
                             }
-                            .fixedSize()
+                            .fixedSize(horizontal: false, vertical: true)
                             .font(viewModel.theme.font(for: .title, for: bookTheme))
                             .foregroundColor(viewModel.theme.color(of: .keyboardLetters, for: bookTheme, in: colorScheme))
                             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
