@@ -64,14 +64,8 @@ extension ContentView {
                     }
                     .popover(isPresented: $wasTapped,
                              attachmentAnchor: .point(.top),
-                             arrowEdge: .top){
-                        ZStack{
-                            viewModel.theme.color(of: .keyboardBackground, for: bookTheme, in: colorScheme)
-                                .scaleEffect(1.5)
-                                .shadow(radius: 3)
-                            letterPopover()
-                        }
-                    }
+                             arrowEdge: .top){letterPopover()}
+                
             } else if UIDevice.current.userInterfaceIdiom == .phone{
                 standardCipherPair(displayPlaintext: true)
                     .onTapGesture {
@@ -83,8 +77,6 @@ extension ContentView {
                     }
             }
         }
-        
-        
         
         @ViewBuilder
         func standardCipherPair(displayPlaintext : Bool) -> some View {
@@ -113,32 +105,37 @@ extension ContentView {
             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
         }
         
-        
         private
         func letterPopover() -> some View {
-            ScrollView(.vertical){
-                //Button("close"){wasTapped = false}
-                Spacer()
-                drawKeyboard()
-                Spacer()
-                if plainTextLetter != nil {
-                    Button{
-                        withAnimation{
-                            viewModel.guess(cipherTextLetter, is: nil,
-                                            at: indexInTheCipher, for: puzzle)
-                            displayTabletLetterPicker = false
-                            wasTapped = false
+            
+            ZStack{
+                //background colour
+                viewModel.theme.color(of: .keyboardBackground, for: bookTheme, in: colorScheme)
+                    .scaleEffect(1.5)
+                    .shadow(radius: 3)
+                
+                ScrollView(.vertical){
+                    Spacer()
+                    drawKeyboard()
+                    Spacer()
+                    if plainTextLetter != nil {
+                        Button{
+                            withAnimation{
+                                viewModel.guess(cipherTextLetter, is: nil,
+                                                at: indexInTheCipher, for: puzzle)
+                                displayTabletLetterPicker = false
+                                wasTapped = false
+                            }
+                        } label: {
+                            Label("delete", systemImage: "delete.left")
+                                .font(.title)
+                                .foregroundColor(viewModel.theme.color(of: .keyboardLetters,
+                                                                       for: bookTheme, in: colorScheme))
                         }
-                    } label: {
-                        Label("delete", systemImage: "delete.left")
-                            .font(.title)
-                            .foregroundColor(viewModel.theme.color(of: .keyboardLetters,
-                                                                   for: bookTheme, in: colorScheme))
                     }
-                }
-            }.padding()
+                }.padding()
+            }
         }
-        
         
         @ViewBuilder
         func drawKeyboard() -> some View {
@@ -163,33 +160,6 @@ extension ContentView {
                 }
             }
         }
-        
-        
-//        private
-//        func LetterMenu() -> some View {
-//            Group{
-//                Button("-"){
-//                    withAnimation{
-//                        viewModel.guess(cipherTextLetter, is: nil,
-//                                        at: indexInTheCipher, for: puzzle)
-//                    }
-//                }
-//
-//                ForEach(String.alphabet.map{$0}, id: \.self){ character in
-//                    Button {
-//                        withAnimation{
-//                            viewModel.guess(cipherTextLetter, is: character,
-//                                            at: indexInTheCipher, for: puzzle)
-//                        }
-//                    } label: {
-//                        let option = String(character)
-//                        Text(option)
-//                    }
-//                }
-//            }
-//            .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-//        }
-  
         
         private
         func foregroundColor(for colorScheme : ColorScheme) -> Color? {
