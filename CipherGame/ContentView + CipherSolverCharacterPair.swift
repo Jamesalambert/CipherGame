@@ -20,6 +20,10 @@ extension ContentView {
         @Environment(\.bookTheme)
         var bookTheme : BookTheme
         
+        @State
+        private
+        var wasTapped : Bool = false
+        
         @Binding
         var puzzle : Puzzle
         
@@ -32,9 +36,8 @@ extension ContentView {
         @Binding
         var displayPhoneLetterPicker : Bool
         
-        @State
-        private
-        var displayTabletLetterPicker : Bool = false
+        @Binding
+        var displayTabletLetterPicker : Bool
         
         var cipherTextLetter : Character
         var plainTextLetter : Character?
@@ -45,25 +48,31 @@ extension ContentView {
             if cipherTextLetter.isPunctuation || cipherTextLetter.isWhitespace {
                 standardCipherPair(displayPlaintext: false)
             } else if UIDevice.current.userInterfaceIdiom == .pad {
-                
                 standardCipherPair(displayPlaintext: true)
                     .onTapGesture {
                         withAnimation{
-                            currentCiphertextCharacter = cipherTextLetter
-                            displayTabletLetterPicker.toggle()
+                            if displayTabletLetterPicker {
+                                displayTabletLetterPicker = false
+                            } else {
+                                currentCiphertextCharacter = cipherTextLetter
+                                selectedIndex = indexInTheCipher
+                                
+                                displayTabletLetterPicker = true
+                                wasTapped = true
+                            }
                         }
                     }
-                    .popover(isPresented: $displayTabletLetterPicker,
+                    .popover(isPresented: $wasTapped,
                              attachmentAnchor: .point(.top),
                              arrowEdge: .top){
                         ZStack{
                             viewModel.theme.color(of: .keyboardBackground, for: bookTheme, in: colorScheme)
                                 .scaleEffect(1.5)
+                                .shadow(radius: 3)
                             letterPopover()
                         }
                     }
-                
-            } else {
+            } else if UIDevice.current.userInterfaceIdiom == .phone{
                 standardCipherPair(displayPlaintext: true)
                     .onTapGesture {
                         withAnimation{
@@ -78,7 +87,6 @@ extension ContentView {
         
         
         @ViewBuilder
-        private
         func standardCipherPair(displayPlaintext : Bool) -> some View {
             VStack{
                 Text(String(cipherTextLetter))
@@ -109,7 +117,7 @@ extension ContentView {
         private
         func letterPopover() -> some View {
             ScrollView(.vertical){
-                Button("close"){displayTabletLetterPicker = false}
+                //Button("close"){wasTapped = false}
                 Spacer()
                 drawKeyboard()
                 Spacer()
@@ -119,9 +127,13 @@ extension ContentView {
                             viewModel.guess(cipherTextLetter, is: nil,
                                             at: indexInTheCipher, for: puzzle)
                             displayTabletLetterPicker = false
+                            wasTapped = false
                         }
                     } label: {
-                        Label("clear", systemImage: "clear")
+                        Label("delete", systemImage: "delete.left")
+                            .font(.title)
+                            .foregroundColor(viewModel.theme.color(of: .keyboardLetters,
+                                                                   for: bookTheme, in: colorScheme))
                     }
                 }
             }.padding()
@@ -135,9 +147,12 @@ extension ContentView {
                     HStack(spacing: 10){
                         ForEach(line.map{$0}, id:\.self){ character in
                             Text(String(character)).onTapGesture {
-                                viewModel.guess(cipherTextLetter, is: character,
-                                                at: indexInTheCipher, for: puzzle)
-                                displayTabletLetterPicker = false
+                                withAnimation{
+                                    viewModel.guess(cipherTextLetter, is: character,
+                                                    at: indexInTheCipher, for: puzzle)
+                                    displayTabletLetterPicker = false
+                                    wasTapped = false
+                                }
                             }
                             .fixedSize()
                             .font(viewModel.theme.font(for: .title, for: bookTheme))

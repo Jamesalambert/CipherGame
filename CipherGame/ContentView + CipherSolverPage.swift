@@ -38,6 +38,9 @@ extension ContentView {
         var displayPhoneLetterPicker : Bool = false
         
         @State
+        var displayTabletLetterPicker : Bool = false
+        
+        @State
         private
         var resettingPuzzle : Bool = false
         
@@ -73,7 +76,7 @@ extension ContentView {
                                 .frame(height: Self.letterCountHeight)
                         }
                     }
-                    .background(Blur(style: colorScheme == .light ? .systemUltraThinMaterialLight : .systemUltraThinMaterialDark))
+                    .background(Blur(style: .systemUltraThinMaterialDark))
                     .frame(width: geometry.size.width,
                             height: Self.letterCountHeight,
                             alignment: .bottom)
@@ -107,6 +110,7 @@ extension ContentView {
                                 currentCiphertextCharacter: $currentCiphertextCharacter,
                                 selectedIndex: $selectedIndex,
                                 displayPhoneLetterPicker: $displayPhoneLetterPicker,
+                                displayTabletLetterPicker: $displayTabletLetterPicker,
                                 cipherTextLetter: cipherPair.cipherLetter,
                                 plainTextLetter: cipherPair.userGuessLetter,
                                 indexInTheCipher: cipherPair.id)
@@ -229,7 +233,7 @@ extension ContentView {
                                         at: selectedIndex!, for: puzzle)
                     }
                 } label: {Label("delete", systemImage: "delete.left")
-                    .foregroundColor(viewModel.theme.color(of: .plaintext, for: bookTheme, in: colorScheme))
+                    .foregroundColor(viewModel.theme.color(of: .keyboardLetters, for: bookTheme, in: colorScheme))
                 }
                 Spacer()
             }
