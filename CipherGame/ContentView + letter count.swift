@@ -9,7 +9,11 @@ import SwiftUI
 
 extension ContentView {
     
+    static let LetterCountLetterWidth = CGFloat(20)
+    
     struct LetterCount : View {
+        
+        
         
         @EnvironmentObject
         var viewModel : CipherPuzzle
@@ -32,9 +36,10 @@ extension ContentView {
                     Text("Character Count")
                         .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
                         .foregroundColor(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme))
+                        .padding(.top, 10)
                     
                     ScrollView(.horizontal) {
-                        LazyVGrid(columns: self.columns(screenWidth: geometry.size.width), alignment: .center) {
+                        HStack(spacing: letterCountSpacing(for: geometry)){
                             ForEach(viewModel.characterCount) { letterCountTriple in
                                     let cipherChar = letterCountTriple.character
                                     PairCount(cipherChar: cipherChar,
@@ -42,15 +47,24 @@ extension ContentView {
                                               count: letterCountTriple.count,
                                               currentCiphertextCharacter: $currentCiphertextCharacter)
                                         .animation(.easeInOut)
+                                        .onTapGesture {
+                                            currentCiphertextCharacter = cipherChar
+                                        }
                             }
-                            
-                        }.frame(minWidth: geometry.size.width) //centers the grid in the scrollview
-                        //.background(Color.blue)
-                    }//.background(Color.green)
-                }
-                .padding()
-                
+                        }
+                        .frame(minWidth: geometry.size.width) //centers the stack in the scrollview
+                    }
+                }                
             }
+        }
+        
+        
+        
+        private
+        func letterCountSpacing(for geometry : GeometryProxy) -> CGFloat {
+            let totalLetterWidth = 26 * ContentView.LetterCountLetterWidth
+            let spacing = (geometry.size.width - totalLetterWidth) / 26
+            return max(spacing, 20)
         }
         
         private
@@ -85,17 +99,15 @@ extension ContentView {
                 Group {
                     Text(String(cipherChar)).fontWeight(.semibold)
                         
-                    Text(count > 0 ? String(count) : "-").lineLimit(1)
-                    
                     Text(plainChar.string()).foregroundColor(viewModel.theme.color(of: .plaintext,
                                                                                    for: bookTheme, in: colorScheme))
+                    Text(count > 0 ? String(count) : "-").lineLimit(1)
                 }
                 .font(viewModel.theme.font(for: .body, for: bookTheme))
                 //.font(.system(.body, design: viewModel.fontDesign))
                 .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
                 .foregroundColor(foregroundColor)
-                
-                Spacer()
+                .frame(height: ContentView.LetterCountLetterWidth )
             }
         }
         
