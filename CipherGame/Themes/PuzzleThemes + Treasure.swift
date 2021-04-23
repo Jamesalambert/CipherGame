@@ -60,17 +60,15 @@ extension ThemeManager {
     private
     static func spaceColors(_ context : ColorContext) -> Color {
         
-        let cyan = Color(#colorLiteral(red: 0, green: 0.6404201388, blue: 0.8557960391, alpha: 1))
-        let yellow = Color(#colorLiteral(red: 1, green: 0.9398623705, blue: 0.01244911458, alpha: 1))
         switch context.item{
         case .ciphertext:
             return Color.gray
         case .plaintext:
-            return yellow
+            return ThemeStructure.yellow
         case .puzzleLines:
-            return cyan
+            return ThemeStructure.cyan
         case .highlight:
-            return Color.orange
+            return ThemeStructure.myOrange
         case .completed:
             return Color.red
         case .puzzleBackground:
@@ -78,7 +76,7 @@ extension ThemeManager {
         case .keyboardBackground:
             return Color.init(white: 0.1)
         case .keyboardLetters:
-            return yellow
+            return ThemeStructure.yellow
         }
     }
     

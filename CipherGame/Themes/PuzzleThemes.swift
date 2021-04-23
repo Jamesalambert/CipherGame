@@ -59,32 +59,35 @@ class ThemeManager : ThemeDelegateProtocol {
     
     //MARK:- Private
     struct ThemeStructure {
+        
+        static let myOrange = {Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1))}()
+        static let cyan = Color(#colorLiteral(red: 0, green: 0.6404201388, blue: 0.8557960391, alpha: 1))
+        static let yellow = Color(#colorLiteral(red: 1, green: 0.9398623705, blue: 0.01244911458, alpha: 1))
+        
         var color : (ColorContext) -> Color
         var size : (SizeContext) -> Double
         var time : (TimeContext) -> Double
         var font : (FontContext) -> Font
         var images : (ImageContext) -> Image?
         
-        static func defaultColors(_ context : ColorContext) -> Color {
-            let myOrange = {Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1))}()
-            
+        static func defaultColors(_ context : ColorContext) -> Color {            
             switch context.item{
             case .ciphertext:
                 return context.colorScheme == .light ? Color.black : Color.init(white: 0.8)
             case .plaintext:
-                return context.colorScheme == .light ? Color.blue : myOrange
+                return context.colorScheme == .light ? Color.blue : Self.myOrange
             case .puzzleLines:
-                return context.colorScheme == .light ? Color.blue : myOrange
+                return context.colorScheme == .light ? Color.blue : Self.myOrange
             case .highlight:
-                return context.colorScheme == .light ? myOrange : Color.blue
+                return context.colorScheme == .light ? Self.myOrange : Color.blue
             case .completed:
-                return context.colorScheme == .light ? myOrange : Color.blue
+                return context.colorScheme == .light ? Self.myOrange : Color.blue
             case .puzzleBackground:
                 return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
             case .keyboardBackground:
                 return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
             case .keyboardLetters:
-                return context.colorScheme == .light ? Color.blue : myOrange
+                return context.colorScheme == .light ? Color.blue : Self.myOrange
             }
         }
        

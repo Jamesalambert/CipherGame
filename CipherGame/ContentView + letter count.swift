@@ -37,15 +37,15 @@ extension ContentView {
                         .padding(.top, 10)
                     
                     ScrollView(.horizontal) {
-                        HStack(spacing: nil){
+                        HStack(spacing: 0){
                             ForEach(viewModel.characterCount) { letterCountTriple in
                                     let cipherChar = letterCountTriple.character
                                     PairCount(cipherChar: cipherChar,
                                               plainChar: viewModel.plaintext(for: cipherChar),
                                               count: letterCountTriple.count,
                                               currentCiphertextCharacter: $currentCiphertextCharacter)
+                                        .frame(width: pairCountWidth(for: geometry))
                                         .animation(.easeInOut)
-                                        .frame(width: letterCountWidth(for: geometry))
                                         .onTapGesture {
                                             currentCiphertextCharacter = cipherChar
                                         }
@@ -60,7 +60,7 @@ extension ContentView {
         
         
         private
-        func letterCountWidth(for geometry : GeometryProxy) -> CGFloat {
+        func pairCountWidth(for geometry : GeometryProxy) -> CGFloat {
             let width = geometry.size.width / 26
             return max(width, 30)
         }
