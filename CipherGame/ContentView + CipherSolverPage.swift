@@ -121,11 +121,42 @@ extension ContentView {
                     Text(puzzle.footer)
                         .font(viewModel.theme.font(for: .body, for: bookTheme))
                         .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                    
+                    Spacer()
+                    
+                    if viewModel.currentPuzzle.isSolved {
+                        riddleOptions()
+                            .background(Blur(style: .systemUltraThinMaterialDark))
+                            .cornerRadius(10)
+                            .transition(.scale)
+                    }
+                    Spacer(minLength: 250)
                 }
             }
         }
         
         
+        @ViewBuilder
+        func riddleOptions() -> some View {
+            VStack{
+                Text("What is the meaning of the Wizard's symbol?")
+                    .font(viewModel.theme.font(for: .body, for: bookTheme))
+                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                Spacer()
+                HStack{
+                    Text("🐍")
+                    Text("🍷")
+                    Text("🥷")
+                }
+                .font(viewModel.theme.font(for: .title, for: bookTheme))
+            }
+            .padding()
+            .overlay(
+                RoundedRectangle(cornerRadius: 10)
+                    .stroke()
+                    .foregroundColor(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme))
+            )
+        }
         
         
         //        test using a list vs a grid. Buggy but maybe helpful.
@@ -174,7 +205,6 @@ extension ContentView {
         //            return line == Int(floor(Double(index / viewModel.charsPerLine)))
         //        }
         
-        
         func resetPuzzleAlert() -> Alert {
             Alert(title: Text("Reset puzzle?"),
                   message: Text("You'll loose all your work and it can't be undone!"),
@@ -192,12 +222,9 @@ extension ContentView {
                          count: Int(screenWidth / 35))
         }
         
-        
         func resetPuzzle(){
             $resettingPuzzle.wrappedValue.toggle()
         }
-        
-        
     }
 
 //    MARK:- the phone keyboard

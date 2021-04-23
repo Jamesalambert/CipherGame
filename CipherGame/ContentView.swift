@@ -40,7 +40,7 @@ struct ContentView: View {
                                            tag: puzzle.id,
                                            selection: $viewModel.currentPuzzleHash){
                                 
-                                puzzleEntry(for: puzzle)
+                                puzzleEntry(for: puzzle, in: book)
                             }
                         }
                     }
@@ -66,14 +66,14 @@ struct ContentView: View {
     }
     
     @ViewBuilder
-    func puzzleEntry(for puzzle : Puzzle) -> some View {
+    func puzzleEntry(for puzzle : Puzzle, in book : Book) -> some View {
         
         Text("\(puzzle.title)")
             .lineLimit(1)
         
         if puzzle.isSolved{
             Image(systemName: "checkmark.circle")
-//                .foregroundColor(viewModel.theme.color(of: .completed, for: bookTheme, in: colorScheme))
+                .foregroundColor(viewModel.theme.color(of: .completed, for: book.theme, in: colorScheme))
         }
     }
     
