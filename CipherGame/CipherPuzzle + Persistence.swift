@@ -36,6 +36,7 @@ extension CipherPuzzle {
                 self?.model = savedGame
                 //set last open puzzle to the current one.
                 self?.currentPuzzleHash = self?.model.lastOpenPuzzleHash
+                self?.currentChapterHash = self?.model.lastOpenChapterHash
             }
         }
     }

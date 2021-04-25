@@ -21,6 +21,12 @@ struct Game : Codable {
     private(set)
     var books : [Book]
     var lastOpenPuzzleHash : UUID?
+    var lastOpenChapterHash : UUID? {
+        let chapters = books.flatMap{$0.chapters}
+        return chapters.first(where: {chapter in
+            chapter.puzzles.contains(where: {$0.id == lastOpenPuzzleHash})
+        })?.id
+    }
     
     mutating
     func reset(_ puzzle : Puzzle){

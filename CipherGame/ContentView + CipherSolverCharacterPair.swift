@@ -24,7 +24,7 @@ extension ContentView {
         private
         var wasTapped : Bool = false
         
-//        @Binding
+        @State
         var puzzle : Puzzle
         
         @Binding

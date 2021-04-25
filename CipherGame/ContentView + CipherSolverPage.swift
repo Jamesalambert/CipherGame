@@ -12,7 +12,6 @@ extension ContentView {
     struct CipherSolverPage : View {
         
         static let letterAnimation = 0.75
-        
         static let phoneLetterPickerHeight = CGFloat(160)
         static let letterCountHeight = CGFloat(120)
         
@@ -27,16 +26,6 @@ extension ContentView {
         
         @State
         var chapter : Chapter
-        
-        var visiblePuzzles : [Puzzle] {
-
-            let defaultPuzzles = chapter.puzzles.filter{puzzle in puzzle.riddleKey == ""}
-            
-            let unlockedPuzzles = chapter.userRiddleAnswers.compactMap{guessedKey in
-                chapter.puzzles.first(where: {puzzle in puzzle.riddleKey == guessedKey})
-            }
-            return defaultPuzzles + unlockedPuzzles
-        }
         
         @State
         var currentCiphertextCharacter : Character? = nil
@@ -57,7 +46,7 @@ extension ContentView {
         private
         var dismissPhoneKeyboard : some Gesture {
             DragGesture().onChanged{ gesture in
-                if  gesture.translation.height > gesture.translation.width{
+                if  abs(gesture.translation.height) > abs(gesture.translation.width){
                     withAnimation{
                         displayPhoneLetterPicker = false
                     }
@@ -65,61 +54,73 @@ extension ContentView {
             }
         }
         
+        
         var body : some View {
             GeometryReader { geometry in
                 
-                TabView{
-                    ForEach(visiblePuzzles){ puzzle in
-                        
-                        ZStack(alignment: .bottom ){
-                            ScrollView{
-                                cipherPuzzleView(for: puzzle, with: geometry)
-                                    .padding()
-
-                                if viewModel.currentPuzzle.isSolved {
-                                    riddleOptions()
-                                        .background(Blur(style: .systemUltraThinMaterialDark))
-                                        .cornerRadius(10)
-                                        .transition(.scale)
-                                    Spacer(minLength: 250)
+                VStack{
+                    HStack{
+                        ForEach(viewModel.visiblePuzzles(for: chapter), id:\.self){ puzzle in
+                            
+                            Button(puzzle.title){
+                                withAnimation{
+                                    viewModel.currentPuzzleHash = puzzle.id
                                 }
                             }
-
-//                            Group{
-//                                if displayPhoneLetterPicker{
-//                                    PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker,
-//                                                      currentCiphertextCharacter: $currentCiphertextCharacter,
-//                                                      selectedIndex: $selectedIndex,
-//                                                      puzzle: $chapter)
-//                                        .transition(.move(edge: .bottom))
-//                                        .frame(height: Self.phoneLetterPickerHeight)
-//                                        .gesture(dismissPhoneKeyboard)
-//                                } else {
-//                                    LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
-//                                                puzzle: $chapter)
-//                                        .transition(.move(edge: .bottom))
-//                                        .frame(height: Self.letterCountHeight)
-//                                }
-//                            }
-//                            .background(Blur(style: .systemUltraThinMaterialDark))
-//                            .cornerRadius(5)
-//                            .frame(width: geometry.size.width,
-//                                    height: Self.letterCountHeight,
-//                                    alignment: .bottom)
                             
-                        } //Zstack
-                        .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
-                        .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
-                        .toolbar{toolbarView()}
+                        }
+                    }
+                    
+                    ZStack(alignment: .bottom ){
+                        ScrollView{
+                            cipherPuzzleView(for: viewModel.currentPuzzle, with: geometry)
+                                .padding()
+                            
+                            if viewModel.currentPuzzle.isSolved {
+                                riddleOptions()
+                                    .background(Blur(style: .systemUltraThinMaterialDark))
+                                    .cornerRadius(10)
+                                    .transition(.scale)
+                                Spacer(minLength: 250)
+                            }
+                        }
 
-                    }//for each
-                }//tab view
-                .tabViewStyle(PageTabViewStyle())
+        //                            Group{
+        //                                if displayPhoneLetterPicker{
+        //                                    PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker,
+        //                                                      currentCiphertextCharacter: $currentCiphertextCharacter,
+        //                                                      selectedIndex: $selectedIndex,
+        //                                                      puzzle: $chapter)
+        //                                        .transition(.move(edge: .bottom))
+        //                                        .frame(height: Self.phoneLetterPickerHeight)
+        //                                        .gesture(dismissPhoneKeyboard)
+        //                                } else {
+        //                                    LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
+        //                                                puzzle: $chapter)
+        //                                        .transition(.move(edge: .bottom))
+        //                                        .frame(height: Self.letterCountHeight)
+        //                                }
+        //                            }
+        //                            .background(Blur(style: .systemUltraThinMaterialDark))
+        //                            .cornerRadius(5)
+        //                            .frame(width: geometry.size.width,
+        //                                    height: Self.letterCountHeight,
+        //                                    alignment: .bottom)
+                                    
+                                } //Zstack
+                                .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
+                                .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
+                                .toolbar{toolbarView()}
+                    
+                    
+                    
+                }
                 
+                
+                            
             }
         }
         
-
         
         @ViewBuilder
         func cipherPuzzleView(for puzzle : Puzzle, with geometry : GeometryProxy) -> some View {
@@ -175,6 +176,17 @@ extension ContentView {
                     .foregroundColor(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme))
             )
         }
+        
+        
+        private
+        func columns(screenWidth : CGFloat) -> [GridItem] {
+            return Array(repeating: GridItem(.fixed(20)),
+                         count: Int(screenWidth / 35))
+        }
+        
+
+        
+        
         
         
         //        test using a list vs a grid. Buggy but maybe helpful.
@@ -234,11 +246,7 @@ extension ContentView {
                   })
         }
         
-        private
-        func columns(screenWidth : CGFloat) -> [GridItem] {
-            return Array(repeating: GridItem(.fixed(20)),
-                         count: Int(screenWidth / 35))
-        }
+        
         
         func resetPuzzle(){
             $resettingPuzzle.wrappedValue.toggle()

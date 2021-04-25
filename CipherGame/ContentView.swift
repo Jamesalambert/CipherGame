@@ -34,11 +34,11 @@ struct ContentView: View {
                             footer: bookFooter(for: book.title)){
                         
                         ForEach(book.chapters){ chapter in
-                            NavigationLink(destination: CipherSolverPage(chapter: chapter )
+                            NavigationLink(destination: CipherSolverPage(chapter: chapter)
                                                             .environment(\.bookTheme, book.theme)
                                                             .navigationTitle(chapter.title),
                                            tag: chapter.id,
-                                           selection: $viewModel.currentPuzzleHash){
+                                           selection: $viewModel.currentChapterHash){
                                 
                                 puzzleEntry(for: chapter, in: book)
                             }

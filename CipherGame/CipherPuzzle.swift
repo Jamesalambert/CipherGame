@@ -24,10 +24,19 @@ class CipherPuzzle : ObservableObject {
                 model.lastOpenPuzzleHash = currentPuzzleHash
                 characterCount = letterCount.map{pair in
                     CharacterCount(character: pair.character, count: pair.count)}
+                print(currentPuzzleHash)
             }
         }
     }
     
+    @Published
+    var currentChapterHash : UUID? {
+        didSet{
+            //choose new puzzle
+            guard let currentChapter = installedBooks.flatMap{$0.chapters}.filter({$0.id == currentChapterHash}).first else {return}
+            currentPuzzleHash = visiblePuzzles(for: currentChapter).first?.id
+        }
+    }
     
     @Published
     var difficultyLevel : UInt = 0 {
@@ -59,11 +68,11 @@ class CipherPuzzle : ObservableObject {
         guard let currentPuzzleHash = self.currentPuzzleHash else {
             return Puzzle(title: "A", plaintext: "A",header: "A", footer: "A", keyAlphabet: "a", riddle: "", riddleAnswers: [], riddleKey: "", id: UUID())}
         
-        let chapters = model.books.map{book in book.chapters}.joined()
-        let puzzles = chapters.map{$0.puzzles}.joined()
+        let chapters : [Chapter] = model.books.flatMap{book in book.chapters}
+        let puzzles : [Puzzle] = chapters.flatMap{$0.puzzles}
         
         guard let currentPuzzle = puzzles.first(where: {$0.id == currentPuzzleHash}) else {
-            return Puzzle(title: "A", plaintext: "A",header: "A", footer: "A", keyAlphabet: "a", riddle: "", riddleAnswers: [], riddleKey: "", id: UUID())}
+            return Puzzle(title: "B", plaintext: "B",header: "B", footer: "B", keyAlphabet: "b", riddle: "?", riddleAnswers: [], riddleKey: "", id: UUID())}
         
         return currentPuzzle
     }
@@ -77,6 +86,16 @@ class CipherPuzzle : ObservableObject {
             return Array(booksWithoutLessons)
         }
     }
+    
+    
+    func visiblePuzzles(for chapter : Chapter) -> [Puzzle] {
+        let defaultPuzzles = chapter.puzzles.filter{puzzle in puzzle.riddleKey == ""}
+        let unlockedPuzzles = chapter.userRiddleAnswers.compactMap{guessedKey in
+            chapter.puzzles.first(where: {puzzle in puzzle.riddleKey == guessedKey})
+        }
+        return defaultPuzzles + unlockedPuzzles
+    }
+    
     
     
     func guess(_ cipherCharacter : Character, is plainCharacter : Character?,
@@ -159,6 +178,7 @@ var charsPerLine : Int = 30
     
     func plaintext(for ciphertext : Character) -> Character?{
         if let plaintextCharacter = currentPuzzle.usersGuesses[String(ciphertext)] {
+            print(plaintextCharacter)
             return Character(plaintextCharacter)
         }
         return nil
@@ -167,6 +187,7 @@ var charsPerLine : Int = 30
     init() {
         self.model = Game()
         self.currentPuzzleHash = self.model.lastOpenPuzzleHash
+        self.currentChapterHash = self.model.lastOpenChapterHash
     }
     
     
