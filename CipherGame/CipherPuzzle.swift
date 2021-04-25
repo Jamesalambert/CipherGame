@@ -24,7 +24,6 @@ class CipherPuzzle : ObservableObject {
                 model.lastOpenPuzzleHash = currentPuzzleHash
                 characterCount = letterCount.map{pair in
                     CharacterCount(character: pair.character, count: pair.count)}
-                print(currentPuzzleHash)
             }
         }
     }
@@ -35,6 +34,7 @@ class CipherPuzzle : ObservableObject {
             //choose new puzzle
             guard let currentChapter = installedBooks.flatMap{$0.chapters}.filter({$0.id == currentChapterHash}).first else {return}
             currentPuzzleHash = visiblePuzzles(for: currentChapter).first?.id
+            
         }
     }
     
@@ -178,7 +178,6 @@ var charsPerLine : Int = 30
     
     func plaintext(for ciphertext : Character) -> Character?{
         if let plaintextCharacter = currentPuzzle.usersGuesses[String(ciphertext)] {
-            print(plaintextCharacter)
             return Character(plaintextCharacter)
         }
         return nil

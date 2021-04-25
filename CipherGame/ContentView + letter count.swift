@@ -25,7 +25,6 @@ extension ContentView {
         @Binding
         var currentCiphertextCharacter : Character?
         
-        @Binding
         var puzzle : Puzzle
         
         var body : some View {

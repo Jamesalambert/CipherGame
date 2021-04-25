@@ -57,21 +57,18 @@ extension ContentView {
         
         var body : some View {
             GeometryReader { geometry in
-                
                 VStack{
                     HStack{
                         ForEach(viewModel.visiblePuzzles(for: chapter), id:\.self){ puzzle in
-                            
                             Button(puzzle.title){
                                 withAnimation{
                                     viewModel.currentPuzzleHash = puzzle.id
                                 }
                             }
-                            
                         }
                     }
                     
-                    ZStack(alignment: .bottom ){
+                    ZStack(alignment: .bottom){
                         ScrollView{
                             cipherPuzzleView(for: viewModel.currentPuzzle, with: geometry)
                                 .padding()
@@ -84,40 +81,34 @@ extension ContentView {
                                 Spacer(minLength: 250)
                             }
                         }
-
-        //                            Group{
-        //                                if displayPhoneLetterPicker{
-        //                                    PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker,
-        //                                                      currentCiphertextCharacter: $currentCiphertextCharacter,
-        //                                                      selectedIndex: $selectedIndex,
-        //                                                      puzzle: $chapter)
-        //                                        .transition(.move(edge: .bottom))
-        //                                        .frame(height: Self.phoneLetterPickerHeight)
-        //                                        .gesture(dismissPhoneKeyboard)
-        //                                } else {
-        //                                    LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
-        //                                                puzzle: $chapter)
-        //                                        .transition(.move(edge: .bottom))
-        //                                        .frame(height: Self.letterCountHeight)
-        //                                }
-        //                            }
-        //                            .background(Blur(style: .systemUltraThinMaterialDark))
-        //                            .cornerRadius(5)
-        //                            .frame(width: geometry.size.width,
-        //                                    height: Self.letterCountHeight,
-        //                                    alignment: .bottom)
-                                    
-                                } //Zstack
-                                .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
-                                .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
-                                .toolbar{toolbarView()}
-                    
-                    
-                    
+                        
+                        Group{
+                            if displayPhoneLetterPicker{
+                                PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker,
+                                                  currentCiphertextCharacter: $currentCiphertextCharacter,
+                                                  selectedIndex: $selectedIndex,
+                                                  puzzle: viewModel.currentPuzzle)
+                                    .transition(.move(edge: .bottom))
+                                    .frame(height: Self.phoneLetterPickerHeight)
+                                    .gesture(dismissPhoneKeyboard)
+                            } else {
+                                LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
+                                            puzzle: viewModel.currentPuzzle)
+                                    .transition(.move(edge: .bottom))
+                                    .frame(height: Self.letterCountHeight)
+                            }
+                        }
+                        .background(Blur(style: .systemUltraThinMaterialDark))
+                        .cornerRadius(5)
+                        .frame(width: geometry.size.width,
+                               height: Self.letterCountHeight,
+                               alignment: .bottom)
+                        
+                    } //Zstack
+                    .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
+                    .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
+                    .toolbar{toolbarView()}
                 }
-                
-                
-                            
             }
         }
         
@@ -274,7 +265,6 @@ extension ContentView {
         @Binding
         var selectedIndex : Int?
 
-        @Binding
         var puzzle : Puzzle
 
         var body: some View {
