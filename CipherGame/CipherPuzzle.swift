@@ -57,12 +57,13 @@ class CipherPuzzle : ObservableObject {
     
     var currentPuzzle : Puzzle {
         guard let currentPuzzleHash = self.currentPuzzleHash else {
-            return Puzzle(title: "A", plaintext: "A",header: "A", footer: "A", keyAlphabet: "a", id: UUID())}
+            return Puzzle(title: "A", plaintext: "A",header: "A", footer: "A", keyAlphabet: "a", riddle: "", riddleAnswers: [], riddleKey: "", id: UUID())}
         
-        let puzzles = model.books.map{book in book.puzzles}.joined()
+        let chapters = model.books.map{book in book.chapters}.joined()
+        let puzzles = chapters.map{$0.puzzles}.joined()
         
         guard let currentPuzzle = puzzles.first(where: {$0.id == currentPuzzleHash}) else {
-            return Puzzle(title: "!", plaintext: "!",header: "!", footer: "!", keyAlphabet: "a", id: UUID())}
+            return Puzzle(title: "A", plaintext: "A",header: "A", footer: "A", keyAlphabet: "a", riddle: "", riddleAnswers: [], riddleKey: "", id: UUID())}
         
         return currentPuzzle
     }

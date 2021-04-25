@@ -33,14 +33,14 @@ struct ContentView: View {
                     Section(header: bookHeader(for: book.title),
                             footer: bookFooter(for: book.title)){
                         
-                        ForEach(book.puzzles){ puzzle in
-                            NavigationLink(destination: CipherSolverPage(puzzle: puzzle )
+                        ForEach(book.chapters){ chapter in
+                            NavigationLink(destination: CipherSolverPage(chapter: chapter )
                                                             .environment(\.bookTheme, book.theme)
-                                                            .navigationTitle(puzzle.title),
-                                           tag: puzzle.id,
+                                                            .navigationTitle(chapter.title),
+                                           tag: chapter.id,
                                            selection: $viewModel.currentPuzzleHash){
                                 
-                                puzzleEntry(for: puzzle, in: book)
+                                puzzleEntry(for: chapter, in: book)
                             }
                         }
                     }
@@ -63,12 +63,12 @@ struct ContentView: View {
     }
     
     @ViewBuilder
-    func puzzleEntry(for puzzle : Puzzle, in book : Book) -> some View {
+    func puzzleEntry(for chapter : Chapter, in book : Book) -> some View {
         
-        Text("\(puzzle.title)")
+        Text("\(chapter.title)")
             .lineLimit(1)
         
-        if puzzle.isSolved{
+        if chapter.isCompleted{
             Image(systemName: "checkmark.circle")
                 .foregroundColor(viewModel.theme.color(of: .completed, for: book.theme, in: colorScheme))
         }

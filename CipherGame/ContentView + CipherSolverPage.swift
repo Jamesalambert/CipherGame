@@ -26,7 +26,17 @@ extension ContentView {
         var bookTheme : BookTheme
         
         @State
-        var puzzle : Puzzle
+        var chapter : Chapter
+        
+        var visiblePuzzles : [Puzzle] {
+
+            let defaultPuzzles = chapter.puzzles.filter{puzzle in puzzle.riddleKey == ""}
+            
+            let unlockedPuzzles = chapter.userRiddleAnswers.compactMap{guessedKey in
+                chapter.puzzles.first(where: {puzzle in puzzle.riddleKey == guessedKey})
+            }
+            return defaultPuzzles + unlockedPuzzles
+        }
         
         @State
         var currentCiphertextCharacter : Character? = nil
@@ -56,48 +66,63 @@ extension ContentView {
         }
         
         var body : some View {
-            
             GeometryReader { geometry in
+                
+                TabView{
+                    ForEach(visiblePuzzles){ puzzle in
+                        
+                        ZStack(alignment: .bottom ){
+                            ScrollView{
+                                cipherPuzzleView(for: puzzle, with: geometry)
+                                    .padding()
 
-                ZStack(alignment: .bottom ){
-                    ScrollView{
-                        cipherPuzzleView(with: geometry)
-                            .padding()
-                    }
-        
-                    Group{
-                        if displayPhoneLetterPicker{
-                            PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker,
-                                              currentCiphertextCharacter: $currentCiphertextCharacter,
-                                              selectedIndex: $selectedIndex,
-                                              puzzle: $puzzle)
-                                .transition(.move(edge: .bottom))
-                                .frame(height: Self.phoneLetterPickerHeight)
-                                .gesture(dismissPhoneKeyboard)
-                        } else {
-                            LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
-                                        puzzle: $puzzle)
-                                .transition(.move(edge: .bottom))
-                                .frame(height: Self.letterCountHeight)
-                        }
-                    }
-                    .background(Blur(style: .systemUltraThinMaterialDark))
-                    .cornerRadius(5)
-                    .frame(width: geometry.size.width,
-                            height: Self.letterCountHeight,
-                            alignment: .bottom)
-                    
-                }
-                .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
-                .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
-                .toolbar{toolbarView()}
+                                if viewModel.currentPuzzle.isSolved {
+                                    riddleOptions()
+                                        .background(Blur(style: .systemUltraThinMaterialDark))
+                                        .cornerRadius(10)
+                                        .transition(.scale)
+                                    Spacer(minLength: 250)
+                                }
+                            }
+
+//                            Group{
+//                                if displayPhoneLetterPicker{
+//                                    PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker,
+//                                                      currentCiphertextCharacter: $currentCiphertextCharacter,
+//                                                      selectedIndex: $selectedIndex,
+//                                                      puzzle: $chapter)
+//                                        .transition(.move(edge: .bottom))
+//                                        .frame(height: Self.phoneLetterPickerHeight)
+//                                        .gesture(dismissPhoneKeyboard)
+//                                } else {
+//                                    LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
+//                                                puzzle: $chapter)
+//                                        .transition(.move(edge: .bottom))
+//                                        .frame(height: Self.letterCountHeight)
+//                                }
+//                            }
+//                            .background(Blur(style: .systemUltraThinMaterialDark))
+//                            .cornerRadius(5)
+//                            .frame(width: geometry.size.width,
+//                                    height: Self.letterCountHeight,
+//                                    alignment: .bottom)
+                            
+                        } //Zstack
+                        .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
+                        .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
+                        .toolbar{toolbarView()}
+
+                    }//for each
+                }//tab view
+                .tabViewStyle(PageTabViewStyle())
+                
             }
-            
         }
         
 
+        
         @ViewBuilder
-        func cipherPuzzleView(with geometry : GeometryProxy) -> some View {
+        func cipherPuzzleView(for puzzle : Puzzle, with geometry : GeometryProxy) -> some View {
             VStack(alignment: .center, spacing: nil){
                 Text(puzzle.header)
                     .fixedSize(horizontal: false, vertical: true)
@@ -111,7 +136,7 @@ extension ContentView {
                           pinnedViews: [.sectionHeaders]){
                     ForEach(viewModel.data(for: puzzle)){ cipherPair in
                         CipherSolverCharacterPair(
-                            puzzle: $puzzle,
+                            puzzle: puzzle,
                             currentCiphertextCharacter: $currentCiphertextCharacter,
                             selectedIndex: $selectedIndex,
                             displayPhoneLetterPicker: $displayPhoneLetterPicker,

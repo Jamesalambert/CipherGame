@@ -25,26 +25,14 @@ struct Game : Codable {
     mutating
     func reset(_ puzzle : Puzzle){
         guard let currentPuzzleIndexPath = self.indexPath(for: puzzle) else {return}
-        let bookIndex = currentPuzzleIndexPath.item
-        let puzzleIndex = currentPuzzleIndexPath.section
-        
+        let bookIndex = currentPuzzleIndexPath.bookIndex
+        let chapterIndex = currentPuzzleIndexPath.chapterIndex
+        let puzzleIndex = currentPuzzleIndexPath.puzzleIndex
+    
         //reset guesses and indices
-        books[bookIndex].puzzles[puzzleIndex].usersGuesses.removeAll()
-        books[bookIndex].puzzles[puzzleIndex].guessIndices.removeAll()
+        books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].usersGuesses.removeAll()
+        books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].guessIndices.removeAll()
     }
-    
-//    mutating
-//    func update(cipherCharacter : Character,
-//                            plaintextCharacter : Character?,
-//                            in puzzle : Puzzle,
-//                            at index : Int){
-//    
-//        
-//        updateUsersGuesses(cipherCharacter: cipherCharacter,
-//                           plaintextCharacter: plaintextCharacter,
-//                           in: puzzle, at: index)
-//    }
-    
     
     mutating
     func updateUsersGuesses(cipherCharacter : Character,
@@ -53,8 +41,9 @@ struct Game : Codable {
                             at index : Int){
         
         guard let currentPuzzleIndexPath = self.indexPath(for: puzzle) else {return}
-        let bookIndex = currentPuzzleIndexPath.item
-        let puzzleIndex = currentPuzzleIndexPath.section
+        let bookIndex = currentPuzzleIndexPath.bookIndex
+        let chapterIndex = currentPuzzleIndexPath.chapterIndex
+        let puzzleIndex = currentPuzzleIndexPath.puzzleIndex
         
         //discard uppercase!
         let lowerPlainCharacter = plaintextCharacter.lowerCharOpt()
@@ -64,27 +53,34 @@ struct Game : Codable {
         if let lowerPlainCharacter = lowerPlainCharacter {
             
             //update model
-            books[bookIndex].puzzles[puzzleIndex].usersGuesses[lowerCipherCharacter] = String(lowerPlainCharacter)
+            books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].usersGuesses[lowerCipherCharacter] = String(lowerPlainCharacter)
             
-            if let _ = books[bookIndex].puzzles[puzzleIndex].guessIndices[lowerCipherCharacter] {
-                books[bookIndex].puzzles[puzzleIndex].guessIndices[lowerCipherCharacter]?.insert(index)
+            if let _ = books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].guessIndices[lowerCipherCharacter] {
+                books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].guessIndices[lowerCipherCharacter]?.insert(index)
             } else {
-                books[bookIndex].puzzles[puzzleIndex].guessIndices[lowerCipherCharacter] = [index]
+                books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].guessIndices[lowerCipherCharacter] = [index]
             }
             
             //remove guess for ciphertext character
         } else {
-            books[bookIndex].puzzles[puzzleIndex].usersGuesses.removeValue(forKey: lowerCipherCharacter)
-            books[bookIndex].puzzles[puzzleIndex].guessIndices.removeValue(forKey: lowerCipherCharacter)
+            books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].usersGuesses.removeValue(forKey: lowerCipherCharacter)
+            books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].guessIndices.removeValue(forKey: lowerCipherCharacter)
         }
     }
     
     private
-    func indexPath(for puzzle: Puzzle) -> IndexPath? {
-        guard let bookIndex = books.firstIndex(where: {book in book.puzzles.contains(puzzle)} ) else {return nil}
-        guard let puzzleIndex = books[bookIndex].puzzles.firstIndex(of: puzzle) else {return nil}
+    func indexPath(for puzzle: Puzzle) -> (bookIndex: Int, chapterIndex: Int, puzzleIndex: Int)? {
+        guard let bookIndex = books.firstIndex(where: {book in
+                                                book.chapters.contains{ chapter in
+                                                    chapter.puzzles.contains(puzzle)
+                                                }} ) else {return nil}
+        guard let chapterIndex = books[bookIndex].chapters.firstIndex(where: {chapter in
+                                                    chapter.puzzles.contains(puzzle)
+                                                        }) else {return nil}
         
-        return IndexPath(item: bookIndex, section: puzzleIndex)
+        guard let puzzleIndex = books[bookIndex].chapters[chapterIndex].puzzles.firstIndex(where: {$0 == puzzle}) else {return nil}
+        
+        return (bookIndex, chapterIndex, puzzleIndex)
     }
     
     
@@ -98,26 +94,35 @@ struct Game : Codable {
             do {
                 if let data = try String(contentsOf: JSONurl).data(using: .utf8) {
                     
-                    let puzzles = try JSONDecoder().decode([ReadablePuzzle].self, from: data)
+                    let chapters = try JSONDecoder().decode([ReadableChapter].self, from: data)
 
-                    let newPuzzles = puzzles.map{ puzzle in
+                    let chaptersOfPuzzles : [Chapter] = chapters.map{ chapter in
+                        let puzzles = chapter.puzzles.map{readablePuzzle in
+                            
+                            Puzzle(title: readablePuzzle.title,
+                                   plaintext: readablePuzzle.plaintext,
+                                   header: readablePuzzle.header,
+                                   footer: readablePuzzle.footer,
+                                   keyAlphabet: readablePuzzle.keyAlphabet,
+                                   riddle: readablePuzzle.riddle,
+                                   riddleAnswers: readablePuzzle.riddleAnswers,
+                                   riddleKey: readablePuzzle.riddleKey,
+                                   id: id(for: readablePuzzle.title, in: bookName))
+                            }
                         
-                        Puzzle(title: puzzle.title,
-                               plaintext: puzzle.plaintext,
-                               header: puzzle.header,
-                               footer: puzzle.footer,
-                               keyAlphabet: puzzle.keyAlphabet,
-                               id: id(for: puzzle.title, in: bookName))
+                        return Chapter(title: chapter.title,
+                                       isCompleted: false,
+                                       puzzles: puzzles)
                         }
                     
                     self.books.append(Book(title: bookName,
-                                           puzzles: newPuzzles,
+                                           chapters: chaptersOfPuzzles,
                                            theme: Self.themeFor[bookName] ?? .defaultTheme))
-                    print(bookName)
+//                    print(bookName)
                 }
             }
             catch {
-                print("error Couldn't read input json file \(JSONurl)")
+                print("error Couldn't read input for \(bookName) json file:\n \(JSONurl)")
             }
         }
     }
@@ -131,8 +136,6 @@ struct Game : Codable {
         }
         return id
     }
-    
-    
 }
 
 
@@ -151,7 +154,11 @@ struct Puzzle : Hashable, Codable, Identifiable{
     var footer : String
     var keyAlphabet : String        //the original key alphabet, use for encrypting
     var solution : String          //what the user needs to figure out (the message may not use all letters)
-   
+    var riddle : String
+    var riddleAnswers : [String] // first entry is the correct one
+    var riddleKey : String //is the user chooses this value as the answer to another riddle, this puzzle is shown
+    
+    
     var isSolved : Bool {
         var guesses : String = ""
         let alphabet = String.alphabet.map({String($0)})
@@ -172,7 +179,8 @@ struct Puzzle : Hashable, Codable, Identifiable{
         hasher.combine(id)
     }
     
-    init(title : String, plaintext: String, header: String, footer : String, keyAlphabet : String, id: UUID){
+    init(title : String, plaintext: String, header: String, footer : String,
+         keyAlphabet : String, riddle : String, riddleAnswers: [String], riddleKey : String, id: UUID){
         
         //Helper functions
         func letterCount(in ciphertext : String) -> [String : Int]{
@@ -223,6 +231,9 @@ struct Puzzle : Hashable, Codable, Identifiable{
         self.plaintext = plaintext.lowercased()
         self.header = header
         self.footer = footer
+        self.riddle = riddle
+        self.riddleAnswers = riddleAnswers
+        self.riddleKey = riddleKey
         self.id = id
         
         //remove whitespace except spaces
@@ -238,17 +249,12 @@ struct Puzzle : Hashable, Codable, Identifiable{
         
         self.letterCount = letterCount(in: self.ciphertext)
     }
-    
-    
-        
-    
-    
 }
 
 struct Book : Hashable, Codable, Identifiable{
    
     var title : String
-    var puzzles : [Puzzle]
+    var chapters : [Chapter]
     var id = UUID()
     var isSolved : Bool = false
     var theme : BookTheme = .defaultTheme
@@ -258,12 +264,28 @@ struct Book : Hashable, Codable, Identifiable{
     }
 }
 
+struct Chapter : Hashable, Codable, Identifiable {
+    var title : String
+    var isCompleted : Bool
+    var puzzles : [Puzzle]
+    var userRiddleAnswers : [String] = []
+    var id = UUID()
+}
+
+struct ReadableChapter :  Codable {
+    var title : String
+    var puzzles : [ReadablePuzzle]
+}
+
 struct ReadablePuzzle : Codable {
     var title : String
     var header : String
     var plaintext : String
     var footer : String
     var keyAlphabet : String
+    var riddle : String
+    var riddleAnswers : [String] // first entry is the correct one
+    var riddleKey : String //is the user chooses this value as the answer to another riddle, this puzzle is shown
 }
 
 enum BookTheme : Int, Codable {
