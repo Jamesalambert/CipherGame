@@ -58,11 +58,8 @@ struct ContentView: View {
     
     @ViewBuilder
     func bookHeader(for bookTitle : String) -> some View {
-        HStack{
-            Spacer()
-            Text(bookTitle.capitalized).font(.system(.title))
-            Spacer()
-        }
+        HStack{Spacer(); Text(bookTitle); Spacer()}
+            .font(.system(.title))
     }
     
     @ViewBuilder

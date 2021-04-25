@@ -56,10 +56,15 @@ extension ContentView {
         }
         
         var body : some View {
+            
             GeometryReader { geometry in
+
                 ZStack(alignment: .bottom ){
-                    cipherPuzzleView(with: geometry)
-                        .padding()
+                    ScrollView{
+                        cipherPuzzleView(with: geometry)
+                            .padding()
+                    }
+        
                     Group{
                         if displayPhoneLetterPicker{
                             PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker,
@@ -83,55 +88,43 @@ extension ContentView {
                             alignment: .bottom)
                     
                 }
-                //                .padding()
                 .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
                 .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
                 .toolbar{toolbarView()}
             }
+            
         }
         
 
         @ViewBuilder
         func cipherPuzzleView(with geometry : GeometryProxy) -> some View {
-            ScrollView {
-                VStack(alignment: .center, spacing: nil){
-                    Text(puzzle.header)
-                        .fixedSize(horizontal: false, vertical: true)
-                        .font(viewModel.theme.font(for: .body, for: bookTheme))
-                        .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-                    Spacer()
-                        .frame(height: geometry.size.height/20)
-                    
-                    LazyVGrid(columns: columns(screenWidth: geometry.size.width),
-                              spacing: 0,
-                              pinnedViews: [.sectionHeaders]){
-                        ForEach(viewModel.data(for: puzzle)){ cipherPair in
-                            CipherSolverCharacterPair(
-                                puzzle: $puzzle,
-                                currentCiphertextCharacter: $currentCiphertextCharacter,
-                                selectedIndex: $selectedIndex,
-                                displayPhoneLetterPicker: $displayPhoneLetterPicker,
-                                displayTabletLetterPicker: $displayTabletLetterPicker,
-                                cipherTextLetter: cipherPair.cipherLetter,
-                                plainTextLetter: cipherPair.userGuessLetter,
-                                indexInTheCipher: cipherPair.id)
-                        }
+            VStack(alignment: .center, spacing: nil){
+                Text(puzzle.header)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .font(viewModel.theme.font(for: .body, for: bookTheme))
+                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                Spacer()
+                    .frame(height: geometry.size.height/20)
+                
+                LazyVGrid(columns: columns(screenWidth: geometry.size.width),
+                          spacing: 0,
+                          pinnedViews: [.sectionHeaders]){
+                    ForEach(viewModel.data(for: puzzle)){ cipherPair in
+                        CipherSolverCharacterPair(
+                            puzzle: $puzzle,
+                            currentCiphertextCharacter: $currentCiphertextCharacter,
+                            selectedIndex: $selectedIndex,
+                            displayPhoneLetterPicker: $displayPhoneLetterPicker,
+                            displayTabletLetterPicker: $displayTabletLetterPicker,
+                            cipherTextLetter: cipherPair.cipherLetter,
+                            plainTextLetter: cipherPair.userGuessLetter,
+                            indexInTheCipher: cipherPair.id)
                     }
-                    Spacer().frame(height: geometry.size.height/20)
-                    Text(puzzle.footer)
-                        .font(viewModel.theme.font(for: .body, for: bookTheme))
-                        .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-                    
-                    Spacer()
-                    
-                    if viewModel.currentPuzzle.isSolved {
-                        riddleOptions()
-                            .background(Blur(style: .systemUltraThinMaterialDark))
-                            .cornerRadius(10)
-                            .transition(.scale)
-                    }
-                    Spacer(minLength: 250)
                 }
+                Spacer().frame(height: geometry.size.height/20)
+                Text(puzzle.footer)
+                    .font(viewModel.theme.font(for: .body, for: bookTheme))
+                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
             }
         }
         
@@ -139,14 +132,14 @@ extension ContentView {
         @ViewBuilder
         func riddleOptions() -> some View {
             VStack{
-                Text("What is the meaning of the Wizard's symbol?")
+                Text("Let's talk to the rover's designer...")
                     .font(viewModel.theme.font(for: .body, for: bookTheme))
                     .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
                 Spacer()
                 HStack{
-                    Text("🐍")
-                    Text("🍷")
-                    Text("🥷")
+                    Text("🪐")
+                    Text("🌍")
+                    Text("👾")
                 }
                 .font(viewModel.theme.font(for: .title, for: bookTheme))
             }
