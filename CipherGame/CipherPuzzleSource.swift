@@ -82,6 +82,12 @@ struct Game : Codable {
         books[bookIndex].chapters[chapterIndex].userRiddleAnswers.append(answer)
     }
     
+    
+    func userAnswers(for inputChapter : Chapter) -> [String] {
+        guard let theChapter : Chapter = books.flatMap({$0.chapters}).first(where: {$0 == inputChapter}) else {return []}
+        return theChapter.userRiddleAnswers
+    }
+    
     private
     func indexPath(for puzzle: Puzzle) -> (bookIndex: Int, chapterIndex: Int, puzzleIndex: Int)? {
         guard let bookIndex = books.firstIndex(where: {book in
@@ -170,7 +176,7 @@ struct Puzzle : Hashable, Codable, Identifiable{
     var solution : String          //what the user needs to figure out (the message may not use all letters)
     var riddle : String
     var riddleAnswers : [String] // first entry is the correct one
-    var riddleKey : String //is the user chooses this value as the answer to another riddle, this puzzle is shown
+    var riddleKey : String //if the user chooses this value as the answer to another riddle, this puzzle is shown
     
     
     var isSolved : Bool {
@@ -266,7 +272,6 @@ struct Puzzle : Hashable, Codable, Identifiable{
 }
 
 struct Book : Hashable, Codable, Identifiable{
-   
     var title : String
     var chapters : [Chapter]
     var id = UUID()

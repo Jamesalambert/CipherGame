@@ -98,7 +98,6 @@ extension ContentView {
         
         private
         func letterPopover() -> some View {
-            
             ZStack{
                 //background colour
                 viewModel.theme.color(of: .keyboardBackground, for: bookTheme, in: colorScheme)

@@ -33,10 +33,9 @@ class CipherPuzzle : ObservableObject {
     @Published
     var currentChapterHash : UUID? {
         didSet{
-            //choose new puzzle
-            guard let currentChapter = installedBooks.flatMap{$0.chapters}.filter({$0.id == currentChapterHash}).first else {return}
+//            //choose new puzzle
             currentPuzzleHash = currentChapter.puzzles.first?.id
-            updateVisiblePuzzles(for: currentChapter)
+            updateVisiblePuzzles()
         }
     }
     
@@ -121,7 +120,7 @@ class CipherPuzzle : ObservableObject {
     
     func add(answer : String){
         model.add(answer: answer, for: currentPuzzle)
-        updateVisiblePuzzles(for: currentChapter)
+        updateVisiblePuzzles()
     }
     
     func guess(_ cipherCharacter : Character, is plainCharacter : Character?,
@@ -133,11 +132,13 @@ class CipherPuzzle : ObservableObject {
                                  at: index)
     }
     //MARK:-
-    
-    func updateVisiblePuzzles(for chapter : Chapter) {
-        let defaultPuzzles = chapter.puzzles.filter{puzzle in puzzle.riddleKey == ""}
-        let unlockedPuzzles = chapter.userRiddleAnswers.compactMap{guessedKey in
-            chapter.puzzles.first(where: {puzzle in puzzle.riddleKey == guessedKey})
+    func updateVisiblePuzzles() {
+        let defaultPuzzles = currentChapter.puzzles.filter{puzzle in puzzle.riddleKey == ""}
+        
+        //get unlocked puzzles from model.
+        let userAnswers = model.userAnswers(for: currentChapter)
+        let unlockedPuzzles = userAnswers.compactMap{guessedKey in
+            currentChapter.puzzles.first(where: {$0.riddleKey == guessedKey})
         }
         visiblePuzzles = defaultPuzzles + unlockedPuzzles
     }
@@ -147,14 +148,11 @@ class CipherPuzzle : ObservableObject {
         var puzzleData = Array<GameInfo>()
 
         for (index, char) in puzzle.ciphertext.enumerated() {
-            
-            //need current puzzle here because it talks to the model!
             if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, index) {
 
                 let output = GameInfo(id: newGameTriad.id,
                                       cipherLetter: newGameTriad.cipherLetter,
                                       userGuessLetter: newGameTriad.userGuessLetter)
-
                 puzzleData.append(output)
             }
         }
