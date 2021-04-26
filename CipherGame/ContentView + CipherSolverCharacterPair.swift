@@ -24,8 +24,8 @@ extension ContentView {
         private
         var wasTapped : Bool = false
         
-        @State
-        var puzzle : Puzzle
+//        @State
+//        var puzzle : Puzzle
         
         @Binding
         var currentCiphertextCharacter : Character?
@@ -122,7 +122,7 @@ extension ContentView {
                         Button{
                             withAnimation{
                                 viewModel.guess(cipherTextLetter, is: nil,
-                                                at: indexInTheCipher, for: puzzle)
+                                                at: indexInTheCipher, for: viewModel.currentPuzzle)
                                 displayTabletLetterPicker = false
                                 wasTapped = false
                             }
@@ -146,7 +146,7 @@ extension ContentView {
                             Text(String(character)).onTapGesture {
                                 withAnimation{
                                     viewModel.guess(cipherTextLetter, is: character,
-                                                    at: indexInTheCipher, for: puzzle)
+                                                    at: indexInTheCipher, for: viewModel.currentPuzzle)
                                     displayTabletLetterPicker = false
                                     wasTapped = false
                                 }

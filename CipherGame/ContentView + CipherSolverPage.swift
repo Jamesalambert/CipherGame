@@ -58,13 +58,21 @@ extension ContentView {
         var body : some View {
             GeometryReader { geometry in
                 VStack{
+                    Spacer()
                     HStack{
                         ForEach(viewModel.visiblePuzzles(for: chapter), id:\.self){ puzzle in
-                            Button(puzzle.title){
+                            Button {
                                 withAnimation{
                                     viewModel.currentPuzzleHash = puzzle.id
                                 }
+                            } label: {
+                                Text(puzzle.title)
+                                    .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
+                                    .foregroundColor(viewModel.theme.color(of: .completed, for: bookTheme, in: colorScheme))
                             }
+                            .padding()
+                            .background(Blur(style: .systemUltraThinMaterialDark))
+                            .cornerRadius(10)
                         }
                     }
                     
@@ -105,10 +113,10 @@ extension ContentView {
                                alignment: .bottom)
                         
                     } //Zstack
-                    .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
                     .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
                     .toolbar{toolbarView()}
                 }
+                .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
             }
         }
         
@@ -128,7 +136,7 @@ extension ContentView {
                           pinnedViews: [.sectionHeaders]){
                     ForEach(viewModel.data(for: puzzle)){ cipherPair in
                         CipherSolverCharacterPair(
-                            puzzle: puzzle,
+//                            puzzle: $viewModel.currentPuzzle,
                             currentCiphertextCharacter: $currentCiphertextCharacter,
                             selectedIndex: $selectedIndex,
                             displayPhoneLetterPicker: $displayPhoneLetterPicker,
