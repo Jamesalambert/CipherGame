@@ -79,7 +79,11 @@ struct Game : Codable {
         guard let currentPuzzleIndexPath = self.indexPath(for: puzzle) else {return}
         let bookIndex = currentPuzzleIndexPath.bookIndex
         let chapterIndex = currentPuzzleIndexPath.chapterIndex
-        books[bookIndex].chapters[chapterIndex].userRiddleAnswers.append(answer)
+        
+        //prevent duplicates
+        if !books[bookIndex].chapters[chapterIndex].userRiddleAnswers.contains(answer){
+            books[bookIndex].chapters[chapterIndex].userRiddleAnswers.append(answer)
+        }
     }
     
     

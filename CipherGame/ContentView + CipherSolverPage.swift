@@ -128,6 +128,7 @@ extension ContentView {
         func puzzleChooser() -> some View {
             ScrollView(.horizontal){
                 HStack(alignment: .bottom){
+                    Spacer()
                     ForEach(viewModel.visiblePuzzles){ puzzle in
                         Button {
                             withAnimation{
@@ -138,19 +139,13 @@ extension ContentView {
                             Text(puzzle.title)
                                 .lineLimit(1)
                                 .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
-                                .foregroundColor(viewModel.theme.color(of: .completed, for: bookTheme, in: colorScheme))
+                                .foregroundColor(viewModel.theme.color(of: .puzzleLines,
+                                                    for: bookTheme, in: colorScheme))
                         }
                         .padding()
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke(lineWidth: 5)
-                                .foregroundColor(
-                                    puzzle == viewModel.currentPuzzle ?
-                                        viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme) :
-                                    Color.gray)
-                        )
-                        .cornerRadius(10)
+                        .background(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)?.opacity( puzzle == viewModel.currentPuzzle ? 0.3 : 0.1))
                     }
+                    Spacer()
                 }
             }
         }
@@ -168,7 +163,7 @@ extension ContentView {
                             withAnimation{
                                 viewModel.add(answer: answer)
                             }
-                        } label: {Text(answer)}
+                        } label: {Text(answer).font(.title)}
                     }
                 }
                 .font(viewModel.theme.font(for: .title, for: bookTheme))
