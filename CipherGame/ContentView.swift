@@ -25,7 +25,6 @@ struct ContentView: View {
     var deletingLessons : Bool = false
     
     var body: some View {
-        
         NavigationView{
             List{
                 ForEach(viewModel.installedBooks){ book in
@@ -34,7 +33,7 @@ struct ContentView: View {
                             footer: bookFooter(for: book.title)){
                         
                         ForEach(book.chapters){ chapter in
-                            NavigationLink(destination: CipherSolverPage(chapter: chapter)
+                            NavigationLink(destination: CipherSolverPage()
                                                             .environment(\.bookTheme, book.theme)
                                                             .navigationTitle(chapter.title),
                                            tag: chapter.id,

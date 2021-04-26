@@ -74,6 +74,14 @@ struct Game : Codable {
         }
     }
     
+    mutating
+    func add(answer : String, for puzzle : Puzzle){
+        guard let currentPuzzleIndexPath = self.indexPath(for: puzzle) else {return}
+        let bookIndex = currentPuzzleIndexPath.bookIndex
+        let chapterIndex = currentPuzzleIndexPath.chapterIndex
+        books[bookIndex].chapters[chapterIndex].userRiddleAnswers.append(answer)
+    }
+    
     private
     func indexPath(for puzzle: Puzzle) -> (bookIndex: Int, chapterIndex: Int, puzzleIndex: Int)? {
         guard let bookIndex = books.firstIndex(where: {book in

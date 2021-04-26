@@ -10,7 +10,8 @@ import SwiftUI
 @main
 struct CipherGameApp: App {
     
-    @ObservedObject private var viewModel = CipherPuzzle()
+    @ObservedObject
+    private var viewModel = CipherPuzzle()
     
     var body: some Scene {
         WindowGroup {

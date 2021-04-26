@@ -22,11 +22,6 @@ extension ContentView {
         @Environment(\.colorScheme)
         var colorScheme : ColorScheme
         
-        @Binding
-        var currentCiphertextCharacter : Character?
-        
-        var puzzle : Puzzle
-        
         var body : some View {
             GeometryReader { geometry in
                 VStack{
@@ -41,12 +36,11 @@ extension ContentView {
                                     let cipherChar = letterCountTriple.character
                                     PairCount(cipherChar: cipherChar,
                                               plainChar: viewModel.plaintext(for: cipherChar),
-                                              count: letterCountTriple.count,
-                                              currentCiphertextCharacter: $currentCiphertextCharacter)
+                                              count: letterCountTriple.count)
                                         .frame(width: pairCountWidth(for: geometry))
                                         .animation(.easeInOut)
                                         .onTapGesture {
-                                            currentCiphertextCharacter = cipherChar
+                                            viewModel.currentCiphertextCharacter = cipherChar
                                         }
                             }
                         }
@@ -55,8 +49,6 @@ extension ContentView {
                 }
             }
         }
-        
-        
         
         private
         func pairCountWidth(for geometry : GeometryProxy) -> CGFloat {
@@ -85,9 +77,6 @@ extension ContentView {
         var plainChar : Character?
         var count : Int
         
-        @Binding
-        var currentCiphertextCharacter : Character?
-        
         @Environment (\.colorScheme)
         var colorScheme : ColorScheme
         
@@ -113,7 +102,7 @@ extension ContentView {
         var foregroundColor : Color? {
             if count == 0 {
                 return Color.gray
-            } else if currentCiphertextCharacter == cipherChar.lowerChar() {
+            } else if viewModel.currentCiphertextCharacter == cipherChar.lowerChar() {
                 return viewModel.theme.color(of: .highlight,
                                              for: bookTheme, in: colorScheme)
             }

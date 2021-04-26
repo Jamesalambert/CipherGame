@@ -36,7 +36,7 @@
                 "keyAlphabet": "xkzwqnvgjrpuistahdmofbcley",
                 "riddle" : "where is the rover?",
                 "riddleAnswers" : ["a", "b"],
-                "riddleKey" : ""
+                "riddleKey" : "a"
             }
             ,
             {
@@ -47,7 +47,7 @@
                 "keyAlphabet": "ovqdfxmlparuesjtkgcbnizwhy",
                 "riddle" : "where is the rover?",
                 "riddleAnswers" : ["a", "b"],
-                "riddleKey" : ""
+                "riddleKey" : "b"
             }
         ]
     }

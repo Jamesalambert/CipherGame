@@ -23,22 +23,14 @@ extension ContentView {
             @Binding
             var displayPhoneLetterPicker : Bool
 
-            @Binding
-            var currentCiphertextCharacter : Character?
-
-            @Binding
-            var selectedIndex : Int?
-
-            var puzzle : Puzzle
-
             var body: some View {
                 VStack {
                     drawKeyboard()
                         .padding()
                     Button{
                         withAnimation{
-                            viewModel.guess(currentCiphertextCharacter!, is: nil,
-                                            at: selectedIndex!, for: puzzle)
+                            viewModel.guess(viewModel.currentCiphertextCharacter!, is: nil,
+                                            at: viewModel.selectedIndex!)
                         }
                     } label: {Label("delete", systemImage: "delete.left")
                         .foregroundColor(viewModel.theme.color(of: .keyboardLetters, for: bookTheme, in: colorScheme))
@@ -56,8 +48,9 @@ extension ContentView {
                                 
                                 Text(String(character)).onTapGesture {
                                     withAnimation{
-                                        viewModel.guess(currentCiphertextCharacter!, is: character,
-                                                        at: selectedIndex!, for: puzzle)
+                                        viewModel.guess(viewModel.currentCiphertextCharacter!,
+                                                        is: character,
+                                                        at: viewModel.selectedIndex!)
             //                                    displayPhoneLetterPicker = false
                                     }
                                 }

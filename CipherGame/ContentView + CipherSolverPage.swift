@@ -25,15 +25,6 @@ extension ContentView {
         var bookTheme : BookTheme
         
         @State
-        var chapter : Chapter
-        
-        @State
-        var currentCiphertextCharacter : Character? = nil
-        
-        @State
-        var selectedIndex : Int?
-        
-        @State
         var displayPhoneLetterPicker : Bool = false
         
         @State
@@ -62,7 +53,7 @@ extension ContentView {
                     Divider()
                     ZStack(alignment: .bottom){
                         ScrollView{
-                            cipherPuzzleView(for: viewModel.currentPuzzle, with: geometry)
+                            cipherPuzzleView(with: geometry)
                                 .padding()
                             if viewModel.currentPuzzle.isSolved {
                                 riddleOptions()
@@ -84,9 +75,9 @@ extension ContentView {
         
         
         @ViewBuilder
-        func cipherPuzzleView(for puzzle : Puzzle, with geometry : GeometryProxy) -> some View {
+        func cipherPuzzleView(with geometry : GeometryProxy) -> some View {
             VStack(alignment: .center, spacing: nil){
-                Text(puzzle.header)
+                Text(viewModel.currentPuzzle.header)
                     .fixedSize(horizontal: false, vertical: true)
                     .font(viewModel.theme.font(for: .body, for: bookTheme))
                     .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
@@ -96,11 +87,8 @@ extension ContentView {
                 LazyVGrid(columns: columns(screenWidth: geometry.size.width),
                           spacing: 0,
                           pinnedViews: [.sectionHeaders]){
-                    ForEach(viewModel.data(for: puzzle)){ cipherPair in
+                    ForEach(viewModel.data(for: viewModel.currentPuzzle)){ cipherPair in
                         CipherSolverCharacterPair(
-//                            puzzle: $viewModel.currentPuzzle,
-                            currentCiphertextCharacter: $currentCiphertextCharacter,
-                            selectedIndex: $selectedIndex,
                             displayPhoneLetterPicker: $displayPhoneLetterPicker,
                             displayTabletLetterPicker: $displayTabletLetterPicker,
                             cipherTextLetter: cipherPair.cipherLetter,
@@ -109,7 +97,7 @@ extension ContentView {
                     }
                 }
                 Spacer().frame(height: geometry.size.height/20)
-                Text(puzzle.footer)
+                Text(viewModel.currentPuzzle.footer)
                     .font(viewModel.theme.font(for: .body, for: bookTheme))
                     .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
             }
@@ -118,17 +106,13 @@ extension ContentView {
         @ViewBuilder
         func keyboardAndLettercount(for geometry : GeometryProxy) -> some View {
             Group{
-                if displayPhoneLetterPicker{
-                    PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker,
-                                      currentCiphertextCharacter: $currentCiphertextCharacter,
-                                      selectedIndex: $selectedIndex,
-                                      puzzle: viewModel.currentPuzzle)
+                if displayPhoneLetterPicker {
+                    PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker)
                         .transition(.move(edge: .bottom))
                         .frame(height: Self.phoneLetterPickerHeight)
                         .gesture(dismissPhoneKeyboard)
                 } else {
-                    LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
-                                puzzle: viewModel.currentPuzzle)
+                    LetterCount()
                         .transition(.move(edge: .bottom))
                         .frame(height: Self.letterCountHeight)
                 }
@@ -144,11 +128,11 @@ extension ContentView {
         func puzzleChooser() -> some View {
             ScrollView(.horizontal){
                 HStack(alignment: .bottom){
-                    ForEach(viewModel.visiblePuzzles(for: chapter), id:\.self){ puzzle in
+                    ForEach(viewModel.visiblePuzzles){ puzzle in
                         Button {
                             withAnimation{
                                 viewModel.currentPuzzleHash = puzzle.id
-                                currentCiphertextCharacter = nil
+                                viewModel.currentCiphertextCharacter = nil
                             }
                         } label: {
                             Text(puzzle.title)
@@ -157,10 +141,6 @@ extension ContentView {
                                 .foregroundColor(viewModel.theme.color(of: .completed, for: bookTheme, in: colorScheme))
                         }
                         .padding()
-//                        .background(
-//                            colorScheme == .light ?
-//                            Blur(style: .systemUltraThinMaterialLight) :
-//                            Blur(style: .systemUltraThinMaterialDark))
                         .overlay(
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(lineWidth: 5)
@@ -183,9 +163,13 @@ extension ContentView {
                     .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
                 Spacer()
                 HStack{
-                    Text("🪐")
-                    Text("🌍")
-                    Text("👾")
+                    ForEach(viewModel.currentPuzzle.riddleAnswers, id:\.self){ answer in
+                        Button{
+                            withAnimation{
+                                viewModel.add(answer: answer)
+                            }
+                        } label: {Text(answer)}
+                    }
                 }
                 .font(viewModel.theme.font(for: .title, for: bookTheme))
             }
@@ -257,13 +241,9 @@ extension ContentView {
                   message: Text("You'll loose all your work and it can't be undone!"),
                   primaryButton: .cancel(),
                   secondaryButton: .destructive(Text("Reset")){
-                    withAnimation{
-                        viewModel.reset()
-                    }
+                    withAnimation{viewModel.reset()}
                   })
         }
-        
-        
         
         func resetPuzzle(){
             $resettingPuzzle.wrappedValue.toggle()

@@ -25,12 +25,6 @@ extension ContentView {
         var wasTapped : Bool = false
         
         @Binding
-        var currentCiphertextCharacter : Character?
-
-        @Binding
-        var selectedIndex : Int?
-        
-        @Binding
         var displayPhoneLetterPicker : Bool
         
         @Binding
@@ -51,8 +45,8 @@ extension ContentView {
                             if displayTabletLetterPicker {
                                 displayTabletLetterPicker = false
                             } else {
-                                currentCiphertextCharacter = cipherTextLetter
-                                selectedIndex = indexInTheCipher
+                                viewModel.currentCiphertextCharacter = cipherTextLetter
+                                viewModel.selectedIndex = indexInTheCipher
                                 
                                 displayTabletLetterPicker = true
                                 wasTapped = true
@@ -67,8 +61,8 @@ extension ContentView {
                 standardCipherPair(displayPlaintext: true)
                     .onTapGesture {
                         withAnimation{
-                            currentCiphertextCharacter = cipherTextLetter
-                            selectedIndex = indexInTheCipher
+                            viewModel.currentCiphertextCharacter = cipherTextLetter
+                            viewModel.selectedIndex = indexInTheCipher
                             displayPhoneLetterPicker = true
                         }
                     }
@@ -119,7 +113,7 @@ extension ContentView {
                         Button{
                             withAnimation{
                                 viewModel.guess(cipherTextLetter, is: nil,
-                                                at: indexInTheCipher, for: viewModel.currentPuzzle)
+                                                at: indexInTheCipher)
                                 displayTabletLetterPicker = false
                                 wasTapped = false
                             }
@@ -143,7 +137,7 @@ extension ContentView {
                             Text(String(character)).onTapGesture {
                                 withAnimation{
                                     viewModel.guess(cipherTextLetter, is: character,
-                                                    at: indexInTheCipher, for: viewModel.currentPuzzle)
+                                                    at: indexInTheCipher)
                                     displayTabletLetterPicker = false
                                     wasTapped = false
                                 }
@@ -160,10 +154,11 @@ extension ContentView {
         
         private
         func foregroundColor(for colorScheme : ColorScheme) -> Color? {
-            if currentCiphertextCharacter == cipherTextLetter.lowerChar() {
+            if viewModel.currentCiphertextCharacter == cipherTextLetter.lowerChar() {
                 return viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)
             }
             return viewModel.theme.color(of: .ciphertext, for: bookTheme, in: colorScheme)
         }
     }
+ 
 }
