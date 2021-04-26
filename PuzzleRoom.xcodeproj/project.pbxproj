@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA14EB48261E12D3004AFD15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA14EB47261E12D3004AFD15 /* Assets.xcassets */; };
+		AA23A7722636E484002F9F39 /* ContentView + PhoneLetterPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA23A7712636E484002F9F39 /* ContentView + PhoneLetterPicker.swift */; };
 		AA31EAA3260BE32A0031D56C /* CipherPuzzle+Printing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */; };
 		AA31EAAE260BE3E80031D56C /* CipherPuzzle+Difficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */; };
 		AA31EAB4260BE5370031D56C /* useful extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAB3260BE5370031D56C /* useful extensions.swift */; };
@@ -56,6 +57,7 @@
 
 /* Begin PBXFileReference section */
 		AA14EB47261E12D3004AFD15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AA23A7712636E484002F9F39 /* ContentView + PhoneLetterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + PhoneLetterPicker.swift"; sourceTree = "<group>"; };
 		AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle+Printing.swift"; sourceTree = "<group>"; };
 		AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle+Difficulty.swift"; sourceTree = "<group>"; };
 		AA31EAB3260BE5370031D56C /* useful extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "useful extensions.swift"; sourceTree = "<group>"; };
@@ -162,6 +164,7 @@
 				AA9766A02601651A0076B879 /* ContentView.swift */,
 				AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */,
 				AAE9CE3C262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift */,
+				AA23A7712636E484002F9F39 /* ContentView + PhoneLetterPicker.swift */,
 				AA3ED4462611493300B25B4A /* ContentView + letter count.swift */,
 				AAE9CE49262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift */,
 				AAE55ABB261FBDAC0019407E /* ContentView + Blur.swift */,
@@ -362,6 +365,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA31EAA3260BE32A0031D56C /* CipherPuzzle+Printing.swift in Sources */,
+				AA23A7722636E484002F9F39 /* ContentView + PhoneLetterPicker.swift in Sources */,
 				AAE55ABC261FBDAC0019407E /* ContentView + Blur.swift in Sources */,
 				AA9766CD26016DED0076B879 /* CipherPuzzleSource.swift in Sources */,
 				AA9766A12601651A0076B879 /* ContentView.swift in Sources */,

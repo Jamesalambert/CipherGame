@@ -54,33 +54,16 @@ extension ContentView {
             }
         }
         
-        
         var body : some View {
             GeometryReader { geometry in
                 VStack{
-                    Spacer()
-                    HStack{
-                        ForEach(viewModel.visiblePuzzles(for: chapter), id:\.self){ puzzle in
-                            Button {
-                                withAnimation{
-                                    viewModel.currentPuzzleHash = puzzle.id
-                                }
-                            } label: {
-                                Text(puzzle.title)
-                                    .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
-                                    .foregroundColor(viewModel.theme.color(of: .completed, for: bookTheme, in: colorScheme))
-                            }
-                            .padding()
-                            .background(Blur(style: .systemUltraThinMaterialDark))
-                            .cornerRadius(10)
-                        }
-                    }
-                    
+                    Spacer(minLength: 10)
+                    puzzleChooser()
+                    Divider()
                     ZStack(alignment: .bottom){
                         ScrollView{
                             cipherPuzzleView(for: viewModel.currentPuzzle, with: geometry)
                                 .padding()
-                            
                             if viewModel.currentPuzzle.isSolved {
                                 riddleOptions()
                                     .background(Blur(style: .systemUltraThinMaterialDark))
@@ -89,36 +72,15 @@ extension ContentView {
                                 Spacer(minLength: 250)
                             }
                         }
-                        
-                        Group{
-                            if displayPhoneLetterPicker{
-                                PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker,
-                                                  currentCiphertextCharacter: $currentCiphertextCharacter,
-                                                  selectedIndex: $selectedIndex,
-                                                  puzzle: viewModel.currentPuzzle)
-                                    .transition(.move(edge: .bottom))
-                                    .frame(height: Self.phoneLetterPickerHeight)
-                                    .gesture(dismissPhoneKeyboard)
-                            } else {
-                                LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
-                                            puzzle: viewModel.currentPuzzle)
-                                    .transition(.move(edge: .bottom))
-                                    .frame(height: Self.letterCountHeight)
-                            }
-                        }
-                        .background(Blur(style: .systemUltraThinMaterialDark))
-                        .cornerRadius(5)
-                        .frame(width: geometry.size.width,
-                               height: Self.letterCountHeight,
-                               alignment: .bottom)
-                        
-                    } //Zstack
+                        keyboardAndLettercount(for: geometry)
+                    }
                     .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
                     .toolbar{toolbarView()}
                 }
                 .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
             }
         }
+        
         
         
         @ViewBuilder
@@ -153,6 +115,65 @@ extension ContentView {
             }
         }
         
+        @ViewBuilder
+        func keyboardAndLettercount(for geometry : GeometryProxy) -> some View {
+            Group{
+                if displayPhoneLetterPicker{
+                    PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker,
+                                      currentCiphertextCharacter: $currentCiphertextCharacter,
+                                      selectedIndex: $selectedIndex,
+                                      puzzle: viewModel.currentPuzzle)
+                        .transition(.move(edge: .bottom))
+                        .frame(height: Self.phoneLetterPickerHeight)
+                        .gesture(dismissPhoneKeyboard)
+                } else {
+                    LetterCount(currentCiphertextCharacter: $currentCiphertextCharacter,
+                                puzzle: viewModel.currentPuzzle)
+                        .transition(.move(edge: .bottom))
+                        .frame(height: Self.letterCountHeight)
+                }
+            }
+            .background(Blur(style: .systemUltraThinMaterialDark))
+            .cornerRadius(5)
+            .frame(width: geometry.size.width,
+                   height: Self.letterCountHeight,
+                   alignment: .bottom)
+        }
+        
+        @ViewBuilder
+        func puzzleChooser() -> some View {
+            ScrollView(.horizontal){
+                HStack(alignment: .bottom){
+                    ForEach(viewModel.visiblePuzzles(for: chapter), id:\.self){ puzzle in
+                        Button {
+                            withAnimation{
+                                viewModel.currentPuzzleHash = puzzle.id
+                                currentCiphertextCharacter = nil
+                            }
+                        } label: {
+                            Text(puzzle.title)
+                                .lineLimit(1)
+                                .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
+                                .foregroundColor(viewModel.theme.color(of: .completed, for: bookTheme, in: colorScheme))
+                        }
+                        .padding()
+//                        .background(
+//                            colorScheme == .light ?
+//                            Blur(style: .systemUltraThinMaterialLight) :
+//                            Blur(style: .systemUltraThinMaterialDark))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke(lineWidth: 5)
+                                .foregroundColor(
+                                    puzzle == viewModel.currentPuzzle ?
+                                        viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme) :
+                                    Color.gray)
+                        )
+                        .cornerRadius(10)
+                    }
+                }
+            }
+        }
         
         @ViewBuilder
         func riddleOptions() -> some View {
@@ -177,15 +198,12 @@ extension ContentView {
         }
         
         
+        
         private
         func columns(screenWidth : CGFloat) -> [GridItem] {
             return Array(repeating: GridItem(.fixed(20)),
                          count: Int(screenWidth / 35))
         }
-        
-
-        
-        
         
         
         //        test using a list vs a grid. Buggy but maybe helpful.
@@ -251,89 +269,8 @@ extension ContentView {
             $resettingPuzzle.wrappedValue.toggle()
         }
     }
-
-//    MARK:- the phone keyboard
-    struct PhoneLetterPicker : View {
-
-        @EnvironmentObject
-        var viewModel : CipherPuzzle
-        
-        @Environment(\.bookTheme)
-        var bookTheme : BookTheme
-        
-        @Environment(\.colorScheme)
-        var colorScheme : ColorScheme
-
-        @Binding
-        var displayPhoneLetterPicker : Bool
-
-        @Binding
-        var currentCiphertextCharacter : Character?
-
-        @Binding
-        var selectedIndex : Int?
-
-        var puzzle : Puzzle
-
-        var body: some View {
-            VStack {
-                drawKeyboard()
-                    .padding()
-                Button{
-                    withAnimation{
-                        viewModel.guess(currentCiphertextCharacter!, is: nil,
-                                        at: selectedIndex!, for: puzzle)
-                    }
-                } label: {Label("delete", systemImage: "delete.left")
-                    .foregroundColor(viewModel.theme.color(of: .keyboardLetters, for: bookTheme, in: colorScheme))
-                }
-                Spacer()
-            }
-//            .overlay(
-//                RoundedRectangle(cornerRadius: 5)
-//                    .stroke(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)!),
-//                alignment: .center)
-        }
-            
-            
-
-            
-        @ViewBuilder
-        func drawKeyboard() -> some View {
-            VStack{
-                ForEach(String.qwerty, id:\.self ){line in
-                    HStack(spacing: 12){
-                        ForEach(line.map{$0}, id:\.self){ character in
-                            
-                            Text(String(character)).onTapGesture {
-                                withAnimation{
-                                    viewModel.guess(currentCiphertextCharacter!, is: character,
-                                                    at: selectedIndex!, for: puzzle)
-        //                                    displayPhoneLetterPicker = false
-                                }
-                            }
-                            .fixedSize(horizontal: false, vertical: true)
-                            .font(viewModel.theme.font(for: .title, for: bookTheme))
-                            .foregroundColor(viewModel.theme.color(of: .keyboardLetters, for: bookTheme, in: colorScheme))
-                            .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
-                        }
-                    }
-                }
-            }
-        }
-        
-
-        private func columns(for geometry : GeometryProxy) -> [GridItem]{
-            let numberOfCols = geometry.size.width > 480 ? 13 : 9
-            
-            let letterWidth = Int(geometry.size.width / CGFloat(Double(numberOfCols) * 1.4))
-            return Array(repeating: GridItem(.fixed(CGFloat(letterWidth))),
-                         count: numberOfCols)
-        }
-        
-        
-    }
 }
+
 
 private struct BookThemeKey : EnvironmentKey {
     static let defaultValue: BookTheme = .defaultTheme
@@ -341,7 +278,7 @@ private struct BookThemeKey : EnvironmentKey {
 
 extension EnvironmentValues {
     var bookTheme : BookTheme {
-        get {
+        get { 
             self[BookThemeKey.self]
         }
         set {
@@ -356,4 +293,5 @@ extension EdgeInsets {
         return EdgeInsets(top: 0.0, leading: 0.0, bottom: 0.0, trailing: 0.0)
     }
 }
+
 

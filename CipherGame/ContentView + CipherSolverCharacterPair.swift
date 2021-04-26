@@ -24,9 +24,6 @@ extension ContentView {
         private
         var wasTapped : Bool = false
         
-//        @State
-//        var puzzle : Puzzle
-        
         @Binding
         var currentCiphertextCharacter : Character?
 

@@ -24,7 +24,6 @@ class CipherPuzzle : ObservableObject {
                 model.lastOpenPuzzleHash = currentPuzzleHash
                 characterCount = letterCount.map{pair in
                     CharacterCount(character: pair.character, count: pair.count)}
-                print(currentPuzzleHash)
             }
         }
     }
