@@ -49,8 +49,7 @@ extension ContentView {
             GeometryReader { geometry in
                 VStack{
                     Spacer(minLength: 10)
-                    puzzleChooser()
-                    Divider()
+                    puzzleChooser(for: geometry)
                     ZStack(alignment: .bottom){
                         ScrollView{
                             cipherPuzzleView(with: geometry)
@@ -125,7 +124,7 @@ extension ContentView {
         }
         
         @ViewBuilder
-        func puzzleChooser() -> some View {
+        func puzzleChooser(for geometry : GeometryProxy) -> some View {
             ScrollView(.horizontal){
                 HStack(alignment: .bottom){
                     Spacer()
@@ -144,6 +143,7 @@ extension ContentView {
                         }
                         .padding()
                         .background(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)?.opacity( puzzle == viewModel.currentPuzzle ? 0.3 : 0.1))
+                        .cornerRadius(10)
                     }
                     Spacer()
                 }
@@ -152,21 +152,10 @@ extension ContentView {
         
         @ViewBuilder
         func riddleOptions() -> some View {
-            VStack{
-                Text("Let's talk to the rover's designer...")
-                    .font(viewModel.theme.font(for: .body, for: bookTheme))
-                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-                Spacer()
-                HStack{
-                    ForEach(viewModel.currentPuzzle.riddleAnswers, id:\.self){ answer in
-                        Button{
-                            withAnimation{
-                                viewModel.add(answer: answer)
-                            }
-                        } label: {Text(answer).font(.title)}
-                    }
+            Group{
+                if viewModel.currentPuzzle.riddleAnswers.count > 1{
+                    multipleChoiceRiddle()
                 }
-                .font(viewModel.theme.font(for: .title, for: bookTheme))
             }
             .padding()
             .overlay(
@@ -176,7 +165,27 @@ extension ContentView {
             )
         }
         
-        
+        @ViewBuilder
+        func multipleChoiceRiddle() -> some View {
+            VStack{
+                Text(viewModel.currentPuzzle.riddle)
+                    .font(viewModel.theme.font(for: .body, for: bookTheme))
+                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                Spacer()
+                HStack{
+                    ForEach(viewModel.currentPuzzle.riddleAnswers, id:\.self){ answer in
+                        Button{
+                            withAnimation{
+                                viewModel.add(answer: answer)
+                            }
+                        } label: {
+                            Text(answer).font(.title)
+                        }
+                    }
+                }
+                .font(viewModel.theme.font(for: .title, for: bookTheme))
+            }
+        }
         
         private
         func columns(screenWidth : CGFloat) -> [GridItem] {
