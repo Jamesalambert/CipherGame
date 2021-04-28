@@ -67,7 +67,8 @@ extension ContentView {
                     .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
                     .toolbar{toolbarView()}
                 }
-                .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
+                .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?
+                                .resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
             }
         }
         
@@ -142,7 +143,8 @@ extension ContentView {
                                                     for: bookTheme, in: colorScheme))
                         }
                         .padding()
-                        .background(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)?.opacity( puzzle == viewModel.currentPuzzle ? 0.3 : 0.1))
+                        .background(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)?
+                                        .opacity( puzzle == viewModel.currentPuzzle ? 0.3 : 0.1))
                         .cornerRadius(10)
                     }
                     Spacer()
@@ -152,40 +154,99 @@ extension ContentView {
         
         @ViewBuilder
         func riddleOptions() -> some View {
-            Group{
-                if viewModel.currentPuzzle.riddleAnswers.count > 1{
-                    multipleChoiceRiddle()
+                if viewModel.currentPuzzle.riddleAnswers.count > 1 {
+                    MultipleChoiceRiddle()
+                        .padding()
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .stroke()
+                                .foregroundColor(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)))
                 }
-            }
-            .padding()
-            .overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke()
-                    .foregroundColor(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme))
-            )
         }
         
-        @ViewBuilder
-        func multipleChoiceRiddle() -> some View {
-            VStack{
-                Text(viewModel.currentPuzzle.riddle)
-                    .font(viewModel.theme.font(for: .body, for: bookTheme))
-                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-                Spacer()
-                HStack{
-                    ForEach(viewModel.currentPuzzle.riddleAnswers, id:\.self){ answer in
-                        Button{
-                            withAnimation{
-                                viewModel.add(answer: answer)
-                            }
-                        } label: {
-                            Text(answer).font(.title)
+        
+        struct MultipleChoiceRiddle : View {
+            @EnvironmentObject
+            var viewModel : CipherPuzzle
+            
+            @Environment(\.bookTheme)
+            var bookTheme : BookTheme
+            
+            @Environment(\.colorScheme)
+            var colorScheme : ColorScheme
+            
+            @State
+            private
+            var userChoice : String?
+            
+            private var message : String = "Now you have a new puzzle to solve...\nNow you have a new puzzle to solve..."
+            
+            @State
+            private var displayedString : String = ""
+            
+            var body: some View {
+                VStack{
+                    Text(viewModel.currentPuzzle.riddle)
+                        .font(viewModel.theme.font(for: .body, for: bookTheme))
+                        .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                    Spacer()
+                    HStack{
+                        ForEach(viewModel.currentPuzzle.riddleAnswers, id:\.self){ answer in
+                            Button{
+                                withAnimation{
+                                    userChoice = answer
+                                    viewModel.add(answer: answer)
+                                }
+                            } label: {
+                                Text(answer)
+                            }.padding()
+                            .background(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)?
+                                            .opacity( userChoice == answer ? 0.3 : 0))
+                            .cornerRadius(10)
                         }
                     }
+                    .font(viewModel.theme.font(for: .title, for: bookTheme))
+                    
+                    //animated text
+                    if userChoice != nil {
+                        Text(displayedString)
+                            .fixedSize()
+                            .font(viewModel.theme.font(for: .body, for: bookTheme))
+                            .onAppear{typewriter()}
+                    }
                 }
-                .font(viewModel.theme.font(for: .title, for: bookTheme))
+            }
+            
+            private func typewriter() {
+                for (index, character) in message.enumerated() {
+                    DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + .milliseconds(index * 100)){
+                        displayedString.append(character)
+                    }
+                }
             }
         }
+        
+//        @ViewBuilder
+//        func multipleChoiceRiddle() -> some View {
+//            VStack{
+//                Text(viewModel.currentPuzzle.riddle)
+//                    .font(viewModel.theme.font(for: .body, for: bookTheme))
+//                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+//                Spacer()
+//                HStack{
+//                    ForEach(viewModel.currentPuzzle.riddleAnswers, id:\.self){ answer in
+//                        Button{
+//                            withAnimation{
+//                                viewModel.add(answer: answer)
+//                            }
+//                        } label: {
+//                            Text(answer).font(.title)
+//                        }
+//                    }
+//                }
+//                .font(viewModel.theme.font(for: .title, for: bookTheme))
+//            }
+//        }
         
         private
         func columns(screenWidth : CGFloat) -> [GridItem] {

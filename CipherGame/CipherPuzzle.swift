@@ -33,9 +33,10 @@ class CipherPuzzle : ObservableObject {
     @Published
     var currentChapterHash : UUID? {
         didSet{
-//            //choose new puzzle
-            currentPuzzleHash = currentChapter.puzzles.first?.id
-            updateVisiblePuzzles()
+            if currentChapterHash != nil {
+                currentPuzzleHash = currentChapter.puzzles.first?.id
+                updateVisiblePuzzles()
+            }
         }
     }
     
