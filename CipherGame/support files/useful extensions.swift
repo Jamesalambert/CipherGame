@@ -78,6 +78,7 @@ extension Array where Element == Int {
     }
 }
 
+
 extension Set where Element == Int {
     func containsItem(within distance : Int, of index : Int)-> Bool {
        return self.contains(where: { item in abs(item - index) <= distance})
@@ -126,6 +127,14 @@ extension Character {
         return Character(String(self).lowercased())
     }
     
+}
+
+extension Collection where Element : Hashable {
+    
+    func count(for item : Element) -> Int {
+        return reduce(0) { (total, nextItem) -> Int in
+            nextItem == item ? total + 1 : total}
+    }
 }
 
 
@@ -182,3 +191,4 @@ extension Font.Design {
         }
     }
 }
+

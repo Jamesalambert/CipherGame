@@ -38,6 +38,9 @@ struct Game : Codable {
         //reset guesses and indices
         books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].usersGuesses.removeAll()
         books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].guessIndices.removeAll()
+        
+        //reset user answers to riddles
+        books[bookIndex].chapters[chapterIndex].userRiddleAnswers.removeAll()
     }
     
     mutating
@@ -80,10 +83,8 @@ struct Game : Codable {
         let bookIndex = currentPuzzleIndexPath.bookIndex
         let chapterIndex = currentPuzzleIndexPath.chapterIndex
         
-        //prevent duplicates
-        if !books[bookIndex].chapters[chapterIndex].userRiddleAnswers.contains(answer){
-            books[bookIndex].chapters[chapterIndex].userRiddleAnswers.append(answer)
-        }
+        books[bookIndex].chapters[chapterIndex].userRiddleAnswers.removeAll{$0 == answer}  //prevent duplicates
+        books[bookIndex].chapters[chapterIndex].userRiddleAnswers.append(answer)
     }
     
     

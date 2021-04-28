@@ -124,130 +124,6 @@ extension ContentView {
                    alignment: .bottom)
         }
         
-        @ViewBuilder
-        func puzzleChooser(for geometry : GeometryProxy) -> some View {
-            ScrollView(.horizontal){
-                HStack(alignment: .bottom){
-                    Spacer()
-                    ForEach(viewModel.visiblePuzzles){ puzzle in
-                        Button {
-                            withAnimation{
-                                viewModel.currentPuzzleHash = puzzle.id
-                                viewModel.currentCiphertextCharacter = nil
-                            }
-                        } label: {
-                            Text(puzzle.title)
-                                .lineLimit(1)
-                                .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
-                                .foregroundColor(viewModel.theme.color(of: .puzzleLines,
-                                                    for: bookTheme, in: colorScheme))
-                        }
-                        .padding()
-                        .background(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)?
-                                        .opacity( puzzle == viewModel.currentPuzzle ? 0.3 : 0.1))
-                        .cornerRadius(10)
-                    }
-                    Spacer()
-                }
-            }
-        }
-        
-        @ViewBuilder
-        func riddleOptions() -> some View {
-                if viewModel.currentPuzzle.riddleAnswers.count > 1 {
-                    MultipleChoiceRiddle()
-                        .padding()
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 10)
-                                .stroke()
-                                .foregroundColor(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)))
-                }
-        }
-        
-        
-        struct MultipleChoiceRiddle : View {
-            @EnvironmentObject
-            var viewModel : CipherPuzzle
-            
-            @Environment(\.bookTheme)
-            var bookTheme : BookTheme
-            
-            @Environment(\.colorScheme)
-            var colorScheme : ColorScheme
-            
-            @State
-            private
-            var userChoice : String?
-            
-            private var message : String = "Now you have a new puzzle to solve...\nNow you have a new puzzle to solve..."
-            
-            @State
-            private var displayedString : String = ""
-            
-            var body: some View {
-                VStack{
-                    Text(viewModel.currentPuzzle.riddle)
-                        .font(viewModel.theme.font(for: .body, for: bookTheme))
-                        .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-                    Spacer()
-                    HStack{
-                        ForEach(viewModel.currentPuzzle.riddleAnswers, id:\.self){ answer in
-                            Button{
-                                withAnimation{
-                                    userChoice = answer
-                                    viewModel.add(answer: answer)
-                                }
-                            } label: {
-                                Text(answer)
-                            }.padding()
-                            .background(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)?
-                                            .opacity( userChoice == answer ? 0.3 : 0))
-                            .cornerRadius(10)
-                        }
-                    }
-                    .font(viewModel.theme.font(for: .title, for: bookTheme))
-                    
-                    //animated text
-                    if userChoice != nil {
-                        Text(displayedString)
-                            .fixedSize()
-                            .font(viewModel.theme.font(for: .body, for: bookTheme))
-                            .onAppear{typewriter()}
-                    }
-                }
-            }
-            
-            private func typewriter() {
-                for (index, character) in message.enumerated() {
-                    DispatchQueue.global(qos: .userInteractive).asyncAfter(deadline: .now() + .milliseconds(index * 100)){
-                        displayedString.append(character)
-                    }
-                }
-            }
-        }
-        
-//        @ViewBuilder
-//        func multipleChoiceRiddle() -> some View {
-//            VStack{
-//                Text(viewModel.currentPuzzle.riddle)
-//                    .font(viewModel.theme.font(for: .body, for: bookTheme))
-//                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-//                Spacer()
-//                HStack{
-//                    ForEach(viewModel.currentPuzzle.riddleAnswers, id:\.self){ answer in
-//                        Button{
-//                            withAnimation{
-//                                viewModel.add(answer: answer)
-//                            }
-//                        } label: {
-//                            Text(answer).font(.title)
-//                        }
-//                    }
-//                }
-//                .font(viewModel.theme.font(for: .title, for: bookTheme))
-//            }
-//        }
-        
         private
         func columns(screenWidth : CGFloat) -> [GridItem] {
             return Array(repeating: GridItem(.fixed(20)),
@@ -301,6 +177,7 @@ extension ContentView {
         //            return line == Int(floor(Double(index / viewModel.charsPerLine)))
         //        }
         
+        private
         func resetPuzzleAlert() -> Alert {
             Alert(title: Text("Reset puzzle?"),
                   message: Text("You'll loose all your work and it can't be undone!"),
