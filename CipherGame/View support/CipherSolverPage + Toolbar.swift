@@ -18,7 +18,7 @@ extension ContentView.CipherSolverPage {
         
         let printInfo = UIPrintInfo(dictionary: nil)
         printInfo.outputType = .general
-        printInfo.jobName = viewModel.currentPuzzle.title
+        printInfo.jobName = viewModel.puzzleTitle
         
         printController.printInfo = printInfo
         printController.printFormatter = formatter
@@ -32,11 +32,11 @@ extension ContentView.CipherSolverPage {
         
             ToolbarItem(placement: .navigationBarTrailing){
                 Menu{
-                    if !viewModel.currentPuzzle.isSolved {
+                    if !viewModel.isSolved {
                         
                         #if DEBUG
                         Button("solve!"){
-                            while !viewModel.currentPuzzle.isSolved {
+                            while !viewModel.isSolved {
                                 withAnimation{
                                     viewModel.quickHint()
                                 }
@@ -50,7 +50,7 @@ extension ContentView.CipherSolverPage {
                             Text("hard").tag(UInt(2))
                         }
                         
-                        if !viewModel.currentPuzzle.isSolved{
+                        if !viewModel.isSolved{
                             Button("quick hint"){
                                 withAnimation{
                                     viewModel.quickHint()
@@ -59,7 +59,7 @@ extension ContentView.CipherSolverPage {
                         }
                     }
                     
-                    if viewModel.currentPuzzle.usersGuesses.count > 0 {
+                    if viewModel.userGuesses.count > 0 {
                         Button("reset puzzle"){
                             withAnimation{
                                 resetPuzzle()

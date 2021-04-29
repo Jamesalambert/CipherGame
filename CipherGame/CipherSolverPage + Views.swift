@@ -29,7 +29,7 @@ extension ContentView.CipherSolverPage {
                     }
                     .padding()
                     .background(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)?
-                                    .opacity( puzzle == viewModel.currentPuzzle ? 0.3 : 0.1))
+                                    .opacity( puzzle.id == viewModel.currentPuzzleHash ? 0.3 : 0.1))
                     .cornerRadius(10)
                 }
                 Spacer()
@@ -39,7 +39,7 @@ extension ContentView.CipherSolverPage {
     
     @ViewBuilder
     func riddleOptions() -> some View {
-            if viewModel.currentPuzzle.riddleAnswers.count > 1 {
+            if viewModel.riddleAnswers.count > 1 {
                 MultipleChoiceRiddle()
                     .padding()
                     .overlay(
@@ -48,7 +48,6 @@ extension ContentView.CipherSolverPage {
                             .foregroundColor(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)))
             }
     }
-    
     
     struct MultipleChoiceRiddle : View {
         @EnvironmentObject
@@ -72,36 +71,35 @@ extension ContentView.CipherSolverPage {
         
         var body: some View {
             VStack{
-                Text(viewModel.currentPuzzle.riddle.capitalized)
+                Text(viewModel.riddle.capitalized)
                     .font(viewModel.theme.font(for: .body, for: bookTheme))
                     .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
                 Spacer()
-                HStack{
-                    ForEach(viewModel.currentPuzzle.riddleAnswers, id:\.self){ answer in
+                VStack{
+                    ForEach(viewModel.riddleAnswers, id:\.self){ answer in
                         Button{
                             withAnimation{
                                 lastUserChoice = answer
                                 viewModel.add(answer: lastUserChoice!)
-                                typewriter()
+                                if displayedString.isEmpty{typewriter()}
                             }
                         } label: {
                             Text(answer)
-                        }.padding()
+                        }
+                        .padding()
                         .background(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)?
-                                        .opacity( viewModel.currentChapter.userRiddleAnswers.last == answer ? 0.3 : 0))
+                        .opacity(lastUserChoice == answer ? 0.3 : 0))
                         .cornerRadius(10)
                     }
                 }
                 .font(viewModel.theme.font(for: .title, for: bookTheme))
                 
-                //animated text
-//                if !viewModel.currentChapter.userRiddleAnswers.isEmpty {
+                //typewriter text
                     Text(displayedString)
-                        .fixedSize()
                         .font(viewModel.theme.font(for: .body, for: bookTheme))
-//                        .onAppear{if viewModel.currentChapter.userRiddleAnswers.count == 1{ typewriter()}}
-//                }
+                        .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
             }
+            .onAppear{lastUserChoice = viewModel.userRiddleAnswers.last}
         }
         
         private

@@ -54,8 +54,9 @@ extension ContentView {
                         ScrollView{
                             cipherPuzzleView(with: geometry)
                                 .padding()
-                            if viewModel.currentPuzzle.isSolved {
+                            if viewModel.isSolved {
                                 riddleOptions()
+                                    .frame(width: geometry.size.width * 0.75)
                                     .background(Blur(style: .systemUltraThinMaterialDark))
                                     .cornerRadius(10)
                                     .transition(.scale)
@@ -77,7 +78,7 @@ extension ContentView {
         @ViewBuilder
         func cipherPuzzleView(with geometry : GeometryProxy) -> some View {
             VStack(alignment: .center, spacing: nil){
-                Text(viewModel.currentPuzzle.header)
+                Text(viewModel.header)
                     .fixedSize(horizontal: false, vertical: true)
                     .font(viewModel.theme.font(for: .body, for: bookTheme))
                     .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
@@ -87,7 +88,7 @@ extension ContentView {
                 LazyVGrid(columns: columns(screenWidth: geometry.size.width),
                           spacing: 0,
                           pinnedViews: [.sectionHeaders]){
-                    ForEach(viewModel.data(for: viewModel.currentPuzzle)){ cipherPair in
+                    ForEach(viewModel.data){ cipherPair in
                         CipherSolverCharacterPair(
                             displayPhoneLetterPicker: $displayPhoneLetterPicker,
                             displayTabletLetterPicker: $displayTabletLetterPicker,
@@ -97,7 +98,7 @@ extension ContentView {
                     }
                 }
                 Spacer().frame(height: geometry.size.height/20)
-                Text(viewModel.currentPuzzle.footer)
+                Text(viewModel.footer)
                     .font(viewModel.theme.font(for: .body, for: bookTheme))
                     .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
             }

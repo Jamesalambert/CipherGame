@@ -15,7 +15,7 @@ extension CipherPuzzle{
                 
         //let charsPerLine = 40
         
-        let data = self.data(for: currentPuzzle)
+        let data = self.data
         
         let numberOfLines = Int(ceil(Double(data.count) / Double(CipherPuzzle.charsPerLine)))
         let charsOnLastLine = data.count % CipherPuzzle.charsPerLine
@@ -40,11 +40,11 @@ extension CipherPuzzle{
         output += "<html>\n"
         output += CipherPuzzle.cssStyling.replacingOccurrences(of: "@@@", with: self.fontDesign.cssName())
         
-        output += "\n<h1>\(String(currentPuzzle.title.capitalized))</h1>\n"
+        output += "\n<h1>\(String(self.puzzleTitle.capitalized))</h1>\n"
         
         output += HTMLletterCountTable
         
-        output += "<p class='text'>" + self.currentPuzzle.header + "</p>"
+        output += "<p class='text'>" + self.header + "</p>"
         
         output += "\n<table id='ciphertext'>\n"
         for line in 0..<numberOfLines {
@@ -55,7 +55,7 @@ extension CipherPuzzle{
         }
         output += "\n</table>\n"
 
-        output += "<p class='text'>" + self.currentPuzzle.footer + "</p>"
+        output += "<p class='text'>" + self.footer + "</p>"
 
         output += "\n</html>\n"
         

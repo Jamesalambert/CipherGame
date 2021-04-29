@@ -72,22 +72,67 @@ class CipherPuzzle : ObservableObject {
     
     //MARK:- public computed properties
     
-    var currentPuzzle : Puzzle {
-        guard let currentPuzzleHash = self.currentPuzzleHash else {
-            return Puzzle(title: "A", plaintext: "A",header: "A", footer: "A", keyAlphabet: "a", riddle: "", riddleAnswers: [], riddleKey: "", id: UUID())}
-        
-        let chapters : [Chapter] = model.books.flatMap{book in book.chapters}
-        let puzzles : [Puzzle] = chapters.flatMap{$0.puzzles}
-        
-        guard let currentPuzzle = puzzles.first(where: {$0.id == currentPuzzleHash}) else {
-            return Puzzle(title: "B", plaintext: "B",header: "B", footer: "B", keyAlphabet: "b", riddle: "?", riddleAnswers: [], riddleKey: "", id: UUID())}
-        
-        return currentPuzzle
+    var puzzleTitle : String {
+        return currentPuzzle.title
     }
     
-    var currentChapter : Chapter {
-        let chapters : [Chapter] = model.books.flatMap{$0.chapters}
-        return chapters.first(where: {$0.id == currentChapterHash})!
+    var header : String {
+        return currentPuzzle.header
+    }
+    
+    var ciphertext : String {
+        return currentPuzzle.ciphertext
+    }
+    
+    var footer : String {
+        return currentPuzzle.footer
+    }
+    
+    var keyAlphabet : String {
+        return currentPuzzle.keyAlphabet
+    }
+    
+    var userGuesses : [String : String] {
+        return currentPuzzle.usersGuesses
+    }
+    
+    var guessIndices : [String: Set<Int>] {
+        return currentPuzzle.guessIndices
+    }
+    
+    var isSolved : Bool {
+        return currentPuzzle.isSolved
+    }
+    
+    var riddleAnswers : [String] {
+        return currentPuzzle.riddleAnswers
+    }
+    
+    var riddle : String {
+        return currentPuzzle.riddle
+    }
+    
+    var riddleKey : String {
+        return currentPuzzle.riddleKey
+    }
+    
+    var userRiddleAnswers : [String] {
+        return currentChapter.userRiddleAnswers
+    }
+    
+    var data : [GameInfo] {
+        var puzzleData = Array<GameInfo>()
+
+        for (index, char) in currentPuzzle.ciphertext.enumerated() {
+            if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, index) {
+
+                let output = GameInfo(id: newGameTriad.id,
+                                      cipherLetter: newGameTriad.cipherLetter,
+                                      userGuessLetter: newGameTriad.userGuessLetter)
+                puzzleData.append(output)
+            }
+        }
+        return puzzleData
     }
     
     var installedBooks : [Book] {
@@ -101,13 +146,10 @@ class CipherPuzzle : ObservableObject {
     }
 
     var letterCount : [(character: Character, count: Int)] {
-        
         var output : [(character:Character, count:Int)] = []
-        
         for keyChar in currentPuzzle.letterCount.keys {
             output.append((Character(keyChar), currentPuzzle.letterCount[keyChar] ?? 0))
         }
-        
         return output.sorted {
             if self.difficultyLevel == 0 {
                 return ($0.count > $1.count) || (($0.count == $1.count) && ($0.character < $1.character))
@@ -117,10 +159,30 @@ class CipherPuzzle : ObservableObject {
         }
     }
     
+    //MARK:- private
+    private
+    var currentPuzzle : Puzzle {
+        guard let currentPuzzleHash = self.currentPuzzleHash else {
+            return Puzzle(title: "A", plaintext: "A",header: "A", footer: "A", keyAlphabet: "a", riddle: "", riddleAnswers: [], riddleKey: "", id: UUID())}
+        
+        let chapters : [Chapter] = model.books.flatMap{book in book.chapters}
+        let puzzles : [Puzzle] = chapters.flatMap{$0.puzzles}
+        
+        guard let currentPuzzle = puzzles.first(where: {$0.id == currentPuzzleHash}) else {
+            return Puzzle(title: "B", plaintext: "B",header: "B", footer: "B", keyAlphabet: "b", riddle: "?", riddleAnswers: [], riddleKey: "", id: UUID())}
+        return currentPuzzle
+    }
+    
+    private
+    var currentChapter : Chapter {
+        let chapters : [Chapter] = model.books.flatMap{$0.chapters}
+        return chapters.first(where: {$0.id == currentChapterHash})!
+    }
+ 
     //MARK:- Intent
     
     func add(answer : String){
-        model.add(answer: answer, for: currentPuzzle)
+        model.add(answer: answer, for: currentPuzzleHash!)
         updateVisiblePuzzles()
     }
     
@@ -129,13 +191,12 @@ class CipherPuzzle : ObservableObject {
         
         model.updateUsersGuesses(cipherCharacter: cipherCharacter,
                                  plaintextCharacter: plainCharacter,
-                                 in: currentPuzzle,
+                                 for: currentPuzzleHash!,
                                  at: index)
     }
     //MARK:-
     func updateVisiblePuzzles() {
         let defaultPuzzles = currentChapter.puzzles.filter{puzzle in puzzle.riddleKey == ""}
-        
         //get unlocked puzzles from model.
         let userAnswers = model.userAnswers(for: currentChapter)
         let unlockedPuzzles = userAnswers.compactMap{guessedKey in
@@ -145,20 +206,20 @@ class CipherPuzzle : ObservableObject {
     }
     
     
-    func data(for puzzle : Puzzle) -> [GameInfo] {
-        var puzzleData = Array<GameInfo>()
-
-        for (index, char) in puzzle.ciphertext.enumerated() {
-            if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, index) {
-
-                let output = GameInfo(id: newGameTriad.id,
-                                      cipherLetter: newGameTriad.cipherLetter,
-                                      userGuessLetter: newGameTriad.userGuessLetter)
-                puzzleData.append(output)
-            }
-        }
-        return puzzleData
-    }
+//    func data(for puzzle : Puzzle) -> [GameInfo] {
+//        var puzzleData = Array<GameInfo>()
+//
+//        for (index, char) in puzzle.ciphertext.enumerated() {
+//            if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, index) {
+//
+//                let output = GameInfo(id: newGameTriad.id,
+//                                      cipherLetter: newGameTriad.cipherLetter,
+//                                      userGuessLetter: newGameTriad.userGuessLetter)
+//                puzzleData.append(output)
+//            }
+//        }
+//        return puzzleData
+//    }
     
 //Experimental!
     

@@ -29,8 +29,9 @@ struct Game : Codable {
     }
     
     mutating
-    func reset(_ puzzle : Puzzle){
-        guard let currentPuzzleIndexPath = self.indexPath(for: puzzle) else {return}
+    func reset(_ puzzleID : UUID){
+        guard let currentPuzzleIndexPath = self.indexPath(for: puzzleID) else {return}
+
         let bookIndex = currentPuzzleIndexPath.bookIndex
         let chapterIndex = currentPuzzleIndexPath.chapterIndex
         let puzzleIndex = currentPuzzleIndexPath.puzzleIndex
@@ -46,10 +47,10 @@ struct Game : Codable {
     mutating
     func updateUsersGuesses(cipherCharacter : Character,
                             plaintextCharacter : Character?,
-                            in puzzle : Puzzle,
+                            for puzzleID : UUID,
                             at index : Int){
         
-        guard let currentPuzzleIndexPath = self.indexPath(for: puzzle) else {return}
+        guard let currentPuzzleIndexPath = self.indexPath(for: puzzleID) else {return}
         let bookIndex = currentPuzzleIndexPath.bookIndex
         let chapterIndex = currentPuzzleIndexPath.chapterIndex
         let puzzleIndex = currentPuzzleIndexPath.puzzleIndex
@@ -78,8 +79,8 @@ struct Game : Codable {
     }
     
     mutating
-    func add(answer : String, for puzzle : Puzzle){
-        guard let currentPuzzleIndexPath = self.indexPath(for: puzzle) else {return}
+    func add(answer : String, for puzzleID : UUID){
+        guard let currentPuzzleIndexPath = self.indexPath(for: puzzleID) else {return}
         let bookIndex = currentPuzzleIndexPath.bookIndex
         let chapterIndex = currentPuzzleIndexPath.chapterIndex
         
@@ -87,26 +88,46 @@ struct Game : Codable {
         books[bookIndex].chapters[chapterIndex].userRiddleAnswers.append(answer)
     }
     
-    
     func userAnswers(for inputChapter : Chapter) -> [String] {
         guard let theChapter : Chapter = books.flatMap({$0.chapters}).first(where: {$0 == inputChapter}) else {return []}
         return theChapter.userRiddleAnswers
     }
     
+//    private
+//    func indexPath(for puzzle: Puzzle) -> (bookIndex: Int, chapterIndex: Int, puzzleIndex: Int)? {
+//        guard let bookIndex = books.firstIndex(where: {book in
+//                                                book.chapters.contains{ chapter in
+//                                                    chapter.puzzles.contains(puzzle)
+//                                                }} ) else {return nil}
+//        guard let chapterIndex = books[bookIndex].chapters.firstIndex(where: {chapter in
+//                                                    chapter.puzzles.contains(puzzle)
+//                                                        }) else {return nil}
+//
+//        guard let puzzleIndex = books[bookIndex].chapters[chapterIndex].puzzles.firstIndex(where: {$0 == puzzle}) else {return nil}
+//
+//        return (bookIndex, chapterIndex, puzzleIndex)
+//    }
+    
+    
     private
-    func indexPath(for puzzle: Puzzle) -> (bookIndex: Int, chapterIndex: Int, puzzleIndex: Int)? {
+    func indexPath(for puzzleID: UUID)  -> (bookIndex: Int, chapterIndex: Int, puzzleIndex: Int)? {
         guard let bookIndex = books.firstIndex(where: {book in
                                                 book.chapters.contains{ chapter in
-                                                    chapter.puzzles.contains(puzzle)
+                                                    chapter.puzzles.contains{ puzzle in
+                                                        puzzle.id == puzzleID
+                                                    }
                                                 }} ) else {return nil}
         guard let chapterIndex = books[bookIndex].chapters.firstIndex(where: {chapter in
-                                                    chapter.puzzles.contains(puzzle)
+                                                            chapter.puzzles.contains{ puzzle in
+                                                                puzzle.id == puzzleID
+                                                            }
                                                         }) else {return nil}
         
-        guard let puzzleIndex = books[bookIndex].chapters[chapterIndex].puzzles.firstIndex(where: {$0 == puzzle}) else {return nil}
+        guard let puzzleIndex = books[bookIndex].chapters[chapterIndex].puzzles.firstIndex(where: {$0.id == puzzleID}) else {return nil}
         
         return (bookIndex, chapterIndex, puzzleIndex)
     }
+    
     
     
     init(){
@@ -182,7 +203,6 @@ struct Puzzle : Hashable, Codable, Identifiable{
     var riddle : String
     var riddleAnswers : [String] // first entry is the correct one
     var riddleKey : String //if the user chooses this value as the answer to another riddle, this puzzle is shown
-    
     
     var isSolved : Bool {
         var guesses : String = ""

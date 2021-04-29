@@ -25,7 +25,7 @@ extension CipherPuzzle {
     
     
     func reset() -> Void{
-        model.reset(currentPuzzle)
+        model.reset(currentPuzzleHash!)
     }
     
     func quickHint() -> Void {
@@ -33,25 +33,25 @@ extension CipherPuzzle {
         let alphabet = String.alphabet.map{Character(extendedGraphemeClusterLiteral: $0)}
         
         //dict that maps ciphertext to plaintext
-        let plaintextFor = Dictionary(uniqueKeysWithValues: zip(currentPuzzle.keyAlphabet.map{Character(extendedGraphemeClusterLiteral: $0)}, alphabet))
+        let plaintextFor = Dictionary(uniqueKeysWithValues: zip(self.keyAlphabet.map{Character(extendedGraphemeClusterLiteral: $0)}, alphabet))
 
         //get alphabetically first unguessed cipher char
         guard let firstUnguessedCipherChar = hintFunction[Int(difficultyLevel)]?() else {return}
         
         //get location of first occurance of the ciphertext char
-        guard let indexInCiphertext = currentPuzzle.ciphertext.firstIndex(of: firstUnguessedCipherChar) else {return}
+        guard let indexInCiphertext = self.ciphertext.firstIndex(of: firstUnguessedCipherChar) else {return}
         
         //the answer we'll give to the user
         let hintSolution = plaintextFor[firstUnguessedCipherChar]
         
         //where it will be substituted into the puzzle
-        let hintIndex = currentPuzzle.ciphertext.distance(from: currentPuzzle.ciphertext.startIndex,
+        let hintIndex = self.ciphertext.distance(from: self.ciphertext.startIndex,
                                                                 to: indexInCiphertext)
         
         //update model.
         model.updateUsersGuesses(cipherCharacter: firstUnguessedCipherChar,
                                  plaintextCharacter: hintSolution,
-                                 in: currentPuzzle,
+                                 for: currentPuzzleHash!,
                                  at: hintIndex)
     }
     
@@ -62,7 +62,7 @@ extension CipherPuzzle {
         let cipherLetters = self.letterCount.filter{$0.count != 0}.sorted(by: {$0.count > $1.count}).map{$0.character}
     
         //get numerically first unguessed cipher char
-        guard let firstUnguessedCipherChar = cipherLetters.first(where: {!currentPuzzle.usersGuesses.keys.contains(String($0))}) else {return nil}
+        guard let firstUnguessedCipherChar = cipherLetters.first(where: {!userGuesses.keys.contains(String($0))}) else {return nil}
         
         return firstUnguessedCipherChar
     }
@@ -73,7 +73,7 @@ extension CipherPuzzle {
         let cipherLetters = self.letterCount.filter{$0.count != 0}.map{$0.character}.sorted(by: {$0 < $1})
     
         //get alphabetically first unguessed cipher char
-        guard let firstUnguessedCipherChar = cipherLetters.first(where: {!currentPuzzle.usersGuesses.keys.contains(String($0))}) else {return nil}
+        guard let firstUnguessedCipherChar = cipherLetters.first(where: {!userGuesses.keys.contains(String($0))}) else {return nil}
         
         return firstUnguessedCipherChar
     }
@@ -104,7 +104,7 @@ extension CipherPuzzle {
         
         var mediumLevel = mediumGameInfo(for: ciphertext, at: index)
         
-        if let guessIndices = currentPuzzle.guessIndices[String(ciphertext)] {
+        if let guessIndices = guessIndices[String(ciphertext)] {
             if guessIndices.containsItem(within: 20, of: index){
                 return mediumLevel
             }
