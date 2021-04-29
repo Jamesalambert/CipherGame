@@ -139,6 +139,27 @@
 			path = fonts;
 			sourceTree = "<group>";
 		};
+		AA93855E263ADC7F00051BC6 /* View support */ = {
+			isa = PBXGroup;
+			children = (
+				AA23A7712636E484002F9F39 /* ContentView + PhoneLetterPicker.swift */,
+				AA3ED4462611493300B25B4A /* ContentView + letter count.swift */,
+				AAE9CE49262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift */,
+				AAE55ABB261FBDAC0019407E /* ContentView + Blur.swift */,
+			);
+			path = "View support";
+			sourceTree = "<group>";
+		};
+		AA93855F263ADCA100051BC6 /* viewModel support */ = {
+			isa = PBXGroup;
+			children = (
+				AAEE3B10261CEE30008E2233 /* CipherPuzzle + Persistence.swift */,
+				AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */,
+				AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */,
+			);
+			path = "viewModel support";
+			sourceTree = "<group>";
+		};
 		AA9766922601651A0076B879 = {
 			isa = PBXGroup;
 			children = (
@@ -165,16 +186,11 @@
 				AA97669E2601651A0076B879 /* CipherGameApp.swift */,
 				AA9766A02601651A0076B879 /* ContentView.swift */,
 				AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */,
-				AA93855C2639FD7A00051BC6 /* CipherSolverPage + Views.swift */,
 				AAE9CE3C262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift */,
-				AA23A7712636E484002F9F39 /* ContentView + PhoneLetterPicker.swift */,
-				AA3ED4462611493300B25B4A /* ContentView + letter count.swift */,
-				AAE9CE49262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift */,
-				AAE55ABB261FBDAC0019407E /* ContentView + Blur.swift */,
+				AA93855C2639FD7A00051BC6 /* CipherSolverPage + Views.swift */,
+				AA93855E263ADC7F00051BC6 /* View support */,
 				AA9766D126016EB60076B879 /* CipherPuzzle.swift */,
-				AAEE3B10261CEE30008E2233 /* CipherPuzzle + Persistence.swift */,
-				AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */,
-				AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */,
+				AA93855F263ADCA100051BC6 /* viewModel support */,
 				AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */,
 				AA9766A22601651D0076B879 /* Assets.xcassets */,
 				AA9766A72601651D0076B879 /* Info.plist */,

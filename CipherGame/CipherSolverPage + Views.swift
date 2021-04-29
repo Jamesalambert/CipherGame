@@ -82,6 +82,7 @@ extension ContentView.CipherSolverPage {
                             withAnimation{
                                 lastUserChoice = answer
                                 viewModel.add(answer: lastUserChoice!)
+                                typewriter()
                             }
                         } label: {
                             Text(answer)
@@ -94,12 +95,12 @@ extension ContentView.CipherSolverPage {
                 .font(viewModel.theme.font(for: .title, for: bookTheme))
                 
                 //animated text
-                if lastUserChoice != nil {
+//                if !viewModel.currentChapter.userRiddleAnswers.isEmpty {
                     Text(displayedString)
                         .fixedSize()
                         .font(viewModel.theme.font(for: .body, for: bookTheme))
-                        .onAppear{typewriter()}
-                }
+//                        .onAppear{if viewModel.currentChapter.userRiddleAnswers.count == 1{ typewriter()}}
+//                }
             }
         }
         
@@ -109,7 +110,7 @@ extension ContentView.CipherSolverPage {
             for character in message {
                 serialQueue.async{
                     displayedString.append(character)
-                    let delay = Double(arc4random_uniform(4)) / 10.0
+                    let delay = Double(arc4random_uniform(3)) / 10.0
                     Thread.sleep(forTimeInterval: delay)
                 }
             }
