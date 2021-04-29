@@ -31,6 +31,7 @@ extension ContentView.CipherSolverPage {
                     .background(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)?
                                     .opacity( puzzle.id == viewModel.currentPuzzleHash ? 0.3 : 0.1))
                     .cornerRadius(10)
+                    .transition(.move(edge: .bottom))
                 }
                 Spacer()
             }
@@ -41,11 +42,6 @@ extension ContentView.CipherSolverPage {
     func riddleOptions() -> some View {
             if viewModel.riddleAnswers.count > 1 {
                 MultipleChoiceRiddle()
-                    .padding()
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 10)
-                            .stroke()
-                            .foregroundColor(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)))
             }
     }
     
@@ -67,49 +63,64 @@ extension ContentView.CipherSolverPage {
         
         @State
         private
-        var displayedString : String = ""
+        var typewriterString : String = ""
         
         var body: some View {
-            VStack{
-                Text(viewModel.riddle.capitalized)
-                    .font(viewModel.theme.font(for: .body, for: bookTheme))
-                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-                Spacer()
                 VStack{
-                    ForEach(viewModel.riddleAnswers, id:\.self){ answer in
-                        Button{
-                            withAnimation{
-                                lastUserChoice = answer
-                                viewModel.add(answer: lastUserChoice!)
-                                if displayedString.isEmpty{typewriter()}
-                            }
-                        } label: {
-                            Text(answer)
-                        }
-                        .padding()
-                        .background(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)?
-                        .opacity(lastUserChoice == answer ? 0.3 : 0))
-                        .cornerRadius(10)
-                    }
-                }
-                .font(viewModel.theme.font(for: .title, for: bookTheme))
-                
-                //typewriter text
-                    Text(displayedString)
-                        .font(viewModel.theme.font(for: .body, for: bookTheme))
+                    Text(viewModel.riddle)
                         .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-            }
-            .onAppear{lastUserChoice = viewModel.userRiddleAnswers.last}
+                    Spacer()
+                    VStack{
+                        ForEach(viewModel.riddleAnswers, id:\.self){ answer in
+                            Button{
+                                lastUserChoice = answer
+                                if viewModel.userRiddleAnswers.isEmpty{
+                                    typewriter(completion: {
+                                        withAnimation{
+                                            viewModel.add(answer: lastUserChoice!)
+                                        }
+                                    })
+                                    
+                                } else {
+                                    withAnimation{
+                                        viewModel.add(answer: lastUserChoice!)
+                                    }
+                                }
+                            } label: {
+                                Text(answer)
+                            }
+                            .padding()
+                            .background(viewModel.theme.color(of: .puzzleLines,
+                                                              for: bookTheme, in: colorScheme)?
+                                            .opacity(lastUserChoice == answer ? 0.3 : 0)
+                            )
+                            .cornerRadius(10)
+                        }
+                    }
+                    //typewriter text
+                    Text(viewModel.userRiddleAnswers.isEmpty ? typewriterString : message)
+                            .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                }
+                .padding()
+                .background(Blur(style: .systemUltraThinMaterialDark))
+                .cornerRadius(10)
+                .font(viewModel.theme.font(for: .body, for: bookTheme))
+                .onAppear{lastUserChoice = viewModel.userRiddleAnswers.last}
         }
         
         private
-        func typewriter() {
+        func typewriter(completion: @escaping () -> Void) {
             let serialQueue = DispatchQueue(label: "typewriter")
             for character in message {
                 serialQueue.async{
-                    displayedString.append(character)
+                    typewriterString.append(character)
                     let delay = Double(arc4random_uniform(3)) / 10.0
                     Thread.sleep(forTimeInterval: delay)
+                }
+            }
+            serialQueue.async {
+                DispatchQueue.main.async {
+                    completion()
                 }
             }
         }

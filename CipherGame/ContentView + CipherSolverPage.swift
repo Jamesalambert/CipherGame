@@ -52,15 +52,14 @@ extension ContentView {
                     puzzleChooser(for: geometry)
                     ZStack(alignment: .bottom){
                         ScrollView{
-                            cipherPuzzleView(with: geometry)
-                                .padding()
-                            if viewModel.isSolved {
-                                riddleOptions()
-                                    .frame(width: geometry.size.width * 0.75)
-                                    .background(Blur(style: .systemUltraThinMaterialDark))
-                                    .cornerRadius(10)
-                                    .transition(.scale)
-                                Spacer(minLength: 250)
+                            VStack{
+                                cipherPuzzleView(with: geometry)
+                                    .padding()
+                                if viewModel.isSolved {
+                                    riddleOptions()
+                                        .transition(.scale)
+                                    Spacer(minLength: 250)
+                                }
                             }
                         }
                         keyboardAndLettercount(for: geometry)
@@ -73,8 +72,7 @@ extension ContentView {
             }
         }
         
-        
-        
+
         @ViewBuilder
         func cipherPuzzleView(with geometry : GeometryProxy) -> some View {
             VStack(alignment: .center, spacing: nil){

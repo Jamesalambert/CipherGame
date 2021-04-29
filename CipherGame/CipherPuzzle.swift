@@ -205,22 +205,6 @@ class CipherPuzzle : ObservableObject {
         visiblePuzzles = defaultPuzzles + unlockedPuzzles
     }
     
-    
-//    func data(for puzzle : Puzzle) -> [GameInfo] {
-//        var puzzleData = Array<GameInfo>()
-//
-//        for (index, char) in puzzle.ciphertext.enumerated() {
-//            if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, index) {
-//
-//                let output = GameInfo(id: newGameTriad.id,
-//                                      cipherLetter: newGameTriad.cipherLetter,
-//                                      userGuessLetter: newGameTriad.userGuessLetter)
-//                puzzleData.append(output)
-//            }
-//        }
-//        return puzzleData
-//    }
-    
 //Experimental!
     
     var charsPerLine : Int = 30

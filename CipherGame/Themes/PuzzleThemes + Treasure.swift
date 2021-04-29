@@ -98,7 +98,7 @@ extension ThemeManager {
         case .headline:
             return Font.custom(themeFont, size: 30)
         case .subheadline:
-            return Font.custom(themeFont, size: 20)
+            return Font.custom(themeFont, size: 15)
         case .body:
             return Font.custom(themeFont, size: 20)
         case .callout:
