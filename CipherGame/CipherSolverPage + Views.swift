@@ -30,7 +30,7 @@ extension ContentView.CipherSolverPage {
                     .padding()
                     .background(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)?
                                     .opacity( puzzle.id == viewModel.currentPuzzleHash ? 0.3 : 0.1))
-                    .cornerRadius(10)
+                    .cornerRadius(Self.viewCornerRadius)
                     .transition(.move(edge: .bottom))
                 }
                 Spacer()
@@ -46,6 +46,9 @@ extension ContentView.CipherSolverPage {
     }
     
     struct MultipleChoiceRiddle : View {
+        
+        static let viewCornerRadius = CGFloat(10)
+        
         @EnvironmentObject
         var viewModel : CipherPuzzle
         
@@ -94,7 +97,7 @@ extension ContentView.CipherSolverPage {
                                                               for: bookTheme, in: colorScheme)?
                                             .opacity(lastUserChoice == answer ? 0.3 : 0)
                             )
-                            .cornerRadius(10)
+                            .cornerRadius(Self.viewCornerRadius)
                         }
                     }
                     //typewriter text

@@ -10,6 +10,8 @@ import SwiftUI
 extension ContentView {
     
     struct CipherSolverCharacterPair : View {
+        
+        static let lineThickness = CGFloat(2.0)
                 
         @EnvironmentObject
         var viewModel : CipherPuzzle
@@ -86,7 +88,7 @@ extension ContentView {
                 
             }
             .overlay(Rectangle()
-                        .frame(width: 30, height: 2, alignment: .bottom)
+                        .frame(width: 30, height: Self.lineThickness, alignment: .bottom)
                         .foregroundColor(viewModel.theme.color(of: .puzzleLines,
                                                                for: bookTheme, in: colorScheme)),
                      alignment: .bottom )

@@ -17,8 +17,8 @@ extension CipherPuzzle{
         
         let data = self.data
         
-        let numberOfLines = Int(ceil(Double(data.count) / Double(CipherPuzzle.charsPerLine)))
-        let charsOnLastLine = data.count % CipherPuzzle.charsPerLine
+        let numberOfLines = Int(ceil(Double(data.count) / Double(Self.charsPerLine)))
+        let charsOnLastLine = data.count % Self.charsPerLine
         
         //let data = self.data
         var cipherChars : [String] = []
@@ -38,7 +38,7 @@ extension CipherPuzzle{
         var output : String = ""
 
         output += "<html>\n"
-        output += CipherPuzzle.cssStyling.replacingOccurrences(of: "@@@", with: self.fontDesign.cssName())
+        output += Self.cssStyling.replacingOccurrences(of: "@@@", with: self.fontDesign.cssName())
         
         output += "\n<h1>\(String(self.puzzleTitle.capitalized))</h1>\n"
         
@@ -48,8 +48,8 @@ extension CipherPuzzle{
         
         output += "\n<table id='ciphertext'>\n"
         for line in 0..<numberOfLines {
-            let start = line * CipherPuzzle.charsPerLine
-            let end  = line * CipherPuzzle.charsPerLine + (line == numberOfLines - 1 ? charsOnLastLine - 1 : CipherPuzzle.charsPerLine)
+            let start = line * Self.charsPerLine
+            let end  = line * Self.charsPerLine + (line == numberOfLines - 1 ? charsOnLastLine - 1 : Self.charsPerLine)
 
             output += htmlPuzzleRow(from: cipherChars[start...end], secondArray: userGuesses[start...end], withClass: "row", id: nil)
         }
@@ -61,7 +61,6 @@ extension CipherPuzzle{
         
 //        print(output)
         return output
-        
     }
 
     private

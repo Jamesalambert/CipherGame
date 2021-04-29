@@ -14,6 +14,7 @@ extension ContentView {
         static let letterAnimation = 0.75
         static let phoneLetterPickerHeight = CGFloat(160)
         static let letterCountHeight = CGFloat(120)
+        static let viewCornerRadius = CGFloat(10.0)
         
         @EnvironmentObject
         var viewModel : CipherPuzzle
