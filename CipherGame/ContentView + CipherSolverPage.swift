@@ -35,6 +35,10 @@ extension ContentView {
         private
         var resettingPuzzle : Bool = false
         
+        @State
+        private
+        var displayLetterCount : Bool = true
+        
         private
         var dismissPhoneKeyboard : some Gesture {
             DragGesture().onChanged{ gesture in
@@ -108,21 +112,22 @@ extension ContentView {
             Group{
                 if displayPhoneLetterPicker {
                     PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker)
-                        .transition(.move(edge: .bottom))
                         .frame(height: Self.phoneLetterPickerHeight)
+                        .cornerRadius(Self.viewCornerRadius)
+                        .transition(.move(edge: .bottom))
                         .gesture(dismissPhoneKeyboard)
                 } else {
-                    LetterCount()
+                    LetterCount(displayLetterCount: $displayLetterCount)
+                        .frame(height: displayLetterCount ? Self.letterCountHeight : 30)
                         .transition(.move(edge: .bottom))
-                        .frame(height: Self.letterCountHeight)
                 }
             }
             .background(Blur(style: .systemUltraThinMaterialDark))
-            .cornerRadius(5)
             .frame(width: geometry.size.width,
                    height: Self.letterCountHeight,
                    alignment: .bottom)
         }
+        
         
         private
         func columns(screenWidth : CGFloat) -> [GridItem] {

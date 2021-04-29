@@ -22,13 +22,22 @@ extension ContentView {
         @Environment(\.colorScheme)
         var colorScheme : ColorScheme
         
+        @Binding
+        var displayLetterCount : Bool
+        
         var body : some View {
             GeometryReader { geometry in
-                VStack{
-                    Text("Character Count")
-                        .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
-                        .foregroundColor(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme))
-                        .padding(.top, 10)
+                VStack(alignment: .center){
+                    Button{
+                        withAnimation{
+                            displayLetterCount.toggle()
+                        }
+                    } label: {
+                        Text("Letter Count")
+                            .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
+                            .foregroundColor(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme))
+                            .padding(.top, 10)
+                    }
                     
                     ScrollView(.horizontal) {
                         HStack(spacing: 0){
