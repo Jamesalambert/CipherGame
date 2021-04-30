@@ -19,6 +19,8 @@
 		AA7D415D2627986600E1558C /* Lucida Console.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA7D415A2627986600E1558C /* Lucida Console.ttf */; };
 		AA8F640C26053E2E005B148F /* UITextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F640B26053E2E005B148F /* UITextFieldView.swift */; };
 		AA93855D2639FD7B00051BC6 /* CipherSolverPage + Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93855C2639FD7A00051BC6 /* CipherSolverPage + Views.swift */; };
+		AA938562263CB72300051BC6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA938561263CB72300051BC6 /* StoreKit.framework */; };
+		AA938564263CB9CF00051BC6 /* OnlineStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA938563263CB9CF00051BC6 /* OnlineStore.swift */; };
 		AA97669F2601651A0076B879 /* CipherGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97669E2601651A0076B879 /* CipherGameApp.swift */; };
 		AA9766A12601651A0076B879 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766A02601651A0076B879 /* ContentView.swift */; };
 		AA9766A32601651D0076B879 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA9766A22601651D0076B879 /* Assets.xcassets */; };
@@ -67,6 +69,8 @@
 		AA7D415A2627986600E1558C /* Lucida Console.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lucida Console.ttf"; sourceTree = "<group>"; };
 		AA8F640B26053E2E005B148F /* UITextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldView.swift; sourceTree = "<group>"; };
 		AA93855C2639FD7A00051BC6 /* CipherSolverPage + Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherSolverPage + Views.swift"; sourceTree = "<group>"; };
+		AA938561263CB72300051BC6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		AA938563263CB9CF00051BC6 /* OnlineStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineStore.swift; sourceTree = "<group>"; };
 		AA97669B2601651A0076B879 /* CipherGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CipherGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA97669E2601651A0076B879 /* CipherGameApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherGameApp.swift; sourceTree = "<group>"; };
 		AA9766A02601651A0076B879 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -98,6 +102,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA938562263CB72300051BC6 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +165,14 @@
 			path = "viewModel support";
 			sourceTree = "<group>";
 		};
+		AA938560263CB72300051BC6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				AA938561263CB72300051BC6 /* StoreKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		AA9766922601651A0076B879 = {
 			isa = PBXGroup;
 			children = (
@@ -167,6 +180,7 @@
 				AA9766AF2601651E0076B879 /* CipherGameTests */,
 				AA9766BA2601651E0076B879 /* CipherGameUITests */,
 				AA97669C2601651A0076B879 /* Products */,
+				AA938560263CB72300051BC6 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -190,6 +204,7 @@
 				AA93855C2639FD7A00051BC6 /* CipherSolverPage + Views.swift */,
 				AA93855E263ADC7F00051BC6 /* View support */,
 				AA9766D126016EB60076B879 /* CipherPuzzle.swift */,
+				AA938563263CB9CF00051BC6 /* OnlineStore.swift */,
 				AA93855F263ADCA100051BC6 /* viewModel support */,
 				AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */,
 				AA9766A22601651D0076B879 /* Assets.xcassets */,
@@ -386,6 +401,7 @@
 				AA31EAA3260BE32A0031D56C /* CipherPuzzle+Printing.swift in Sources */,
 				AA23A7722636E484002F9F39 /* ContentView + PhoneLetterPicker.swift in Sources */,
 				AAE55ABC261FBDAC0019407E /* ContentView + Blur.swift in Sources */,
+				AA938564263CB9CF00051BC6 /* OnlineStore.swift in Sources */,
 				AA9766CD26016DED0076B879 /* CipherPuzzleSource.swift in Sources */,
 				AA9766A12601651A0076B879 /* ContentView.swift in Sources */,
 				AA93855D2639FD7B00051BC6 /* CipherSolverPage + Views.swift in Sources */,
@@ -567,7 +583,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = uk.co.handmadescience.CipherGame;
+				PRODUCT_BUNDLE_IDENTIFIER = com.handmadescience.puzzleRoom;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -589,7 +605,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = uk.co.handmadescience.CipherGame;
+				PRODUCT_BUNDLE_IDENTIFIER = com.handmadescience.puzzleRoom;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

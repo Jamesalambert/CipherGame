@@ -11,6 +11,9 @@ struct ContentView: View {
     
     @StateObject
     var viewModel : CipherPuzzle
+    
+    @StateObject
+    var store = OnlineStore.shared
         
     @Environment(\.colorScheme)
     var colorScheme : ColorScheme
@@ -23,6 +26,10 @@ struct ContentView: View {
     @State
     private
     var deletingLessons : Bool = false
+    
+    @State
+    private
+    var showInAppPurchases : Bool = false
     
     var body: some View {
         NavigationView{
@@ -44,6 +51,7 @@ struct ContentView: View {
                         }
                     }
                 }
+                IAPContent()
             }.navigationTitle("Code Books")
             .listStyle(InsetGroupedListStyle())
             .toolbar{toolbar()}
@@ -54,6 +62,21 @@ struct ContentView: View {
             }
         }
     }
+    
+    @ViewBuilder
+    func IAPContent() -> some View {
+        Button("see books"){
+            showInAppPurchases.toggle()
+            store.getProducts()
+        }
+        
+        if showInAppPurchases {
+            ForEach(store.booksForSale) { bookForSale in
+                Text(bookForSale.title)
+            }
+        }
+    }
+    
     
     @ViewBuilder
     func bookHeader(for bookTitle : String) -> some View {

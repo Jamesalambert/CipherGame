@@ -35,9 +35,6 @@ extension ContentView {
         var cipherTextLetter : Character
         var plainTextLetter : Character?
         var indexInTheCipher : Int
-        
-        
-        
 
         var body : some View {
             
