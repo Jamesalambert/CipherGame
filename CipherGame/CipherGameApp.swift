@@ -13,9 +13,13 @@ struct CipherGameApp: App {
     @ObservedObject
     private var viewModel = CipherPuzzle()
     
+    @ObservedObject
+    private var store = OnlineStore.shared
+    
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: viewModel){
+            ContentView(viewModel: viewModel,
+                        store: store){
                 //this is the saveAction being inited by a trailing closure
                 viewModel.save()
             }

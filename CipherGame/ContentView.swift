@@ -13,7 +13,7 @@ struct ContentView: View {
     var viewModel : CipherPuzzle
     
     @StateObject
-    var store = OnlineStore.shared
+    var store : OnlineStore
         
     @Environment(\.colorScheme)
     var colorScheme : ColorScheme
@@ -51,7 +51,12 @@ struct ContentView: View {
                         }
                     }
                 }
-                IAPContent()
+                
+                NavigationLink("More Books",
+                               destination: IAPContent().onAppear{
+                                store.getProducts()
+                               })
+                
             }.navigationTitle("Code Books")
             .listStyle(InsetGroupedListStyle())
             .toolbar{toolbar()}
@@ -65,14 +70,22 @@ struct ContentView: View {
     
     @ViewBuilder
     func IAPContent() -> some View {
-        Button("see books"){
-            showInAppPurchases.toggle()
-            store.getProducts()
-        }
-        
-        if showInAppPurchases {
+        List{
             ForEach(store.booksForSale) { bookForSale in
-                Text(bookForSale.title)
+                HStack{
+                    Image("book")
+                    VStack{
+                        Text(bookForSale.title)
+                        Text(bookForSale.description)
+                    }
+                    
+                    Button(bookForSale.price){
+                        store.buyProduct(bookForSale.id)
+                    }
+                }
+            }
+            Button("Restore previous purchases"){
+                store.restorePurchases()
             }
         }
     }
@@ -138,8 +151,9 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         
         let game = CipherPuzzle()
+        let store = OnlineStore.shared
         Group {
-            ContentView(viewModel: game, saveAction: {})
+            ContentView(viewModel: game, store: store, saveAction: {})
         }
     }
 }
