@@ -73,7 +73,9 @@ extension ContentView {
                     .toolbar{toolbarView()}
                 }
                 .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?
-                                .resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
+                                .resizable()
+                                .aspectRatio(contentMode: .fill))
+                                //.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
             }
         }
         

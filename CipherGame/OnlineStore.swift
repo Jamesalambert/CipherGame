@@ -8,12 +8,16 @@
 import Foundation
 import StoreKit
 
-class OnlineStore : NSObject, ObservableObject, SKPaymentTransactionObserver {
+class OnlineStore : NSObject, ObservableObject {
 
     static let shared = OnlineStore()
     
-    var productIDs = ["test.mysteryIsland"]
-            
+    var productIDs = ["test.mysteryIsland",
+                      "test.spaceBook"]
+           
+    @Published
+    var finishedATransaction : Bool = false
+    
     @Published
     var booksForSale : [ProductInfo] = [] {
         didSet{
@@ -35,7 +39,10 @@ class OnlineStore : NSObject, ObservableObject, SKPaymentTransactionObserver {
     }
 
     func buyProduct(_ id : String){
-        guard let product = self.products.first(where: {$0.productIdentifier == id}) else {return}
+        guard let product = self.products.first(where: {$0.productIdentifier == id}) else {
+            print("Couldn't find product with id: \(id)")
+            return
+        }
         if SKPaymentQueue.canMakePayments(){
             let payment = SKPayment(product: product)
             SKPaymentQueue.default().add(self)
@@ -45,16 +52,20 @@ class OnlineStore : NSObject, ObservableObject, SKPaymentTransactionObserver {
     
     func restorePurchases() {
         SKPaymentQueue.default().restoreCompletedTransactions()
+        SKPaymentQueue.default().add(self)
     }
     
     //needed for restoring transactions?!
-    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {}
-    
-    
+    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
+        print("Restoring purchases!")
+    }
 }
 
-extension OnlineStore : SKProductsRequestDelegate {
+
+
+extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver {
     
+    //SKProductsRequestDelegate
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse){
         print("Invalid product identifiers: \(response.invalidProductIdentifiers)")
         if response.products.count > 0 {
@@ -65,17 +76,21 @@ extension OnlineStore : SKProductsRequestDelegate {
         }
     }
     
+    //SKPaymentTransactionObserver
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         for transaction in transactions {
             switch transaction.transactionState {
-            
             case .purchasing:
                 //do nothing
                 break
             case .purchased, .restored:
                 //unlock the item!
+                storeInKeychain(identifier: transaction.payment.productIdentifier)
+                //print("read from keychain: \(getKeychainItems())")
                 SKPaymentQueue.default().finishTransaction(transaction)
                 SKPaymentQueue.default().remove(self)
+                finishedATransaction.toggle()
+                
             case .failed, .deferred:
                 SKPaymentQueue.default().finishTransaction(transaction)
                 SKPaymentQueue.default().remove(self)
@@ -86,29 +101,10 @@ extension OnlineStore : SKProductsRequestDelegate {
         }
     }
     
-    
-//        switch transaction.transactionState {
-//        case .purchasing:
-//            break
-//        case .purchased, .restored:
-//            SKPaymentQueue.default().finishTransaction(transaction)
-//            SKPaymentQueue.default().remove(self)
-//        case .failed, .deferred:
-//            SKPaymentQueue.default().finishTransaction(transaction)
-//            SKPaymentQueue.default().remove(self)
-//        @unknown default:
-//            SKPaymentQueue.default().finishTransaction(transaction)
-//            SKPaymentQueue.default().remove(self)
-//        }
-    
-    
 }
-
-extension SKProduct : Identifiable {}
 
 struct ProductInfo : Identifiable{
     var id : String
-    
     var title : String = ""
     var price : String = ""
     var description : String = ""
@@ -125,5 +121,31 @@ struct ProductInfo : Identifiable{
         self.description = product.localizedDescription
         self.price = formattedPrice(for: product)
         self.id = product.productIdentifier
+    }
+}
+
+extension OnlineStore {
+    
+    static let kcServiceString = "Puzzle Room"
+    
+    func storeInKeychain(identifier : String) {
+        guard let data = identifier.data(using: .utf8) else {
+            print("couldn't encode data")
+            return
+        }
+
+        let query : [String : Any] = [
+            kSecClass as String : kSecClassGenericPassword,
+            kSecAttrService as String: Self.kcServiceString,
+            kSecAttrAccount as String : identifier, //store in unique location
+            kSecValueData as String : data]
+        //write into keychain
+        let success = SecItemAdd(query as CFDictionary, nil)
+        switch success {
+        case errSecSuccess:
+            return
+        default:
+           print("couldn't write to keychain error: \(success)")
+        }
     }
 }

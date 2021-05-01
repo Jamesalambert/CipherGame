@@ -8,6 +8,8 @@
 import Foundation
 
 extension CipherPuzzle {
+    
+    static let kcServiceString = "Puzzle Room"
      
     private static var documentsFolder : URL {
         do {

@@ -71,23 +71,38 @@ struct ContentView: View {
     @ViewBuilder
     func IAPContent() -> some View {
         List{
-            ForEach(store.booksForSale) { bookForSale in
-                HStack{
-                    Image("book")
-                    VStack{
-                        Text(bookForSale.title)
-                        Text(bookForSale.description)
-                    }
-                    
-                    Button(bookForSale.price){
-                        store.buyProduct(bookForSale.id)
+            Section(footer:
+                Button("Restore previous purchases"){
+                    store.restorePurchases()
+                }
+            )
+            {
+                ForEach(store.booksForSale) { bookForSale in
+                    HStack{
+                        Image("book").resizable().aspectRatio(contentMode: .fit).frame(width: 60)
+                        VStack(alignment: .leading){
+                            Text(bookForSale.title).font(.title)
+                            Text(bookForSale.description)
+                        }
+                        
+                        Spacer()
+                        
+                        Button(bookForSale.price){
+                            store.buyProduct(bookForSale.id)
+                        }
+                        .padding()
+                        .background(Color.blue)
+                        .foregroundColor(Color.white)
+                        .cornerRadius(10)
                     }
                 }
             }
-            Button("Restore previous purchases"){
-                store.restorePurchases()
-            }
         }
+        .onChange(of: store.finishedATransaction, perform: {_ in
+        DispatchQueue.global(qos: .background).async {
+            viewModel.loadPurchasedBooks()
+        }
+    })
     }
     
     

@@ -1,3 +1,4 @@
+
 {
     "title" : "New Format",
     "theme" : "space",
@@ -6,7 +7,7 @@
             "title": "First Chapter",
             "puzzles" : [
                 {
-                    "title": "On Saturday Rebecca went...",
+                    "title": "In Space, nobody...",
                     "header" : "What might you do on the day of a party? ",
                     "plaintext": "To the shops, she was buying a lot of cheese and wine for her drunken friends. She also cut down a tree to burn. Thank you Rebecca for all the cheese. And the fire.",
                     "footer" : "How long did that take?",
@@ -21,7 +22,7 @@
             "title": "Second Chapter",
             "puzzles" : [
                 {
-                    "title": "the pink stuff is called...",
+                    "title": "Prince Valium",
                     "header" : "",
                     "plaintext": "rose, but it's made from grapes. If you drink too much you may start singing. This is probably a bad idea unless you are Louise. Seven",
                     "footer" : "",
@@ -32,7 +33,7 @@
                 }
                 ,
                 {
-                    "title": "Bananas stuffed with...",
+                    "title": "Voyage to the end...",
                     "header" : "",
                     "plaintext": "chocolate are a great idea. Give James more chocolate too so he doesn't steal any. You also can't trust him with cheese. Four",
                     "footer" : "",
@@ -43,7 +44,7 @@
                 }
                 ,
                 {
-                    "title": "Speaking of ...",
+                    "title": "Upside Down and...",
                     "header" : "",
                     "plaintext": "Cheese, it will keep you warm in the evening but you could make cheese toasties on the barbecue. Don't sue me if you get burnt. Eight",
                     "footer" : "",
@@ -55,8 +56,8 @@
             ]
         }
     ]
-    
 }
+
 
 
 
