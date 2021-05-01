@@ -151,12 +151,22 @@ struct ContentView: View {
     func toolbar() -> some View {
         Menu{
             Toggle("Show Lessons", isOn: $viewModel.showLessons.animation())
+            
+            
+            #if DEBUG
+            Button("clear Keychain"){
+                viewModel.deleteAllPurchasesFromKeychain()
+            }
+            Button("print Keychain"){
+                print(viewModel.getpurchasesFromKeychain())
+            }
+            #endif
+            
+            
         } label : {
             Image(systemName: "gearshape")
         }
     }
-    
-    
 }
 
     

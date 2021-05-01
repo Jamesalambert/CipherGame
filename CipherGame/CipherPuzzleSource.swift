@@ -12,7 +12,7 @@ struct Game : Codable {
     
     var availableBookNames = ["lessons", "Rebecca's Garden"]{
         didSet{
-            loadLocalBooksNEW()
+            loadLocalBooks()
             print(availableBookNames)
         }
     }
@@ -131,56 +131,12 @@ struct Game : Codable {
     
     init(){
         self.books = []
-        self.loadLocalBooksNEW()
+        self.loadLocalBooks()
     }
-    
-//    private
-//    mutating
-//    func loadLocalBooks(){
-//        var decodedBooks : [Book] = []
-//        for bookName in availableBookNames {
-//            guard let JSONurl = Bundle.main.url(forResource: bookName, withExtension: "json") else {return}
-//            do {
-//                if let data = try String(contentsOf: JSONurl).data(using: .utf8) {
-//
-//                    let chapters = try JSONDecoder().decode([ReadableChapter].self, from: data)
-//
-//                    let chaptersOfPuzzles : [Chapter] = chapters.map{ chapter in
-//                        let puzzles = chapter.puzzles.map{readablePuzzle in
-//
-//                            Puzzle(title: readablePuzzle.title,
-//                                   plaintext: readablePuzzle.plaintext,
-//                                   header: readablePuzzle.header,
-//                                   footer: readablePuzzle.footer,
-//                                   keyAlphabet: readablePuzzle.keyAlphabet,
-//                                   riddle: readablePuzzle.riddle,
-//                                   riddleAnswers: readablePuzzle.riddleAnswers,
-//                                   riddleKey: readablePuzzle.riddleKey,
-//                                   id: id(for: readablePuzzle.title, in: bookName))
-//                        }
-//
-//                        return Chapter(title: chapter.title,
-//                                       isCompleted: false,
-//                                       puzzles: puzzles)
-//                    }
-//
-//                    decodedBooks.append(Book(title: bookName,
-//                                             chapters: chaptersOfPuzzles,
-//                                             theme: Self.themeFor[bookName] ?? .defaultTheme))
-//                    //                    print(bookName)
-//                }
-//            }
-//            catch {
-//                print("error Couldn't read input for \(bookName) json file:\n \(JSONurl)")
-//            }
-//        }
-//        self.books = decodedBooks
-//    }
-    
     
     private
     mutating
-    func loadLocalBooksNEW(){
+    func loadLocalBooks(){
         var decodedBooks : [Book] = []
         for bookName in availableBookNames {
             guard let JSONurl = Bundle.main.url(forResource: bookName, withExtension: "json") else {return}
@@ -208,7 +164,7 @@ struct Game : Codable {
                                        puzzles: puzzles)
                     }
                     
-                    decodedBooks.append(Book(title: bookName,
+                    decodedBooks.append(Book(title: readableBook.title,
                                              chapters: chaptersOfPuzzles,
                                              theme: readableBook.theme))
                     //                    print(bookName)

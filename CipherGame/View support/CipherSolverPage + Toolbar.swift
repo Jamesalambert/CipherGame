@@ -42,13 +42,6 @@ extension ContentView.CipherSolverPage {
                                 }
                             }
                         }
-                        
-                        Button("clear Keychain"){
-                            viewModel.deleteAllPurchasesFromKeychain()
-                        }
-                        Button("print Keychain"){
-                            print(viewModel.getpurchasesFromKeychain())
-                        }
                         #endif
                         
                         Picker("difficulty", selection: $viewModel.difficultyLevel){

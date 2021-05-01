@@ -110,8 +110,8 @@
             filePath = "CipherGame/CipherPuzzleSource.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "405"
-            endingLineNumber = "405"
+            startingLineNumber = "361"
+            endingLineNumber = "361"
             landmarkName = "init(from:)"
             landmarkType = "7">
          </BreakpointContent>

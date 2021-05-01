@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		AA0B9CD7263DDF18006A4CD1 /* test.mysteryIsland.json in Resources */ = {isa = PBXBuildFile; fileRef = AA0B9CD6263DDF18006A4CD1 /* test.mysteryIsland.json */; };
 		AA0B9CD9263DDF46006A4CD1 /* test.spaceBook.json in Resources */ = {isa = PBXBuildFile; fileRef = AA0B9CD8263DDF45006A4CD1 /* test.spaceBook.json */; };
-		AA0B9CDB263E085C006A4CD1 /* test.local.old.json in Resources */ = {isa = PBXBuildFile; fileRef = AA0B9CDA263E085C006A4CD1 /* test.local.old.json */; };
+		AA0B9CDD263E14AA006A4CD1 /* CipherPuzzle + IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0B9CDC263E14AA006A4CD1 /* CipherPuzzle + IAP.swift */; };
 		AA14EB48261E12D3004AFD15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA14EB47261E12D3004AFD15 /* Assets.xcassets */; };
 		AA23A7722636E484002F9F39 /* ContentView + PhoneLetterPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA23A7712636E484002F9F39 /* ContentView + PhoneLetterPicker.swift */; };
 		AA31EAA3260BE32A0031D56C /* CipherPuzzle+Printing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */; };
@@ -35,7 +35,6 @@
 		AAE55ABC261FBDAC0019407E /* ContentView + Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE55ABB261FBDAC0019407E /* ContentView + Blur.swift */; };
 		AAE55ADF2624E4220019407E /* PuzzleThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE55ADE2624E4220019407E /* PuzzleThemes.swift */; };
 		AAE55AED262628090019407E /* PuzzleThemes + Treasure.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE55AEC262628090019407E /* PuzzleThemes + Treasure.swift */; };
-		AAE626EB261663EF004BF125 /* puzzles.json in Resources */ = {isa = PBXBuildFile; fileRef = AAE626EA261663EF004BF125 /* puzzles.json */; };
 		AAE6270D2617ED50004BF125 /* Rebecca's Garden.json in Resources */ = {isa = PBXBuildFile; fileRef = AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */; };
 		AAE9CE3D262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9CE3C262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift */; };
 		AAE9CE4A262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9CE49262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift */; };
@@ -64,7 +63,7 @@
 /* Begin PBXFileReference section */
 		AA0B9CD6263DDF18006A4CD1 /* test.mysteryIsland.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.mysteryIsland.json; sourceTree = "<group>"; };
 		AA0B9CD8263DDF45006A4CD1 /* test.spaceBook.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.spaceBook.json; sourceTree = "<group>"; };
-		AA0B9CDA263E085C006A4CD1 /* test.local.old.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.local.old.json; sourceTree = "<group>"; };
+		AA0B9CDC263E14AA006A4CD1 /* CipherPuzzle + IAP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CipherPuzzle + IAP.swift"; path = "CipherGame/CipherPuzzle + IAP.swift"; sourceTree = SOURCE_ROOT; };
 		AA14EB47261E12D3004AFD15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA23A7712636E484002F9F39 /* ContentView + PhoneLetterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + PhoneLetterPicker.swift"; sourceTree = "<group>"; };
 		AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle+Printing.swift"; sourceTree = "<group>"; };
@@ -94,7 +93,6 @@
 		AAE55ABB261FBDAC0019407E /* ContentView + Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + Blur.swift"; sourceTree = "<group>"; };
 		AAE55ADE2624E4220019407E /* PuzzleThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleThemes.swift; sourceTree = "<group>"; };
 		AAE55AEC262628090019407E /* PuzzleThemes + Treasure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleThemes + Treasure.swift"; sourceTree = "<group>"; };
-		AAE626EA261663EF004BF125 /* puzzles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = puzzles.json; sourceTree = "<group>"; };
 		AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "Rebecca's Garden.json"; sourceTree = "<group>"; };
 		AAE9CE3C262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + CipherSolverCharacterPair.swift"; sourceTree = "<group>"; };
 		AAE9CE49262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherSolverPage + Toolbar.swift"; sourceTree = "<group>"; };
@@ -153,6 +151,7 @@
 		AA93855E263ADC7F00051BC6 /* View support */ = {
 			isa = PBXGroup;
 			children = (
+				AAE9CE3C262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift */,
 				AA23A7712636E484002F9F39 /* ContentView + PhoneLetterPicker.swift */,
 				AA3ED4462611493300B25B4A /* ContentView + letter count.swift */,
 				AAE9CE49262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift */,
@@ -164,6 +163,7 @@
 		AA93855F263ADCA100051BC6 /* viewModel support */ = {
 			isa = PBXGroup;
 			children = (
+				AA0B9CDC263E14AA006A4CD1 /* CipherPuzzle + IAP.swift */,
 				AAEE3B10261CEE30008E2233 /* CipherPuzzle + Persistence.swift */,
 				AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */,
 				AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */,
@@ -206,12 +206,11 @@
 				AA97669E2601651A0076B879 /* CipherGameApp.swift */,
 				AA9766A02601651A0076B879 /* ContentView.swift */,
 				AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */,
-				AAE9CE3C262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift */,
 				AA93855C2639FD7A00051BC6 /* CipherSolverPage + Views.swift */,
 				AA93855E263ADC7F00051BC6 /* View support */,
 				AA9766D126016EB60076B879 /* CipherPuzzle.swift */,
-				AA938563263CB9CF00051BC6 /* OnlineStore.swift */,
 				AA93855F263ADCA100051BC6 /* viewModel support */,
+				AA938563263CB9CF00051BC6 /* OnlineStore.swift */,
 				AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */,
 				AA9766A22601651D0076B879 /* Assets.xcassets */,
 				AA9766A72601651D0076B879 /* Info.plist */,
@@ -251,8 +250,6 @@
 		AAE626E9261663C3004BF125 /* puzzles */ = {
 			isa = PBXGroup;
 			children = (
-				AA0B9CDA263E085C006A4CD1 /* test.local.old.json */,
-				AAE626EA261663EF004BF125 /* puzzles.json */,
 				AAEE3AF6261B8676008E2233 /* lessons.json */,
 				AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */,
 				AA0B9CD6263DDF18006A4CD1 /* test.mysteryIsland.json */,
@@ -374,9 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA9766A62601651D0076B879 /* Preview Assets.xcassets in Resources */,
-				AAE626EB261663EF004BF125 /* puzzles.json in Resources */,
 				AAE6270D2617ED50004BF125 /* Rebecca's Garden.json in Resources */,
-				AA0B9CDB263E085C006A4CD1 /* test.local.old.json in Resources */,
 				AA7D415B2627986600E1558C /* Lucida Console.ttf in Resources */,
 				AA0B9CD9263DDF46006A4CD1 /* test.spaceBook.json in Resources */,
 				AA0B9CD7263DDF18006A4CD1 /* test.mysteryIsland.json in Resources */,
@@ -419,6 +414,7 @@
 				AA93855D2639FD7B00051BC6 /* CipherSolverPage + Views.swift in Sources */,
 				AAEE3AEC261A813A008E2233 /* ContentView + CipherSolverPage.swift in Sources */,
 				AA97669F2601651A0076B879 /* CipherGameApp.swift in Sources */,
+				AA0B9CDD263E14AA006A4CD1 /* CipherPuzzle + IAP.swift in Sources */,
 				AA3ED4472611493300B25B4A /* ContentView + letter count.swift in Sources */,
 				AAE55ADF2624E4220019407E /* PuzzleThemes.swift in Sources */,
 				AAE9CE4A262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift in Sources */,
