@@ -35,6 +35,8 @@ extension ThemeManager {
             return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
         case .keyboardLetters:
             return context.colorScheme == .light ? Color.blue : Color.orange
+        case .tappable:
+            return context.colorScheme == .light ? Color.orange : Color.blue
         }
     }
     
@@ -77,6 +79,8 @@ extension ThemeManager {
             return Color.init(white: 0.1)
         case .keyboardLetters:
             return ThemeStructure.yellow
+        case .tappable:
+            return Color.blue
         }
     }
     

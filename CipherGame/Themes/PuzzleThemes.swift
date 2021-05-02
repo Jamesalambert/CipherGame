@@ -88,6 +88,8 @@ class ThemeManager : ThemeDelegateProtocol {
                 return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
             case .keyboardLetters:
                 return context.colorScheme == .light ? Color.blue : Self.myOrange
+            case .tappable:
+                return Color.blue 
             }
         }
        
@@ -154,6 +156,7 @@ protocol ThemeDelegateProtocol {
 
 //MARK:- Public types
 enum Item : Hashable {
+    case tappable
     case ciphertext
     case plaintext
     case puzzleLines

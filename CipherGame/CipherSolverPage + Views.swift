@@ -24,11 +24,9 @@ extension ContentView.CipherSolverPage {
                         Text(puzzle.title)
                             .lineLimit(1)
                             .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
-                            .foregroundColor(viewModel.theme.color(of: .puzzleLines,
-                                                for: bookTheme, in: colorScheme))
                     }
                     .padding()
-                    .background(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme)?
+                    .background(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)?
                                     .opacity( puzzle.id == viewModel.currentPuzzleHash ? 0.3 : 0.1))
                     .cornerRadius(Self.viewCornerRadius)
                     .transition(.move(edge: .bottom))
@@ -93,7 +91,7 @@ extension ContentView.CipherSolverPage {
                                 Text(answer)
                             }
                             .padding()
-                            .background(viewModel.theme.color(of: .puzzleLines,
+                            .background(viewModel.theme.color(of: .tappable,
                                                               for: bookTheme, in: colorScheme)?
                                             .opacity(lastUserChoice == answer ? 0.3 : 0.1)
                             )
