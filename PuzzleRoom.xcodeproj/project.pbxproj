@@ -39,7 +39,7 @@
 		AAE9CE3D262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9CE3C262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift */; };
 		AAE9CE4A262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE9CE49262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift */; };
 		AAEE3AEC261A813A008E2233 /* ContentView + CipherSolverPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */; };
-		AAEE3AF7261B8676008E2233 /* lessons.json in Resources */ = {isa = PBXBuildFile; fileRef = AAEE3AF6261B8676008E2233 /* lessons.json */; };
+		AAEE3AF7261B8676008E2233 /* lessons2.json in Resources */ = {isa = PBXBuildFile; fileRef = AAEE3AF6261B8676008E2233 /* lessons2.json */; };
 		AAEE3B11261CEE30008E2233 /* CipherPuzzle + Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAEE3B10261CEE30008E2233 /* CipherPuzzle + Persistence.swift */; };
 /* End PBXBuildFile section */
 
@@ -97,7 +97,7 @@
 		AAE9CE3C262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + CipherSolverCharacterPair.swift"; sourceTree = "<group>"; };
 		AAE9CE49262E3A86001B9E87 /* CipherSolverPage + Toolbar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherSolverPage + Toolbar.swift"; sourceTree = "<group>"; };
 		AAEE3AEB261A813A008E2233 /* ContentView + CipherSolverPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + CipherSolverPage.swift"; sourceTree = "<group>"; };
-		AAEE3AF6261B8676008E2233 /* lessons.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lessons.json; sourceTree = "<group>"; };
+		AAEE3AF6261B8676008E2233 /* lessons2.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = lessons2.json; sourceTree = "<group>"; };
 		AAEE3B10261CEE30008E2233 /* CipherPuzzle + Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle + Persistence.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -250,7 +250,7 @@
 		AAE626E9261663C3004BF125 /* puzzles */ = {
 			isa = PBXGroup;
 			children = (
-				AAEE3AF6261B8676008E2233 /* lessons.json */,
+				AAEE3AF6261B8676008E2233 /* lessons2.json */,
 				AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */,
 				AA0B9CD6263DDF18006A4CD1 /* test.mysteryIsland.json */,
 				AA0B9CD8263DDF45006A4CD1 /* test.spaceBook.json */,
@@ -378,7 +378,7 @@
 				AA5D867D2614F680008D3B44 /* CipherPrint.css in Resources */,
 				AA14EB48261E12D3004AFD15 /* Assets.xcassets in Resources */,
 				AA9766A32601651D0076B879 /* Assets.xcassets in Resources */,
-				AAEE3AF7261B8676008E2233 /* lessons.json in Resources */,
+				AAEE3AF7261B8676008E2233 /* lessons2.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
