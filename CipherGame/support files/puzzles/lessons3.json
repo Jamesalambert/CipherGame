@@ -1,0 +1,41 @@
+{
+    "title" : "Lessons",
+    "theme" : "default",
+    "chapters": [
+        {
+            "title": "getting started",
+            "puzzles" : [
+                {
+                    "title": "pattern words",
+                    "header" : "Words that have 2 or more of the same letter are called 'pattern words'. For example 'food', 'glug', 'salad'. These words are easy to spot and sometimes easy to guess! Can you name the capital city in Europe",
+                    "plaintext": "London",
+                    "footer" : "I'll give you a hint: The River Thames.",
+                    "keyAlphabet": "dtfljcxyiqskeownhpvzarubgm",
+                    "riddle" : "where is the rover?",
+                    "riddleAnswers" : ["x", "y"],
+                    "riddleKey" : ""
+                },
+                {
+                    "title": "short words",
+                    "header" : "There aren't many 2 and 3 letter words in English. Two letter words include 'it', 'an', 'on', 'in', 'of', 'he'. Three letters could be 'the', 'and', 'was', 'her', 'him', 'but' etc. Can you figure this out? It's the famous opening line from a book by Charles Dickens",
+                    "plaintext": "It was the best of times, it was the worst of times.",
+                    "footer" : "Hint: A Tale of Two Cities.",
+                    "keyAlphabet": "larxtvkoyhfijcbsewzugdpqnm",
+                    "riddle" : "where is the rover?",
+                    "riddleAnswers" : ["x", "y"],
+                    "riddleKey" : ""
+                },
+                {
+                    "title": "letter counts ETAONRHS",
+                    "header" : "The eight most common letters in English are usually ETAONRHS, in that order. Use the character count at the bottom of the screen to help you guess which ciphertext letter probably represents 'e' and so on. Don't forget to look for short words like 'the' and 'and'.\nLet's decode the cipher below.",
+                    "plaintext": "",
+                    "footer" : "Hint: Prefer to work on paper? tap the printer in the top right corner.",
+                    "keyAlphabet": "escidpoumgvhaqrjntzfbwklyx",
+                    "riddle" : "where is the rover?",
+                    "riddleAnswers" : ["x", "y"],
+                    "riddleKey" : ""
+                }
+            ]
+        }
+    ]
+}
