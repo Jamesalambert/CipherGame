@@ -27,9 +27,13 @@ struct ContentView: View {
     private
     var deletingLessons : Bool = false
     
+//    @State
+//    private
+//    var showInAppPurchases : Bool = false
+    
     @State
     private
-    var showInAppPurchases : Bool = false
+    var showLetterCount : Bool = true
     
     var body: some View {
         NavigationView{
@@ -40,7 +44,7 @@ struct ContentView: View {
                             footer: bookFooter(for: book.title)){
                         
                         ForEach(book.chapters){ chapter in
-                            NavigationLink(destination: CipherSolverPage()
+                            NavigationLink(destination: CipherSolverPage(showLetterCount: $showLetterCount)
                                                             .environment(\.bookTheme, book.theme)
                                                             .navigationTitle(chapter.title),
                                            tag: chapter.id,

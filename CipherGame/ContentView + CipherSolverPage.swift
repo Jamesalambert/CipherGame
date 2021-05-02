@@ -35,9 +35,8 @@ extension ContentView {
         private
         var resettingPuzzle : Bool = false
         
-        @State
-        private
-        var displayLetterCount : Bool = true
+        @Binding
+        var showLetterCount : Bool
         
         private
         var dismissPhoneKeyboard : some Gesture {
@@ -119,8 +118,8 @@ extension ContentView {
                         .transition(.move(edge: .bottom))
                         .gesture(dismissPhoneKeyboard)
                 } else {
-                    LetterCount(displayLetterCount: $displayLetterCount)
-                        .frame(height: displayLetterCount ? Self.letterCountHeight : 30)
+                    LetterCount(displayLetterCount: $showLetterCount)
+                        .frame(height: showLetterCount ? Self.letterCountHeight : 30)
                         .transition(.move(edge: .bottom))
                 }
             }
