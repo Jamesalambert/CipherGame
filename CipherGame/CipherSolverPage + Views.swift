@@ -95,7 +95,7 @@ extension ContentView.CipherSolverPage {
                             .padding()
                             .background(viewModel.theme.color(of: .puzzleLines,
                                                               for: bookTheme, in: colorScheme)?
-                                            .opacity(lastUserChoice == answer ? 0.3 : 0)
+                                            .opacity(lastUserChoice == answer ? 0.3 : 0.1)
                             )
                             .cornerRadius(Self.viewCornerRadius)
                         }
@@ -107,7 +107,7 @@ extension ContentView.CipherSolverPage {
                 .padding()
                 .background(Blur(style: .systemUltraThinMaterialDark))
                 .cornerRadius(10)
-                .font(viewModel.theme.font(for: .body, for: bookTheme))
+                .font(Font.system(.body, design: .monospaced))
                 .onAppear{lastUserChoice = viewModel.userRiddleAnswers.last}
         }
         

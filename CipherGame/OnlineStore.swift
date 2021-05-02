@@ -58,13 +58,12 @@ class OnlineStore : NSObject, ObservableObject {
     }
     
     override init() {
-        //TODO: retrieve from the network
+        //TODO: retrieve product identiffiers from the network
         let defaults = UserDefaults.standard
         defaults.set(["test.mysteryIsland","test.spaceBook"], forKey: Self.productsKey)
     }
     
 }
-
 
 
 extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver {

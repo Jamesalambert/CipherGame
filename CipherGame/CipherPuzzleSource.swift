@@ -12,7 +12,7 @@ struct Game : Codable {
     
     static let puzzleFolder = "puzzles"
     
-    var activeBookNames : [String] = ["Lessons", "Rebecca's Garden"]
+    var activeBookIds : [String] = ["Lessons", "Rebecca's Garden"]
     var recordedIDOfFirstPuzzle = false
     
     //MARK: - public
@@ -97,8 +97,8 @@ struct Game : Codable {
     mutating
     func add(books : [String]){
         for bookName in books {
-            if !activeBookNames.contains(bookName){
-                activeBookNames.append(bookName)
+            if !activeBookIds.contains(bookName){
+                activeBookIds.append(bookName)
                 loadFromFile(bookName: bookName)
             }
         }
@@ -132,7 +132,7 @@ struct Game : Codable {
     private
     mutating
     func loadLocalBooks(){
-        for bookName in activeBookNames {
+        for bookName in activeBookIds {
             loadFromFile(bookName: bookName)
         }
     }

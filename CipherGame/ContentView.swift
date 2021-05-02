@@ -60,7 +60,7 @@ struct ContentView: View {
                                })
                 
             }.navigationTitle("Code Books")
-            .listStyle(InsetGroupedListStyle())
+            .listStyle(GroupedListStyle())
             .toolbar{toolbar()}
         }.environmentObject(viewModel)
         .onChange(of: scenePhase) { phase in
@@ -97,15 +97,15 @@ struct ContentView: View {
                         Spacer()
                         
                         Button {
-                            if viewModel.availableBookNames.contains(bookForSale.id){
+                            if viewModel.installedBookIDs.contains(bookForSale.id){
                                 viewModel.currentChapterHash = viewModel.firstChapterHash(for: bookForSale.id)
                             } else {
                                 store.buyProduct(bookForSale.id)
                             }
                         } label: {
-                            Text(viewModel.availableBookNames.contains(bookForSale.id) ? "open" : bookForSale.price)
+                            Text(viewModel.installedBookIDs.contains(bookForSale.id) ? "open" : bookForSale.price)
                                 .padding()
-                                .background(viewModel.availableBookNames.contains(bookForSale.id) ? Color.green : Color.blue)
+                                .background(viewModel.installedBookIDs.contains(bookForSale.id) ? Color.green : Color.blue)
                                 .foregroundColor(Color.white)
                                 .font(Font.body.weight(.bold))
                                 .cornerRadius(10)

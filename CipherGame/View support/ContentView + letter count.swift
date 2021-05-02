@@ -35,7 +35,7 @@ extension ContentView {
                     } label: {
                         Text("Letter Count")
                             .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
-                            .foregroundColor(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme))
+                            //.foregroundColor(viewModel.theme.color(of: .puzzleLines, for: bookTheme, in: colorScheme))
                             .padding(.top, 10)
                     }
                     
