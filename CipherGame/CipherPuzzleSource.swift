@@ -15,7 +15,7 @@ struct Game : Codable {
             print(availableBookNames)
         }
     }
-    static let firstChapter = (book: "Lessons", puzzle: "pattern words")
+    var recordedIDOfFirstPuzzle = false
     
     //MARK: - public
     private(set)
@@ -158,7 +158,7 @@ struct Game : Codable {
                                riddle: readablePuzzle.riddle,
                                riddleAnswers: readablePuzzle.riddleAnswers,
                                riddleKey: readablePuzzle.riddleKey,
-                               id: id(for: readablePuzzle.title, in: bookName))
+                               id: puzzleID())
                     }
                     
                     return Chapter(title: chapter.title,
@@ -182,12 +182,15 @@ struct Game : Codable {
     
     private
     mutating
-    func id(for puzzleTitle : String, in bookTitle : String) -> UUID {
+    func puzzleID() -> UUID {
         let id = UUID()
-        if Game.firstChapter.book == bookTitle && Game.firstChapter.puzzle == puzzleTitle {
+        if recordedIDOfFirstPuzzle {
+            return id
+        } else {
             lastOpenPuzzleHash = id
+            recordedIDOfFirstPuzzle = true
+            return id
         }
-        return id
     }
 }
 
