@@ -11,17 +11,14 @@ import StoreKit
 class OnlineStore : NSObject, ObservableObject {
 
     static let shared = OnlineStore()
-    
-//    var productIDs = ["test.mysteryIsland",
-//                      "test.spaceBook"]
+    static let productsKey = "productIDs"
     
     @Published
     var productIDs : [String] = {
-        guard let array =  UserDefaults.standard.object(forKey: "productIDs") as? [String] else {return []}
+        guard let array =  UserDefaults.standard.object(forKey: OnlineStore.productsKey) as? [String] else {return []}
         print(array)
         return array
     }()
-    
     
     @Published
     var finishedTransactions : Bool = false
@@ -63,7 +60,7 @@ class OnlineStore : NSObject, ObservableObject {
     override init() {
         //TODO: retrieve from the network
         let defaults = UserDefaults.standard
-        defaults.set(["test.mysteryIsland","test.spaceBook"], forKey: "productIDs")
+        defaults.set(["test.mysteryIsland","test.spaceBook"], forKey: Self.productsKey)
     }
     
 }
@@ -94,8 +91,8 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
             case .purchased, .restored:
                 //unlock the item!
                 storeInKeychain(identifier: transaction.payment.productIdentifier)
-                //finishedATransaction.toggle()
                 numberOfFinishedTransactions += 1
+                
                 SKPaymentQueue.default().finishTransaction(transaction)
                 SKPaymentQueue.default().remove(self)
             case .failed, .deferred:

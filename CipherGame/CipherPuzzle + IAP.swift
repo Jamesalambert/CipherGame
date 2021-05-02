@@ -9,8 +9,7 @@ import Foundation
 
 extension CipherPuzzle {
     
-    
-    func loadPurchasedBooks(){
+    func loadPurchasedBooksFromKeychain(){
         //read keychain for IAP
         DispatchQueue.global(qos: .background).async {
             let purchasedBookIds = self.getpurchasesFromKeychain()

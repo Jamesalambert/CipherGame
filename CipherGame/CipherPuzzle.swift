@@ -256,6 +256,7 @@ class CipherPuzzle : ObservableObject {
         self.model = Game()
         self.currentPuzzleHash = self.model.lastOpenPuzzleHash
         self.currentChapterHash = self.model.lastOpenChapterHash
+        self.loadPurchasedBooksFromKeychain()
     }
 }
 

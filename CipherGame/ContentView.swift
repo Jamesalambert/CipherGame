@@ -27,10 +27,6 @@ struct ContentView: View {
     private
     var deletingLessons : Bool = false
     
-//    @State
-//    private
-//    var showInAppPurchases : Bool = false
-    
     @State
     private
     var showLetterCount : Bool = true
@@ -57,7 +53,9 @@ struct ContentView: View {
                 }
                 
                 NavigationLink("More Books",
-                               destination: IAPContent().onAppear{
+                               destination: IAPContent()
+                                .navigationTitle("More Mysteries to Solve!")
+                                .onAppear{
                                 store.getProducts()
                                })
                 
@@ -74,7 +72,6 @@ struct ContentView: View {
     
     @ViewBuilder
     func IAPContent() -> some View {
-        Text("More Mysteries to Solve!").font(.title)
         List{
             Section(footer:
                         HStack{
@@ -120,7 +117,7 @@ struct ContentView: View {
             }
         }
         .onChange(of: store.finishedTransactions){_ in
-            viewModel.loadPurchasedBooks()
+            viewModel.loadPurchasedBooksFromKeychain()
         }
     }
     
