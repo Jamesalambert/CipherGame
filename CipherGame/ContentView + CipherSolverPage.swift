@@ -62,6 +62,7 @@ extension ContentView {
                                     .padding()
                                 if viewModel.isSolved {
                                     riddleOptions()
+                                        .id(viewModel.currentPuzzleHash)
                                         .transition(.scale)
                                     Spacer(minLength: 250)
                                 }
