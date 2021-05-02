@@ -137,7 +137,7 @@ struct ContentView: View {
         
         if chapter.isCompleted{
             Image(systemName: "checkmark.circle")
-                .foregroundColor(viewModel.theme.color(of: .completed, for: book.theme, in: colorScheme))
+                .foregroundColor(colorScheme == .light ? .orange : .green)
         }
     }
     

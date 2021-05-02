@@ -355,6 +355,7 @@ enum BookTheme : Codable {
         var container = encoder.singleValueContainer()
         switch self {
         case .space: try container.encode("space")
+        case .defaultTheme: try container.encode("default")
         default: try container.encode("default")
         }
     }
@@ -365,6 +366,7 @@ enum BookTheme : Codable {
         let rawValue = try? container.decode(String.self)
         switch rawValue{
         case "space": self = .space
+        case "default": self = .defaultTheme
         default:
             self = .defaultTheme
         }

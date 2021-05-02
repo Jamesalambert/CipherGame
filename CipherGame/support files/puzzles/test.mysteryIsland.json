@@ -1,6 +1,6 @@
 {
     "title" : "Mystery Island",
-    "theme" : "space",
+    "theme" : "default",
     "chapters": [
         {
             "title": "First Chapter",
