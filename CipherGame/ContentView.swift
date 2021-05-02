@@ -107,6 +107,7 @@ struct ContentView: View {
                                 .padding()
                                 .background(viewModel.availableBookNames.contains(bookForSale.id) ? Color.green : Color.blue)
                                 .foregroundColor(Color.white)
+                                .font(Font.body.weight(.bold))
                                 .cornerRadius(10)
                                 .transition(.opacity)
                                 //.id(viewModel.availableBookNames.contains(bookForSale.id) ? "open" : bookForSale.price)

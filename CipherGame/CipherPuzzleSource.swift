@@ -162,7 +162,7 @@ struct Game : Codable {
                     }
                     
                     return Chapter(title: chapter.title,
-                                   isCompleted: false,
+//                                   isCompleted: false,
                                    puzzles: puzzles)
                 }
                 
@@ -319,7 +319,9 @@ struct Book : Hashable, Codable, Identifiable{
 
 struct Chapter : Hashable, Codable, Identifiable {
     var title : String
-    var isCompleted : Bool
+    var isCompleted : Bool {
+        return puzzles.allSatisfy{$0.isSolved}
+    }
     var puzzles : [Puzzle]
     var userRiddleAnswers : [String] = []
     var id = UUID()
