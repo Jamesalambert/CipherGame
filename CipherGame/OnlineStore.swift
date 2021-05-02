@@ -12,22 +12,22 @@ class OnlineStore : NSObject, ObservableObject {
 
     static let shared = OnlineStore()
     
-    var productIDs = ["test.mysteryIsland",
-                      "test.spaceBook"]
-           
-    @Published
-    var finishedATransaction : Bool = false
+//    var productIDs = ["test.mysteryIsland",
+//                      "test.spaceBook"]
     
     @Published
-    var booksForSale : [ProductInfo] = [] {
-        didSet{
-            booksForSale.forEach{ book in
-                print(book.title)
-                print(book.description)
-                print(book.price)
-            }
-        }
-    }
+    var productIDs : [String] = {
+        guard let array =  UserDefaults.standard.object(forKey: "productIDs") as? [String] else {return []}
+        print(array)
+        return array
+    }()
+    
+    
+    @Published
+    var finishedTransactions : Bool = false
+    
+    @Published
+    var booksForSale : [ProductInfo] = []
     
     private
     var products = [SKProduct]()
@@ -51,14 +51,21 @@ class OnlineStore : NSObject, ObservableObject {
     }
     
     func restorePurchases() {
-        SKPaymentQueue.default().restoreCompletedTransactions()
         SKPaymentQueue.default().add(self)
+        SKPaymentQueue.default().restoreCompletedTransactions()
     }
     
     //needed for restoring transactions?!
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
-        print("Restoring purchases!")
+        print("Finished restoring purchases.")
     }
+    
+    override init() {
+        //TODO: retrieve from the network
+        let defaults = UserDefaults.standard
+        defaults.set(["test.mysteryIsland","test.spaceBook"], forKey: "productIDs")
+    }
+    
 }
 
 
@@ -78,6 +85,7 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
     
     //SKPaymentTransactionObserver
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
+        var numberOfFinishedTransactions = 0
         for transaction in transactions {
             switch transaction.transactionState {
             case .purchasing:
@@ -86,11 +94,10 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
             case .purchased, .restored:
                 //unlock the item!
                 storeInKeychain(identifier: transaction.payment.productIdentifier)
-                //print("read from keychain: \(getKeychainItems())")
+                //finishedATransaction.toggle()
+                numberOfFinishedTransactions += 1
                 SKPaymentQueue.default().finishTransaction(transaction)
                 SKPaymentQueue.default().remove(self)
-                finishedATransaction.toggle()
-                
             case .failed, .deferred:
                 SKPaymentQueue.default().finishTransaction(transaction)
                 SKPaymentQueue.default().remove(self)
@@ -99,6 +106,7 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
                 SKPaymentQueue.default().remove(self)
             }
         }
+        if numberOfFinishedTransactions > 0 {finishedTransactions.toggle()}
     }
     
 }

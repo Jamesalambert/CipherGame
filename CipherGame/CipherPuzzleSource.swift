@@ -162,7 +162,8 @@ struct Game : Codable {
                     
                     decodedBooks.append(Book(title: readableBook.title,
                                              chapters: chaptersOfPuzzles,
-                                             theme: readableBook.theme))
+                                             theme: readableBook.theme,
+                                             productID: bookName))
                     //                    print(bookName)
                 }
             }
@@ -305,6 +306,7 @@ struct Book : Hashable, Codable, Identifiable{
     var id = UUID()
     var isSolved : Bool = false
     var theme : BookTheme = .defaultTheme
+    var productID : String?
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

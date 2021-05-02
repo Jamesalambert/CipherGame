@@ -13,7 +13,7 @@ struct ContentView: View {
     var viewModel : CipherPuzzle
     
     @StateObject
-    var store : OnlineStore
+    var store = OnlineStore.shared
         
     @Environment(\.colorScheme)
     var colorScheme : ColorScheme
@@ -70,11 +70,19 @@ struct ContentView: View {
     
     @ViewBuilder
     func IAPContent() -> some View {
+        Text("More Mysteries to Solve!").font(.title)
         List{
             Section(footer:
-                Button("Restore previous purchases"){
-                    store.restorePurchases()
-                }
+                        HStack{
+                            Spacer()
+                            Button{
+                                store.restorePurchases()
+                            } label: {
+                                Text("Restore previous purchases")
+                                    .foregroundColor(Color.blue)
+                            }
+                            Spacer()
+                        }
             )
             {
                 ForEach(store.booksForSale) { bookForSale in
@@ -87,22 +95,29 @@ struct ContentView: View {
                         
                         Spacer()
                         
-                        Button(bookForSale.price){
-                            store.buyProduct(bookForSale.id)
+                        Button {
+                            if viewModel.availableBookNames.contains(bookForSale.id){
+                                viewModel.currentChapterHash = viewModel.firstChapterHash(for: bookForSale.id)
+                            } else {
+                                store.buyProduct(bookForSale.id)
+                            }
+                        } label: {
+                            Text(viewModel.availableBookNames.contains(bookForSale.id) ? "open" : bookForSale.price)
+                                .padding()
+                                .background(viewModel.availableBookNames.contains(bookForSale.id) ? Color.green : Color.blue)
+                                .foregroundColor(Color.white)
+                                .cornerRadius(10)
+                                .transition(.opacity)
+                                //.id(viewModel.availableBookNames.contains(bookForSale.id) ? "open" : bookForSale.price)
+                                .id(bookForSale.id)
                         }
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(Color.white)
-                        .cornerRadius(10)
                     }
                 }
             }
         }
-        .onChange(of: store.finishedATransaction, perform: {_ in
-        DispatchQueue.global(qos: .background).async {
+        .onChange(of: store.finishedTransactions){_ in
             viewModel.loadPurchasedBooks()
         }
-    })
     }
     
     

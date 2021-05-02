@@ -23,22 +23,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "C9858D8E-A41F-4506-A73B-1077989F195C"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CipherGame/OnlineStore.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
-            landmarkName = "paymentQueue(_:updatedTransactions:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "D8ACB256-2B82-4DB9-BE8D-63EF2C09DA13"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -62,40 +46,56 @@
             filePath = "CipherGame/ContentView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "102"
-            endingLineNumber = "102"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "IAPContent()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FD1A7426-5A10-42F1-9B73-E69BF9A5369E"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CipherGame/CipherPuzzle + IAP.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
+            landmarkName = "loadPurchasedBooks()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "7D73516A-EDAF-43F5-851A-4A3244C741A4 - e70b152e31bb28a9"
+                  uuid = "FD1A7426-5A10-42F1-9B73-E69BF9A5369E - 5920799d2c8f18f4"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (Swift.Bool) -&gt; () in CipherGame.ContentView.IAPContent() -&gt; some"
+                  symbolName = "CipherGame.CipherPuzzle.loadPurchasedBooks() -&gt; ()"
                   moduleName = "CipherGame"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/ContentView.swift"
+                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/CipherPuzzle%20+%20IAP.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "102"
-                  endingLineNumber = "102"
-                  offsetFromSymbolStart = "336">
+                  startingLineNumber = "15"
+                  endingLineNumber = "15"
+                  offsetFromSymbolStart = "248">
                </Location>
                <Location
-                  uuid = "7D73516A-EDAF-43F5-851A-4A3244C741A4 - 19468cd13f7f7c67"
+                  uuid = "FD1A7426-5A10-42F1-9B73-E69BF9A5369E - b9d31389731e901b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; () in closure #2 (Swift.Bool) -&gt; () in CipherGame.ContentView.IAPContent() -&gt; some"
+                  symbolName = "closure #1 () -&gt; () in CipherGame.CipherPuzzle.loadPurchasedBooks() -&gt; ()"
                   moduleName = "CipherGame"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/ContentView.swift"
+                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/CipherPuzzle%20+%20IAP.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "103"
-                  endingLineNumber = "103"
-                  offsetFromSymbolStart = "96">
+                  startingLineNumber = "16"
+                  endingLineNumber = "16"
+                  offsetFromSymbolStart = "192">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -103,17 +103,81 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "8907CAED-A7F4-40FC-B0F7-2260FB3E5273"
+            uuid = "434BF64C-2715-4028-BA11-5D62E4BBDCD8"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CipherGame/CipherPuzzleSource.swift"
+            filePath = "CipherGame/OnlineStore.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "357"
-            endingLineNumber = "357"
-            landmarkName = "init(from:)"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "paymentQueue(_:updatedTransactions:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "586B541C-457A-4F3B-8DF2-FFDA4D7B6AFD"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CipherGame/OnlineStore.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "109"
+            endingLineNumber = "109"
+            landmarkName = "paymentQueue(_:updatedTransactions:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C0EA6CAC-6BC7-4624-A5AA-835FA6720301"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CipherGame/OnlineStore.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "productIDs"
+            landmarkType = "24">
+            <Locations>
+               <Location
+                  uuid = "C0EA6CAC-6BC7-4624-A5AA-835FA6720301 - 150442cd158695a0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CipherGame.OnlineStore.productIDs.getter : Swift.Array&lt;Swift.String&gt;"
+                  moduleName = "CipherGame"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/OnlineStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "264">
+               </Location>
+               <Location
+                  uuid = "C0EA6CAC-6BC7-4624-A5AA-835FA6720301 - 48f51ad900f2cac5"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; Swift.Array&lt;Swift.String&gt; in CipherGame.OnlineStore.productIDs.getter : Swift.Array&lt;Swift.String&gt;"
+                  moduleName = "CipherGame"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/OnlineStore.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "21"
+                  endingLineNumber = "21"
+                  offsetFromSymbolStart = "304">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

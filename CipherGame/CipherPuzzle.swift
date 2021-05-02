@@ -67,9 +67,7 @@ class CipherPuzzle : ObservableObject {
     var showLessons : Bool = true
     
     @Published
-    var characterCount : [CharacterCount] = []
-    
-    
+    var characterCount : [CharacterCount] = []    
     //MARK:- public computed properties
     
     var puzzleTitle : String {
@@ -145,6 +143,10 @@ class CipherPuzzle : ObservableObject {
         }
     }
 
+    var availableBookNames : [String] {
+        return model.availableBookNames
+    }
+    
     var letterCount : [(character: Character, count: Int)] {
         var output : [(character:Character, count:Int)] = []
         for keyChar in currentPuzzle.letterCount.keys {
@@ -205,6 +207,11 @@ class CipherPuzzle : ObservableObject {
             currentChapter.puzzles.first(where: {$0.riddleKey == guessedKey})
         }
         visiblePuzzles = defaultPuzzles + unlockedPuzzles
+    }
+    
+    func firstChapterHash(for bookID : String) -> UUID?{
+        let book = model.books.first{$0.productID == bookID}
+        return book?.chapters.first?.id
     }
     
 //Experimental!
