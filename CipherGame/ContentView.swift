@@ -126,7 +126,7 @@ struct ContentView: View {
     
     @ViewBuilder
     func bookFooter(for bookTitle : String)-> some View {
-        if bookTitle == "lessons" {
+        if bookTitle == "Lessons" {
             HStack{
                 Spacer()
                 Button("hide lessons"){

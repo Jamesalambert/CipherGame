@@ -16,11 +16,7 @@ struct Game : Codable {
             print(availableBookNames)
         }
     }
-    static let firstPuzzle = (book: "lessons", puzzle: "pattern words")
-//    static let themeFor : [String : BookTheme] = [
-//        "lessons"           : .defaultTheme,
-//        "Rebecca's Garden"  : .space
-//    ]
+    static let firstPuzzle = (book: "Lessons", puzzle: "pattern words")
     
     //MARK: - public
     private(set)

@@ -140,7 +140,7 @@ class CipherPuzzle : ObservableObject {
         if showLessons {
             return books
         } else {
-            let booksWithoutLessons = books.drop(while: {$0.title == "lessons"})
+            let booksWithoutLessons = books.drop(while: {$0.title == "Lessons"})
             return Array(booksWithoutLessons)
         }
     }

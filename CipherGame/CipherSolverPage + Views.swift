@@ -76,16 +76,16 @@ extension ContentView.CipherSolverPage {
                     VStack{
                         ForEach(viewModel.riddleAnswers, id:\.self){ answer in
                             Button{
-                                lastUserChoice = answer
                                 if viewModel.userRiddleAnswers.isEmpty{
                                     typewriter(completion: {
                                         withAnimation{
+                                            lastUserChoice = answer
                                             viewModel.add(answer: lastUserChoice!)
                                         }
                                     })
-                                    
                                 } else {
                                     withAnimation{
+                                        lastUserChoice = answer
                                         viewModel.add(answer: lastUserChoice!)
                                     }
                                 }
@@ -101,7 +101,7 @@ extension ContentView.CipherSolverPage {
                         }
                     }
                     //typewriter text
-                    Text(viewModel.userRiddleAnswers.isEmpty ? typewriterString : message)
+                    Text(lastUserChoice == nil ? typewriterString : message)
                             .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
                 }
                 .padding()
