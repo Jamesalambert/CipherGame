@@ -41,7 +41,7 @@ struct Game : Codable {
         books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].guessIndices.removeAll()
         
         //reset user answers to riddles
-        books[bookIndex].chapters[chapterIndex].userRiddleAnswers.removeAll()
+        books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].userRiddleAnswers.removeAll()
     }
     
     mutating
@@ -83,14 +83,15 @@ struct Game : Codable {
         guard let currentPuzzleIndexPath = self.indexPath(for: puzzleID) else {return}
         let bookIndex = currentPuzzleIndexPath.bookIndex
         let chapterIndex = currentPuzzleIndexPath.chapterIndex
+        let puzzleIndex = currentPuzzleIndexPath.puzzleIndex
         
-        books[bookIndex].chapters[chapterIndex].userRiddleAnswers.removeAll{$0 == answer}  //prevent duplicates
-        books[bookIndex].chapters[chapterIndex].userRiddleAnswers.append(answer)
+        books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].userRiddleAnswers.removeAll{$0 == answer}  //prevent duplicates
+        books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].userRiddleAnswers.append(answer)
     }
     
     func userAnswers(for inputChapter : Chapter) -> [String] {
         guard let theChapter : Chapter = books.flatMap({$0.chapters}).first(where: {$0 == inputChapter}) else {return []}
-        return theChapter.userRiddleAnswers
+        return theChapter.puzzles.flatMap{$0.userRiddleAnswers}
     }
     
     mutating
@@ -208,6 +209,7 @@ struct Puzzle : Hashable, Codable, Identifiable{
     var riddle : String
     var riddleAnswers : [String] // first entry is the correct one
     var riddleKey : String //if the user chooses this value as the answer to another riddle, this puzzle is shown
+    var userRiddleAnswers : [String] = []
     
     var isSolved : Bool {
         var guesses : String = ""
@@ -320,7 +322,6 @@ struct Chapter : Hashable, Codable, Identifiable {
         return puzzles.allSatisfy{$0.isSolved}
     }
     var puzzles : [Puzzle]
-    var userRiddleAnswers : [String] = []
     var id = UUID()
 }
 

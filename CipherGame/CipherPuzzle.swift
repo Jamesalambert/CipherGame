@@ -115,7 +115,7 @@ class CipherPuzzle : ObservableObject {
     }
     
     var userRiddleAnswers : [String] {
-        return currentChapter.userRiddleAnswers
+        return currentPuzzle.userRiddleAnswers
     }
     
     var data : [GameInfo] {
