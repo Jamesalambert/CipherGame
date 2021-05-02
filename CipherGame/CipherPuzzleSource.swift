@@ -10,13 +10,12 @@ import Foundation
 
 struct Game : Codable {
     
-    var availableBookNames = ["lessons", "Rebecca's Garden"]{
+    var availableBookNames = ["Lessons", "Rebecca's Garden"]{
         didSet{
-            loadLocalBooks()
             print(availableBookNames)
         }
     }
-    static let firstPuzzle = (book: "Lessons", puzzle: "pattern words")
+    static let firstChapter = (book: "Lessons", puzzle: "pattern words")
     
     //MARK: - public
     private(set)
@@ -101,6 +100,7 @@ struct Game : Codable {
         for bookName in books {
             if !availableBookNames.contains(bookName){
                 availableBookNames.append(bookName)
+                loadFromFile(bookName: bookName)
             }
         }
     }
@@ -133,47 +133,50 @@ struct Game : Codable {
     private
     mutating
     func loadLocalBooks(){
-        var decodedBooks : [Book] = []
         for bookName in availableBookNames {
-            guard let JSONurl = Bundle.main.url(forResource: bookName, withExtension: "json") else {return}
-            do {
-                if let data = try String(contentsOf: JSONurl).data(using: .utf8) {
-                    
-                    let readableBook = try JSONDecoder().decode(ReadableBook.self, from: data)
-                    
-                    let chaptersOfPuzzles : [Chapter] = readableBook.chapters.map{ chapter in
-                        let puzzles = chapter.puzzles.map{readablePuzzle in
-                            
-                            Puzzle(title: readablePuzzle.title,
-                                   plaintext: readablePuzzle.plaintext,
-                                   header: readablePuzzle.header,
-                                   footer: readablePuzzle.footer,
-                                   keyAlphabet: readablePuzzle.keyAlphabet,
-                                   riddle: readablePuzzle.riddle,
-                                   riddleAnswers: readablePuzzle.riddleAnswers,
-                                   riddleKey: readablePuzzle.riddleKey,
-                                   id: id(for: readablePuzzle.title, in: bookName))
-                        }
-                        
-                        return Chapter(title: chapter.title,
-                                       isCompleted: false,
-                                       puzzles: puzzles)
-                    }
-                    
-                    decodedBooks.append(Book(title: readableBook.title,
-                                             chapters: chaptersOfPuzzles,
-                                             theme: readableBook.theme,
-                                             productID: bookName))
-                    //                    print(bookName)
-                }
-            }
-            catch {
-                print("error Couldn't read input for \(bookName) json file:\n \(JSONurl)")
-            }
+            loadFromFile(bookName: bookName)
         }
-        self.books = decodedBooks
     }
     
+    private
+    mutating func loadFromFile(bookName : String) {
+        var decodedBook : Book
+        guard let JSONurl = Bundle.main.url(forResource: bookName, withExtension: "json") else {return}
+        do {
+            if let data = try String(contentsOf: JSONurl).data(using: .utf8) {
+                
+                let readableBook = try JSONDecoder().decode(ReadableBook.self, from: data)
+                
+                let chaptersOfPuzzles : [Chapter] = readableBook.chapters.map{ chapter in
+                    let puzzles = chapter.puzzles.map{readablePuzzle in
+                        
+                        Puzzle(title: readablePuzzle.title,
+                               plaintext: readablePuzzle.plaintext,
+                               header: readablePuzzle.header,
+                               footer: readablePuzzle.footer,
+                               keyAlphabet: readablePuzzle.keyAlphabet,
+                               riddle: readablePuzzle.riddle,
+                               riddleAnswers: readablePuzzle.riddleAnswers,
+                               riddleKey: readablePuzzle.riddleKey,
+                               id: id(for: readablePuzzle.title, in: bookName))
+                    }
+                    
+                    return Chapter(title: chapter.title,
+                                   isCompleted: false,
+                                   puzzles: puzzles)
+                }
+                
+                decodedBook = Book(title: readableBook.title,
+                                         chapters: chaptersOfPuzzles,
+                                         theme: readableBook.theme,
+                                         productID: bookName)
+                self.books.append(decodedBook)
+            }
+        }
+        catch {
+            print("error Couldn't read input for \(bookName) json file:\n \(JSONurl)")
+        }
+    }
     
     
     
@@ -181,14 +184,12 @@ struct Game : Codable {
     mutating
     func id(for puzzleTitle : String, in bookTitle : String) -> UUID {
         let id = UUID()
-        if Game.firstPuzzle.book == bookTitle && Game.firstPuzzle.puzzle == puzzleTitle {
+        if Game.firstChapter.book == bookTitle && Game.firstChapter.puzzle == puzzleTitle {
             lastOpenPuzzleHash = id
         }
         return id
     }
 }
-
-
 
 
 struct Puzzle : Hashable, Codable, Identifiable{
