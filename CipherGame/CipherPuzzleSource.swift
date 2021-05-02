@@ -10,11 +10,9 @@ import Foundation
 
 struct Game : Codable {
     
-    var availableBookNames = ["Lessons", "Rebecca's Garden"]{
-        didSet{
-            print(availableBookNames)
-        }
-    }
+    static let puzzleFolder = "puzzles"
+    
+    var activeBookNames : [String] = ["Lessons", "Rebecca's Garden"]
     var recordedIDOfFirstPuzzle = false
     
     //MARK: - public
@@ -98,8 +96,8 @@ struct Game : Codable {
     mutating
     func add(books : [String]){
         for bookName in books {
-            if !availableBookNames.contains(bookName){
-                availableBookNames.append(bookName)
+            if !activeBookNames.contains(bookName){
+                activeBookNames.append(bookName)
                 loadFromFile(bookName: bookName)
             }
         }
@@ -133,7 +131,7 @@ struct Game : Codable {
     private
     mutating
     func loadLocalBooks(){
-        for bookName in availableBookNames {
+        for bookName in activeBookNames {
             loadFromFile(bookName: bookName)
         }
     }
@@ -162,7 +160,6 @@ struct Game : Codable {
                     }
                     
                     return Chapter(title: chapter.title,
-//                                   isCompleted: false,
                                    puzzles: puzzles)
                 }
                 
@@ -356,7 +353,6 @@ enum BookTheme : Codable {
         switch self {
         case .space: try container.encode("space")
         case .defaultTheme: try container.encode("default")
-        default: try container.encode("default")
         }
     }
     

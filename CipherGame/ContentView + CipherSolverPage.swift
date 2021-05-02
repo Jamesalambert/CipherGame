@@ -58,6 +58,7 @@ extension ContentView {
                         ScrollView{
                             VStack{
                                 cipherPuzzleView(with: geometry)
+                                    .id(viewModel.currentPuzzleHash)
                                     .padding()
                                 if viewModel.isSolved {
                                     riddleOptions()

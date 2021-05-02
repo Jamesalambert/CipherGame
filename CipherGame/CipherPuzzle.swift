@@ -144,7 +144,7 @@ class CipherPuzzle : ObservableObject {
     }
 
     var availableBookNames : [String] {
-        return model.availableBookNames
+        return model.activeBookNames
     }
     
     var letterCount : [(character: Character, count: Int)] {
