@@ -104,11 +104,13 @@ struct ContentView: View {
                             }
                         } label: {
                             Text(viewModel.installedBookIDs.contains(bookForSale.id) ? "open" : bookForSale.price)
-                                .padding()
-                                .background(viewModel.installedBookIDs.contains(bookForSale.id) ? Color.green : Color.blue)
+                                .padding(EdgeInsets.sized(horizontally: 10, vertically: 5))
+                                .background(
+                                    viewModel.theme.color(of: viewModel.installedBookIDs.contains(bookForSale.id) ? .openButton : .buyButton, for: .defaultTheme, in: colorScheme))
+                                .brightness(colorScheme == .light ? 0.30 : 0.0)
                                 .foregroundColor(Color.white)
                                 .font(Font.body.weight(.bold))
-                                .cornerRadius(10)
+                                .cornerRadius(5)
                                 .transition(.opacity)
                                 //.id(viewModel.availableBookNames.contains(bookForSale.id) ? "open" : bookForSale.price)
                                 .id(bookForSale.id)

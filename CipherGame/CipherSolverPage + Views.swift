@@ -24,9 +24,10 @@ extension ContentView.CipherSolverPage {
                         Text(puzzle.title)
                             .lineLimit(1)
                             .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
+                            .foregroundColor(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
                     }
                     .padding()
-                    .background(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)?
+                    .background(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)?
                                     .opacity( puzzle.id == viewModel.currentPuzzleHash ? 0.3 : 0.1))
                     .cornerRadius(Self.viewCornerRadius)
                     .transition(.move(edge: .bottom))
@@ -91,6 +92,7 @@ extension ContentView.CipherSolverPage {
                             }
                         } label: {
                             Text(answer)
+                                .foregroundColor(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
                         }
                         .padding()
                         .background(viewModel.theme.color(of: .tappable,
@@ -106,7 +108,7 @@ extension ContentView.CipherSolverPage {
                     .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
             }
             .padding()
-            .background(Blur(style: .systemUltraThinMaterialDark))
+            .background(Blur(style: viewModel.theme.blurStyle(for: bookTheme, in: colorScheme)))
             .cornerRadius(Self.viewCornerRadius)
             .font(Font.system(.body, design: .monospaced))
             .onAppear{lastUserChoice = viewModel.userRiddleAnswers.last}

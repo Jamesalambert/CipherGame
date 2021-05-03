@@ -11,7 +11,6 @@ extension ContentView {
 //    MARK:- the puzzle
     struct CipherSolverPage : View {
         
-        static let letterAnimation = 0.75
         static let phoneLetterPickerHeight = CGFloat(160)
         static let letterCountHeight = CGFloat(120)
         static let viewCornerRadius = CGFloat(10.0)
@@ -124,7 +123,7 @@ extension ContentView {
                 }
             }
             .transition(.move(edge: .bottom))
-            .background(Blur(style: .systemUltraThinMaterialDark))
+            .background(Blur(style: viewModel.theme.blurStyle(for: bookTheme, in: colorScheme)))
             .cornerRadius(Self.viewCornerRadius)
         }
         
@@ -219,6 +218,12 @@ extension EdgeInsets {
     func zero() -> EdgeInsets {
         return EdgeInsets(top: 0.0, leading: 0.0, bottom: 0.0, trailing: 0.0)
     }
+    
+    static
+    func sized(horizontally width : CGFloat, vertically height : CGFloat) -> EdgeInsets {
+    return EdgeInsets(top: height, leading: width, bottom: height, trailing: width)
+    }
+    
 }
 
 

@@ -13,60 +13,6 @@ extension CGRect {
     }
 }
 
-
-//extension Color {
-//
-//    static let myOrange = {Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1))}()
-//
-//    static
-//    func plaintext(for colorScheme : ColorScheme) -> Color {
-//        if colorScheme == .light {
-//            return blue
-//        } else {
-//            return myOrange
-//        }
-//    }
-//
-//    static
-//    func ciphertext(for colorScheme : ColorScheme) -> Color {
-//        if colorScheme == .light {
-//            return black
-//        } else {
-//            return Color.init(white: 0.8)
-//        }
-//    }
-//
-//    static
-//    func backgroundColor(for colorScheme : ColorScheme) -> Color {
-//        if colorScheme == .light {
-//            let lightGray = Color.init(white: 0.95)
-//            return lightGray
-//        } else {
-//            return black
-//        }
-//    }
-//
-//    static
-//    func highlightColor(for colorScheme : ColorScheme) -> Color{
-//        if colorScheme == .light {
-//            return orange
-//        } else {
-//            return blue
-//        }
-//    }
-//
-//    static
-//    func completedColor(for colorScheme : ColorScheme) -> Color{
-//        if colorScheme == .light {
-//            return blue
-//        } else {
-//            return yellow
-//        }
-//    }
-//
-//
-//}
-
 //used for hard setting
 extension Array where Element == Int {
     

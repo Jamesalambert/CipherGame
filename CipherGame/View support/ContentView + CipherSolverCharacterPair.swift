@@ -57,7 +57,7 @@ extension ContentView {
                     }
                     .popover(isPresented: $wasTapped,
                              attachmentAnchor: .point(.top),
-                             arrowEdge: .top){letterPopover()}
+                             arrowEdge: .bottom){letterPopover()}
                 
             } else if UIDevice.current.userInterfaceIdiom == .phone{
                 standardCipherPair(displayPlaintext: true)
@@ -133,9 +133,13 @@ extension ContentView {
         func drawKeyboard() -> some View {
             VStack{
                 ForEach(String.qwerty, id:\.self ){line in
-                    HStack(spacing: 10){
+                    HStack{
                         ForEach(line.map{$0}, id:\.self){ character in
-                            Text(String(character)).onTapGesture {
+                            Text(String(character))
+                                .padding(10)
+                                .background(viewModel.theme.color(of: .keyboardLetters, for: bookTheme, in: colorScheme).opacity(0.1))
+                                .cornerRadius(10)
+                                .onTapGesture {
                                 withAnimation{
                                     viewModel.guess(cipherTextLetter, is: character,
                                                     at: indexInTheCipher)
@@ -145,7 +149,7 @@ extension ContentView {
                             }
                             .fixedSize()
                             .font(viewModel.theme.font(for: .title, for: bookTheme))
-                            .foregroundColor(viewModel.theme.color(of: .keyboardLetters, for: bookTheme, in: colorScheme))
+                                .foregroundColor(viewModel.theme.color(of: .keyboardLetters, for: bookTheme, in: colorScheme))
                             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
                         }
                     }

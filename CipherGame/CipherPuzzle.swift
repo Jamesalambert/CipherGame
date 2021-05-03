@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 class CipherPuzzle : ObservableObject {
     //MARK: - public API
     @Published

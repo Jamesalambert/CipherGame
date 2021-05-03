@@ -13,7 +13,8 @@ extension ThemeManager {
                                               size: ThemeStructure.defaultSizes,
                                               time: ThemeStructure.defaultTimes,
                                               font: treasureFonts,
-                                              images: ThemeStructure.defaultImages)
+                                              images: ThemeStructure.defaultImages,
+                                              blurStyle: ThemeStructure.defaultBlurStyle)
     
     private
     static func treasureColors(_ context : ColorContext) -> Color {
@@ -37,6 +38,8 @@ extension ThemeManager {
             return context.colorScheme == .light ? Color.blue : Color.orange
         case .tappable:
             return context.colorScheme == .light ? Color.orange : Color.blue
+        default:
+            return ThemeStructure.defaultColors(context)
         }
     }
     
@@ -57,11 +60,11 @@ extension ThemeManager {
                                               size: ThemeStructure.defaultSizes,
                                               time: ThemeStructure.defaultTimes,
                                               font: spaceFonts,
-                                              images: spaceImages)
+                                              images: spaceImages,
+                                              blurStyle: blurStyle)
     
     private
     static func spaceColors(_ context : ColorContext) -> Color {
-        
         switch context.item{
         case .ciphertext:
             return Color.gray
@@ -80,7 +83,9 @@ extension ThemeManager {
         case .keyboardLetters:
             return ThemeStructure.yellow
         case .tappable:
-            return Color.blue
+            return Color.white
+        default:
+            return ThemeStructure.defaultColors(context)
         }
     }
     
@@ -128,6 +133,10 @@ extension ThemeManager {
         }
     }
     
+    private
+    static func blurStyle(colorscheme : ColorScheme) -> UIBlurEffect.Style {
+        return .systemUltraThinMaterialDark
+    }
     
     
 }

@@ -45,6 +45,10 @@ class ThemeManager : ThemeDelegateProtocol {
     func image(for item: Item, for bookName: BookTheme) -> Image? {
         return Self.theme(for: bookName).images(ImageContext(item: item))
     }
+    
+    func blurStyle(for bookTheme : BookTheme, in colorScheme : ColorScheme) -> UIBlurEffect.Style {
+        return Self.theme(for: bookTheme).blurStyle(colorScheme)
+    }
     //MARK:- End ThemeDelegate
         
 //  ---------Theme----------
@@ -54,9 +58,8 @@ class ThemeManager : ThemeDelegateProtocol {
                                              size: ThemeStructure.defaultSizes,
                                              time: ThemeStructure.defaultTimes,
                                              font: ThemeStructure.defaultFonts,
-                                             images: ThemeStructure.defaultImages)
-
-    
+                                             images: ThemeStructure.defaultImages,
+                                             blurStyle: ThemeStructure.defaultBlurStyle)
     //MARK:- Private
     struct ThemeStructure {
         
@@ -69,6 +72,8 @@ class ThemeManager : ThemeDelegateProtocol {
         var time : (TimeContext) -> Double
         var font : (FontContext) -> Font
         var images : (ImageContext) -> Image?
+        var blurStyle : (ColorScheme) -> UIBlurEffect.Style
+        
         
         static func defaultColors(_ context : ColorContext) -> Color {            
             switch context.item{
@@ -85,15 +90,18 @@ class ThemeManager : ThemeDelegateProtocol {
             case .puzzleBackground:
                 return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
             case .keyboardBackground:
-                return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
+                return context.colorScheme == .light ? Color.init(white: 0.8) : Color.init(white: 0.20)
             case .keyboardLetters:
                 return context.colorScheme == .light ? Color.blue : Self.myOrange
             case .tappable:
-                return Color.blue 
+                return context.colorScheme == .light ? Color.black : Color.init(white: 0.95) 
+            case .buyButton:
+                return Color.blue
+            case .openButton:
+                return Color.green
             }
         }
        
-        
         static func defaultSizes(context : SizeContext) -> Double {
             let defaults : [SizeContext : Double] = [
                 SizeContext(shape: .puzzlePadding) : 0.05
@@ -114,8 +122,13 @@ class ThemeManager : ThemeDelegateProtocol {
             return Font.system(context.text)
         }
         
+        
         static func defaultImages(context : ImageContext) -> Image? {
             return nil
+        }
+        
+        static func defaultBlurStyle(colorScheme: ColorScheme) -> UIBlurEffect.Style {
+            return colorScheme == .light ? .systemUltraThinMaterialLight : .systemUltraThinMaterialDark
         }
     }
 
@@ -152,6 +165,7 @@ protocol ThemeDelegateProtocol {
     func time(for animation: Animation, for bookName : BookTheme) -> Double?
     func font(for text : Font.TextStyle, for bookName : BookTheme) -> Font?
     func image(for item : Item, for bookName : BookTheme) -> Image?
+    func blurStyle(for bookTheme : BookTheme, in colorscheme : ColorScheme) -> UIBlurEffect.Style
 }
 
 //MARK:- Public types
@@ -165,6 +179,8 @@ enum Item : Hashable {
     case puzzleBackground
     case keyboardBackground
     case keyboardLetters
+    case buyButton
+    case openButton
 }
 
 enum Shape {
