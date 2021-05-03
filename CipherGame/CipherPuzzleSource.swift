@@ -205,10 +205,10 @@ struct Puzzle : Hashable, Codable, Identifiable{
     var header : String
     var footer : String
     var keyAlphabet : String        //the original key alphabet, use for encrypting
-    var solution : String          //what the user needs to figure out (the message may not use all letters)
+    var solution : String           //what the user needs to figure out (the message may not use all letters)
     var riddle : String
-    var riddleAnswers : [String] // first entry is the correct one
-    var riddleKey : String //if the user chooses this value as the answer to another riddle, this puzzle is shown
+    var riddleAnswers : [String]    // first entry is the correct one
+    var riddleKey : String          //if the user chooses this value as the answer to another riddle, this puzzle is shown
     var userRiddleAnswers : [String] = []
     
     var isSolved : Bool {

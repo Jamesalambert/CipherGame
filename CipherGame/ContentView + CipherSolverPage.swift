@@ -40,7 +40,8 @@ extension ContentView {
         
         private
         var dismissPhoneKeyboard : some Gesture {
-            DragGesture().onChanged{ gesture in
+            DragGesture()
+                .onChanged{ gesture in
                 if  abs(gesture.translation.height) > abs(gesture.translation.width){
                     withAnimation{
                         displayPhoneLetterPicker = false
@@ -61,7 +62,7 @@ extension ContentView {
                                     .id(viewModel.currentPuzzleHash)
                                     .padding()
                                 if viewModel.isSolved {
-                                    riddleOptions()
+                                    riddleOptions(with: geometry)
                                         .id(viewModel.currentPuzzleHash)
                                         .transition(.scale)
                                     Spacer(minLength: 250)
@@ -116,19 +117,15 @@ extension ContentView {
                 if displayPhoneLetterPicker {
                     PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker)
                         .frame(height: Self.phoneLetterPickerHeight)
-                        .cornerRadius(Self.viewCornerRadius)
-                        .transition(.move(edge: .bottom))
-                        .gesture(dismissPhoneKeyboard)
+                        .highPriorityGesture(dismissPhoneKeyboard)
                 } else {
                     LetterCount(displayLetterCount: $showLetterCount)
                         .frame(height: showLetterCount ? Self.letterCountHeight : 30)
-                        .transition(.move(edge: .bottom))
                 }
             }
+            .transition(.move(edge: .bottom))
             .background(Blur(style: .systemUltraThinMaterialDark))
-            .frame(width: geometry.size.width,
-                   height: Self.letterCountHeight,
-                   alignment: .bottom)
+            .cornerRadius(Self.viewCornerRadius)
         }
         
         

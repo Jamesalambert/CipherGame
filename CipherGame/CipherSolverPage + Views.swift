@@ -37,9 +37,9 @@ extension ContentView.CipherSolverPage {
     }
     
     @ViewBuilder
-    func riddleOptions() -> some View {
+    func riddleOptions(with geometry : GeometryProxy) -> some View {
             if viewModel.riddleAnswers.count > 1 {
-                MultipleChoiceRiddle()
+                MultipleChoiceRiddle(geometry: geometry)
             }
     }
     
@@ -62,51 +62,54 @@ extension ContentView.CipherSolverPage {
         
         var message : String = "Now you have a new puzzle to solve"
         
+        var geometry : GeometryProxy
+        
         @State
         private
         var typewriterString : String = ""
         
         var body: some View {
+            VStack{
+                Text(viewModel.riddle)
+                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                Spacer()
                 VStack{
-                    Text(viewModel.riddle)
-                        .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-                    Spacer()
-                    VStack{
-                        ForEach(viewModel.riddleAnswers, id:\.self){ answer in
-                            Button{
-                                if viewModel.userRiddleAnswers.isEmpty{
-                                    typewriter(completion: {
-                                        withAnimation{
-                                            lastUserChoice = answer
-                                            viewModel.add(answer: lastUserChoice!)
-                                        }
-                                    })
-                                } else {
+                    ForEach(viewModel.riddleAnswers, id:\.self){ answer in
+                        Button{
+                            if viewModel.userRiddleAnswers.isEmpty{
+                                typewriter(completion: {
                                     withAnimation{
                                         lastUserChoice = answer
                                         viewModel.add(answer: lastUserChoice!)
                                     }
+                                })
+                            } else {
+                                withAnimation{
+                                    lastUserChoice = answer
+                                    viewModel.add(answer: lastUserChoice!)
                                 }
-                            } label: {
-                                Text(answer)
                             }
-                            .padding()
-                            .background(viewModel.theme.color(of: .tappable,
-                                                              for: bookTheme, in: colorScheme)?
-                                            .opacity(lastUserChoice == answer ? 0.3 : 0.1)
-                            )
-                            .cornerRadius(Self.viewCornerRadius)
+                        } label: {
+                            Text(answer)
                         }
+                        .padding()
+                        .background(viewModel.theme.color(of: .tappable,
+                                                          for: bookTheme, in: colorScheme)?
+                                        .opacity(lastUserChoice == answer ? 0.3 : 0.1)
+                        )
+                        .cornerRadius(Self.viewCornerRadius)
                     }
-                    //typewriter text
-                    Text(lastUserChoice == nil ? typewriterString : message)
-                            .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
                 }
-                .padding()
-                .background(Blur(style: .systemUltraThinMaterialDark))
-                .cornerRadius(10)
-                .font(Font.system(.body, design: .monospaced))
-                .onAppear{lastUserChoice = viewModel.userRiddleAnswers.last}
+                //typewriter text
+                Text(lastUserChoice == nil ? typewriterString : message)
+                    .frame(width: 0.5 * geometry.size.width, alignment: .center)
+                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+            }
+            .padding()
+            .background(Blur(style: .systemUltraThinMaterialDark))
+            .cornerRadius(Self.viewCornerRadius)
+            .font(Font.system(.body, design: .monospaced))
+            .onAppear{lastUserChoice = viewModel.userRiddleAnswers.last}
         }
         
         private
