@@ -196,13 +196,11 @@ class CipherPuzzle : ObservableObject {
                                  for: currentPuzzleHash!,
                                  at: index)
     }
-    
-    
     //MARK:-
     func updateVisiblePuzzles() {
-        let defaultPuzzles = currentChapter.puzzles.filter{puzzle in puzzle.riddleKey == ""}
+        let defaultPuzzles = currentChapter.puzzles.filter{puzzle in puzzle.riddleKey.isEmpty}
         //get unlocked puzzles from model.
-        let userAnswers = model.userAnswers(for: currentChapter)
+        let userAnswers = model.userAnswers(for: currentChapterHash!)
         let unlockedPuzzles = userAnswers.compactMap{guessedKey in
             currentChapter.puzzles.first(where: {$0.riddleKey == guessedKey})
         }
@@ -215,7 +213,6 @@ class CipherPuzzle : ObservableObject {
     }
     
 //Experimental!
-    
 //    var charsPerLine : Int = 30
 //    func puzzlines(for width : CGFloat) -> [PuzzleLine] {
 //        charsPerLine = Int(width / 30)

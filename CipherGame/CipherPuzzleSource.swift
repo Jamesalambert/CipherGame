@@ -89,8 +89,8 @@ struct Game : Codable {
         books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].userRiddleAnswers.append(answer)
     }
     
-    func userAnswers(for inputChapter : Chapter) -> [String] {
-        guard let theChapter : Chapter = books.flatMap({$0.chapters}).first(where: {$0 == inputChapter}) else {return []}
+    func userAnswers(for inputChapterHash : UUID) -> [String] {
+        guard let theChapter : Chapter = books.flatMap({$0.chapters}).first(where: {$0.id == inputChapterHash}) else {return []}
         return theChapter.puzzles.flatMap{$0.userRiddleAnswers}
     }
     
