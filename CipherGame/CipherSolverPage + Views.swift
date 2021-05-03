@@ -27,7 +27,7 @@ extension ContentView.CipherSolverPage {
                             .foregroundColor(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
                     }
                     .padding()
-                    .background(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)?
+                    .background(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)?
                                     .opacity( puzzle.id == viewModel.currentPuzzleHash ? 0.3 : 0.1))
                     .cornerRadius(Self.viewCornerRadius)
                     .transition(.move(edge: .bottom))
