@@ -13,7 +13,7 @@ struct ContentView: View {
     var viewModel : CipherPuzzle
     
     @StateObject
-    var store = OnlineStore.shared
+    var store : OnlineStore = OnlineStore.shared
         
     @Environment(\.colorScheme)
     var colorScheme : ColorScheme
@@ -32,7 +32,6 @@ struct ContentView: View {
     var showLetterCount : Bool = true
     
     @State
-    private
     var isShowingIAP : Bool = false
     
     var body: some View {
@@ -57,81 +56,24 @@ struct ContentView: View {
                 Button("More Books"){
                     isShowingIAP = true
                 }
-                
             }.navigationTitle("Puzzle Rooms")
             .listStyle(GroupedListStyle())
             .toolbar{toolbar()}
         }
         .environmentObject(viewModel)
         .onChange(of: scenePhase) { phase in
-            if phase == .inactive {
-                saveAction()
-            }
-        }
-        .sheet(isPresented: $isShowingIAP){
-            IAPContent()
-            .onAppear(perform: store.getAvailableProductIds)
-            .navigationTitle("More Mysteries to Solve!")
-
-        }
-    }
-    
-    @ViewBuilder
-    func IAPContent() -> some View {
-        List{
-            Section(footer:
-                        HStack{
-                            Spacer()
-                            Button{
-                                store.restorePurchases()
-                            } label: {
-                                Text("Restore previous purchases")
-                                    .foregroundColor(Color.blue)
-                            }
-                            Spacer()
-                        }
-            )
-            {
-                ForEach(store.booksForSale) { bookForSale in
-                    HStack{
-                        Image("book").resizable().aspectRatio(contentMode: .fit).frame(width: 60)
-                        VStack(alignment: .leading){
-                            Text(bookForSale.title).font(.title)
-                            Text(bookForSale.description)
-                        }
-                        
-                        Spacer()
-                        
-                        Button {
-                            if viewModel.installedBookIDs.contains(bookForSale.id){
-                                isShowingIAP = false
-                                viewModel.currentChapterHash = viewModel.firstChapterHash(for: bookForSale.id)
-                            } else {
-                                store.buyProduct(bookForSale.id)
-                            }
-                        } label: {
-                            Text(viewModel.installedBookIDs.contains(bookForSale.id) ? "open" : bookForSale.price)
-                                .padding(EdgeInsets.sized(horizontally: 10, vertically: 5))
-                                .background(
-                                    viewModel.theme.color(of: viewModel.installedBookIDs.contains(bookForSale.id) ? .openButton : .buyButton, for: .defaultTheme, in: colorScheme))
-                                .brightness(colorScheme == .light ? 0.30 : 0.0)
-                                .foregroundColor(Color.white)
-                                .font(Font.body.weight(.bold))
-                                .cornerRadius(5)
-                                .transition(.opacity)
-                                //.id(viewModel.availableBookNames.contains(bookForSale.id) ? "open" : bookForSale.price)
-                                .id(bookForSale.id)
-                        }
-                    }
-                }
-            }
-            Text(store.state).foregroundColor(Color.gray)
+            if phase == .inactive {saveAction()}
         }
         .onChange(of: store.finishedTransactions){_ in
             viewModel.loadPurchasedBooksFromKeychain()
         }
+        .sheet(isPresented: $isShowingIAP){
+            IAPContent()
+                .environmentObject(viewModel)
+                .environmentObject(store)
+                .onAppear(perform: store.getAvailableProductIds)
+        }
     }
-    
     
     @ViewBuilder
     func bookHeader(for bookTitle : String) -> some View {
@@ -178,8 +120,6 @@ struct ContentView: View {
     func toolbar() -> some View {
         Menu{
             Toggle("Show Lessons", isOn: $viewModel.showLessons.animation())
-            
-            
             #if DEBUG
             Button("clear Keychain"){
                 viewModel.deleteAllPurchasesFromKeychain()
@@ -188,8 +128,6 @@ struct ContentView: View {
                 print(viewModel.getpurchasesFromKeychain())
             }
             #endif
-            
-            
         } label : {
             Image(systemName: "gearshape")
         }

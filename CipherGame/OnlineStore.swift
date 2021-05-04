@@ -27,7 +27,10 @@ class OnlineStore : NSObject, ObservableObject {
     var booksForSale : [ProductInfo] = []
     
     @Published
-    var state : String = ""
+    var stateDescription : String = ""
+    
+    @Published
+    var state : StoreState = .inactive
     
     private
     var products = [SKProduct]()
@@ -40,7 +43,7 @@ class OnlineStore : NSObject, ObservableObject {
         self.productRequest = SKProductsRequest(productIdentifiers: Set(productIDs))
         productRequest?.delegate = self
         productRequest!.start()
-        state = "getting product list"
+        stateDescription = "getting product list"
     }
 
     func getAvailableProductIds(){
@@ -61,14 +64,15 @@ class OnlineStore : NSObject, ObservableObject {
             let payment = SKPayment(product: product)
             SKPaymentQueue.default().add(self)
             SKPaymentQueue.default().add(payment)
-            state = "starting payment"
+            stateDescription = "starting payment"
+            state = .busy(id)
         }
     }
     
     func restorePurchases() {
         SKPaymentQueue.default().add(self)
         SKPaymentQueue.default().restoreCompletedTransactions()
-        state = "restoring purchases"
+        stateDescription = "restoring purchases"
     }
 }
 
@@ -84,7 +88,7 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
             DispatchQueue.main.async {
                 self.booksForSale = response.products.map{ProductInfo(product: $0)}
                 self.products = response.products
-                self.state = "got \(response.products.count) products"
+                self.stateDescription = "got \(response.products.count) products"
             }
         }
     }
@@ -96,30 +100,32 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
             switch transaction.transactionState {
             case .purchasing:
                 //do nothing
-                
                 break
             case .purchased, .restored:
                 //unlock the item!
                 storeInKeychain(identifier: transaction.payment.productIdentifier)
                 numberOfFinishedTransactions += 1
                 
+                state = .inactive
                 SKPaymentQueue.default().finishTransaction(transaction)
                 SKPaymentQueue.default().remove(self)
             case .failed, .deferred:
+                state = .inactive
                 SKPaymentQueue.default().finishTransaction(transaction)
                 SKPaymentQueue.default().remove(self)
             @unknown default:
+                state = .inactive
                 SKPaymentQueue.default().finishTransaction(transaction)
                 SKPaymentQueue.default().remove(self)
             }
-            state = "\(transaction.transactionState.rawValue)"
+            stateDescription = "\(transaction.transactionState.rawValue)"
         }
         if numberOfFinishedTransactions > 0 {finishedTransactions.toggle()}
     }
     
     //needed for restoring transactions
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
-        state = "finished restoring purchases."
+        stateDescription = "finished restoring purchases."
     }
     
 }
@@ -164,11 +170,16 @@ extension OnlineStore {
         let success = SecItemAdd(query as CFDictionary, nil)
         switch success {
         case errSecSuccess:
-            state = "recoded purchase in keychain"
+            stateDescription = "recoded purchase in keychain"
             return
         default:
-            state = "couldn't record purcase in keychain"
+            stateDescription = "couldn't record purcase in keychain"
            print("couldn't write to keychain error: \(success)")
         }
     }
+}
+
+enum StoreState : Equatable {
+    case inactive
+    case busy (String)
 }

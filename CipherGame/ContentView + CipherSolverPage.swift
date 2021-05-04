@@ -226,9 +226,13 @@ extension EdgeInsets {
     
     static
     func sized(horizontally width : CGFloat, vertically height : CGFloat) -> EdgeInsets {
-    return EdgeInsets(top: height, leading: width, bottom: height, trailing: width)
+        return EdgeInsets(top: height, leading: width, bottom: height, trailing: width)
     }
     
+    static
+    func sized(leading : CGFloat? = 0, trailing : CGFloat? = 0, top : CGFloat? = 0 , bottom : CGFloat? = 0) -> EdgeInsets{
+        return EdgeInsets(top: top ?? 0, leading: leading ?? 0, bottom: bottom ?? 0, trailing: trailing ?? 0)
+    }
 }
 
 
