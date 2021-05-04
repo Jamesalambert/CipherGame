@@ -14,11 +14,11 @@ class OnlineStore : NSObject, ObservableObject {
     static let productsKey = "productIDs"
     
     @Published
-    var productIDs : [String] = {
-        guard let array =  UserDefaults.standard.object(forKey: OnlineStore.productsKey) as? [String] else {return []}
-        print(array)
-        return array
-    }()
+    var productIDs : [String] = [] {
+        didSet{
+            getProductsFromAppStore()
+        }
+    }
     
     @Published
     var finishedTransactions : Bool = false
@@ -26,15 +26,32 @@ class OnlineStore : NSObject, ObservableObject {
     @Published
     var booksForSale : [ProductInfo] = []
     
+    @Published
+    var state : String = ""
+    
     private
     var products = [SKProduct]()
+
+    private
+    var productRequest : SKProductsRequest?
     
-    func getProducts(){
-        let request = SKProductsRequest(productIdentifiers: Set(productIDs))
-        request.delegate = self
-        request.start()
+    private
+    func getProductsFromAppStore(){
+        self.productRequest = SKProductsRequest(productIdentifiers: Set(productIDs))
+        productRequest?.delegate = self
+        productRequest!.start()
+        state = "getting product list"
     }
 
+    func getAvailableProductIds(){
+        let defaults = UserDefaults.standard
+        defaults.set(["test.mysteryIsland","test.spaceBook"], forKey: Self.productsKey)
+        //TODO: retrieve product identiffiers from the network
+        guard let array =  UserDefaults.standard.object(forKey: OnlineStore.productsKey) as? [String] else {return}
+        print(array)
+        self.productIDs = array
+    }
+    
     func buyProduct(_ id : String){
         guard let product = self.products.first(where: {$0.productIdentifier == id}) else {
             print("Couldn't find product with id: \(id)")
@@ -44,25 +61,15 @@ class OnlineStore : NSObject, ObservableObject {
             let payment = SKPayment(product: product)
             SKPaymentQueue.default().add(self)
             SKPaymentQueue.default().add(payment)
+            state = "starting payment"
         }
     }
     
     func restorePurchases() {
         SKPaymentQueue.default().add(self)
         SKPaymentQueue.default().restoreCompletedTransactions()
+        state = "restoring purchases"
     }
-    
-    //needed for restoring transactions?!
-    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
-        print("Finished restoring purchases.")
-    }
-    
-    override init() {
-        //TODO: retrieve product identiffiers from the network
-        let defaults = UserDefaults.standard
-        defaults.set(["test.mysteryIsland","test.spaceBook"], forKey: Self.productsKey)
-    }
-    
 }
 
 
@@ -71,10 +78,13 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
     //SKProductsRequestDelegate
     func productsRequest(_ request: SKProductsRequest, didReceive response: SKProductsResponse){
         print("Invalid product identifiers: \(response.invalidProductIdentifiers)")
+        print("Found \(response.products.count) products")
+        
         if response.products.count > 0 {
             DispatchQueue.main.async {
                 self.booksForSale = response.products.map{ProductInfo(product: $0)}
                 self.products = response.products
+                self.state = "got \(response.products.count) products"
             }
         }
     }
@@ -86,6 +96,7 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
             switch transaction.transactionState {
             case .purchasing:
                 //do nothing
+                
                 break
             case .purchased, .restored:
                 //unlock the item!
@@ -101,8 +112,14 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
                 SKPaymentQueue.default().finishTransaction(transaction)
                 SKPaymentQueue.default().remove(self)
             }
+            state = "\(transaction.transactionState.rawValue)"
         }
         if numberOfFinishedTransactions > 0 {finishedTransactions.toggle()}
+    }
+    
+    //needed for restoring transactions
+    func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
+        state = "finished restoring purchases."
     }
     
 }
@@ -147,8 +164,10 @@ extension OnlineStore {
         let success = SecItemAdd(query as CFDictionary, nil)
         switch success {
         case errSecSuccess:
+            state = "recoded purchase in keychain"
             return
         default:
+            state = "couldn't record purcase in keychain"
            print("couldn't write to keychain error: \(success)")
         }
     }

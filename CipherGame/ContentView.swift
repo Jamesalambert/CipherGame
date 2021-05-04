@@ -50,14 +50,10 @@ struct ContentView: View {
                         }
                     }
                 }
-                
                 NavigationLink("More Books",
                                destination: IAPContent()
-                                .navigationTitle("More Mysteries to Solve!")
-                                .onAppear{
-                                    store.getProducts()
-                               })
-                
+                                .onAppear(perform: store.getAvailableProductIds)
+                                .navigationTitle("More Mysteries to Solve!"))
             }.navigationTitle("Puzzle Rooms")
             .listStyle(GroupedListStyle())
             .toolbar{toolbar()}
@@ -117,6 +113,7 @@ struct ContentView: View {
                     }
                 }
             }
+            Text(store.state).foregroundColor(Color.gray)
         }
         .onChange(of: store.finishedTransactions){_ in
             viewModel.loadPurchasedBooksFromKeychain()
