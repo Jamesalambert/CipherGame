@@ -75,8 +75,8 @@ extension ContentView {
                 }
                 .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?
                                 .resizable()
-                                .aspectRatio(contentMode: .fill))
-                                //.resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
+                                //.aspectRatio(contentMode: .fill)
+                )
             }
         }
         
@@ -84,6 +84,11 @@ extension ContentView {
         @ViewBuilder
         func cipherPuzzleView(with geometry : GeometryProxy) -> some View {
             VStack(alignment: .center, spacing: nil){
+                Spacer()
+                Text(viewModel.puzzleTitle)
+                    .foregroundColor(viewModel.theme.color(of: .ciphertext, for: bookTheme, in: colorScheme))
+                    .font(viewModel.theme.font(for: .title, for: bookTheme))
+                Spacer()
                 Text(viewModel.header)
                     .fixedSize(horizontal: false, vertical: true)
                     .font(viewModel.theme.font(for: .body, for: bookTheme))

@@ -15,8 +15,16 @@ class CipherPuzzle : ObservableObject {
     @Published
     var model : Game
     
-    @Published
-    var visiblePuzzles : [Puzzle] = []
+    var visiblePuzzles : [Puzzle] {
+        guard let currentChapter = currentChapter else {return []}
+        let defaultPuzzles = currentChapter.puzzles.filter{puzzle in puzzle.riddleKey.isEmpty}
+        //get unlocked puzzles from model.
+        let userAnswers = model.userAnswers(for: currentChapterHash!)
+        let unlockedPuzzles = userAnswers.compactMap{guessedKey in
+            currentChapter.puzzles.first(where: {$0.riddleKey == guessedKey})
+        }
+        return defaultPuzzles + unlockedPuzzles
+    }
     
     @Published
     var currentPuzzleHash : UUID?{
@@ -32,9 +40,9 @@ class CipherPuzzle : ObservableObject {
     @Published
     var currentChapterHash : UUID? {
         didSet{
+            guard let currentChapter = currentChapter else {return}
             if currentChapterHash != nil {
                 currentPuzzleHash = currentChapter.puzzles.first?.id
-                updateVisiblePuzzles()
             }
         }
     }
@@ -175,16 +183,16 @@ class CipherPuzzle : ObservableObject {
     }
     
     private
-    var currentChapter : Chapter {
+    var currentChapter : Chapter? {
         let chapters : [Chapter] = model.books.flatMap{$0.chapters}
-        return chapters.first(where: {$0.id == currentChapterHash})!
+        return chapters.first(where: {$0.id == currentChapterHash})
     }
  
     //MARK:- Intent
     
     func add(answer : String){
         model.add(answer: answer, for: currentPuzzleHash!)
-        updateVisiblePuzzles()
+//        updateVisiblePuzzles()
     }
     
     func guess(_ cipherCharacter : Character, is plainCharacter : Character?,
@@ -196,15 +204,15 @@ class CipherPuzzle : ObservableObject {
                                  at: index)
     }
     //MARK:-
-    func updateVisiblePuzzles() {
-        let defaultPuzzles = currentChapter.puzzles.filter{puzzle in puzzle.riddleKey.isEmpty}
-        //get unlocked puzzles from model.
-        let userAnswers = model.userAnswers(for: currentChapterHash!)
-        let unlockedPuzzles = userAnswers.compactMap{guessedKey in
-            currentChapter.puzzles.first(where: {$0.riddleKey == guessedKey})
-        }
-        visiblePuzzles = defaultPuzzles + unlockedPuzzles
-    }
+//    func updateVisiblePuzzles() {
+//        let defaultPuzzles = currentChapter.puzzles.filter{puzzle in puzzle.riddleKey.isEmpty}
+//        //get unlocked puzzles from model.
+//        let userAnswers = model.userAnswers(for: currentChapterHash!)
+//        let unlockedPuzzles = userAnswers.compactMap{guessedKey in
+//            currentChapter.puzzles.first(where: {$0.riddleKey == guessedKey})
+//        }
+//        //visiblePuzzles = defaultPuzzles + unlockedPuzzles
+//    }
     
     func firstChapterHash(for bookID : String) -> UUID?{
         let book = model.books.first{$0.productID == bookID}

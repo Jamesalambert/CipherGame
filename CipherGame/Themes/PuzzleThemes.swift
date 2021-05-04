@@ -19,7 +19,9 @@ class ThemeManager : ThemeDelegateProtocol {
         switch bookTheme {
         case .space:
             return spaceTheme
-        default:
+        case .treasure:
+            return treasureTheme
+        case .defaultTheme:
             return defaultTheme
         }
     }
@@ -192,4 +194,29 @@ enum Animation{
 }
 
 
-
+enum BookTheme : Codable {
+    
+    case defaultTheme, space, treasure
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let rawValue = try? container.decode(String.self)
+        switch rawValue{
+        case "space": self = .space
+        case "default": self = .defaultTheme
+        case "treasure": self = .treasure
+        default:
+            self = .defaultTheme
+        }
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .space: try container.encode("space")
+        case .defaultTheme: try container.encode("default")
+        case .treasure: try container.encode("treasure")
+        }
+    }
+    
+}

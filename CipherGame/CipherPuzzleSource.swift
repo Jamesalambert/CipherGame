@@ -347,26 +347,5 @@ struct ReadablePuzzle : Codable {
     var riddleKey : String //is the user chooses this value as the answer to another riddle, this puzzle is shown
 }
 
-enum BookTheme : Codable {
-    
-    func encode(to encoder: Encoder) throws {
-        var container = encoder.singleValueContainer()
-        switch self {
-        case .space: try container.encode("space")
-        case .defaultTheme: try container.encode("default")
-        }
-    }
-    
-    case defaultTheme, space
-    init(from decoder: Decoder) throws {
-        let container = try decoder.singleValueContainer()
-        let rawValue = try? container.decode(String.self)
-        switch rawValue{
-        case "space": self = .space
-        case "default": self = .defaultTheme
-        default:
-            self = .defaultTheme
-        }
-    }
-}
+
 

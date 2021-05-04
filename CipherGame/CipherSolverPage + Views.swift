@@ -25,6 +25,10 @@ extension ContentView.CipherSolverPage {
                             .lineLimit(1)
                             .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
                             .foregroundColor(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
+                        if puzzle.isSolved{
+                            Image(systemName: "checkmark.circle")
+                                .foregroundColor(colorScheme == .light ? .orange : .green)
+                        }
                     }
                     .padding()
                     .background(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)?

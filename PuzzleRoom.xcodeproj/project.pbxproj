@@ -18,8 +18,6 @@
 		AA3ED4472611493300B25B4A /* ContentView + letter count.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ED4462611493300B25B4A /* ContentView + letter count.swift */; };
 		AA5D867D2614F680008D3B44 /* CipherPrint.css in Resources */ = {isa = PBXBuildFile; fileRef = AA5D867C2614F680008D3B44 /* CipherPrint.css */; };
 		AA7D415B2627986600E1558C /* Lucida Console.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA7D415A2627986600E1558C /* Lucida Console.ttf */; };
-		AA7D415C2627986600E1558C /* Lucida Console.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA7D415A2627986600E1558C /* Lucida Console.ttf */; };
-		AA7D415D2627986600E1558C /* Lucida Console.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA7D415A2627986600E1558C /* Lucida Console.ttf */; };
 		AA8F640C26053E2E005B148F /* UITextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F640B26053E2E005B148F /* UITextFieldView.swift */; };
 		AA93855D2639FD7B00051BC6 /* CipherSolverPage + Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93855C2639FD7A00051BC6 /* CipherSolverPage + Views.swift */; };
 		AA938562263CB72300051BC6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA938561263CB72300051BC6 /* StoreKit.framework */; };
@@ -32,6 +30,7 @@
 		AA9766BC2601651E0076B879 /* CipherGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766BB2601651E0076B879 /* CipherGameUITests.swift */; };
 		AA9766CD26016DED0076B879 /* CipherPuzzleSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */; };
 		AA9766D226016EB60076B879 /* CipherPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766D126016EB60076B879 /* CipherPuzzle.swift */; };
+		AADB10D92641812800089D8B /* Lucida Calligraphy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AADB10D826417EBE00089D8B /* Lucida Calligraphy.ttf */; };
 		AAE55ABC261FBDAC0019407E /* ContentView + Blur.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE55ABB261FBDAC0019407E /* ContentView + Blur.swift */; };
 		AAE55ADF2624E4220019407E /* PuzzleThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE55ADE2624E4220019407E /* PuzzleThemes.swift */; };
 		AAE55AED262628090019407E /* PuzzleThemes + Treasure.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE55AEC262628090019407E /* PuzzleThemes + Treasure.swift */; };
@@ -90,6 +89,7 @@
 		AA9766BD2601651E0076B879 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherPuzzleSource.swift; sourceTree = "<group>"; };
 		AA9766D126016EB60076B879 /* CipherPuzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherPuzzle.swift; sourceTree = "<group>"; };
+		AADB10D826417EBE00089D8B /* Lucida Calligraphy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lucida Calligraphy.ttf"; sourceTree = "<group>"; };
 		AAE55ABB261FBDAC0019407E /* ContentView + Blur.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + Blur.swift"; sourceTree = "<group>"; };
 		AAE55ADE2624E4220019407E /* PuzzleThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleThemes.swift; sourceTree = "<group>"; };
 		AAE55AEC262628090019407E /* PuzzleThemes + Treasure.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleThemes + Treasure.swift"; sourceTree = "<group>"; };
@@ -143,6 +143,7 @@
 		AA7D41642627987000E1558C /* fonts */ = {
 			isa = PBXGroup;
 			children = (
+				AADB10D826417EBE00089D8B /* Lucida Calligraphy.ttf */,
 				AA7D415A2627986600E1558C /* Lucida Console.ttf */,
 			);
 			path = fonts;
@@ -371,6 +372,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA9766A62601651D0076B879 /* Preview Assets.xcassets in Resources */,
+				AADB10D92641812800089D8B /* Lucida Calligraphy.ttf in Resources */,
 				AAE6270D2617ED50004BF125 /* Rebecca's Garden.json in Resources */,
 				AA7D415B2627986600E1558C /* Lucida Console.ttf in Resources */,
 				AA0B9CD9263DDF46006A4CD1 /* test.spaceBook.json in Resources */,
@@ -386,7 +388,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA7D415C2627986600E1558C /* Lucida Console.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -394,7 +395,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA7D415D2627986600E1558C /* Lucida Console.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

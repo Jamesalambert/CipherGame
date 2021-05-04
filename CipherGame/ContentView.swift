@@ -42,10 +42,9 @@ struct ContentView: View {
                         ForEach(book.chapters){ chapter in
                             NavigationLink(destination: CipherSolverPage(showLetterCount: $showLetterCount)
                                                             .environment(\.bookTheme, book.theme)
-                                            .navigationTitle("\(book.title): \(chapter.title)"),
+                                                            .navigationTitle("\(chapter.title)"),
                                            tag: chapter.id,
                                            selection: $viewModel.currentChapterHash){
-                                
                                 puzzleEntry(for: chapter, in: book)
                             }
                         }
@@ -56,10 +55,10 @@ struct ContentView: View {
                                destination: IAPContent()
                                 .navigationTitle("More Mysteries to Solve!")
                                 .onAppear{
-                                store.getProducts()
+                                    store.getProducts()
                                })
                 
-            }.navigationTitle("Code Books")
+            }.navigationTitle("Puzzle Rooms")
             .listStyle(GroupedListStyle())
             .toolbar{toolbar()}
         }.environmentObject(viewModel)

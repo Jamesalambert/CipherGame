@@ -25,6 +25,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>Lucida Console.ttf</string>
+		<string>Lucida Calligraphy.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

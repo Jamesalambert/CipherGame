@@ -26,7 +26,7 @@ extension CipherPuzzle {
     
     func reset() -> Void{
         model.reset(currentPuzzleHash!)
-        updateVisiblePuzzles()
+//        updateVisiblePuzzles()
     }
     
     func quickHint() -> Void {

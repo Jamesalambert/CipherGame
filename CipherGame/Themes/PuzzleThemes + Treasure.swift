@@ -13,7 +13,7 @@ extension ThemeManager {
                                               size: ThemeStructure.defaultSizes,
                                               time: ThemeStructure.defaultTimes,
                                               font: treasureFonts,
-                                              images: ThemeStructure.defaultImages,
+                                              images: treasureImages,
                                               blurStyle: ThemeStructure.defaultBlurStyle)
     
     private
@@ -21,35 +21,70 @@ extension ThemeManager {
         
         switch context.item{
         case .ciphertext:
-            return context.colorScheme == .light ? Color.black : Color.gray
+            return  Color.black
         case .plaintext:
-            return context.colorScheme == .light ? Color.blue : Color.orange
+            return  Color.gray
         case .puzzleLines:
             return Color.red
         case .highlight:
-            return context.colorScheme == .light ? Color.orange : Color.blue
+            return Color.orange
         case .completed:
-            return context.colorScheme == .light ? Color.red : Color.red
+            return Color.red
         case .puzzleBackground:
-            return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
+            return Color.white
         case .keyboardBackground:
             return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
         case .keyboardLetters:
-            return context.colorScheme == .light ? Color.blue : Color.orange
+            return treasureColors(ColorContext(item: .plaintext, colorScheme: context.colorScheme))
         case .tappable:
-            return context.colorScheme == .light ? Color.orange : Color.blue
+            return Color.orange
         default:
             return ThemeStructure.defaultColors(context)
         }
     }
     
-    
     private
     static func treasureFonts(context : FontContext) -> Font {
-        let defaults : [FontContext : Font] = [:]
-        return defaults[context] ?? Font.system(.body)
+                
+        let themeFont = "Lucida Calligraphy"
+    
+        switch context.text {
+        case .title:
+            return Font.custom(themeFont, size: 30)
+        case .largeTitle:
+            return Font.custom(themeFont, size: 40)
+        case .title2:
+            return Font.custom(themeFont, size: 30)
+        case .title3:
+            return Font.custom(themeFont, size: 30)
+        case .headline:
+            return Font.custom(themeFont, size: 30)
+        case .subheadline:
+            return Font.custom(themeFont, size: 15)
+        case .body:
+            return Font.custom(themeFont, size: 20)
+        case .callout:
+            return Font.custom(themeFont, size: 30)
+        case .footnote:
+            return Font.custom(themeFont, size: 20)
+        case .caption:
+            return Font.custom(themeFont, size: 20)
+        case .caption2:
+            return Font.custom(themeFont, size: 20)
+        @unknown default:
+            return Font.custom(themeFont, size: 30)
+        }
     }
     
+    private
+    static func treasureImages(context: ImageContext) -> Image? {
+        switch context.item {
+        case .puzzleBackground:
+            return Image("parchment")
+        default:
+            return nil
+        }
+    }
     
     
     
@@ -61,7 +96,7 @@ extension ThemeManager {
                                               time: ThemeStructure.defaultTimes,
                                               font: spaceFonts,
                                               images: spaceImages,
-                                              blurStyle: blurStyle)
+                                              blurStyle: spaceBlurStyle)
     
     private
     static func spaceColors(_ context : ColorContext) -> Color {
@@ -84,7 +119,9 @@ extension ThemeManager {
             return ThemeStructure.yellow
         case .tappable:
             return Color.white
-        default:
+        case .buyButton:
+            return ThemeStructure.defaultColors(context)
+        case .openButton:
             return ThemeStructure.defaultColors(context)
         }
     }
@@ -93,7 +130,7 @@ extension ThemeManager {
     private
     static func spaceFonts(context : FontContext) -> Font {
                 
-        let themeFont = "LucidaConsole"
+        let themeFont = "Lucida Console"
     
         switch context.text {
         case .title:
@@ -134,7 +171,7 @@ extension ThemeManager {
     }
     
     private
-    static func blurStyle(colorscheme : ColorScheme) -> UIBlurEffect.Style {
+    static func spaceBlurStyle(colorscheme : ColorScheme) -> UIBlurEffect.Style {
         return .systemUltraThinMaterialDark
     }
     
