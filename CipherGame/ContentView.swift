@@ -31,6 +31,10 @@ struct ContentView: View {
     private
     var showLetterCount : Bool = true
     
+    @State
+    private
+    var isShowingIAP : Bool = false
+    
     var body: some View {
         NavigationView{
             List{
@@ -50,18 +54,25 @@ struct ContentView: View {
                         }
                     }
                 }
-                NavigationLink("More Books",
-                               destination: IAPContent()
-                                .onAppear(perform: store.getAvailableProductIds)
-                                .navigationTitle("More Mysteries to Solve!"))
+                Button("More Books"){
+                    isShowingIAP = true
+                }
+                
             }.navigationTitle("Puzzle Rooms")
             .listStyle(GroupedListStyle())
             .toolbar{toolbar()}
-        }.environmentObject(viewModel)
+        }
+        .environmentObject(viewModel)
         .onChange(of: scenePhase) { phase in
             if phase == .inactive {
                 saveAction()
             }
+        }
+        .sheet(isPresented: $isShowingIAP){
+            IAPContent()
+            .onAppear(perform: store.getAvailableProductIds)
+            .navigationTitle("More Mysteries to Solve!")
+
         }
     }
     
@@ -93,6 +104,7 @@ struct ContentView: View {
                         
                         Button {
                             if viewModel.installedBookIDs.contains(bookForSale.id){
+                                isShowingIAP = false
                                 viewModel.currentChapterHash = viewModel.firstChapterHash(for: bookForSale.id)
                             } else {
                                 store.buyProduct(bookForSale.id)
