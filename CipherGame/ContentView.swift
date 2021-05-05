@@ -116,6 +116,7 @@ struct ContentView: View {
         }
     }
     
+
     @ViewBuilder
     func toolbar() -> some View {
         Menu{
@@ -135,11 +136,9 @@ struct ContentView: View {
 }
 
     
-
+#if DEBUG
 struct ContentView_Previews: PreviewProvider {
-    
     static var previews: some View {
-        
         let game = CipherPuzzle()
         let store = OnlineStore.shared
         Group {
@@ -147,6 +146,6 @@ struct ContentView_Previews: PreviewProvider {
         }
     }
 }
-
+#endif
 
 

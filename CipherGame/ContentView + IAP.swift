@@ -20,14 +20,11 @@ extension ContentView{
                     HStack{
                         Image("book").resizable().aspectRatio(contentMode: .fit).frame(width: 60)
                         VStack(alignment: .leading){
-                            HStack{
-                                Text(bookForSale.title).font(.title)
-                                Spacer()
-                                IAPButton(isShowingIAP: $isShowingIAP, bookForSale: bookForSale)
-                            }
+                            Text(bookForSale.title).font(.title)
                             Text(bookForSale.description)
                         }
                         Spacer(minLength: 50)
+                        IAPButton(isShowingIAP: $isShowingIAP, bookForSale: bookForSale)
                     }
                 }
             }
@@ -55,35 +52,50 @@ extension ContentView{
         var bookForSale : ProductInfo
         
         var body: some View{
-            
             Button {
                 if viewModel.installedBookIDs.contains(bookForSale.id){
                     isShowingIAP = false
                     viewModel.currentChapterHash = viewModel.firstChapterHash(for: bookForSale.id)
                 } else {
-                    store.buyProduct(bookForSale.id)
+                    withAnimation{
+                        store.buyProduct(bookForSale.id)
+                    }
                 }
             } label: {
-                    HStack{
-                        if store.state == StoreState.busy(bookForSale.id) {
-                            ProgressView()
-                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                                .padding(EdgeInsets.sized(leading: 10))
-                                .transition(.move(edge: .trailing))
+                    VStack(alignment: .trailing){
+                        HStack{
+                            ActivityIndicator(isActive: store.state == StoreState.busy(bookForSale.id))
+                                .frame(width: 20 ,
+                                       height: 20,
+                                       alignment: .center)
+                                .padding(EdgeInsets.sized(horizontally: 5, vertically: 2))
+                                .opacity(store.state == StoreState.busy(bookForSale.id) ? 1 : 0)
+
+                            Text(viewModel.installedBookIDs.contains(bookForSale.id) ? "open" : bookForSale.price)
+                                .padding(EdgeInsets.sized(horizontally: 10, vertically: 5))
                         }
-                        Text(viewModel.installedBookIDs.contains(bookForSale.id) ? "open" : bookForSale.price)
-                            .padding(EdgeInsets.sized(horizontally: 10, vertically: 5))
+                        .background(viewModel.theme.color(of: viewModel.installedBookIDs.contains(bookForSale.id) ? .openButton : .buyButton, for: .defaultTheme, in: colorScheme))
+                        .brightness(colorScheme == .light ? 0.30 : 0.0)
+                        .foregroundColor(Color.white)
+                        .font(Font.body.weight(.bold))
+                        .cornerRadius(5)
                     }
-                    .background(viewModel.theme.color(of: viewModel.installedBookIDs.contains(bookForSale.id) ? .openButton : .buyButton, for: .defaultTheme, in: colorScheme))
-                    .brightness(colorScheme == .light ? 0.30 : 0.0)
-                    .foregroundColor(Color.white)
-                    .font(Font.body.weight(.bold))
-                    .cornerRadius(5)
-//                            .transition(.opacity)
             }
         }
     }
     
+    struct ActivityIndicator : View {
+        var indicatorColour : Color = .white
+        var isActive : Bool
+        var body : some View {
+                Circle()
+                    .trim(from: 0, to: 0.3)
+                    .stroke(lineWidth: 5)
+                    .rotationEffect(Angle.degrees(isActive ? 360 : 0))
+                    .animation(isActive ? .linear(duration: 1).repeatForever(autoreverses: false) : .default)
+                    .aspectRatio(1, contentMode: .fit)
+        }
+    }
     
     @ViewBuilder
     func restorePurchasesButton() -> some View {
