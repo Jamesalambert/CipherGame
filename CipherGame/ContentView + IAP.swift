@@ -65,15 +65,9 @@ extension ContentView{
                     VStack(alignment: .trailing){
                         HStack{
                             ActivityIndicator(isActive: store.state == StoreState.busy(bookForSale.id))
-                                .frame(width: 20 ,
-                                       height: 20,
-                                       alignment: .center)
-                                .padding(EdgeInsets.sized(horizontally: 5, vertically: 2))
-                                .opacity(store.state == StoreState.busy(bookForSale.id) ? 1 : 0)
-
                             Text(viewModel.installedBookIDs.contains(bookForSale.id) ? "open" : bookForSale.price)
-                                .padding(EdgeInsets.sized(horizontally: 10, vertically: 5))
                         }
+                        .padding(EdgeInsets.sized(horizontally: 10, vertically: 5))
                         .background(viewModel.theme.color(of: viewModel.installedBookIDs.contains(bookForSale.id) ? .openButton : .buyButton, for: .defaultTheme, in: colorScheme))
                         .brightness(colorScheme == .light ? 0.30 : 0.0)
                         .foregroundColor(Color.white)
@@ -86,14 +80,21 @@ extension ContentView{
     
     struct ActivityIndicator : View {
         var indicatorColour : Color = .white
-        var isActive : Bool
+        var isActive : Bool = false
         var body : some View {
+            ZStack{
                 Circle()
                     .trim(from: 0, to: 0.3)
                     .stroke(lineWidth: 5)
-                    .rotationEffect(Angle.degrees(isActive ? 360 : 0))
-                    .animation(isActive ? .linear(duration: 1).repeatForever(autoreverses: false) : .default)
                     .aspectRatio(1, contentMode: .fit)
+                    .frame(width: 20, height: 20, alignment: .trailing)
+                    .rotationEffect(Angle.degrees(isActive ? 360 : 0))
+                    .animation(.linear(duration: 1).repeatForever(autoreverses: false))
+            }
+            .frame(width: isActive ? 20 : 0,
+                   height: 20,
+                   alignment: .trailing)
+            .opacity(isActive ? 1 : 0)
         }
     }
     
