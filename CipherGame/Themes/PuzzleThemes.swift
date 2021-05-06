@@ -10,8 +10,6 @@ import SwiftUI
 
 class ThemeManager {
 
-    
-    
     private
     static
     func theme(for bookTheme : BookTheme?) -> ThemeStructure {
@@ -29,7 +27,7 @@ class ThemeManager {
     }
     
 
-    //MARK:- ThemeDelegateProtocol
+    //MARK:- public
     func color(of item: Item, for themeName : BookTheme, in colorScheme : ColorScheme ) -> Color? {
         return Self.theme(for: themeName).color(ColorContext(item: item, colorScheme: colorScheme))
     }
@@ -67,7 +65,7 @@ class ThemeManager {
     //MARK:- Private
     struct ThemeStructure {
         
-        static let myOrange = {Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1))}()
+        static let myOrange = Color(#colorLiteral(red: 0.9372549057, green: 0.3490196168, blue: 0.1921568662, alpha: 1))
         static let cyan = Color(#colorLiteral(red: 0, green: 0.6404201388, blue: 0.8557960391, alpha: 1))
         static let yellow = Color(#colorLiteral(red: 1, green: 0.9398623705, blue: 0.01244911458, alpha: 1))
         
@@ -160,18 +158,6 @@ class ThemeManager {
     }
 }
 
-
-
-//MARK:- Protocol
-
-//protocol ThemeDelegateProtocol {
-//    func color(of item : Item, for bookName : BookTheme, in colorScheme : ColorScheme) -> Color?
-//    func size(of shape: Shape, for bookName : BookTheme) -> Double?
-//    func time(for animation: Animation, for bookName : BookTheme) -> Double?
-//    func font(for text : Font.TextStyle, item : Item, for themeName : BookTheme) -> Font?
-//    func image(for item : Item, for bookName : BookTheme) -> Image?
-//    func blurStyle(for bookTheme : BookTheme, in colorscheme : ColorScheme) -> UIBlurEffect.Style
-//}
 
 //MARK:- Public types
 enum Item : Hashable {
