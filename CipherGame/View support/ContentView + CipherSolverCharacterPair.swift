@@ -76,6 +76,7 @@ extension ContentView {
             VStack{
                 Text(String(cipherTextLetter))
                     .fixedSize()
+                    .font(viewModel.theme.font(for: .title,item: .ciphertext, for: bookTheme))
                 Spacer()
                 
                 if displayPlaintext {
@@ -83,6 +84,7 @@ extension ContentView {
                         .frame(height : 30)
                         .foregroundColor(viewModel.theme.color(of: .plaintext,
                                                                for: bookTheme, in: colorScheme))
+                        .font(viewModel.theme.font(for: .title, item: .plaintext, for: bookTheme))
                         .fixedSize()
                 }
                 
@@ -93,7 +95,6 @@ extension ContentView {
                                                                for: bookTheme, in: colorScheme)),
                      alignment: .bottom )
             .padding(.top)
-            .font(viewModel.theme.font(for: .title, for: bookTheme))
             .foregroundColor(foregroundColor(for: colorScheme))
             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
         }

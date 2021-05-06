@@ -65,7 +65,6 @@ extension ContentView{
                     VStack(alignment: .trailing){
                         HStack(spacing: 0){
                             ActivityIndicator(isActive: store.state == StoreState.busy(bookForSale.id))
-                                .padding(EdgeInsets.sized(horizontally: 5, vertically: 5))
                             Text(viewModel.installedBookIDs.contains(bookForSale.id) ? "open" : bookForSale.price)
                                 .padding(EdgeInsets.sized(horizontally: 10, vertically: 5))
                         }
@@ -86,7 +85,7 @@ extension ContentView{
             ZStack{
                 Circle()
                     .trim(from: 0, to: 0.3)
-                    .stroke(lineWidth: 5)
+                    .stroke(lineWidth: 3)
                     .aspectRatio(1, contentMode: .fit)
                     .frame(width: 20, height: 20, alignment: .trailing)
                     .rotationEffect(Angle.degrees(isActive ? 360 : 0))

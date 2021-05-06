@@ -10,7 +10,7 @@ import SwiftUI
 class CipherPuzzle : ObservableObject {
     //MARK: - public API
     @Published
-    var theme : ThemeDelegateProtocol = ThemeManager()
+    var theme : ThemeManager = ThemeManager()
     
     @Published
     var model : Game

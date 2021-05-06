@@ -46,8 +46,8 @@ extension ThemeManager {
     private
     static func treasureFonts(context : FontContext) -> Font {
                 
-        let themeFont = "Lucida Calligraphy"
-    
+        let themeFont = context.item != .plaintext ? "Lucida Calligraphy" : "Courier"
+        
         switch context.text {
         case .title:
             return Font.custom(themeFont, size: 30)

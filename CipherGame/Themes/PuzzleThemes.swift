@@ -8,7 +8,9 @@
 
 import SwiftUI
 
-class ThemeManager : ThemeDelegateProtocol {
+class ThemeManager {
+
+    
     
     private
     static
@@ -40,8 +42,8 @@ class ThemeManager : ThemeDelegateProtocol {
         return Self.theme(for: themeName).time(TimeContext(animation: animation))
     }
     
-    func font(for text : Font.TextStyle, for themeName : BookTheme) -> Font? {
-        return Self.theme(for: themeName).font(FontContext(text: text))
+    func font(for text : Font.TextStyle, item : Item = .plaintext, for themeName : BookTheme) -> Font? {
+        return Self.theme(for: themeName).font(FontContext(item : item, text: text))
     }
     
     func image(for item: Item, for bookName: BookTheme) -> Image? {
@@ -149,6 +151,7 @@ class ThemeManager : ThemeDelegateProtocol {
     }
 
     struct FontContext : Hashable {
+        var item : Item
         var text : Font.TextStyle
     }
     
@@ -161,14 +164,14 @@ class ThemeManager : ThemeDelegateProtocol {
 
 //MARK:- Protocol
 
-protocol ThemeDelegateProtocol {
-    func color(of item : Item, for bookName : BookTheme, in colorScheme : ColorScheme) -> Color?
-    func size(of shape: Shape, for bookName : BookTheme) -> Double?
-    func time(for animation: Animation, for bookName : BookTheme) -> Double?
-    func font(for text : Font.TextStyle, for bookName : BookTheme) -> Font?
-    func image(for item : Item, for bookName : BookTheme) -> Image?
-    func blurStyle(for bookTheme : BookTheme, in colorscheme : ColorScheme) -> UIBlurEffect.Style
-}
+//protocol ThemeDelegateProtocol {
+//    func color(of item : Item, for bookName : BookTheme, in colorScheme : ColorScheme) -> Color?
+//    func size(of shape: Shape, for bookName : BookTheme) -> Double?
+//    func time(for animation: Animation, for bookName : BookTheme) -> Double?
+//    func font(for text : Font.TextStyle, item : Item, for themeName : BookTheme) -> Font?
+//    func image(for item : Item, for bookName : BookTheme) -> Image?
+//    func blurStyle(for bookTheme : BookTheme, in colorscheme : ColorScheme) -> UIBlurEffect.Style
+//}
 
 //MARK:- Public types
 enum Item : Hashable {
