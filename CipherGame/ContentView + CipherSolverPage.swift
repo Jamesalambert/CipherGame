@@ -49,34 +49,68 @@ extension ContentView {
             }
         }
         
+//        var body : some View {
+//            GeometryReader { geometry in
+//                VStack{
+//                    Spacer(minLength: 10)
+//                    puzzleChooser(for: geometry)
+//                        .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
+//                    ZStack(alignment: .bottom){
+//                        ScrollView{
+//                            VStack{
+//                                cipherPuzzleView(with: geometry)
+//                                    .id(viewModel.currentPuzzleHash)
+//                                    .padding()
+//                                if viewModel.isSolved {
+//                                    riddleOptions(with: geometry)
+//                                        .id(viewModel.currentPuzzleHash)
+//                                        .transition(.scale)
+//                                    Spacer(minLength: 250)
+//                                }
+//                            }
+//                            .background(viewModel.theme.image(for: .puzzlePaper, for: bookTheme)?.resizable())
+//                        }
+//                        keyboardAndLettercount(for: geometry)
+//                    }
+//                    .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
+//                    .toolbar{toolbarView()}
+//                }
+//                .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
+//                .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable())
+//            }
+//        }
+        
+        
+        
         var body : some View {
             GeometryReader { geometry in
-                VStack{
-                    Spacer(minLength: 10)
-                    puzzleChooser(for: geometry)
-                    ZStack(alignment: .bottom){
-                        ScrollView{
-                            VStack{
-                                cipherPuzzleView(with: geometry)
+                ZStack(alignment: .bottom){
+                    ScrollView{
+                        VStack{
+                            Spacer()
+                            puzzleChooser(for: geometry)
+                            Spacer()
+                            Spacer(minLength: 30)
+                            cipherPuzzleView(with: geometry)
+                                .id(viewModel.currentPuzzleHash)
+                                .padding()
+                            if viewModel.isSolved {
+                                riddleOptions(with: geometry)
                                     .id(viewModel.currentPuzzleHash)
-                                    .padding()
-                                if viewModel.isSolved {
-                                    riddleOptions(with: geometry)
-                                        .id(viewModel.currentPuzzleHash)
-                                        .transition(.scale)
-                                    Spacer(minLength: 250)
-                                }
+                                    .transition(.scale)
+                                Spacer(minLength: 250)
                             }
                         }
+                        .background(viewModel.theme.image(for: .puzzlePaper, for: bookTheme)?.resizable())
+                    }
+                    VStack{
                         keyboardAndLettercount(for: geometry)
                     }
-                    .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
-                    .toolbar{toolbarView()}
                 }
-                .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?
-                                .resizable()
-                                //.aspectRatio(contentMode: .fill)
-                )
+                .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
+                .toolbar{toolbarView()}
+                .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
+                .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable())
             }
         }
         
@@ -92,7 +126,7 @@ extension ContentView {
                 Text(viewModel.header)
                     .fixedSize(horizontal: false, vertical: true)
                     .font(viewModel.theme.font(for: .body, for: bookTheme))
-                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
                 Spacer()
                     .frame(height: geometry.size.height/20)
                 
@@ -111,7 +145,7 @@ extension ContentView {
                 Spacer().frame(height: geometry.size.height/20)
                 Text(viewModel.footer)
                     .font(viewModel.theme.font(for: .body, for: bookTheme))
-                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
             }
         }
         

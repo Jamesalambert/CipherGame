@@ -14,7 +14,7 @@ extension ThemeManager {
                                               time: ThemeStructure.defaultTimes,
                                               font: treasureFonts,
                                               images: treasureImages,
-                                              blurStyle: ThemeStructure.defaultBlurStyle)
+                                              blurStyle: treasureBlurStyle)
     
     private
     static func treasureColors(_ context : ColorContext) -> Color {
@@ -26,20 +26,22 @@ extension ThemeManager {
             return  brown
         case .plaintext:
             return .black
+        case .gameText:
+            return ThemeStructure.myOrange
         case .puzzleLines:
-            return .red
+            return ThemeStructure.myOrange
         case .highlight:
-            return .orange
+            return ThemeStructure.myOrange
         case .completed:
-            return .red
+            return ThemeStructure.myOrange
         case .puzzleBackground:
-            return .white
-        case .keyboardBackground:
             return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
+        case .keyboardBackground:
+            return Color.init(white: 0.95)
         case .keyboardLetters:
             return treasureColors(ColorContext(item: .plaintext, colorScheme: context.colorScheme))
         case .tappable:
-            return .orange
+            return brown
         default:
             return ThemeStructure.defaultColors(context)
         }
@@ -81,10 +83,16 @@ extension ThemeManager {
     private
     static func treasureImages(context: ImageContext) -> Image? {
         switch context.item {
-        case .puzzleBackground:
+        case .puzzlePaper:
             return Image("parchment")
         default:
             return nil
         }
     }
+    
+    private
+    static func treasureBlurStyle(colorscheme : ColorScheme) -> UIBlurEffect.Style {
+        return .systemUltraThinMaterialLight
+    }
+    
 }

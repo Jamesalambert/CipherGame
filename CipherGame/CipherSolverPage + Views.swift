@@ -27,12 +27,13 @@ extension ContentView.CipherSolverPage {
                             .foregroundColor(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
                         if puzzle.isSolved{
                             Image(systemName: "checkmark.circle")
-                                .foregroundColor(colorScheme == .light ? .orange : .green)
+                                .foregroundColor(viewModel.theme.color(of: .completed, for: bookTheme, in: colorScheme))
                         }
                     }
                     .padding()
-                    .background(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)?
-                                    .opacity( puzzle.id == viewModel.currentPuzzleHash ? 0.3 : 0.1))
+//                    .background(Blur(style: viewModel.theme.blurStyle(for: bookTheme, in: colorScheme)))
+                    .background(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)
+                                    .opacity(puzzle.id == viewModel.currentPuzzleHash ? 0.30 : 0.1))
                     .cornerRadius(Self.viewCornerRadius)
                     .transition(.move(edge: .bottom))
                 }
@@ -76,7 +77,7 @@ extension ContentView.CipherSolverPage {
         var body: some View {
             VStack{
                 Text(viewModel.riddle)
-                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
                 Spacer()
                 VStack{
                     ForEach(viewModel.riddleAnswers, id:\.self){ answer in
@@ -109,7 +110,7 @@ extension ContentView.CipherSolverPage {
                 //typewriter text
                 Text(lastUserChoice == nil ? typewriterString : message)
                     .frame(width: 0.5 * geometry.size.width, alignment: .center)
-                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
+                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
             }
             .padding()
             .background(Blur(style: viewModel.theme.blurStyle(for: bookTheme, in: colorScheme)))

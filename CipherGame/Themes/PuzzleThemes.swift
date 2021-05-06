@@ -10,23 +10,6 @@ import SwiftUI
 
 class ThemeManager {
 
-    private
-    static
-    func theme(for bookTheme : BookTheme?) -> ThemeStructure {
-        
-        guard let bookTheme = bookTheme else { return defaultTheme }
-        
-        switch bookTheme {
-        case .space:
-            return spaceTheme
-        case .treasure:
-            return treasureTheme
-        case .defaultTheme:
-            return defaultTheme
-        }
-    }
-    
-
     //MARK:- public
     func color(of item: Item, for themeName : BookTheme, in colorScheme : ColorScheme ) -> Color? {
         return Self.theme(for: themeName).color(ColorContext(item: item, colorScheme: colorScheme))
@@ -51,9 +34,24 @@ class ThemeManager {
     func blurStyle(for bookTheme : BookTheme, in colorScheme : ColorScheme) -> UIBlurEffect.Style {
         return Self.theme(for: bookTheme).blurStyle(colorScheme)
     }
-    //MARK:- End ThemeDelegate
+    
+    private
+    static
+    func theme(for bookTheme : BookTheme?) -> ThemeStructure {
         
-//  ---------Theme----------
+        guard let bookTheme = bookTheme else { return defaultTheme }
+        
+        switch bookTheme {
+        case .space:
+            return spaceTheme
+        case .treasure:
+            return treasureTheme
+        case .defaultTheme:
+            return defaultTheme
+        }
+    }
+    
+    //MARK:-  --------Default-Theme----------
     
     private
     static let defaultTheme = ThemeStructure(color: ThemeStructure.defaultColors,
@@ -83,13 +81,15 @@ class ThemeManager {
                 return context.colorScheme == .light ? Color.black : Color.init(white: 0.8)
             case .plaintext:
                 return context.colorScheme == .light ? Color.blue : Self.myOrange
+            case .gameText:
+                return context.colorScheme == .light ? Self.myOrange : Color.blue
             case .puzzleLines:
                 return context.colorScheme == .light ? Color.blue : Self.myOrange
             case .highlight:
                 return context.colorScheme == .light ? Self.myOrange : Color.blue
             case .completed:
                 return context.colorScheme == .light ? Self.myOrange : Color.blue
-            case .puzzleBackground:
+            case .puzzleBackground, .puzzlePaper:
                 return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
             case .keyboardBackground:
                 return context.colorScheme == .light ? Color.init(white: 0.8) : Color.init(white: 0.20)
@@ -163,11 +163,13 @@ class ThemeManager {
 enum Item : Hashable {
     case tappable
     case ciphertext
+    case gameText
     case plaintext
     case puzzleLines
     case highlight
     case completed
     case puzzleBackground
+    case puzzlePaper
     case keyboardBackground
     case keyboardLetters
     case buyButton

@@ -5,7 +5,7 @@
 //  Created by J Lambert on 06/05/2021.
 //
 
-import Foundation
+import SwiftUI
 
 extension ThemeManager {
     //    Space Theme ///////////////////////////////////
@@ -24,14 +24,16 @@ extension ThemeManager {
                 return .gray
             case .plaintext:
                 return ThemeStructure.yellow
+            case .gameText:
+                return ThemeStructure.myOrange
             case .puzzleLines:
                 return ThemeStructure.cyan
             case .highlight:
                 return ThemeStructure.myOrange
             case .completed:
                 return .red
-            case .puzzleBackground:
-                return .black
+            case .puzzleBackground, .puzzlePaper:
+                return .clear
             case .keyboardBackground:
                 return .init(white: 0.1)
             case .keyboardLetters:
@@ -44,7 +46,6 @@ extension ThemeManager {
                 return ThemeStructure.defaultColors(context)
             }
         }
-        
         
         private
         static func spaceFonts(context : FontContext) -> Font {
