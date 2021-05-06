@@ -63,11 +63,12 @@ extension ContentView{
                 }
             } label: {
                     VStack(alignment: .trailing){
-                        HStack{
+                        HStack(spacing: 0){
                             ActivityIndicator(isActive: store.state == StoreState.busy(bookForSale.id))
+                                .padding(EdgeInsets.sized(horizontally: 5, vertically: 5))
                             Text(viewModel.installedBookIDs.contains(bookForSale.id) ? "open" : bookForSale.price)
+                                .padding(EdgeInsets.sized(horizontally: 10, vertically: 5))
                         }
-                        .padding(EdgeInsets.sized(horizontally: 10, vertically: 5))
                         .background(viewModel.theme.color(of: viewModel.installedBookIDs.contains(bookForSale.id) ? .openButton : .buyButton, for: .defaultTheme, in: colorScheme))
                         .brightness(colorScheme == .light ? 0.30 : 0.0)
                         .foregroundColor(Color.white)
