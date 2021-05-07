@@ -49,39 +49,6 @@ extension ContentView {
             }
         }
         
-//        var body : some View {
-//            GeometryReader { geometry in
-//                VStack{
-//                    Spacer(minLength: 10)
-//                    puzzleChooser(for: geometry)
-//                        .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
-//                    ZStack(alignment: .bottom){
-//                        ScrollView{
-//                            VStack{
-//                                cipherPuzzleView(with: geometry)
-//                                    .id(viewModel.currentPuzzleHash)
-//                                    .padding()
-//                                if viewModel.isSolved {
-//                                    riddleOptions(with: geometry)
-//                                        .id(viewModel.currentPuzzleHash)
-//                                        .transition(.scale)
-//                                    Spacer(minLength: 250)
-//                                }
-//                            }
-//                            .background(viewModel.theme.image(for: .puzzlePaper, for: bookTheme)?.resizable())
-//                        }
-//                        keyboardAndLettercount(for: geometry)
-//                    }
-//                    .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
-//                    .toolbar{toolbarView()}
-//                }
-//                .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
-//                .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable())
-//            }
-//        }
-        
-        
-        
         var body : some View {
             GeometryReader { geometry in
                 ZStack(alignment: .bottom){
@@ -111,6 +78,7 @@ extension ContentView {
                 .toolbar{toolbarView()}
                 .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
                 .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable())
+                .onTapGesture{deselect()}
             }
         }
         
@@ -233,6 +201,12 @@ extension ContentView {
         func resetPuzzle(){
             $resettingPuzzle.wrappedValue.toggle()
         }
+        
+        private
+        func deselect() {
+            self.viewModel.currentCiphertextCharacter = nil
+        }
+        
     }
 }
 
