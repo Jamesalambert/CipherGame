@@ -69,6 +69,8 @@ extension ContentView {
                             }
                         }
                         .background(viewModel.theme.image(for: .puzzlePaper, for: bookTheme)?.resizable())
+                        TilePuzzle()
+                        Spacer(minLength: 300)
                     }
                     VStack{
                         keyboardAndLettercount(for: geometry)
