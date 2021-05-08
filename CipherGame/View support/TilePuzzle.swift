@@ -6,31 +6,38 @@
 //
 
 import SwiftUI
+import UIKit
 
 struct TilePuzzle: View {
+    
+    var puzzleImage : UIImage
     
     @State
     private var grid : Grid = Grid()
     
     var body: some View {
-        
-        LazyVGrid(columns: self.columns()){
+        LazyVGrid(columns: self.columns(width: 250), spacing:0){
             ForEach(grid.rows){ row in
                 ForEach(row.tiles){ tile in
-                    Image(systemName: tile.content == "0" ? "circle.fill" : "circle")
-                        .font(.system(size: 60))
+                    if tile.content == 0 {
+                    Image(uiImage: puzzleImage.rect(x: tile.index.x, y: tile.index.y))
+//                        .font(.system(size: 60))
                         .id(tile.id)
                         .onTapGesture {
                             withAnimation{
                                 self.grid.move(id: tile.id)
                             }
                         }
+                    } else {
+                        ZStack{}
+                    }
                 }
             }
         }
     }
     
     struct Grid {
+        
         var rows : [Row]
         
         mutating
@@ -56,12 +63,11 @@ struct TilePuzzle: View {
             return adjacentPoints.contains{$0 == (x,y)}
         }
         
-        
         private
         func emptySquare() -> (x : Int, y : Int) {
             for column in 0...2{
                 for row in 0...2{
-                    if self.rows[row].tiles[column].content == "1"{
+                    if self.rows[row].tiles[column].content == 1 {
                         return (column,row)
                     }
                 }
@@ -82,14 +88,22 @@ struct TilePuzzle: View {
         }
         
         init() {
-            let row1 = Row(tiles: "100".map{Tile(content: String($0))})
-            let row2 = Row(tiles: "000".map{Tile(content: String($0))})
-            let row3 = Row(tiles: "000".map{Tile(content: String($0))})
-            self.rows = [row1,row2,row3]
+            let arr : [[Int]] = [[0,0,0],[0,0,0],[1,0,0]]
+            
+            var rows : [Row] = []
+            
+            for (rowIndex, row) in arr.enumerated() {
+                var tiles : [Tile] = []
+                for (colIndex, value) in row.enumerated() {
+                    tiles.append(Tile(index: (x: colIndex, y: rowIndex), content: value))
+                }
+                rows += [Row(tiles: tiles)]
+            }
+            self.rows = rows
         }
-        
-        
     }
+    
+    
     
     struct Row : Identifiable {
         var id = UUID()
@@ -98,11 +112,12 @@ struct TilePuzzle: View {
     
     struct Tile : Identifiable{
         var id = UUID()
-        var content : String = ""
+        var index : (x: Int, y: Int)
+        var content : Int
     }
     
-    func columns()->[GridItem]{
-        return Array(repeating: GridItem(.fixed(100), spacing: 0, alignment: .center), count: 3)
+    func columns(width: Int)->[GridItem]{
+        return Array(repeating: GridItem(.fixed(CGFloat(width)), spacing: 0, alignment: .center), count: 3)
     }
     
 }
@@ -111,6 +126,22 @@ struct TilePuzzle: View {
 
 struct TilePuzzle_Previews: PreviewProvider {
     static var previews: some View {
-        TilePuzzle()
+        TilePuzzle(puzzleImage: UIImage(named: "phoneImage")!)
+    }
+}
+
+
+
+extension UIImage {
+    func rect(x : Int, y: Int) -> UIImage {
+        guard let image = self.cgImage else {return self}
+        let width = image.width
+        let height = image.height
+        let rectSize = CGSize(width: width / 3, height: height / 3)
+        
+        let origin = CGPoint(x: x * Int(rectSize.width), y: y * Int(rectSize.height))
+        
+        let croppedImage = image.cropping(to: CGRect(origin: origin, size: rectSize))!
+        return UIImage(cgImage: croppedImage)
     }
 }

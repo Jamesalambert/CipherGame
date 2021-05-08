@@ -67,9 +67,10 @@ extension ContentView {
                                     .transition(.scale)
                                 Spacer(minLength: 250)
                             }
+                            TilePuzzle(puzzleImage: UIImage(named: "phoneImage")!)
+                                .padding(200)
                         }
                         .background(viewModel.theme.image(for: .puzzlePaper, for: bookTheme)?.resizable())
-                        TilePuzzle()
                         Spacer(minLength: 300)
                     }
                     VStack{

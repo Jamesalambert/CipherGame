@@ -40,8 +40,8 @@
             filePath = "CipherGame/View support/TilePuzzle.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "56"
-            endingLineNumber = "56"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
             landmarkName = "canMove(x:y:)"
             landmarkType = "7">
             <Locations>
@@ -88,8 +88,8 @@
             filePath = "CipherGame/View support/TilePuzzle.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
             landmarkName = "move(id:)"
             landmarkType = "7">
          </BreakpointContent>
