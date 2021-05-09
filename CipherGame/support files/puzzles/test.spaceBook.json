@@ -16,7 +16,8 @@
                     "riddleAnswers" : [],
                     "riddleKey" : ""
                 }
-            ]
+            ],
+            "puzzleImageName" : ""
         },
         {
             "title": "Second Chapter",
@@ -53,7 +54,8 @@
                     "riddleAnswers" : [],
                     "riddleKey" : "potatoes"
                 }
-            ]
+            ],
+            "puzzleImageName" : "purpleSpace"
         }
     ]
 }

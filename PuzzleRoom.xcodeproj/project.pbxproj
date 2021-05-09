@@ -17,6 +17,7 @@
 		AA31EAB4260BE5370031D56C /* useful extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAB3260BE5370031D56C /* useful extensions.swift */; };
 		AA3ED4472611493300B25B4A /* ContentView + letter count.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ED4462611493300B25B4A /* ContentView + letter count.swift */; };
 		AA5D867D2614F680008D3B44 /* CipherPrint.css in Resources */ = {isa = PBXBuildFile; fileRef = AA5D867C2614F680008D3B44 /* CipherPrint.css */; };
+		AA5DCE3326484DDF005D2B14 /* CipherPuzzleSource + GridPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5DCE3226484DDF005D2B14 /* CipherPuzzleSource + GridPuzzle.swift */; };
 		AA7D415B2627986600E1558C /* Lucida Console.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA7D415A2627986600E1558C /* Lucida Console.ttf */; };
 		AA8F640C26053E2E005B148F /* UITextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F640B26053E2E005B148F /* UITextFieldView.swift */; };
 		AA93855D2639FD7B00051BC6 /* CipherSolverPage + Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93855C2639FD7A00051BC6 /* CipherSolverPage + Views.swift */; };
@@ -73,6 +74,7 @@
 		AA31EAB3260BE5370031D56C /* useful extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "useful extensions.swift"; sourceTree = "<group>"; };
 		AA3ED4462611493300B25B4A /* ContentView + letter count.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + letter count.swift"; sourceTree = "<group>"; };
 		AA5D867C2614F680008D3B44 /* CipherPrint.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = CipherPrint.css; path = CipherGame/CipherPrint.css; sourceTree = SOURCE_ROOT; };
+		AA5DCE3226484DDF005D2B14 /* CipherPuzzleSource + GridPuzzle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CipherPuzzleSource + GridPuzzle.swift"; sourceTree = "<group>"; };
 		AA7D415A2627986600E1558C /* Lucida Console.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lucida Console.ttf"; sourceTree = "<group>"; };
 		AA8F640B26053E2E005B148F /* UITextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldView.swift; sourceTree = "<group>"; };
 		AA93855C2639FD7A00051BC6 /* CipherSolverPage + Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherSolverPage + Views.swift"; sourceTree = "<group>"; };
@@ -144,6 +146,14 @@
 				AA31EAB3260BE5370031D56C /* useful extensions.swift */,
 			);
 			path = "support files";
+			sourceTree = "<group>";
+		};
+		AA5DCE2C26484B7D005D2B14 /* Model support */ = {
+			isa = PBXGroup;
+			children = (
+				AA5DCE3226484DDF005D2B14 /* CipherPuzzleSource + GridPuzzle.swift */,
+			);
+			path = "Model support";
 			sourceTree = "<group>";
 		};
 		AA7D41642627987000E1558C /* fonts */ = {
@@ -221,6 +231,7 @@
 				AA93855F263ADCA100051BC6 /* viewModel support */,
 				AA938563263CB9CF00051BC6 /* OnlineStore.swift */,
 				AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */,
+				AA5DCE2C26484B7D005D2B14 /* Model support */,
 				AA9766A22601651D0076B879 /* Assets.xcassets */,
 				AA9766A72601651D0076B879 /* Info.plist */,
 				AAE9CE54262E3DCD001B9E87 /* Themes */,
@@ -423,6 +434,7 @@
 				AA9766A12601651A0076B879 /* ContentView.swift in Sources */,
 				AA93855D2639FD7B00051BC6 /* CipherSolverPage + Views.swift in Sources */,
 				AADEE35A2645AB7F00C3107A /* TilePuzzle.swift in Sources */,
+				AA5DCE3326484DDF005D2B14 /* CipherPuzzleSource + GridPuzzle.swift in Sources */,
 				AAEE3AEC261A813A008E2233 /* ContentView + CipherSolverPage.swift in Sources */,
 				AA97669F2601651A0076B879 /* CipherGameApp.swift in Sources */,
 				AA0B9CDD263E14AA006A4CD1 /* CipherPuzzle + IAP.swift in Sources */,

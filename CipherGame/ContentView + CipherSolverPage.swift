@@ -58,20 +58,24 @@ extension ContentView {
                             puzzleChooser(for: geometry)
                             Spacer()
                             Spacer(minLength: 30)
-                            cipherPuzzleView(with: geometry)
-                                .id(viewModel.currentPuzzleHash)
-                                .padding()
-                            if viewModel.isSolved {
-                                riddleOptions(with: geometry)
+                            if viewModel.currentPuzzleHash != nil {
+                                cipherPuzzleView(with: geometry)
                                     .id(viewModel.currentPuzzleHash)
-                                    .transition(.scale)
-                                Spacer(minLength: 250)
+                                    .padding()
+                                if viewModel.isSolved {
+                                    riddleOptions(with: geometry)
+                                        .id(viewModel.currentPuzzleHash)
+                                        .transition(.scale)
+                                    Spacer(minLength: 250)
+                                }
+                            } else if let gridPuzzle = viewModel.currentGridPuzzle {
+                                TilePuzzle(puzzleImage: UIImage(named: gridPuzzle.imageName)!,
+                                           grid: gridPuzzle)
+                                    .padding()
                             }
-                            TilePuzzle(puzzleImage: UIImage(named: "phoneImage")!)
-                                .padding(200)
                         }
                         .background(viewModel.theme.image(for: .puzzlePaper, for: bookTheme)?.resizable())
-                        Spacer(minLength: 300)
+                        
                     }
                     VStack{
                         keyboardAndLettercount(for: geometry)
@@ -136,7 +140,6 @@ extension ContentView {
             .background(Blur(style: viewModel.theme.blurStyle(for: bookTheme, in: colorScheme)))
             .cornerRadius(Self.viewCornerRadius)
         }
-        
         
         private
         func columns(screenWidth : CGFloat) -> [GridItem] {

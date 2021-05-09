@@ -14,33 +14,47 @@ extension ContentView.CipherSolverPage {
         ScrollView(.horizontal){
             HStack(alignment: .bottom){
                 Spacer()
-                ForEach(viewModel.visiblePuzzles){ puzzle in
-                    Button {
-                        withAnimation{
-                            viewModel.currentPuzzleHash = puzzle.id
-                            viewModel.currentCiphertextCharacter = nil
-                        }
-                    } label: {
-                        Text(puzzle.title)
-                            .lineLimit(1)
-                            .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
-                            .foregroundColor(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
-                        if puzzle.isSolved{
-                            Image(systemName: "checkmark.circle")
-                                .foregroundColor(viewModel.theme.color(of: .completed, for: bookTheme, in: colorScheme))
+                Group{
+                    ForEach(viewModel.visiblePuzzles){ puzzle in
+                        puzzleChooserButton(for: puzzle)
+                            .padding()
+                            .background(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
+                            .opacity(puzzle.id == viewModel.currentPuzzleHash ? 0.30 : 0.1)
+                            .cornerRadius(Self.viewCornerRadius)
+                            .transition(.move(edge: .bottom))
+                    }
+                    Spacer()
+                    if viewModel.currentGridPuzzle != nil {
+                        Button("Slider Puzzle"){
+                            withAnimation{
+                                viewModel.currentGridPuzzleHash = viewModel.currentGridPuzzle?.id
+                            }
                         }
                     }
-                    .padding()
-//                    .background(Blur(style: viewModel.theme.blurStyle(for: bookTheme, in: colorScheme)))
-                    .background(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)
-                                    .opacity(puzzle.id == viewModel.currentPuzzleHash ? 0.30 : 0.1))
-                    .cornerRadius(Self.viewCornerRadius)
-                    .transition(.move(edge: .bottom))
                 }
-                Spacer()
             }
         }
     }
+    
+    @ViewBuilder
+    func puzzleChooserButton(for puzzle : Puzzle) -> some View {
+        Button {
+            withAnimation{
+                viewModel.currentPuzzleHash = puzzle.id
+            }
+        } label: {
+            Text(puzzle.title)
+                .lineLimit(1)
+                .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
+                .foregroundColor(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
+            if puzzle.isSolved{
+                Image(systemName: "checkmark.circle")
+                    .foregroundColor(viewModel.theme.color(of: .completed, for: bookTheme, in: colorScheme))
+            }
+        }
+    }
+    
+    
     
     @ViewBuilder
     func riddleOptions(with geometry : GeometryProxy) -> some View {

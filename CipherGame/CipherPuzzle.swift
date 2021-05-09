@@ -34,6 +34,7 @@ class CipherPuzzle : ObservableObject {
                 characterCount = letterCount.map{pair in
                     CharacterCount(character: pair.character, count: pair.count)}
             }
+            currentCiphertextCharacter = nil
         }
     }
     
@@ -44,6 +45,17 @@ class CipherPuzzle : ObservableObject {
             if currentChapterHash != nil {
                 currentPuzzleHash = currentChapter.puzzles.first?.id
             }
+        }
+    }
+    
+    var currentGridPuzzle : GridPuzzle? {
+        return currentChapter?.gridPuzzle
+    }
+    
+    @Published
+    var currentGridPuzzleHash : UUID?{
+        didSet{
+            currentPuzzleHash = nil
         }
     }
     
@@ -203,6 +215,11 @@ class CipherPuzzle : ObservableObject {
                                  for: currentPuzzleHash!,
                                  at: index)
     }
+    
+    func gridMove(tileHash : UUID) {
+        model.moveTile(tileHash: tileHash, gridPuzzleHash: currentGridPuzzleHash!)
+    }
+    
     //MARK:-
 //    func updateVisiblePuzzles() {
 //        let defaultPuzzles = currentChapter.puzzles.filter{puzzle in puzzle.riddleKey.isEmpty}

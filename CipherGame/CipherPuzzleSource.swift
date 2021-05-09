@@ -104,6 +104,17 @@ struct Game : Codable {
         }
     }
     
+    mutating
+    func moveTile(tileHash : UUID, gridPuzzleHash : UUID){
+        guard let bookIndex = books.firstIndex(where: {book in
+                                                    book.chapters.contains{ chapter in
+                                                        chapter.gridPuzzle?.id == gridPuzzleHash}} ) else {return }
+        guard let chapterIndex = books[bookIndex].chapters.firstIndex(where: {chapter in
+                                                            chapter.gridPuzzle?.id == gridPuzzleHash}) else {return }
+        
+        books[bookIndex].chapters[chapterIndex].gridPuzzle?.move(id: tileHash)
+    }
+    
     private
     func indexPath(for puzzleID: UUID)  -> (bookIndex: Int, chapterIndex: Int, puzzleIndex: Int)? {
         guard let bookIndex = books.firstIndex(where: {book in
@@ -122,7 +133,6 @@ struct Game : Codable {
         
         return (bookIndex, chapterIndex, puzzleIndex)
     }
-    
     
     init(){
         self.books = []
@@ -161,7 +171,8 @@ struct Game : Codable {
                     }
                     
                     return Chapter(title: chapter.title,
-                                   puzzles: puzzles)
+                                   puzzles: puzzles,
+                                   gridPuzzle: chapter.puzzleImageName != "" ? GridPuzzle(imageName: chapter.puzzleImageName) : nil)
                 }
                 
                 decodedBook = Book(title: readableBook.title,
@@ -318,11 +329,19 @@ struct Book : Hashable, Codable, Identifiable{
 
 struct Chapter : Hashable, Codable, Identifiable {
     var title : String
+    var puzzles : [Puzzle]
+    var gridPuzzle : GridPuzzle?
     var isCompleted : Bool {
         return puzzles.allSatisfy{$0.isSolved}
     }
-    var puzzles : [Puzzle]
     var id = UUID()
+    
+    static func == (lhs: Chapter, rhs: Chapter) -> Bool {
+        return lhs.id == rhs.id
+    }
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
 
 struct ReadableBook : Codable {
@@ -334,6 +353,7 @@ struct ReadableBook : Codable {
 struct ReadableChapter :  Codable {
     var title : String
     var puzzles : [ReadablePuzzle]
+    var puzzleImageName : String
 }
 
 struct ReadablePuzzle : Codable {
