@@ -40,10 +40,13 @@ struct TilePuzzle: View {
                                 .cornerRadius(10)
                                 .id(tile.id)
                             } else {
-                                Image(systemName: "questionmark")
-                                    .aspectRatio(contentMode: .fill)
-                                    .background(Color.white)
-                                    .id(tile.id)
+                                ZStack{
+                                    Color.white.opacity(0.3).cornerRadius(10)
+                                    Image(systemName: "questionmark.circle")
+                                        .resizable(capInsets: .sized(horizontally: 10, vertically: 10), resizingMode: .stretch)
+//                                        .cornerRadius(10)
+                                }
+                                .id(tile.id)
                             }
                         } else {
                             ZStack{}
