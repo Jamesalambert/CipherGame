@@ -69,8 +69,8 @@ extension ContentView {
                                         .transition(.scale)
                                     Spacer(minLength: 250)
                                 }
-                            } else if let gridPuzzle = viewModel.currentGridPuzzle {
-                                TilePuzzle(puzzleImage: UIImage(named: gridPuzzle.imageName)!,
+                            } else if viewModel.currentGridPuzzleHash != nil {
+                                TilePuzzle(puzzleImage: UIImage(named: viewModel.currentGridPuzzle!.imageName)!,
                                            screenWidth: geometry.size.width)
                                     .padding()
                             }

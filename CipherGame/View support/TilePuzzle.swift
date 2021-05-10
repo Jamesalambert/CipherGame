@@ -60,16 +60,7 @@ struct TilePuzzle: View {
                     }
                 }
             }
-        }
-        
-        HStack{
-            Button("+1"){
-                withAnimation{
-                    viewModel.addGridTile()
-                }
-            }
-        }
-        
+        }        
     }
     
     func columns()->[GridItem]{

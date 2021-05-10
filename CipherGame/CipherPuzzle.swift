@@ -42,9 +42,10 @@ class CipherPuzzle : ObservableObject {
     var currentChapterHash : UUID? {
         didSet{
             guard let currentChapter = currentChapter else {return}
-            if currentChapterHash != nil {
-                currentPuzzleHash = currentChapter.puzzles.first?.id
-            }
+//            if currentChapterHash != nil {
+            self.currentPuzzleHash = currentChapter.puzzles.first?.id
+            self.currentGridPuzzleHash = nil
+//            }
         }
     }
     
@@ -55,7 +56,9 @@ class CipherPuzzle : ObservableObject {
     @Published
     var currentGridPuzzleHash : UUID?{
         didSet{
-            currentPuzzleHash = nil
+            if currentGridPuzzleHash != nil{
+                currentPuzzleHash = nil
+            }
         }
     }
     

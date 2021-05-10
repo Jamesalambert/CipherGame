@@ -71,6 +71,11 @@ struct Game : Codable {
                 books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].guessIndices[lowerCipherCharacter] = [index]
             }
             
+            //check to see if puzzle has been solved
+            if books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].isSolved{
+                books[bookIndex].chapters[chapterIndex].gridPuzzle?.addTile()
+            }
+            
             //remove guess for ciphertext character
         } else {
             books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].usersGuesses.removeValue(forKey: lowerCipherCharacter)
@@ -183,7 +188,8 @@ struct Game : Codable {
                     
                     return Chapter(title: chapter.title,
                                    puzzles: puzzles,
-                                   gridPuzzle: chapter.puzzleImageName != "" ? GridPuzzle(imageName: chapter.puzzleImageName) : nil)
+                                   gridPuzzle: chapter.puzzleImageName != "" ? GridPuzzle(imageName: chapter.puzzleImageName,
+                                                                                          hiddenTiles: puzzles.count) : nil)
                 }
                 
                 decodedBook = Book(title: readableBook.title,
