@@ -38,16 +38,18 @@ struct TilePuzzle: View {
                             if tile.isEnabled {
                                 Image(uiImage: puzzleImage.rect(x: tile.index[0], y: tile.index[1],size: grid.size))
                                 .resizable()
-                                .aspectRatio(contentMode: .fit)
+                                .aspectRatio(1, contentMode: .fit)
                                 .cornerRadius(10)
                                 .id(tile.id)
                             } else {
                                 ZStack{
                                     Color.white.opacity(0.4).cornerRadius(10)
                                     Image(systemName: "questionmark.circle")
-                                        .resizable(capInsets: .sized(horizontally: 10, vertically: 10), resizingMode: .stretch)
+                                        .resizable(capInsets: EdgeInsets.zero(), resizingMode: .stretch)
+                                        .aspectRatio(1,contentMode: .fit)
                                         .padding()
                                 }
+                                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.black, lineWidth: 2)  )
                                 .id(tile.id)
                             }
                         } else {
@@ -65,7 +67,7 @@ struct TilePuzzle: View {
     }
     
     func columns()->[GridItem]{
-        let width = 0.7 * self.screenWidth / CGFloat(self.grid.size)
+        let width = 0.8 * self.screenWidth / CGFloat(self.grid.size)
         return Array(repeating: GridItem(.fixed(CGFloat(width)),
                                          spacing: CGFloat(0),
                                          alignment: .center),
