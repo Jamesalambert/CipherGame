@@ -204,7 +204,6 @@ class CipherPuzzle : ObservableObject {
     
     func add(answer : String){
         model.add(answer: answer, for: currentPuzzleHash!)
-//        updateVisiblePuzzles()
     }
     
     func guess(_ cipherCharacter : Character, is plainCharacter : Character?,
@@ -220,16 +219,11 @@ class CipherPuzzle : ObservableObject {
         model.moveTile(tileHash: tileHash, gridPuzzleHash: currentGridPuzzleHash!)
     }
     
+    func addGridTile() {
+        model.addTile(gridPuzzleHash: currentGridPuzzleHash!)
+    }
+    
     //MARK:-
-//    func updateVisiblePuzzles() {
-//        let defaultPuzzles = currentChapter.puzzles.filter{puzzle in puzzle.riddleKey.isEmpty}
-//        //get unlocked puzzles from model.
-//        let userAnswers = model.userAnswers(for: currentChapterHash!)
-//        let unlockedPuzzles = userAnswers.compactMap{guessedKey in
-//            currentChapter.puzzles.first(where: {$0.riddleKey == guessedKey})
-//        }
-//        //visiblePuzzles = defaultPuzzles + unlockedPuzzles
-//    }
     
     func firstChapterHash(for bookID : String) -> UUID?{
         let book = model.books.first{$0.productID == bookID}

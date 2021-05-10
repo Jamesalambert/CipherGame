@@ -21,29 +21,26 @@ struct TilePuzzle: View {
     
     var puzzleImage : UIImage
     
-    var isSolved : Bool {
-        return grid.isSolved
-    }
-    
     var screenWidth : CGFloat
     
-    var grid : GridPuzzle
+    //var grid : GridPuzzle
     
     var body: some View {
         LazyVGrid(columns: self.columns(), spacing: 0){
-            ForEach(grid.rows){ row in
+            ForEach(viewModel.currentGridPuzzle!.rows){ row in
                 ForEach(row.tiles){ tile in
                     Group {
                         if tile.content == 0 {
-                            if tile.isEnabled {
-                                Image(uiImage: puzzleImage.rect(x: tile.index[0], y: tile.index[1],size: grid.size))
+                            if viewModel.currentGridPuzzle!.tileIsEnabled(tile.id){
+                                Image(uiImage: puzzleImage.rect(x: tile.index[0], y: tile.index[1],size: viewModel.currentGridPuzzle!.size))
                                 .resizable()
                                 .aspectRatio(1, contentMode: .fit)
                                 .cornerRadius(10)
                                 .id(tile.id)
                             } else {
                                 ZStack{
-                                    Color.white.opacity(0.4).cornerRadius(10)
+                                    Color.white.opacity(0.4)
+                                        .cornerRadius(10)
                                     Image(systemName: "questionmark.circle")
                                         .resizable(capInsets: EdgeInsets.zero(), resizingMode: .stretch)
                                         .aspectRatio(1,contentMode: .fit)
@@ -64,14 +61,23 @@ struct TilePuzzle: View {
                 }
             }
         }
+        
+        HStack{
+            Button("+1"){
+                withAnimation{
+                    viewModel.addGridTile()
+                }
+            }
+        }
+        
     }
     
     func columns()->[GridItem]{
-        let width = 0.8 * self.screenWidth / CGFloat(self.grid.size)
+        let width = 0.8 * self.screenWidth / CGFloat(viewModel.currentGridPuzzle!.size)
         return Array(repeating: GridItem(.fixed(CGFloat(width)),
                                          spacing: CGFloat(0),
                                          alignment: .center),
-                     count: grid.size)
+                     count: viewModel.currentGridPuzzle!.size)
     }
 }
 

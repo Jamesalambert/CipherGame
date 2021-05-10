@@ -16,8 +16,15 @@ import Foundation
         var size : Int
         
         var isEnabled : Bool {
-            return rows.allSatisfy({$0.tiles.allSatisfy{$0.isEnabled}})
+            return disabledTileIDs.count == 0
         }
+        
+        var id = UUID()
+
+        //var numberOfHiddenTiles : UInt
+        
+        private
+        var disabledTileIDs : [UUID] = []
         
         var isSolved : Bool {
             for (rowIndex, row) in self.rows.enumerated() {
@@ -30,7 +37,21 @@ import Foundation
             return true
         }
         
-        var id = UUID()
+        func tileIsEnabled(_ tileID : UUID) -> Bool {
+            return !disabledTileIDs.contains(tileID)
+        }
+        
+        mutating
+        func addTile(){
+            guard let tileIDToAdd = disabledTileIDs.last else {return}
+            let rowIndex = rows.firstIndex(where: {$0.tiles.contains{$0.id == tileIDToAdd}})
+            let tileIndex = rows[rowIndex!].tiles.firstIndex(where: {$0.id == tileIDToAdd})
+            let tileToAdd = self.rows[rowIndex!].tiles[tileIndex!]
+            //change UUID
+            self.rows[rowIndex!].tiles[tileIndex!] = Tile(id: UUID(), index: tileToAdd.index, content: tileToAdd.content)
+            
+            self.disabledTileIDs = self.disabledTileIDs.dropLast(Int(1))
+        }
         
         mutating
         func move(id : UUID) {
@@ -94,7 +115,7 @@ import Foundation
         }
         
         
-        init(imageName: String, size : Int = 4) {
+        init(imageName: String, size : Int = 4, hiddenTiles : Int = 5) {
             var arr : [[Int]] = Array(repeating: Array(repeating: 0, count: size), count: size)
             arr[size - 1][0] = 1
             
@@ -103,7 +124,7 @@ import Foundation
             
             for (rowIndex, row) in arr.enumerated() {
                 for (colIndex, value) in row.enumerated() {
-                    tiles.append(Tile(index: [colIndex, rowIndex], content: value, isEnabled: rowIndex == 1 ? false : true))
+                    tiles.append(Tile(index: [colIndex, rowIndex], content: value))
                 }
             }
             
@@ -113,11 +134,17 @@ import Foundation
                 rows.append(Row(tiles: Array(tiles[startIndex...startIndex.advanced(by: size - 1)])))
             }
             
+            if hiddenTiles < tiles.count{
+                self.disabledTileIDs = tiles[0..<hiddenTiles].map{$0.id}
+            }
+
             self.size = size
             self.rows = rows
             self.imageName = imageName
+            #if DEBUG
             print("init")
             printState()
+            #endif
         }
     }
     
@@ -130,6 +157,5 @@ import Foundation
         var id = UUID()
         var index : [Int]
         var content : Int
-        var isEnabled : Bool = true
     }
 

@@ -33,16 +33,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3555387D-8F6D-42DF-BBEC-58858C5E9488"
+            uuid = "15FBFAD1-02D2-43BE-A9E6-929074150EF2"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CipherGame/View support/TilePuzzle.swift"
+            filePath = "CipherGame/Model support/GridPuzzle.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
-            landmarkName = "rect(x:y:size:)"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "addTile()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

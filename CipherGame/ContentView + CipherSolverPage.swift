@@ -71,8 +71,7 @@ extension ContentView {
                                 }
                             } else if let gridPuzzle = viewModel.currentGridPuzzle {
                                 TilePuzzle(puzzleImage: UIImage(named: gridPuzzle.imageName)!,
-                                           screenWidth: geometry.size.width,
-                                           grid: gridPuzzle)
+                                           screenWidth: geometry.size.width)
                                     .padding()
                             }
                         }

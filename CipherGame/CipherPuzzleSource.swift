@@ -115,6 +115,17 @@ struct Game : Codable {
         books[bookIndex].chapters[chapterIndex].gridPuzzle?.move(id: tileHash)
     }
     
+    mutating
+    func addTile(gridPuzzleHash : UUID){
+        guard let bookIndex = books.firstIndex(where: {book in
+                                                    book.chapters.contains{ chapter in
+                                                        chapter.gridPuzzle?.id == gridPuzzleHash}} ) else {return }
+        guard let chapterIndex = books[bookIndex].chapters.firstIndex(where: {chapter in
+                                                            chapter.gridPuzzle?.id == gridPuzzleHash}) else {return }
+        
+        books[bookIndex].chapters[chapterIndex].gridPuzzle?.addTile()
+    }
+    
     private
     func indexPath(for puzzleID: UUID)  -> (bookIndex: Int, chapterIndex: Int, puzzleIndex: Int)? {
         guard let bookIndex = books.firstIndex(where: {book in
