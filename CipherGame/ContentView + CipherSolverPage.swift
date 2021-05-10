@@ -71,6 +71,7 @@ extension ContentView {
                                 }
                             } else if let gridPuzzle = viewModel.currentGridPuzzle {
                                 TilePuzzle(puzzleImage: UIImage(named: gridPuzzle.imageName)!,
+                                           screenWidth: geometry.size.width,
                                            grid: gridPuzzle)
                                     .padding()
                             }
@@ -83,7 +84,6 @@ extension ContentView {
                     }
                 }
                 .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
-                
                 .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
                 .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable())
                 .onTapGesture{deselect()}

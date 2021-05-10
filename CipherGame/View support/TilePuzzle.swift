@@ -24,11 +24,13 @@ struct TilePuzzle: View {
     var isSolved : Bool {
         return grid.isSolved
     }
-        
+    
+    var screenWidth : CGFloat
+    
     var grid : GridPuzzle
     
     var body: some View {
-        LazyVGrid(columns: self.columns(width: 100, spacing: 0), spacing: 0){
+        LazyVGrid(columns: self.columns(), spacing: 0){
             ForEach(grid.rows){ row in
                 ForEach(row.tiles){ tile in
                     Group {
@@ -62,9 +64,10 @@ struct TilePuzzle: View {
         }
     }
     
-    func columns(width: Int, spacing: Int)->[GridItem]{
+    func columns()->[GridItem]{
+        let width = 0.7 * self.screenWidth / CGFloat(self.grid.size)
         return Array(repeating: GridItem(.fixed(CGFloat(width)),
-                                         spacing: CGFloat(spacing),
+                                         spacing: CGFloat(0),
                                          alignment: .center),
                      count: grid.size)
     }
