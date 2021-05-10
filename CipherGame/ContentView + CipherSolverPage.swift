@@ -62,6 +62,7 @@ extension ContentView {
                                 cipherPuzzleView(with: geometry)
                                     .id(viewModel.currentPuzzleHash)
                                     .padding()
+                                    .toolbar(content: toolbarView)
                                 if viewModel.isSolved {
                                     riddleOptions(with: geometry)
                                         .id(viewModel.currentPuzzleHash)
@@ -74,15 +75,15 @@ extension ContentView {
                                     .padding()
                             }
                         }
-                        .background(viewModel.theme.image(for: .puzzlePaper, for: bookTheme)?.resizable())
-                        
+                        .background(viewModel.theme.image(for: .puzzlePaper, for: bookTheme)?
+                                        .resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
                     }
-                    VStack{
+                    if viewModel.currentPuzzleHash != nil {
                         keyboardAndLettercount(for: geometry)
                     }
                 }
                 .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
-                .toolbar{toolbarView()}
+                
                 .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
                 .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable())
                 .onTapGesture{deselect()}
