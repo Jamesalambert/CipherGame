@@ -13,6 +13,8 @@ import Foundation
         var rows : [Row]
         var imageName : String
         
+        var size : Int
+        
         var isEnabled : Bool {
             return rows.allSatisfy({$0.tiles.allSatisfy{$0.isEnabled}})
         }
@@ -46,22 +48,19 @@ import Foundation
         
         private
         func canMove(x : Int, y : Int) -> Bool{
-            if self.isEnabled{
-                let emptySquare = emptySquare()
-                var adjacentPoints : [(Int,Int)] = []
-                adjacentPoints.append((emptySquare.x + 1, emptySquare.y))
-                adjacentPoints.append((emptySquare.x, emptySquare.y + 1))
-                adjacentPoints.append((emptySquare.x - 1, emptySquare.y))
-                adjacentPoints.append((emptySquare.x, emptySquare.y - 1))
-                return adjacentPoints.contains{$0 == (x,y)}
-            }
-            return false
+            let emptySquare = emptySquare()
+            var adjacentPoints : [(Int,Int)] = []
+            adjacentPoints.append((emptySquare.x + 1, emptySquare.y))
+            adjacentPoints.append((emptySquare.x, emptySquare.y + 1))
+            adjacentPoints.append((emptySquare.x - 1, emptySquare.y))
+            adjacentPoints.append((emptySquare.x, emptySquare.y - 1))
+            return adjacentPoints.contains{$0 == (x,y)}
         }
         
         private
         func emptySquare() -> (x : Int, y : Int) {
-            for column in 0...2{
-                for row in 0...2{
+            for column in 0..<self.size{
+                for row in 0..<self.size{
                     if self.rows[row].tiles[column].content == 1 {
                         return (column,row)
                     }
@@ -72,8 +71,8 @@ import Foundation
         
         private
         func tappedSquare(with id : UUID) -> (x : Int, y : Int) {
-            for column in 0...2{
-                for row in 0...2{
+            for column in 0..<self.size{
+                for row in 0..<self.size{
                     if self.rows[row].tiles[column].id == id{
                         return (column,row)
                     }
@@ -90,30 +89,35 @@ import Foundation
                     rowString += "\(tile.index[0]),\(tile.index[1]) "
                 }
                 print(rowString)
-                print("isSolved: \(isSolved)\n")
             }
+            print("isSolved: \(isSolved)\n")
         }
         
         
-        init(imageName: String) {
-            let arr : [[Int]] = [[0,0,0],[0,0,0],[1,0,0]]
+        init(imageName: String, size : Int = 4) {
+            var arr : [[Int]] = Array(repeating: Array(repeating: 0, count: size), count: size)
+            arr[size - 1][0] = 1
+            
             var rows : [Row] = []
             var tiles : [Tile] = []
             
             for (rowIndex, row) in arr.enumerated() {
                 for (colIndex, value) in row.enumerated() {
-                    tiles.append(Tile(index: [colIndex, rowIndex], content: value, isEnabled: true))
+                    tiles.append(Tile(index: [colIndex, rowIndex], content: value, isEnabled: rowIndex == 1 ? false : true))
                 }
             }
             
             tiles = tiles.shuffled()
             
-            for startIndex in stride(from: 0, to: 9, by: 3) {
-                rows.append(Row(tiles: Array(tiles[startIndex...startIndex.advanced(by: 2)])))
+            for startIndex in stride(from: 0, to: size * size, by: size) {
+                rows.append(Row(tiles: Array(tiles[startIndex...startIndex.advanced(by: size - 1)])))
             }
             
+            self.size = size
             self.rows = rows
             self.imageName = imageName
+            print("init")
+            printState()
         }
     }
     
