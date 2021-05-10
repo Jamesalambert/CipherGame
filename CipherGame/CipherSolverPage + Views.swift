@@ -16,45 +16,64 @@ extension ContentView.CipherSolverPage {
                 Spacer()
                 Group{
                     ForEach(viewModel.visiblePuzzles){ puzzle in
-                        puzzleChooserButton(for: puzzle)
+                        cipherPuzzleChooserButton(for: puzzle)
                             .padding()
-                            .background(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
-                            .opacity(puzzle.id == viewModel.currentPuzzleHash ? 0.30 : 0.1)
-                            .cornerRadius(Self.viewCornerRadius)
-                            .transition(.move(edge: .bottom))
+                            .background(
+                                viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)
+                                    .opacity(puzzle.id == viewModel.currentPuzzleHash ? 0.30 : 0.1)
+                            )
                     }
                     Spacer()
-                    if viewModel.currentGridPuzzle != nil {
-                        Button("Slider Puzzle"){
-                            withAnimation{
-                                viewModel.currentGridPuzzleHash = viewModel.currentGridPuzzle?.id
-                            }
-                        }
+                    if let gridPuzzle = viewModel.currentGridPuzzle {
+                        gridPuzzleChooserButton(for: gridPuzzle)
+                            .padding()
+                            .background(
+                                viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)
+                                    .opacity(gridPuzzle.id == viewModel.currentGridPuzzleHash ? 0.30 : 0.1)
+                            )
+                            
                     }
                 }
+                .cornerRadius(Self.viewCornerRadius)
+                .transition(.move(edge: .bottom))
             }
         }
     }
     
     @ViewBuilder
-    func puzzleChooserButton(for puzzle : Puzzle) -> some View {
+    func gridPuzzleChooserButton(for puzzle : GridPuzzle) -> some View {
+        Button {
+            withAnimation{
+                viewModel.currentGridPuzzleHash = viewModel.currentGridPuzzle?.id
+            }
+        } label: {
+            buttonLabel(titled: "grid puzzle", isSolved: puzzle.isSolved)
+        }
+    }
+    
+    @ViewBuilder
+    func cipherPuzzleChooserButton(for puzzle : Puzzle) -> some View {
         Button {
             withAnimation{
                 viewModel.currentPuzzleHash = puzzle.id
             }
         } label: {
-            Text(puzzle.title)
-                .lineLimit(1)
-                .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
-                .foregroundColor(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
-            if puzzle.isSolved{
-                Image(systemName: "checkmark.circle")
-                    .foregroundColor(viewModel.theme.color(of: .completed, for: bookTheme, in: colorScheme))
-            }
+            buttonLabel(titled: puzzle.title, isSolved: puzzle.isSolved)
+            
         }
     }
     
-    
+    @ViewBuilder
+    func buttonLabel(titled title : String, isSolved : Bool) -> some View{
+        Text(title)
+            .lineLimit(1)
+            .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
+            .foregroundColor(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
+        if isSolved{
+            Image(systemName: "checkmark.circle")
+                .foregroundColor(viewModel.theme.color(of: .completed, for: bookTheme, in: colorScheme))
+        }
+    }
     
     @ViewBuilder
     func riddleOptions(with geometry : GeometryProxy) -> some View {

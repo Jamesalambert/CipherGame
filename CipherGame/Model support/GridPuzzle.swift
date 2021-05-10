@@ -39,6 +39,9 @@ import Foundation
                 self.rows[y].tiles[x] = self.rows[emptyTile.y].tiles[emptyTile.x]
                 self.rows[emptyTile.y].tiles[emptyTile.x] = movedTile
             }
+            #if DEBUG
+            printState()
+            #endif
         }
         
         private
@@ -79,15 +82,34 @@ import Foundation
             return (-1,-1)
         }
         
+        private
+        func printState(){
+            for row in rows{
+                var rowString = ""
+                for tile in row.tiles{
+                    rowString += "\(tile.index[0]),\(tile.index[1]) "
+                }
+                print(rowString)
+                print("isSolved: \(isSolved)\n")
+            }
+        }
+        
+        
         init(imageName: String) {
             let arr : [[Int]] = [[0,0,0],[0,0,0],[1,0,0]]
             var rows : [Row] = []
+            var tiles : [Tile] = []
+            
             for (rowIndex, row) in arr.enumerated() {
-                var tiles : [Tile] = []
                 for (colIndex, value) in row.enumerated() {
                     tiles.append(Tile(index: [colIndex, rowIndex], content: value, isEnabled: true))
                 }
-                rows += [Row(tiles: tiles)]
+            }
+            
+            tiles = tiles.shuffled()
+            
+            for startIndex in stride(from: 0, to: 9, by: 3) {
+                rows.append(Row(tiles: Array(tiles[startIndex...startIndex.advanced(by: 2)])))
             }
             
             self.rows = rows

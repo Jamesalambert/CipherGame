@@ -28,7 +28,6 @@ struct TilePuzzle: View {
     var grid : GridPuzzle
     
     var body: some View {
-//        Int(puzzleImage.size.width)/3
         LazyVGrid(columns: self.columns(width: 100 ), spacing:0){
             ForEach(grid.rows){ row in
                 ForEach(row.tiles){ tile in
@@ -36,6 +35,7 @@ struct TilePuzzle: View {
                     Image(uiImage: puzzleImage.rect(x: tile.index[0], y: tile.index[1]))
                         .resizable()
                         .aspectRatio(contentMode: .fit)
+                        .cornerRadius(10)
                         .id(tile.id)
                         .onTapGesture {
                             withAnimation{
