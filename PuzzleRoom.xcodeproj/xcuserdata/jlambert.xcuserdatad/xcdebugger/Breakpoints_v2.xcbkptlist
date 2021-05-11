@@ -49,49 +49,65 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E7C09BD2-DCA0-453E-8D31-017EB9D64AFB"
+            uuid = "5F63B511-3998-4DE1-B413-03D1F1E45A34"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CipherGame/View support/TilePuzzle.swift"
+            filePath = "CipherGame/CipherPuzzle.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
-            landmarkName = "body"
+            startingLineNumber = "258"
+            endingLineNumber = "258"
+            landmarkName = "puzzleLines"
             landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "DF4AFBC9-EF85-4195-B171-BF3716C87B4B"
+            uuid = "1F60DB8B-E726-4788-A99A-3245CB99F9AC"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CipherGame/View support/TilePuzzle.swift"
+            filePath = "CipherGame/ContentView + CipherSolverPage.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "42"
-            endingLineNumber = "42"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B96774EB-10F9-4424-B644-93F6F6EC7A34"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CipherGame/Model support/GridPuzzle.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "151"
-            endingLineNumber = "151"
-            landmarkName = "init(imageName:size:hiddenTiles:)"
+            startingLineNumber = "156"
+            endingLineNumber = "156"
+            landmarkName = "cipherPuzzleListView(with:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1F60DB8B-E726-4788-A99A-3245CB99F9AC - a4e01e6ab7188cf4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Spacer, SwiftUI.Text, SwiftUI.Spacer, &lt;&lt;opaque return type of SwiftUI.View.foregroundColor(Swift.Optional&lt;SwiftUI.Color&gt;) -&gt; some&gt;&gt;.0, SwiftUI.Spacer, SwiftUI.ForEach&lt;Swift.Array&lt;CipherGame.PuzzleLine&gt;, Swift.Int, SwiftUI.HStack&lt;SwiftUI.ForEach&lt;Swift.Array&lt;CipherGame.GameInfo&gt;, Swift.Int, CipherGame.ContentView.CipherSolverCharacterPair&gt;&gt;&gt;, SwiftUI.Spacer, &lt;&lt;opaque return type of SwiftUI.View.foregroundColor(Swift.Optional&lt;SwiftUI.Color&gt;) -&gt; some&gt;&gt;.0)&gt; in CipherGame.ContentView.CipherSolverPage.cipherPuzzleListView(with: SwiftUI.GeometryProxy) -&gt; some"
+                  moduleName = "CipherGame"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/ContentView%20+%20CipherSolverPage.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "156"
+                  endingLineNumber = "156"
+                  offsetFromSymbolStart = "3748">
+               </Location>
+               <Location
+                  uuid = "1F60DB8B-E726-4788-A99A-3245CB99F9AC - 5735190d25841b0f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (CipherGame.PuzzleLine) -&gt; SwiftUI.HStack&lt;SwiftUI.ForEach&lt;Swift.Array&lt;CipherGame.GameInfo&gt;, Swift.Int, CipherGame.ContentView.CipherSolverCharacterPair&gt;&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Spacer, SwiftUI.Text, SwiftUI.Spacer, &lt;&lt;opaque return type of SwiftUI.View.foregroundColor(Swift.Optional&lt;SwiftUI.Color&gt;) -&gt; some&gt;&gt;.0, SwiftUI.Spacer, SwiftUI.ForEach&lt;Swift.Array&lt;CipherGame.PuzzleLine&gt;, Swift.Int, SwiftUI.HStack&lt;SwiftUI.ForEach&lt;Swift.Array&lt;CipherGame.GameInfo&gt;, Swift.Int, CipherGame.ContentView.CipherSolverCharacterPair&gt;&gt;&gt;, SwiftUI.Spacer, &lt;&lt;opaque return type of SwiftUI.View.foregroundColor(Swift.Optional&lt;SwiftUI.Color&gt;) -&gt; some&gt;&gt;.0)&gt; in CipherGame.ContentView.CipherSolverPage.cipherPuzzleListView(with: SwiftUI.GeometryProxy) -&gt; some"
+                  moduleName = "CipherGame"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/ContentView%20+%20CipherSolverPage.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "157"
+                  endingLineNumber = "157"
+                  offsetFromSymbolStart = "388">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

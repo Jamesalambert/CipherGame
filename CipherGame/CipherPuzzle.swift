@@ -34,6 +34,7 @@ class CipherPuzzle : ObservableObject {
                 characterCount = letterCount.map{pair in
                     CharacterCount(character: pair.character, count: pair.count)}
                 currentGridPuzzleHash = nil
+//                self.getData()
             }
             currentCiphertextCharacter = nil
         }
@@ -48,7 +49,7 @@ class CipherPuzzle : ObservableObject {
         }
     }
     
-    var currentGridPuzzle : GridPuzzle? {
+    var currentChapterGridPuzzle : GridPuzzle?{
         return currentChapter?.gridPuzzle
     }
     
@@ -233,34 +234,29 @@ class CipherPuzzle : ObservableObject {
     }
     
 //Experimental!
-//    var charsPerLine : Int = 30
-//    func puzzlines(for width : CGFloat) -> [PuzzleLine] {
-//        charsPerLine = Int(width / 30)
-//        return puzzleLines
-//    }
-//
-//    var puzzleLines : [PuzzleLine]{
-////        guard let currentPuzzle = self.currentPuzzle else {return []}
-//
-//        let gameLines = currentPuzzle.ciphertext.asLines(of: charsPerLine).enumerated().map { (ciphertextLineNumber, ciphertextLine) -> PuzzleLine in
-//
-//            let puzzleLine = ciphertextLine.enumerated().compactMap{ (index, char) -> GameInfo? in
-//
-//                let ciphertextIndex = ciphertextLineNumber * charsPerLine + index
-//
-//                if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, ciphertextIndex) {
-//
-//                    let characterPair = GameInfo(id: newGameTriad.id,
-//                                          cipherLetter: newGameTriad.cipherLetter,
-//                                          userGuessLetter: newGameTriad.userGuessLetter)
-//                    return characterPair
-//                }
-//                return nil
-//            }
-//            return PuzzleLine(id: ciphertextLineNumber, characters: puzzleLine)
-//        }
-//        return gameLines
-//    }
+    //var charsPerLine : Int = 30
+
+    func puzzleLines(charsPerLine : Int) -> [PuzzleLine]{
+
+        let gameLines = currentPuzzle.ciphertext.asLines(of: charsPerLine).enumerated().map { (ciphertextLineNumber, ciphertextLine) -> PuzzleLine in
+
+            let puzzleLine = ciphertextLine.enumerated().compactMap{ (index, char) -> GameInfo? in
+
+                let ciphertextIndex = ciphertextLineNumber * charsPerLine + index
+
+                if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, ciphertextIndex) {
+
+                    let characterPair = GameInfo(id: newGameTriad.id,
+                                          cipherLetter: newGameTriad.cipherLetter,
+                                          userGuessLetter: newGameTriad.userGuessLetter)
+                    return characterPair
+                }
+                return nil
+            }
+            return PuzzleLine(id: ciphertextLineNumber, characters: puzzleLine)
+        }
+        return gameLines
+    }
     
     func plaintext(for ciphertext : Character) -> Character?{
         if let plaintextCharacter = currentPuzzle.usersGuesses[String(ciphertext)] {

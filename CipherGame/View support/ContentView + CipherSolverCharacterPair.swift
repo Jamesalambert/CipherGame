@@ -82,18 +82,19 @@ extension ContentView {
                 if displayPlaintext {
                     Text(plainTextLetter.string())
                         .frame(height : 30)
+                        .fixedSize()
                         .foregroundColor(viewModel.theme.color(of: .plaintext,
                                                                for: bookTheme, in: colorScheme))
                         .font(viewModel.theme.font(for: .title, item: .plaintext, for: bookTheme))
-                        .fixedSize()
+                        
                 }
                 
             }
-            .overlay(Rectangle()
-                        .frame(width: 30, height: Self.lineThickness, alignment: .bottom)
-                        .foregroundColor(viewModel.theme.color(of: .puzzleLines,
-                                                               for: bookTheme, in: colorScheme)),
-                     alignment: .bottom )
+//            .overlay(Rectangle()
+//                        .frame(width: 30, height: Self.lineThickness, alignment: .bottom)
+//                        .foregroundColor(viewModel.theme.color(of: .puzzleLines,
+//                                                               for: bookTheme, in: colorScheme)),
+//                     alignment: .bottom )
             .padding(.top)
             .foregroundColor(foregroundColor(for: colorScheme))
             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)

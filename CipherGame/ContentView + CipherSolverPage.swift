@@ -53,14 +53,14 @@ extension ContentView {
         var body : some View {
             GeometryReader { geometry in
                 ZStack(alignment: .bottom){
-                    ScrollView{
+                    ScrollView(.vertical){
                         VStack{
                             Spacer()
                             puzzleChooser(for: geometry)
                             Spacer()
                             Spacer(minLength: 30)
                             if viewModel.currentPuzzleHash != nil {
-                                cipherPuzzleView(with: geometry)
+                                cipherPuzzleListView(with: geometry)
                                     .id(viewModel.currentPuzzleHash)
                                     .padding()
                                     .toolbar(content: toolbarView)
@@ -71,10 +71,11 @@ extension ContentView {
                                     Spacer(minLength: 250)
                                 }
                             } else if viewModel.currentGridPuzzleHash != nil {
-                                TilePuzzle(puzzleImage: UIImage(named: viewModel.currentGridPuzzle!.imageName)!,
-                                           screenSize: geometry.size)
+                                TilePuzzle(puzzleImage: UIImage(named: viewModel.currentChapterGridPuzzle!.imageName)!,
+                                           screenSize: geometry.size, grid: viewModel.currentChapterGridPuzzle!)
                                     .padding()
                             }
+                            Spacer(minLength: 50)
                         }
                         .background(viewModel.theme.image(for: .puzzlePaper, for: bookTheme)?
                                         .resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
@@ -92,9 +93,52 @@ extension ContentView {
         }
         
 
+//        @ViewBuilder
+//        func cipherPuzzleView(with geometry : GeometryProxy) -> some View {
+//            VStack(alignment: .center, spacing: nil){
+//                Spacer()
+//                Text(viewModel.puzzleTitle)
+//                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
+//                    .font(viewModel.theme.font(for: .largeTitle, for: bookTheme))
+//                Spacer(minLength: 50)
+//                Text(viewModel.header)
+//                    .padding(EdgeInsets.sized(horizontally: geometry.size.width/7,
+//                                              vertically: 0))
+//                    .fixedSize(horizontal: false, vertical: true)
+//                    .lineSpacing(Self.bodyLineSpacing)
+//                    .font(viewModel.theme.font(for: .body, for: bookTheme))
+//                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
+//                Spacer(minLength: 50)
+//
+//                LazyVGrid(columns: columns(screenWidth: geometry.size.width),
+//                          spacing: 0,
+//                          pinnedViews: [.sectionHeaders]){
+//                    ForEach(viewModel.data){ cipherPair in
+//                        CipherSolverCharacterPair(
+//                            displayPhoneLetterPicker: $displayPhoneLetterPicker,
+//                            displayTabletLetterPicker: $displayTabletLetterPicker,
+//                            cipherTextLetter: cipherPair.cipherLetter,
+//                            plainTextLetter: cipherPair.userGuessLetter,
+//                            indexInTheCipher: cipherPair.id)
+//                    }
+//                }
+//                Spacer(minLength: 20)
+//                Text(viewModel.footer)
+//                    .padding(EdgeInsets.sized(horizontally: geometry.size.width/7,
+//                                              vertically: 0))
+//                    .fixedSize(horizontal: false, vertical: true)
+//                    .lineSpacing(Self.bodyLineSpacing)
+//                    .font(viewModel.theme.font(for: .body, for: bookTheme))
+//                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
+//            }
+//        }
+        
+        
+        
+        
         @ViewBuilder
-        func cipherPuzzleView(with geometry : GeometryProxy) -> some View {
-            VStack(alignment: .center, spacing: nil){
+        func cipherPuzzleListView(with geometry : GeometryProxy) -> some View {
+            VStack(alignment: .center){
                 Spacer()
                 Text(viewModel.puzzleTitle)
                     .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
@@ -109,19 +153,32 @@ extension ContentView {
                     .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
                 Spacer(minLength: 50)
                 
-                LazyVGrid(columns: columns(screenWidth: geometry.size.width),
-                          spacing: 0,
-                          pinnedViews: [.sectionHeaders]){
-                    ForEach(viewModel.data){ cipherPair in
-                        CipherSolverCharacterPair(
-                            displayPhoneLetterPicker: $displayPhoneLetterPicker,
-                            displayTabletLetterPicker: $displayTabletLetterPicker,
-                            cipherTextLetter: cipherPair.cipherLetter,
-                            plainTextLetter: cipherPair.userGuessLetter,
-                            indexInTheCipher: cipherPair.id)
+                VStack(alignment: .leading){
+                    ForEach(viewModel.puzzleLines(charsPerLine: Int(geometry.size.width) / 30)){ puzzleLine in
+                        HStack(alignment: .bottom, spacing: 20){
+                            Text(String(puzzleLine.id))
+                                .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
+                            HStack{
+                                ForEach(puzzleLine.characters){ character in
+                                    CipherSolverCharacterPair(
+                                        displayPhoneLetterPicker: $displayPhoneLetterPicker,
+                                        displayTabletLetterPicker: $displayTabletLetterPicker,
+                                        cipherTextLetter: character.cipherLetter,
+                                        plainTextLetter: character.userGuessLetter,
+                                        indexInTheCipher: character.id)
+                                }
+                            }
+                            .overlay(Rectangle()
+                                        .frame(height: 3, alignment: .bottom)
+                                        .foregroundColor(viewModel.theme.color(of: .puzzleLines,
+                                                                               for: bookTheme, in: colorScheme)),
+                                    alignment: .bottom )
+                        }
                     }
                 }
-                Spacer(minLength: 20)
+                
+                
+                Spacer(minLength: 50)
                 Text(viewModel.footer)
                     .padding(EdgeInsets.sized(horizontally: geometry.size.width/7,
                                               vertically: 0))
@@ -131,6 +188,12 @@ extension ContentView {
                     .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
             }
         }
+        
+        
+        
+        
+        
+        
         
         @ViewBuilder
         func keyboardAndLettercount(for geometry : GeometryProxy) -> some View {

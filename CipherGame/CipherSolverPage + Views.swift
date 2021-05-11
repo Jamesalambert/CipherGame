@@ -24,14 +24,13 @@ extension ContentView.CipherSolverPage {
                             )
                     }
                     Spacer()
-                    if let gridPuzzle = viewModel.currentGridPuzzle {
+                    if let gridPuzzle = viewModel.currentChapterGridPuzzle {
                         gridPuzzleChooserButton(for: gridPuzzle)
                             .padding()
                             .background(
                                 viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)
                                     .opacity(gridPuzzle.id == viewModel.currentGridPuzzleHash ? 0.30 : 0.1)
                             )
-                            
                     }
                 }
                 .cornerRadius(Self.viewCornerRadius)
@@ -44,7 +43,7 @@ extension ContentView.CipherSolverPage {
     func gridPuzzleChooserButton(for puzzle : GridPuzzle) -> some View {
         Button {
             withAnimation{
-                viewModel.currentGridPuzzleHash = viewModel.currentGridPuzzle?.id
+                viewModel.currentGridPuzzleHash = viewModel.currentChapterGridPuzzle?.id
             }
         } label: {
             buttonLabel(titled: "grid puzzle", isSolved: puzzle.isSolved)

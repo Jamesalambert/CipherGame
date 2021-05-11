@@ -23,19 +23,19 @@ struct TilePuzzle: View {
     
     var screenSize : CGSize
     
-    //var grid : GridPuzzle
+    var grid : GridPuzzle
     
     var body: some View {
         LazyVGrid(columns: self.columns(), spacing: 0){
-            ForEach(viewModel.currentGridPuzzle!.rows){ row in
+            ForEach(grid.rows){ row in
                 ForEach(row.tiles){ tile in
                     Group {
-                        if tile.content == 0 || viewModel.currentGridPuzzle!.isSolved {
-                            if viewModel.currentGridPuzzle!.tileIsEnabled(tile.id){
-                                Image(uiImage: puzzleImage.rect(x: tile.index[0], y: tile.index[1],size: viewModel.currentGridPuzzle!.size))
+                        if tile.content == 0 || grid.isSolved {
+                            if grid.tileIsEnabled(tile.id){
+                                Image(uiImage: puzzleImage.rect(x: tile.index[0], y: tile.index[1],size: grid.size))
                                 .resizable()
                                 .aspectRatio(1, contentMode: .fit)
-                                    .cornerRadius(viewModel.currentGridPuzzle!.isSolved ? 0 : 10)
+                                    .cornerRadius(grid.isSolved ? 0 : 10)
                                 .id(tile.id)
                             } else {
                                 ZStack{
@@ -64,11 +64,11 @@ struct TilePuzzle: View {
     }
     
     func columns()->[GridItem]{
-        let width = 0.8 * min(screenSize.height, screenSize.width) / CGFloat(viewModel.currentGridPuzzle!.size)
+        let width = 0.8 * min(screenSize.height, screenSize.width) / CGFloat(grid.size)
         return Array(repeating: GridItem(.fixed(CGFloat(width)),
                                          spacing: CGFloat(0),
                                          alignment: .center),
-                     count: viewModel.currentGridPuzzle!.size)
+                     count: grid.size)
     }
 }
 
