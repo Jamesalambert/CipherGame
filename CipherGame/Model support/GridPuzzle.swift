@@ -11,18 +11,14 @@ import Foundation
     struct GridPuzzle : Codable {
         
         var rows : [Row]
-        var imageName : String
-        
-        var size : Int
+        let imageName : String
+        let size : Int
+        let numberOfHiddenTiles : Int
+        var id = UUID()
         
         var isEnabled : Bool {
             return disabledTileIDs.count == 0
         }
-        
-        var id = UUID()
-        
-        private
-        var disabledTileIDs : [UUID] = []
         
         var isSolved : Bool {
             for (rowIndex, row) in self.rows.enumerated() {
@@ -34,6 +30,9 @@ import Foundation
             }
             return true
         }
+        
+        private
+        var disabledTileIDs : [UUID] = []
         
         func tileIsEnabled(_ tileID : UUID) -> Bool {
             return !disabledTileIDs.contains(tileID)
@@ -63,6 +62,23 @@ import Foundation
             #if DEBUG
             printState()
             #endif
+        }
+        
+        mutating
+        func reset(){
+            
+            //shuffle tiles
+            let tiles : [Tile] = rows.flatMap{$0.tiles}.shuffled()
+            
+            for rowIndex in 0..<self.size{
+                let startIndex = rowIndex * self.size
+                self.rows[rowIndex].tiles = Array(tiles[startIndex...startIndex + self.size - 1])
+            }
+            
+            //reset hidden tile IDs
+            if self.numberOfHiddenTiles < tiles.count{
+                self.disabledTileIDs = tiles[0..<self.numberOfHiddenTiles].map{$0.id}
+            }
         }
         
         private
@@ -137,6 +153,7 @@ import Foundation
             }
 
             self.size = size
+            self.numberOfHiddenTiles = hiddenTiles
             self.rows = rows
             self.imageName = imageName
             #if DEBUG
@@ -144,6 +161,7 @@ import Foundation
             printState()
             #endif
         }
+        
     }
     
     struct Row : Identifiable, Codable {

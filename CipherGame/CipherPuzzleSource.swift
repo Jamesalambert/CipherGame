@@ -42,6 +42,9 @@ struct Game : Codable {
         
         //reset user answers to riddles
         books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].userRiddleAnswers.removeAll()
+        
+        //reset grid puzzle if it exists
+        books[bookIndex].chapters[chapterIndex].gridPuzzle?.reset()
     }
     
     mutating
