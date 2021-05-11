@@ -1,61 +1,23 @@
 
 {
-    "title" : "Space Book!",
+    "title" : "Queen of the Zlogs",
     "theme" : "space",
     "chapters": [
         {
             "title": "First Chapter",
             "puzzles" : [
                 {
-                    "title": "In Space, nobody...",
-                    "header" : "Welcome aboard the starship Aquarius.",
-                    "plaintext": "To the shops, she was buying a lot of cheese and wine for her drunken friends. She also cut down a tree to burn. Thank you Rebecca for all the cheese. And the fire.",
-                    "footer" : "How long did that take?",
+                    "title": "Arrival",
+                    "header" : "The Martian dust swirls. Around you there is a vast landscape of red rocks and a yellow sky. You look up and see a shape morphing from an oval to a circle to a barely discernible disc. It spins towards you until it is a blur of liquid metal then suddenly stops mid-air. A beam of light opens up in its centre, dazzling you with its brightness and a great roar of air blasts the dust into the skies.",
+                    "plaintext": "You see a gold helmet and scaly tentacles. The visor slides up and you see one bright green eye. A low voice growls ‘Welcome to Mars, we have been expecting you’. You are frozen to the spot with fear. ‘Don’t worry,’ the creature says, ‘I’m here in your mind. I can see and feel everything you feel. I am Hurth, Queen of the Zlogs. Let me introduce you to my subjects. You don’t want to miss the welcome party.’ The alien Queen points to the beam of light under the spaceship.",
+                    "footer" : "",
                     "keyAlphabet": "escidpoumgvhaqrjntzfbwklyx",
-                    "riddle" : "",
-                    "riddleAnswers" : [],
+                    "riddle" : " Should you:",
+                    "riddleAnswers" : ["accept the invitation and walk towards the beam of light.","radio for help."],
                     "riddleKey" : ""
                 }
             ],
-            "puzzleImageName" : ""
-        },
-        {
-            "title": "Second Chapter",
-            "puzzles" : [
-                {
-                    "title": "Prince Valium",
-                    "header" : "",
-                    "plaintext": "rose, but it's made from grapes. If you drink too much you may start singing. This is probably a bad idea unless you are Louise. Seven",
-                    "footer" : "",
-                    "keyAlphabet": "aurzmgnwqhoxidfvkpesjtylbc",
-                    "riddle" : "What's Rose made from?",
-                    "riddleAnswers" : ["grapes", "potatoes"],
-                    "riddleKey" : ""
-                }
-                ,
-                {
-                    "title": "Voyage to the end...",
-                    "header" : "",
-                    "plaintext": "chocolate are a great idea. Give James more chocolate too so he doesn't steal any. You also can't trust him with cheese. Four",
-                    "footer" : "",
-                    "keyAlphabet": "xkzwqnvgjrpuistahdmofbcley",
-                    "riddle" : "",
-                    "riddleAnswers" : [],
-                    "riddleKey" : "grapes"
-                }
-                ,
-                {
-                    "title": "Upside Down and...",
-                    "header" : "",
-                    "plaintext": "Cheese, it will keep you warm in the evening but you could make cheese toasties on the barbecue. Don't sue me if you get burnt. Eight",
-                    "footer" : "",
-                    "keyAlphabet": "ovqdfxmlparuesjtkgcbnizwhy",
-                    "riddle" : "",
-                    "riddleAnswers" : [],
-                    "riddleKey" : "potatoes"
-                }
-            ],
-            "puzzleImageName" : "purpleSpace"
+            "puzzleImageName" : "mars"
         }
     ]
 }

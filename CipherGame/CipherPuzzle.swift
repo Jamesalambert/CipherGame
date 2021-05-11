@@ -33,6 +33,7 @@ class CipherPuzzle : ObservableObject {
                 model.lastOpenPuzzleHash = currentPuzzleHash
                 characterCount = letterCount.map{pair in
                     CharacterCount(character: pair.character, count: pair.count)}
+                currentGridPuzzleHash = nil
             }
             currentCiphertextCharacter = nil
         }
@@ -42,10 +43,8 @@ class CipherPuzzle : ObservableObject {
     var currentChapterHash : UUID? {
         didSet{
             guard let currentChapter = currentChapter else {return}
-//            if currentChapterHash != nil {
             self.currentPuzzleHash = currentChapter.puzzles.first?.id
             self.currentGridPuzzleHash = nil
-//            }
         }
     }
     

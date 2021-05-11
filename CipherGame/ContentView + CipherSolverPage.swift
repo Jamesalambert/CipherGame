@@ -14,6 +14,7 @@ extension ContentView {
         static let phoneLetterPickerHeight = CGFloat(160)
         static let letterCountHeight = CGFloat(120)
         static let viewCornerRadius = CGFloat(10.0)
+        static let bodyLineSpacing = CGFloat(6)
         
         @EnvironmentObject
         var viewModel : CipherPuzzle
@@ -71,7 +72,7 @@ extension ContentView {
                                 }
                             } else if viewModel.currentGridPuzzleHash != nil {
                                 TilePuzzle(puzzleImage: UIImage(named: viewModel.currentGridPuzzle!.imageName)!,
-                                           screenWidth: geometry.size.width)
+                                           screenSize: geometry.size)
                                     .padding()
                             }
                         }
@@ -84,7 +85,8 @@ extension ContentView {
                 }
                 .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
                 .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
-                .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?.resizable())
+                .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?
+                                .resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
                 .onTapGesture{deselect()}
             }
         }
@@ -95,15 +97,17 @@ extension ContentView {
             VStack(alignment: .center, spacing: nil){
                 Spacer()
                 Text(viewModel.puzzleTitle)
-                    .foregroundColor(viewModel.theme.color(of: .ciphertext, for: bookTheme, in: colorScheme))
-                    .font(viewModel.theme.font(for: .title, for: bookTheme))
-                Spacer()
+                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
+                    .font(viewModel.theme.font(for: .largeTitle, for: bookTheme))
+                Spacer(minLength: 50)
                 Text(viewModel.header)
+                    .padding(EdgeInsets.sized(horizontally: geometry.size.width/7,
+                                              vertically: 0))
                     .fixedSize(horizontal: false, vertical: true)
+                    .lineSpacing(Self.bodyLineSpacing)
                     .font(viewModel.theme.font(for: .body, for: bookTheme))
                     .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
-                Spacer()
-                    .frame(height: geometry.size.height/20)
+                Spacer(minLength: 50)
                 
                 LazyVGrid(columns: columns(screenWidth: geometry.size.width),
                           spacing: 0,
@@ -117,8 +121,12 @@ extension ContentView {
                             indexInTheCipher: cipherPair.id)
                     }
                 }
-                Spacer().frame(height: geometry.size.height/20)
+                Spacer(minLength: 20)
                 Text(viewModel.footer)
+                    .padding(EdgeInsets.sized(horizontally: geometry.size.width/7,
+                                              vertically: 0))
+                    .fixedSize(horizontal: false, vertical: true)
+                    .lineSpacing(Self.bodyLineSpacing)
                     .font(viewModel.theme.font(for: .body, for: bookTheme))
                     .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
             }
