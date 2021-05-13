@@ -16,21 +16,13 @@ import Foundation
         let numberOfHiddenTiles : Int
         var id = UUID()
         
-        var isEnabled : Bool {
-            return disabledTileIDs.count == 0
-        }
-        
         var isSolved : Bool {
-            for (rowIndex, row) in self.rows.enumerated() {
-                for (tileIndex, tile) in row.tiles.enumerated(){
-                    if tile.index != [tileIndex, rowIndex] {
-                        return false
-                    }
-                }
-            }
-            return true
+            return GridPuzzle.soultionChecker(self)
         }
         
+        private
+        var solutionType : GridSolution = .rows
+
         private
         var disabledTileIDs : [UUID] = []
         
@@ -52,6 +44,7 @@ import Foundation
         
         mutating
         func move(id : UUID) {
+            guard !isSolved else {return}
             let (x, y) : (Int,Int) = tappedSquare(with: id)
             if canMove(x: x, y: y){
                 let movedTile = rows[y].tiles[x]
@@ -140,6 +133,54 @@ import Foundation
         }
         
         
+        //solution functions
+        private
+        static
+        func soultionChecker(_ puzzle : GridPuzzle) -> Bool {
+            switch puzzle.solutionType {
+            case .all:
+                return GridPuzzle.allChecker(rows: puzzle.rows)
+            case .rows:
+                return GridPuzzle.rowsChecker(rows: puzzle.rows)
+            case .columns:
+                return GridPuzzle.columnsChecker(rows: puzzle.rows)
+            }
+        }
+        
+        //all
+        private
+        static
+        func allChecker(rows : [Row]) -> Bool{
+            for (rowIndex, row) in rows.enumerated() {
+                for (tileIndex, tile) in row.tiles.enumerated(){
+                    if tile.index != [tileIndex, rowIndex] {
+                        return false
+                    }
+                }
+            }
+            return true
+        }
+        
+        private
+        static
+        func rowsChecker(rows : [Row]) ->Bool {
+            rows.enumerated().allSatisfy{(rowIndex, row) -> Bool in
+                row.tiles.allSatisfy{ tile in
+                    tile.index[0] == rowIndex}
+            }
+        }
+        
+        private
+        static
+        func columnsChecker(rows : [Row]) ->Bool {
+            rows.allSatisfy{ row in
+                row.tiles.enumerated().allSatisfy{ (tileIndex, tile) in
+                    tile.index[1] == tileIndex}
+            }
+        }
+        //solution funcs
+        
+        
         init(imageName: String, size : Int = 3, hiddenTiles : Int = 5) {
             var arr : [[Int]] = Array(repeating: Array(repeating: 0, count: size), count: size)
             arr[size - 1][0] = 1
@@ -175,6 +216,33 @@ import Foundation
         
     }
     
+
+enum GridSolution : Codable {
+    
+    case all, rows, columns
+    
+    init(from decoder: Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let value = try? container.decode(String.self)
+        switch value{
+        case "all": self = .all
+        case "rows": self = .rows
+        case "columns": self = .columns
+        default:
+            self = .all
+        }
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        switch self {
+        case .all: try container.encode("all")
+        case .rows: try container.encode("rows")
+        case .columns: try container.encode("columns")
+        }
+    }
+}
+
     struct Row : Identifiable, Codable {
         var id = UUID()
         var tiles : [Tile]
