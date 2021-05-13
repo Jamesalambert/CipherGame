@@ -232,9 +232,6 @@ class CipherPuzzle : ObservableObject {
         let book = model.books.first{$0.productID == bookID}
         return book?.chapters.first?.id
     }
-    
-//Experimental!
-    //var charsPerLine : Int = 30
 
     func puzzleLines(charsPerLine : Int) -> [PuzzleLine]{
 

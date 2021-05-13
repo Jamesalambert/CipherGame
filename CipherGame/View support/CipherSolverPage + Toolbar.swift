@@ -36,8 +36,8 @@ extension ContentView.CipherSolverPage {
                         
                         #if DEBUG
                         Button("solve!"){
-                            while !viewModel.isSolved {
-                                withAnimation{
+                            withAnimation{
+                                while !viewModel.isSolved {
                                     viewModel.quickHint()
                                 }
                             }

@@ -81,6 +81,17 @@ import Foundation
             }
         }
         
+        mutating
+        func solve(){
+            var tiles : [Tile] = rows.flatMap{$0.tiles}
+            tiles = tiles.sorted(by: {!($0.index[0] < $1.index[0]) || ($0.index[1] < $1.index[1])})
+            
+            for rowIndex in 0..<self.size{
+                let startIndex = rowIndex * self.size
+                self.rows[rowIndex].tiles = Array(tiles[startIndex...startIndex + self.size - 1])
+            }
+        }
+        
         private
         func canMove(x : Int, y : Int) -> Bool{
             let emptySquare = emptySquare()

@@ -27,7 +27,6 @@ struct Game : Codable {
     }
     //MARK:-
     
-    
     mutating
     func reset(_ puzzleID : UUID){
         guard let currentPuzzleIndexPath = self.indexPath(for: puzzleID) else {return}

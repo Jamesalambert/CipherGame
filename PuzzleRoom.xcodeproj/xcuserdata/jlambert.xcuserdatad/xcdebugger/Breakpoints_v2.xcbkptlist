@@ -56,58 +56,10 @@
             filePath = "CipherGame/CipherPuzzle.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
-            landmarkName = "puzzleLines"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "1F60DB8B-E726-4788-A99A-3245CB99F9AC"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CipherGame/ContentView + CipherSolverPage.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "156"
-            endingLineNumber = "156"
-            landmarkName = "cipherPuzzleListView(with:)"
+            startingLineNumber = "255"
+            endingLineNumber = "255"
+            landmarkName = "puzzleLines(charsPerLine:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "1F60DB8B-E726-4788-A99A-3245CB99F9AC - a4e01e6ab7188cf4"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Spacer, SwiftUI.Text, SwiftUI.Spacer, &lt;&lt;opaque return type of SwiftUI.View.foregroundColor(Swift.Optional&lt;SwiftUI.Color&gt;) -&gt; some&gt;&gt;.0, SwiftUI.Spacer, SwiftUI.ForEach&lt;Swift.Array&lt;CipherGame.PuzzleLine&gt;, Swift.Int, SwiftUI.HStack&lt;SwiftUI.ForEach&lt;Swift.Array&lt;CipherGame.GameInfo&gt;, Swift.Int, CipherGame.ContentView.CipherSolverCharacterPair&gt;&gt;&gt;, SwiftUI.Spacer, &lt;&lt;opaque return type of SwiftUI.View.foregroundColor(Swift.Optional&lt;SwiftUI.Color&gt;) -&gt; some&gt;&gt;.0)&gt; in CipherGame.ContentView.CipherSolverPage.cipherPuzzleListView(with: SwiftUI.GeometryProxy) -&gt; some"
-                  moduleName = "CipherGame"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/ContentView%20+%20CipherSolverPage.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "156"
-                  endingLineNumber = "156"
-                  offsetFromSymbolStart = "3748">
-               </Location>
-               <Location
-                  uuid = "1F60DB8B-E726-4788-A99A-3245CB99F9AC - 5735190d25841b0f"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (CipherGame.PuzzleLine) -&gt; SwiftUI.HStack&lt;SwiftUI.ForEach&lt;Swift.Array&lt;CipherGame.GameInfo&gt;, Swift.Int, CipherGame.ContentView.CipherSolverCharacterPair&gt;&gt; in closure #1 () -&gt; SwiftUI.TupleView&lt;(SwiftUI.Spacer, SwiftUI.Text, SwiftUI.Spacer, &lt;&lt;opaque return type of SwiftUI.View.foregroundColor(Swift.Optional&lt;SwiftUI.Color&gt;) -&gt; some&gt;&gt;.0, SwiftUI.Spacer, SwiftUI.ForEach&lt;Swift.Array&lt;CipherGame.PuzzleLine&gt;, Swift.Int, SwiftUI.HStack&lt;SwiftUI.ForEach&lt;Swift.Array&lt;CipherGame.GameInfo&gt;, Swift.Int, CipherGame.ContentView.CipherSolverCharacterPair&gt;&gt;&gt;, SwiftUI.Spacer, &lt;&lt;opaque return type of SwiftUI.View.foregroundColor(Swift.Optional&lt;SwiftUI.Color&gt;) -&gt; some&gt;&gt;.0)&gt; in CipherGame.ContentView.CipherSolverPage.cipherPuzzleListView(with: SwiftUI.GeometryProxy) -&gt; some"
-                  moduleName = "CipherGame"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/ContentView%20+%20CipherSolverPage.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "157"
-                  endingLineNumber = "157"
-                  offsetFromSymbolStart = "388">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
