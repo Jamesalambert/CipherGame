@@ -9,26 +9,32 @@ import Foundation
 
 extension CipherPuzzle{
     
-    static let charsPerLine = 40
+    static let charsPerPrintedLine = 40
     
     var printableHTML : String {
+        let puzzleLines = self.puzzleLines(charsPerLine: Self.charsPerPrintedLine)
         
-        let data = self.data
+        var cipherChars : [[String]] = []
+        var userGuesses : [[String]] = []
         
-        let numberOfLines = Int(ceil(Double(data.count) / Double(Self.charsPerLine)))
-        let charsOnLastLine = data.count % Self.charsPerLine
         
-        var cipherChars : [String] = []
-        var userGuesses : [String] = []
+        cipherChars = puzzleLines.map{line in line.characters.map{info in
+            if self.capType == 3 {
+                return info.cipherLetter.uppercased()
+            } else {
+                return String(info.cipherLetter)
+            }
+        }}
         
-        switch self.capType {
-        case 3:
-            cipherChars = data.map{item in String(item.cipherLetter).uppercased()}
-            userGuesses = data.map{item in String(item.userGuessLetter ?? " ").uppercased()}
-        default:
-            cipherChars = data.map{item in String(item.cipherLetter)}
-            userGuesses = data.map{item in String(item.userGuessLetter ?? " ")}
-        }
+        userGuesses = puzzleLines.map{line in line.characters.map{info in
+            if self.capType == 3 {
+                return info.userGuessLetter?.uppercased() ?? " "
+            } else {
+                return info.userGuessLetter.string()
+            }
+        }}
+        
+        let printableLines = zip(cipherChars, userGuesses)
         
         var output : String = ""
 
@@ -42,11 +48,9 @@ extension CipherPuzzle{
         output += "<p class='text'>" + self.header + "</p>"
         
         output += "\n<table id='ciphertext'>\n"
-        for line in 0..<numberOfLines {
-            let start = line * Self.charsPerLine
-            let end  = line * Self.charsPerLine + (line == numberOfLines - 1 ? charsOnLastLine - 1 : Self.charsPerLine)
-
-            output += htmlPuzzleRow(from: cipherChars[start..<end], secondArray: userGuesses[start..<end], withClass: "row", id: nil)
+        
+        for line in printableLines {
+            output += htmlPuzzleRow(from: line.0, secondArray: line.1, withClass: "row", id: nil)
         }
         output += "\n</table>\n"
 

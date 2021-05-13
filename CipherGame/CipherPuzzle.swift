@@ -140,21 +140,6 @@ class CipherPuzzle : ObservableObject {
         return currentPuzzle.userRiddleAnswers
     }
     
-    var data : [GameInfo] {
-        var puzzleData = Array<GameInfo>()
-
-        for (index, char) in currentPuzzle.ciphertext.enumerated() {
-            if let newGameTriad = gameRules[Int(difficultyLevel)]?(char, index) {
-
-                let output = GameInfo(id: newGameTriad.id,
-                                      cipherLetter: newGameTriad.cipherLetter,
-                                      userGuessLetter: newGameTriad.userGuessLetter)
-                puzzleData.append(output)
-            }
-        }
-        return puzzleData
-    }
-    
     var installedBooks : [Book] {
         let books = model.books
         if showLessons {

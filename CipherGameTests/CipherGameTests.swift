@@ -24,7 +24,7 @@ class CipherGameTests: XCTestCase {
         let cipherPuzzleViewModel = CipherPuzzle()
         
         self.measure {
-            let _ = cipherPuzzleViewModel.data
+            let _ = cipherPuzzleViewModel.puzzleLines(charsPerLine: 30)
         }
     }
 
