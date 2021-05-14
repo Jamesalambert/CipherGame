@@ -12,7 +12,7 @@ extension ContentView {
     struct CipherSolverPage : View {
         
         static let phoneLetterPickerHeight = CGFloat(160)
-        static let letterCountHeight = CGFloat(120)
+        static let letterCountHeight = CGFloat(100)
         static let viewCornerRadius = CGFloat(10.0)
         static let bodyLineSpacing = CGFloat(6)
         

@@ -15,16 +15,16 @@ import Foundation
         let size : Int
         let numberOfHiddenTiles : Int
         var id = UUID()
+        var solutionType : GridSolution = .rows
         
         var isSolved : Bool {
+            guard disabledTileIDs.count == 0 else {return false}
             return GridPuzzle.soultionChecker(self)
         }
-        
-        private
-        var solutionType : GridSolution = .rows
 
         private
         var disabledTileIDs : [UUID] = []
+        
         
         func tileIsEnabled(_ tileID : UUID) -> Bool {
             return !disabledTileIDs.contains(tileID)
@@ -219,7 +219,9 @@ import Foundation
 
 enum GridSolution : Codable {
     
-    case all, rows, columns
+    case all
+    case rows
+    case columns
     
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
