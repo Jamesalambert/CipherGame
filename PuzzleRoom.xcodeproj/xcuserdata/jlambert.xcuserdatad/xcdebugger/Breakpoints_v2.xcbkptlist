@@ -49,15 +49,15 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "5F63B511-3998-4DE1-B413-03D1F1E45A34"
+            uuid = "3C1750C0-E7A1-4752-9ECC-B7EAD5E01D50"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CipherGame/CipherPuzzle.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "240"
-            endingLineNumber = "240"
+            startingLineNumber = "222"
+            endingLineNumber = "222"
             landmarkName = "puzzleLines(charsPerLine:)"
             landmarkType = "7">
          </BreakpointContent>

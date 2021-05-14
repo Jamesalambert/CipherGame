@@ -25,6 +25,8 @@ extension ContentView {
         @Environment(\.bookTheme)
         var bookTheme : BookTheme
         
+        var puzzleLines : [PuzzleLine]
+        
         @State
         var displayPhoneLetterPicker : Bool = false
         
@@ -64,6 +66,7 @@ extension ContentView {
                                     .id(viewModel.currentPuzzleHash)
                                     .padding()
                                     .toolbar(content: toolbarView)
+                                    
                                 if viewModel.isSolved {
                                     riddleOptions(with: geometry)
                                         .id(viewModel.currentPuzzleHash)
@@ -89,6 +92,7 @@ extension ContentView {
                 .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?
                                 .resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
                 .onTapGesture{deselect()}
+                .zIndex(0)
             }
         }
         
@@ -154,7 +158,8 @@ extension ContentView {
                 Spacer(minLength: 50)
                 
                 VStack(alignment: .leading){
-                    ForEach(viewModel.puzzleLines(charsPerLine: Int(geometry.size.width) / 30)){ puzzleLine in
+//                    viewModel.puzzleLines(charsPerLine: Int(geometry.size.width) / 30)
+                    ForEach(self.puzzleLines){ puzzleLine in
                         HStack(alignment: .bottom, spacing: 20){
                             Text(String(puzzleLine.id))
                                 .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))

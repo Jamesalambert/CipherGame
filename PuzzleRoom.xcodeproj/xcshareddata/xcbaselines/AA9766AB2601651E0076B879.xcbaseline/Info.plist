@@ -28,6 +28,18 @@
 				<string>com.apple.platform.iphoneos</string>
 			</dict>
 		</dict>
+		<key>FDCE2A12-A243-44BA-8E49-656CCD81ADB6</key>
+		<dict>
+			<key>targetArchitecture</key>
+			<string>arm64</string>
+			<key>targetDevice</key>
+			<dict>
+				<key>modelCode</key>
+				<string>iPad11,3</string>
+				<key>platformIdentifier</key>
+				<string>com.apple.platform.iphoneos</string>
+			</dict>
+		</dict>
 	</dict>
 </dict>
 </plist>

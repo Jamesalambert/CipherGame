@@ -43,9 +43,10 @@ struct ContentView: View {
                             footer: bookFooter(for: book.title)){
                         
                         ForEach(book.chapters){ chapter in
-                            NavigationLink(destination: CipherSolverPage(showLetterCount: $showLetterCount)
-                                                            .environment(\.bookTheme, book.theme)
-                                            .navigationBarTitle("\(chapter.title)", displayMode: .inline)
+                            NavigationLink(destination: NavigationLazyView(
+                                            CipherSolverPage(puzzleLines: viewModel.puzzleLines(charsPerLine: 25),                                                          showLetterCount: $showLetterCount)
+                                                                            .environment(\.bookTheme, book.theme)
+                                                                            .navigationBarTitle("\(chapter.title)", displayMode: .inline))
                                            ,
                                            tag: chapter.id,
                                            selection: $viewModel.currentChapterHash){
@@ -150,3 +151,14 @@ struct ContentView_Previews: PreviewProvider {
 #endif
 
 
+
+struct NavigationLazyView<Content : View> : View {
+    let build : () -> Content
+    init(_ build: @autoclosure @escaping () -> Content){
+        self.build = build
+    }
+    
+    var body : Content{
+        build()
+    }
+}
