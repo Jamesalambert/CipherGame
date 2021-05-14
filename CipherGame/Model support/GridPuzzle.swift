@@ -181,7 +181,7 @@ import Foundation
         //solution funcs
         
         
-        init(imageName: String, size : Int = 3, hiddenTiles : Int = 5) {
+        init(imageName: String, size : Int = 4, hiddenTiles : Int = 5) {
             var arr : [[Int]] = Array(repeating: Array(repeating: 0, count: size), count: size)
             arr[size - 1][0] = 1
             
