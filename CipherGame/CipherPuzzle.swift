@@ -219,7 +219,7 @@ class CipherPuzzle : ObservableObject {
     }
 
     func puzzleLines(charsPerLine : Int) -> [PuzzleLine]{
-
+        print("called!")
         let gameLines = currentPuzzle.ciphertext.asLines(of: charsPerLine).enumerated().map { (ciphertextLineNumber, ciphertextLine) -> PuzzleLine in
 
             let puzzleLine = ciphertextLine.enumerated().compactMap{ (index, char) -> GameInfo? in

@@ -45,7 +45,7 @@ struct ContentView: View {
                         ForEach(book.chapters){ chapter in
                             NavigationLink(destination: CipherSolverPage(showLetterCount: $showLetterCount)
                                                             .environment(\.bookTheme, book.theme)
-                                                            .navigationTitle("\(chapter.title)")
+                                            .navigationBarTitle("\(chapter.title)", displayMode: .inline)
                                            ,
                                            tag: chapter.id,
                                            selection: $viewModel.currentChapterHash){
