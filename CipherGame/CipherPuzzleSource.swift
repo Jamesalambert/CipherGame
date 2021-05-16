@@ -73,7 +73,7 @@ struct Game : Codable {
                 books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].guessIndices[lowerCipherCharacter] = [index]
             }
             
-            //check to see if puzzle has been solved
+            //check to see if puzzle has been solved and add a tile to the grid if it exists.
             if books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].isSolved{
                 books[bookIndex].chapters[chapterIndex].gridPuzzle?.addTile()
             }
@@ -131,6 +131,17 @@ struct Game : Codable {
                                                             chapter.gridPuzzle?.id == gridPuzzleHash}) else {return }
         
         books[bookIndex].chapters[chapterIndex].gridPuzzle?.addTile()
+    }
+    
+    mutating
+    func revealTile(tileHash : UUID, gridPuzzleHash : UUID){
+        guard let bookIndex = books.firstIndex(where: {book in
+                                                    book.chapters.contains{ chapter in
+                                                        chapter.gridPuzzle?.id == gridPuzzleHash}} ) else {return }
+        guard let chapterIndex = books[bookIndex].chapters.firstIndex(where: {chapter in
+                                                            chapter.gridPuzzle?.id == gridPuzzleHash}) else {return }
+        
+        books[bookIndex].chapters[chapterIndex].gridPuzzle?.revealTile(id: tileHash)
     }
     
     private

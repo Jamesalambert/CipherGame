@@ -13,7 +13,7 @@ struct TilePuzzle: View {
     static let tileColors : [Color] = [Color(#colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)),Color(#colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1)),Color(#colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)),Color(#colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1)),Color(#colorLiteral(red: 0.5568627715, green: 0.3529411852, blue: 0.9686274529, alpha: 1)),Color(#colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1))]
     static let tileCornerRadius = CGFloat(15)
     
-    
+
     @EnvironmentObject
     var viewModel : CipherPuzzle
     
@@ -36,37 +36,36 @@ struct TilePuzzle: View {
             if !grid.isSolved{
                 tilePuzzleBackground()
                     .opacity(0.3)
+                    .transition(.scale)
             }
             
             LazyVGrid(columns: self.columns(), spacing: 0){
                 ForEach(grid.rows){ row in
                     ForEach(row.tiles){ tile in
                         Group {
-                            if tile.content == 0 || grid.isSolved {
-                                if grid.tileIsEnabled(tile.id){
-                                    tileWithImage(tile)
-                                } else {
-                                    mysteryTile(tile)
-                                }
-                            } else {
-                                //empty space
-                                ZStack{}
-                            }
+                           tileView(tile)
                         }
                         .onTapGesture {
                             withAnimation{
-                                viewModel.gridMove(tileHash: tile.id)
+                                viewModel.gridTap(tileHash: tile.id)
                             }
                         }
                     }
                 }
             }
-            if grid.isSolved{
-                Image("mars")
-                    .transition(.scale)
-            }
         }
         .zIndex(0)
+    }
+    
+    @ViewBuilder
+    func tileView(_ tile : Tile) -> some View {
+        if grid.isSolved || (grid.tileIsEnabled(tile.id) && tile.content == 0){
+            tileWithImage(tile)
+        } else if tile.content == 1 && !grid.isSolved{
+            ZStack{}
+        }else if tile.content == 0 && !grid.isSolved && !grid.tileIsEnabled(tile.id){
+            mysteryTile(tile)
+        }
     }
     
     @ViewBuilder
@@ -101,7 +100,7 @@ struct TilePuzzle: View {
         ZStack{
             Color.white.opacity(0.4)
                 .cornerRadius(Self.tileCornerRadius)
-            Image(systemName: "questionmark.circle")
+            Image(systemName: grid.tileIsRecentlyEnabled(tile.id) ? "hand.tap" : "questionmark.circle")
                 .resizable(capInsets: EdgeInsets.zero(), resizingMode: .stretch)
                 .aspectRatio(1,contentMode: .fit)
                 .padding()
@@ -109,6 +108,22 @@ struct TilePuzzle: View {
         .overlay(RoundedRectangle(cornerRadius: Self.tileCornerRadius).stroke(Color.black, lineWidth: 2)  )
         .id(tile.id)
     }
+    
+    
+//    @ViewBuilder
+//    func tappableTile(_ tile: Tile)-> some View {
+//        ZStack{
+//            Color.white.opacity(0.4)
+//                .cornerRadius(Self.tileCornerRadius)
+//            Image(systemName: "hand.tap")
+//                .resizable(capInsets: EdgeInsets.zero(), resizingMode: .stretch)
+//                .aspectRatio(1,contentMode: .fit)
+//                .padding()
+//        }
+//        .overlay(RoundedRectangle(cornerRadius: Self.tileCornerRadius).stroke(Color.black, lineWidth: 2)  )
+//        .id(tile.id)
+//    }
+    
     
     @ViewBuilder
     func tilePuzzleBackground() -> some View {
@@ -120,7 +135,6 @@ struct TilePuzzle: View {
                         Self.tileColors[index]
                     }
                 }
-                
             case .columns:
                 HStack(spacing:0){
                     ForEach(0..<grid.size){ index in

@@ -9,14 +9,14 @@ import Foundation
 
     //Model
     struct GridPuzzle : Codable {
-        
+
         var rows : [Row]
         let imageName : String
         let size : Int
         let numberOfHiddenTiles : Int
         var id = UUID()
         var solutionType : GridSolution = .rows
-        
+
         var isSolved : Bool {
             guard disabledTileIDs.count == 0 else {return false}
             return GridPuzzle.soultionChecker(self)
@@ -24,22 +24,47 @@ import Foundation
 
         private
         var disabledTileIDs : [UUID] = []
-        
-        
+
+        private
+        var recentlyEnabledTileIDs : [UUID] = []
+
         func tileIsEnabled(_ tileID : UUID) -> Bool {
             return !disabledTileIDs.contains(tileID)
         }
         
+        func tileIsRecentlyEnabled(_ tileID : UUID) -> Bool {
+            return recentlyEnabledTileIDs.contains(tileID)
+        }
+
         mutating
         func addTile(){
             guard let tileIDToAdd = disabledTileIDs.last else {return}
+            self.disabledTileIDs = self.disabledTileIDs.dropLast(Int(1))
+            
             let rowIndex = rows.firstIndex(where: {$0.tiles.contains{$0.id == tileIDToAdd}})
             let tileIndex = rows[rowIndex!].tiles.firstIndex(where: {$0.id == tileIDToAdd})
             let tileToAdd = self.rows[rowIndex!].tiles[tileIndex!]
-            //change UUID
-            self.rows[rowIndex!].tiles[tileIndex!] = Tile(id: UUID(), index: tileToAdd.index, content: tileToAdd.content)
             
-            self.disabledTileIDs = self.disabledTileIDs.dropLast(Int(1))
+            //change UUID
+            let enabledTile = Tile(id: UUID(), index: tileToAdd.index, content: tileToAdd.content)
+            self.rows[rowIndex!].tiles[tileIndex!] = enabledTile
+            
+            self.recentlyEnabledTileIDs.append(enabledTile.id)
+            disabledTileIDs.append(enabledTile.id)
+        }
+
+        mutating
+        func revealTile(id : UUID){
+            let rowIndex = rows.firstIndex(where: {$0.tiles.contains{$0.id == id}})
+            let tileIndex = rows[rowIndex!].tiles.firstIndex(where: {$0.id == id})
+            let tileToAdd = self.rows[rowIndex!].tiles[tileIndex!]
+
+            //change UUID
+            let revealedTile = Tile(id: UUID(), index: tileToAdd.index, content: tileToAdd.content)
+            self.rows[rowIndex!].tiles[tileIndex!] = revealedTile
+            
+            recentlyEnabledTileIDs.removeAll(where: {$0 == id})
+            disabledTileIDs.removeAll(where: {$0 == id})
         }
         
         mutating
@@ -56,7 +81,7 @@ import Foundation
             printState()
             #endif
         }
-        
+
         mutating
         func reset(){
             
@@ -73,7 +98,7 @@ import Foundation
                 self.disabledTileIDs = tiles[0..<self.numberOfHiddenTiles].map{$0.id}
             }
         }
-        
+
         mutating
         func solve(){
             var tiles : [Tile] = rows.flatMap{$0.tiles}
@@ -84,7 +109,7 @@ import Foundation
                 self.rows[rowIndex].tiles = Array(tiles[startIndex...startIndex + self.size - 1])
             }
         }
-        
+
         private
         func canMove(x : Int, y : Int) -> Bool{
             let emptySquare = emptySquare()
@@ -95,7 +120,7 @@ import Foundation
             adjacentPoints.append((emptySquare.x, emptySquare.y - 1))
             return adjacentPoints.contains{$0 == (x,y)}
         }
-        
+
         private
         func emptySquare() -> (x : Int, y : Int) {
             for column in 0..<self.size{
@@ -107,7 +132,7 @@ import Foundation
             }
             return (-1,-1)
         }
-        
+
         private
         func tappedSquare(with id : UUID) -> (x : Int, y : Int) {
             for column in 0..<self.size{
@@ -119,7 +144,7 @@ import Foundation
             }
             return (-1,-1)
         }
-        
+
         private
         func printState(){
             for row in rows{
@@ -131,8 +156,7 @@ import Foundation
             }
             print("isSolved: \(isSolved)\n")
         }
-        
-        
+
         //solution functions
         private
         static

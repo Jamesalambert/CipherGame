@@ -203,14 +203,21 @@ class CipherPuzzle : ObservableObject {
                                  at: index)
     }
     
-    func gridMove(tileHash : UUID) {
-        model.moveTile(tileHash: tileHash, gridPuzzleHash: currentGridPuzzleHash!)
+    func gridTap(tileHash : UUID) {
+        if currentChapterGridPuzzle!.tileIsRecentlyEnabled(tileHash){
+            model.revealTile(tileHash: tileHash, gridPuzzleHash: currentGridPuzzleHash!)
+        } else {
+            model.moveTile(tileHash: tileHash, gridPuzzleHash: currentGridPuzzleHash!)
+        }
     }
     
-    func addGridTile() {
-        model.addTile(gridPuzzleHash: currentGridPuzzleHash!)
-    }
-    
+//    func addGridTile() {
+//        model.addTile(gridPuzzleHash: currentGridPuzzleHash!)
+//    }
+//
+//    func gridTapTile(tileHash : UUID){
+//        model.revealTile(tileHash: tileHash, gridPuzzleHash: currentGridPuzzleHash!)
+//    }
     //MARK:-
     
     func firstChapterHash(for bookID : String) -> UUID?{
