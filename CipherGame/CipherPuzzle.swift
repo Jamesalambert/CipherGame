@@ -34,7 +34,6 @@ class CipherPuzzle : ObservableObject {
                 characterCount = letterCount.map{pair in
                     CharacterCount(character: pair.character, count: pair.count)}
                 currentGridPuzzleHash = nil
-//                self.getData()
             }
             currentCiphertextCharacter = nil
         }
@@ -203,21 +202,14 @@ class CipherPuzzle : ObservableObject {
                                  at: index)
     }
     
-    func gridTap(tileHash : UUID) {
-        if currentChapterGridPuzzle!.tileIsRecentlyEnabled(tileHash){
-            model.revealTile(tileHash: tileHash, gridPuzzleHash: currentGridPuzzleHash!)
+    func gridTap(_ tile : Tile) {
+        if tile.canBeEnabled{
+            model.reveal(tile, gridPuzzleHash: currentGridPuzzleHash!)
         } else {
-            model.moveTile(tileHash: tileHash, gridPuzzleHash: currentGridPuzzleHash!)
+            model.move(tile, gridPuzzleHash: currentGridPuzzleHash!)
         }
     }
-    
-//    func addGridTile() {
-//        model.addTile(gridPuzzleHash: currentGridPuzzleHash!)
-//    }
-//
-//    func gridTapTile(tileHash : UUID){
-//        model.revealTile(tileHash: tileHash, gridPuzzleHash: currentGridPuzzleHash!)
-//    }
+
     //MARK:-
     
     func firstChapterHash(for bookID : String) -> UUID?{

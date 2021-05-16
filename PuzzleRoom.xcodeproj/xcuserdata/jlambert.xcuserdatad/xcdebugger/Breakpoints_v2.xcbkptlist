@@ -33,112 +33,96 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "15FBFAD1-02D2-43BE-A9E6-929074150EF2"
+            uuid = "3188BE2F-A995-45F2-996E-2EAC2B235043"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "CipherGame/Model support/GridPuzzle.swift"
+            filePath = "CipherGame/View support/TilePuzzle.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
-            landmarkName = "addTile()"
+            startingLineNumber = "141"
+            endingLineNumber = "141"
+            landmarkName = "tileWithImage(_:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A5825F9E-CC60-4286-8AAB-5AB10751BF46"
+            uuid = "3A7B378A-1E07-40D0-AA50-F77203668E6A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "CipherGame/Model support/GridPuzzle.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "33"
+            endingLineNumber = "33"
+            landmarkName = "addTile()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3A7B378A-1E07-40D0-AA50-F77203668E6A - 84f84ad79ecb0f5e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "CipherGame.GridPuzzle.addTile() -&gt; ()"
+                  moduleName = "CipherGame"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/Model%20support/GridPuzzle.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "648">
+               </Location>
+               <Location
+                  uuid = "3A7B378A-1E07-40D0-AA50-F77203668E6A - bb54a2811dbcaed4"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (CipherGame.Row) -&gt; Swift.Array&lt;CipherGame.Tile&gt; in CipherGame.GridPuzzle.addTile() -&gt; ()"
+                  moduleName = "CipherGame"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/Model%20support/GridPuzzle.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "28">
+               </Location>
+               <Location
+                  uuid = "3A7B378A-1E07-40D0-AA50-F77203668E6A - 9f36f18d53108e61"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (CipherGame.Tile) -&gt; Swift.Bool in CipherGame.GridPuzzle.addTile() -&gt; ()"
+                  moduleName = "CipherGame"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/Model%20support/GridPuzzle.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "33"
+                  endingLineNumber = "33"
+                  offsetFromSymbolStart = "28">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "24DF0B9C-9AF4-474C-B049-C8CDF7A36EF8"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CipherGame/CipherPuzzleSource.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
-            landmarkName = "revealTile(tileHash:gridPuzzleHash:)"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "updateUsersGuesses(cipherCharacter:plaintextCharacter:for:at:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "B4D88DCF-60A3-47C8-9880-D86608D58016"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CipherGame/CipherPuzzle.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "219"
-            endingLineNumber = "219"
-            landmarkName = "CipherPuzzle"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "E951481B-EACD-40FB-B2A9-5801E5F878A2"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CipherGame/Model support/GridPuzzle.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "revealTile(id:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "E951481B-EACD-40FB-B2A9-5801E5F878A2 - 9409c21ae7c2ebc2"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CipherGame.GridPuzzle.revealTile(id: Foundation.UUID) -&gt; ()"
-                  moduleName = "CipherGame"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/Model%20support/GridPuzzle.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
-                  offsetFromSymbolStart = "920">
-               </Location>
-               <Location
-                  uuid = "E951481B-EACD-40FB-B2A9-5801E5F878A2 - f33b7796b6c23c4a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (CipherGame.Row) -&gt; Swift.Bool in CipherGame.GridPuzzle.revealTile(id: Foundation.UUID) -&gt; ()"
-                  moduleName = "CipherGame"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/Model%20support/GridPuzzle.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
-                  offsetFromSymbolStart = "140">
-               </Location>
-               <Location
-                  uuid = "E951481B-EACD-40FB-B2A9-5801E5F878A2 - e97eb05e53c58af3"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (CipherGame.Tile) -&gt; Swift.Bool in closure #1 (CipherGame.Row) -&gt; Swift.Bool in CipherGame.GridPuzzle.revealTile(id: Foundation.UUID) -&gt; ()"
-                  moduleName = "CipherGame"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/Model%20support/GridPuzzle.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "58"
-                  endingLineNumber = "58"
-                  offsetFromSymbolStart = "116">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -112,36 +112,26 @@ struct Game : Codable {
     }
     
     mutating
-    func moveTile(tileHash : UUID, gridPuzzleHash : UUID){
+    func move(_ tile : Tile, gridPuzzleHash : UUID){
         guard let bookIndex = books.firstIndex(where: {book in
                                                     book.chapters.contains{ chapter in
                                                         chapter.gridPuzzle?.id == gridPuzzleHash}} ) else {return }
         guard let chapterIndex = books[bookIndex].chapters.firstIndex(where: {chapter in
                                                             chapter.gridPuzzle?.id == gridPuzzleHash}) else {return }
         
-        books[bookIndex].chapters[chapterIndex].gridPuzzle?.move(id: tileHash)
+        books[bookIndex].chapters[chapterIndex].gridPuzzle?.move(tile)
     }
+
     
     mutating
-    func addTile(gridPuzzleHash : UUID){
+    func reveal(_ tile : Tile, gridPuzzleHash : UUID){
         guard let bookIndex = books.firstIndex(where: {book in
                                                     book.chapters.contains{ chapter in
                                                         chapter.gridPuzzle?.id == gridPuzzleHash}} ) else {return }
         guard let chapterIndex = books[bookIndex].chapters.firstIndex(where: {chapter in
                                                             chapter.gridPuzzle?.id == gridPuzzleHash}) else {return }
         
-        books[bookIndex].chapters[chapterIndex].gridPuzzle?.addTile()
-    }
-    
-    mutating
-    func revealTile(tileHash : UUID, gridPuzzleHash : UUID){
-        guard let bookIndex = books.firstIndex(where: {book in
-                                                    book.chapters.contains{ chapter in
-                                                        chapter.gridPuzzle?.id == gridPuzzleHash}} ) else {return }
-        guard let chapterIndex = books[bookIndex].chapters.firstIndex(where: {chapter in
-                                                            chapter.gridPuzzle?.id == gridPuzzleHash}) else {return }
-        
-        books[bookIndex].chapters[chapterIndex].gridPuzzle?.revealTile(id: tileHash)
+        books[bookIndex].chapters[chapterIndex].gridPuzzle?.reveal(tile)
     }
     
     private

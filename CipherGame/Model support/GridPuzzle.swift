@@ -28,49 +28,26 @@ import Foundation
         private
         var recentlyEnabledTileIDs : [UUID] = []
 
-        func tileIsEnabled(_ tileID : UUID) -> Bool {
-            return !disabledTileIDs.contains(tileID)
-        }
-        
-        func tileIsRecentlyEnabled(_ tileID : UUID) -> Bool {
-            return recentlyEnabledTileIDs.contains(tileID)
-        }
-
         mutating
         func addTile(){
-            guard let tileIDToAdd = disabledTileIDs.last else {return}
-            self.disabledTileIDs = self.disabledTileIDs.dropLast(Int(1))
-            
-            let rowIndex = rows.firstIndex(where: {$0.tiles.contains{$0.id == tileIDToAdd}})
-            let tileIndex = rows[rowIndex!].tiles.firstIndex(where: {$0.id == tileIDToAdd})
-            let tileToAdd = self.rows[rowIndex!].tiles[tileIndex!]
-            
-            //change UUID
-            let enabledTile = Tile(id: UUID(), index: tileToAdd.index, content: tileToAdd.content)
-            self.rows[rowIndex!].tiles[tileIndex!] = enabledTile
-            
-            self.recentlyEnabledTileIDs.append(enabledTile.id)
-            disabledTileIDs.append(enabledTile.id)
+            guard let firstAddableTile = rows.flatMap({$0.tiles}).first(where: {!$0.isEnabled}) else {return}
+            let rowIndex = rows.firstIndex(where: {$0.tiles.contains{$0 == firstAddableTile}})
+            let tileIndex = rows[rowIndex!].tiles.firstIndex(where: {$0 == firstAddableTile})
+            rows[rowIndex!].tiles[tileIndex!].setCanBeEnabled()
         }
 
         mutating
-        func revealTile(id : UUID){
-            let rowIndex = rows.firstIndex(where: {$0.tiles.contains{$0.id == id}})
-            let tileIndex = rows[rowIndex!].tiles.firstIndex(where: {$0.id == id})
-            let tileToAdd = self.rows[rowIndex!].tiles[tileIndex!]
-
-            //change UUID
-            let revealedTile = Tile(id: UUID(), index: tileToAdd.index, content: tileToAdd.content)
-            self.rows[rowIndex!].tiles[tileIndex!] = revealedTile
-            
-            recentlyEnabledTileIDs.removeAll(where: {$0 == id})
-            disabledTileIDs.removeAll(where: {$0 == id})
+        func reveal(_ tile : Tile){
+            //guard let firstEnableableTile = rows.flatMap({$0.tiles}).first(where: {$0.canBeEnabled}) else {return}
+            let rowIndex = rows.firstIndex(where: {$0.tiles.contains{$0 == tile}})
+            let tileIndex = rows[rowIndex!].tiles.firstIndex(where: {$0 == tile})
+            rows[rowIndex!].tiles[tileIndex!].enable()
         }
         
         mutating
-        func move(id : UUID) {
+        func move(_ tile : Tile) {
             guard !isSolved else {return}
-            let (x, y) : (Int,Int) = tappedSquare(with: id)
+            let (x, y) : (Int,Int) = tappedSquare(with: tile)
             if canMove(x: x, y: y){
                 let movedTile = rows[y].tiles[x]
                 let emptyTile = emptySquare()
@@ -94,9 +71,9 @@ import Foundation
             }
             
             //reset hidden tile IDs
-            if self.numberOfHiddenTiles < tiles.count{
-                self.disabledTileIDs = tiles[0..<self.numberOfHiddenTiles].map{$0.id}
-            }
+//            if self.numberOfHiddenTiles < tiles.count{
+//                self.disabledTileIDs = tiles[0..<self.numberOfHiddenTiles].map{$0.id}
+//            }
         }
 
         mutating
@@ -134,10 +111,10 @@ import Foundation
         }
 
         private
-        func tappedSquare(with id : UUID) -> (x : Int, y : Int) {
+        func tappedSquare(with tile : Tile) -> (x : Int, y : Int) {
             for column in 0..<self.size{
                 for row in 0..<self.size{
-                    if self.rows[row].tiles[column].id == id{
+                    if self.rows[row].tiles[column] == tile{
                         return (column,row)
                     }
                 }
@@ -220,14 +197,18 @@ import Foundation
             
             tiles = tiles.shuffled()
             
+            if hiddenTiles < tiles.count{
+                for tileIndex in 0..<hiddenTiles {
+                    tiles[tileIndex].disable()
+                }
+            }
+            
+            tiles = tiles.shuffled()
+            
             for startIndex in stride(from: 0, to: size * size, by: size) {
                 rows.append(Row(tiles: Array(tiles[startIndex...startIndex.advanced(by: size - 1)])))
             }
             
-            if hiddenTiles < tiles.count{
-                self.disabledTileIDs = tiles[0..<hiddenTiles].map{$0.id}
-            }
-
             self.size = size
             self.numberOfHiddenTiles = hiddenTiles
             self.rows = rows
@@ -274,9 +255,35 @@ enum GridSolution : Codable {
         var tiles : [Tile]
     }
     
-    struct Tile : Identifiable, Codable{
-        var id = UUID()
-        var index : [Int]
-        var content : Int
+struct Tile : Hashable, Codable{
+        
+        let index : [Int]
+        let content : Int
+        
+        var isEnabled : Bool = true
+        var canBeEnabled : Bool = false
+        
+        mutating
+        func enable(){
+            if canBeEnabled{
+                isEnabled = true
+            }
+        }
+        
+        mutating
+        func disable(){
+            isEnabled = false
+        }
+        
+        mutating
+        func setCanBeEnabled(){
+            canBeEnabled = true
+        }
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(index)
+        hasher.combine(content)
     }
+    
+}
 
