@@ -91,9 +91,9 @@ struct TilePuzzle: View {
         var tile : Tile
         var rotation : Double
         
-        var isFaceUp : Bool {
-            rotation < 90
-        }
+//        var isFaceUp : Bool {
+//            rotation < 90
+//        }
         var animatableData: Double{
             get{rotation}
             set{rotation = newValue}
@@ -102,7 +102,7 @@ struct TilePuzzle: View {
         var puzzleImage : UIImage
         
         var body: some View{
-            tileView(tile)
+            tileView()
                 .rotation3DEffect(Angle.degrees(rotation), axis: (0,1,0))
         }
         
@@ -124,18 +124,18 @@ struct TilePuzzle: View {
         
         
         @ViewBuilder
-        func tileView(_ tile : Tile) -> some View {
+        func tileView() -> some View {
             if grid.isSolved || (tile.isEnabled && tile.content == 0){
-                tileWithImage(tile)
+                tileWithImage()
             } else if tile.content == 1 && !grid.isSolved{
                 ZStack{}
             } else if tile.content == 0 && !grid.isSolved && !tile.isEnabled{
-                mysteryTile(tile)
+                mysteryTile()
             }
         }
         
         @ViewBuilder
-        func tileWithImage(_ tile : Tile) -> some View {
+        func tileWithImage() -> some View {
                 switch grid.solutionType{
                 case .rows:
                     RadialGradient(gradient: Gradient(
@@ -162,7 +162,7 @@ struct TilePuzzle: View {
         }
         
         @ViewBuilder
-        func mysteryTile(_ tile : Tile) -> some View {
+        func mysteryTile() -> some View {
             ZStack{
                 Color.white.opacity(0.4)
                     .cornerRadius(TilePuzzle.tileCornerRadius)
@@ -172,7 +172,7 @@ struct TilePuzzle: View {
                     .padding()
             }
             .overlay(RoundedRectangle(cornerRadius: TilePuzzle.tileCornerRadius).stroke(Color.black, lineWidth: 2)  )
-            .id(tile.hashValue)
+            //.id(tile.hashValue)
         }
         
         

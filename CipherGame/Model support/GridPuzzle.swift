@@ -259,7 +259,8 @@ struct Tile : Hashable, Codable{
         
         let index : [Int]
         let content : Int
-        
+        var id = UUID()
+    
         var isEnabled : Bool = true
         var canBeEnabled : Bool = false
         
@@ -267,6 +268,7 @@ struct Tile : Hashable, Codable{
         func enable(){
             if canBeEnabled{
                 isEnabled = true
+                canBeEnabled = false
             }
         }
         
@@ -281,8 +283,7 @@ struct Tile : Hashable, Codable{
         }
     
     func hash(into hasher: inout Hasher) {
-        hasher.combine(index)
-        hasher.combine(content)
+        hasher.combine(id)
     }
     
 }
