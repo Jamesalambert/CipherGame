@@ -36,17 +36,14 @@ struct TilePuzzle: View {
                     .transition(.scale)
             }
             LazyVGrid(columns: self.columns(), spacing: 0){
-                ForEach(grid.rows){ row in
-                    ForEach(row.tiles, id:\.hashValue){ tile in
-                        Group {
-                            TileView(tile: tile, grid: grid, image: puzzleImage)
-                        }
+                ForEach(grid.rows.flatMap{$0.tiles}){ tile in
+                    TileView(tile: tile, grid: grid, image: puzzleImage)
+//                        .animation(.interpolatingSpring(stiffness: 380, damping: 45))
                         .onTapGesture {
                             withAnimation{
                                 viewModel.gridTap(tile)
                             }
                         }
-                    }
                 }
             }
         }
@@ -84,16 +81,19 @@ struct TilePuzzle: View {
                                          alignment: .center),
                      count: grid.size)
     }
+
     
     
+
     struct TileView : View, Animatable {
         
         var tile : Tile
         var rotation : Double
+
+        var isFaceUp : Bool{
+            return rotation < 90
+        }
         
-//        var isFaceUp : Bool {
-//            rotation < 90
-//        }
         var animatableData: Double{
             get{rotation}
             set{rotation = newValue}
@@ -101,85 +101,77 @@ struct TilePuzzle: View {
         var grid : GridPuzzle
         var puzzleImage : UIImage
         
-        var body: some View{
-            tileView()
-                .rotation3DEffect(Angle.degrees(rotation), axis: (0,1,0))
-        }
-        
         init(tile : Tile, grid : GridPuzzle, image : UIImage){
-            
             self.tile = tile
             self.grid = grid
             self.puzzleImage = image
             self.rotation = 0
             
             if grid.isSolved || (tile.isEnabled && tile.content == 0){
-                self.rotation = 0
+                self.rotation = 0       //image
             } else if tile.content == 1 && !grid.isSolved{
-                self.rotation = 0
+                self.rotation = 180      //blank
             } else if tile.content == 0 && !grid.isSolved && !tile.isEnabled{
-                self.rotation = 180
+                self.rotation = 180     //mystery
             }
         }
         
-        
-        @ViewBuilder
-        func tileView() -> some View {
-            if grid.isSolved || (tile.isEnabled && tile.content == 0){
+        var body: some View{
+            if isFaceUp || tile.canBeEnabled {
                 tileWithImage()
-            } else if tile.content == 1 && !grid.isSolved{
-                ZStack{}
-            } else if tile.content == 0 && !grid.isSolved && !tile.isEnabled{
+                    .rotation3DEffect(Angle.degrees(rotation), axis: (0,1,0))
+            } else if tile.content == 0 {
                 mysteryTile()
+            } else {
+                ZStack{}
             }
         }
-        
+
         @ViewBuilder
         func tileWithImage() -> some View {
+            if tile.canBeEnabled{
+                ZStack{
+                    Color.white.opacity(0.4)
+                        .cornerRadius(TilePuzzle.tileCornerRadius)
+                    Image(systemName: "hand.tap")
+                        .resizable(capInsets: EdgeInsets.zero(), resizingMode: .stretch)
+                        .aspectRatio(1,contentMode: .fit)
+                        .padding()
+                }
+                .overlay(RoundedRectangle(cornerRadius: TilePuzzle.tileCornerRadius).stroke(Color.black, lineWidth: 2)  )
+            } else {
                 switch grid.solutionType{
-                case .rows:
+                case .rows, .columns:
                     RadialGradient(gradient: Gradient(
-                                    colors: [tileColors[tile.index[0]],.white]),
+                                    colors: [tileColors[tile.index[grid.solutionType == .rows ? 0 : 1]],.white]),
                                     center: .center,
                                     startRadius: 0,
                                     endRadius: 900)
                         .opacity(0.7)
                         .aspectRatio(1, contentMode: .fill)
                         .cornerRadius(TilePuzzle.tileCornerRadius)
-                        .id(tile.hashValue)
-                case .columns:
-                    TilePuzzle.tileColors[tile.index[1]]
-                        .aspectRatio(1, contentMode: .fill)
-                        .cornerRadius(TilePuzzle.tileCornerRadius)
-                        .id(tile.hashValue)
                 case .all:
                     Image(uiImage: puzzleImage.rect(row: tile.index[0], col: tile.index[1], size: grid.size))
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)
                         .cornerRadius(TilePuzzle.tileCornerRadius)
-                    .id(tile.hashValue)
                 }
+            }
         }
-        
+
         @ViewBuilder
         func mysteryTile() -> some View {
             ZStack{
                 Color.white.opacity(0.4)
                     .cornerRadius(TilePuzzle.tileCornerRadius)
-                Image(systemName: tile.canBeEnabled ? "hand.tap" : "questionmark.circle")
+                Image(systemName: "questionmark.circle")
                     .resizable(capInsets: EdgeInsets.zero(), resizingMode: .stretch)
                     .aspectRatio(1,contentMode: .fit)
                     .padding()
             }
             .overlay(RoundedRectangle(cornerRadius: TilePuzzle.tileCornerRadius).stroke(Color.black, lineWidth: 2)  )
-            //.id(tile.hashValue)
         }
-        
-        
     }
-    
-    
-    
 }
 
 

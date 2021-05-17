@@ -15,6 +15,7 @@ extension ContentView {
         static let letterCountHeight = CGFloat(100)
         static let viewCornerRadius = CGFloat(10.0)
         static let bodyLineSpacing = CGFloat(6)
+        static let characterWidth = CGFloat(35)
         
         @EnvironmentObject
         var viewModel : CipherPuzzle
@@ -24,9 +25,7 @@ extension ContentView {
         
         @Environment(\.bookTheme)
         var bookTheme : BookTheme
-        
-        var puzzleLines : [PuzzleLine]
-        
+                
         @State
         var displayPhoneLetterPicker : Bool = false
         
@@ -73,8 +72,9 @@ extension ContentView {
                                         .transition(.scale)
                                     Spacer(minLength: 250)
                                 }
-                            } else if viewModel.currentGridPuzzleHash != nil {
-                                TilePuzzle(puzzleImage: UIImage(named: viewModel.currentChapterGridPuzzle!.imageName)!,
+                            } else if let currentChapterGridPuzzle = viewModel.currentChapterGridPuzzle {
+                                
+                                TilePuzzle(puzzleImage: UIImage(named: currentChapterGridPuzzle.imageName)!,
                                            screenSize: geometry.size, grid: viewModel.currentChapterGridPuzzle!)
                                     .padding()
                             }
@@ -95,50 +95,7 @@ extension ContentView {
                 .zIndex(0)
             }
         }
-        
-
-//        @ViewBuilder
-//        func cipherPuzzleView(with geometry : GeometryProxy) -> some View {
-//            VStack(alignment: .center, spacing: nil){
-//                Spacer()
-//                Text(viewModel.puzzleTitle)
-//                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
-//                    .font(viewModel.theme.font(for: .largeTitle, for: bookTheme))
-//                Spacer(minLength: 50)
-//                Text(viewModel.header)
-//                    .padding(EdgeInsets.sized(horizontally: geometry.size.width/7,
-//                                              vertically: 0))
-//                    .fixedSize(horizontal: false, vertical: true)
-//                    .lineSpacing(Self.bodyLineSpacing)
-//                    .font(viewModel.theme.font(for: .body, for: bookTheme))
-//                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
-//                Spacer(minLength: 50)
-//
-//                LazyVGrid(columns: columns(screenWidth: geometry.size.width),
-//                          spacing: 0,
-//                          pinnedViews: [.sectionHeaders]){
-//                    ForEach(viewModel.data){ cipherPair in
-//                        CipherSolverCharacterPair(
-//                            displayPhoneLetterPicker: $displayPhoneLetterPicker,
-//                            displayTabletLetterPicker: $displayTabletLetterPicker,
-//                            cipherTextLetter: cipherPair.cipherLetter,
-//                            plainTextLetter: cipherPair.userGuessLetter,
-//                            indexInTheCipher: cipherPair.id)
-//                    }
-//                }
-//                Spacer(minLength: 20)
-//                Text(viewModel.footer)
-//                    .padding(EdgeInsets.sized(horizontally: geometry.size.width/7,
-//                                              vertically: 0))
-//                    .fixedSize(horizontal: false, vertical: true)
-//                    .lineSpacing(Self.bodyLineSpacing)
-//                    .font(viewModel.theme.font(for: .body, for: bookTheme))
-//                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
-//            }
-//        }
-        
-        
-        
+    
         
         @ViewBuilder
         func cipherPuzzleListView(with geometry : GeometryProxy) -> some View {
@@ -158,8 +115,7 @@ extension ContentView {
                 Spacer(minLength: 50)
                 
                 VStack(alignment: .leading){
-//                    viewModel.puzzleLines(charsPerLine: Int(geometry.size.width) / 30)
-                    ForEach(self.puzzleLines){ puzzleLine in
+                    ForEach(viewModel.puzzleLines(charsPerLine: Int(geometry.size.width / Self.characterWidth))){ puzzleLine in
                         HStack(alignment: .bottom, spacing: 20){
                             Text(String(puzzleLine.id))
                                 .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))

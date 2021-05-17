@@ -33,8 +33,8 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "3A7B378A-1E07-40D0-AA50-F77203668E6A"
-            shouldBeEnabled = "Yes"
+            uuid = "050F7D57-726A-4663-9D29-1652F05FE226"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CipherGame/Model support/GridPuzzle.swift"
@@ -46,7 +46,7 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "3A7B378A-1E07-40D0-AA50-F77203668E6A - 84f84ad79ecb0f5e"
+                  uuid = "050F7D57-726A-4663-9D29-1652F05FE226 - 84f84ad79ecb0f5e"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -61,7 +61,7 @@
                   offsetFromSymbolStart = "536">
                </Location>
                <Location
-                  uuid = "3A7B378A-1E07-40D0-AA50-F77203668E6A - bb54a2811dbcaed4"
+                  uuid = "050F7D57-726A-4663-9D29-1652F05FE226 - bb54a2811dbcaed4"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -76,7 +76,7 @@
                   offsetFromSymbolStart = "28">
                </Location>
                <Location
-                  uuid = "3A7B378A-1E07-40D0-AA50-F77203668E6A - 9f36f18d53108e61"
+                  uuid = "050F7D57-726A-4663-9D29-1652F05FE226 - 9f36f18d53108e61"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -91,54 +91,6 @@
                   offsetFromSymbolStart = "28">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "24DF0B9C-9AF4-474C-B049-C8CDF7A36EF8"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CipherGame/CipherPuzzleSource.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
-            landmarkName = "updateUsersGuesses(cipherCharacter:plaintextCharacter:for:at:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "967EB925-733E-4158-A30E-47B2CC34340C"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CipherGame/Model support/GridPuzzle.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
-            landmarkName = "canMove(x:y:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "251843F4-733F-48C4-A5C6-046E2EEB80E5"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CipherGame/View support/TilePuzzle.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "128"
-            endingLineNumber = "128"
-            landmarkName = "tileView()"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

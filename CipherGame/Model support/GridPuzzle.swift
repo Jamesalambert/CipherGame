@@ -30,7 +30,7 @@ import Foundation
 
         mutating
         func addTile(){
-            guard let firstAddableTile = rows.flatMap({$0.tiles}).first(where: {!$0.isEnabled}) else {return}
+            guard let firstAddableTile = rows.flatMap({$0.tiles}).first(where: {!$0.isEnabled && !$0.canBeEnabled}) else {return}
             let rowIndex = rows.firstIndex(where: {$0.tiles.contains{$0 == firstAddableTile}})
             let tileIndex = rows[rowIndex!].tiles.firstIndex(where: {$0 == firstAddableTile})
             rows[rowIndex!].tiles[tileIndex!].setCanBeEnabled()
@@ -38,7 +38,6 @@ import Foundation
 
         mutating
         func reveal(_ tile : Tile){
-            //guard let firstEnableableTile = rows.flatMap({$0.tiles}).first(where: {$0.canBeEnabled}) else {return}
             let rowIndex = rows.firstIndex(where: {$0.tiles.contains{$0 == tile}})
             let tileIndex = rows[rowIndex!].tiles.firstIndex(where: {$0 == tile})
             rows[rowIndex!].tiles[tileIndex!].enable()
@@ -127,7 +126,7 @@ import Foundation
             for row in rows{
                 var rowString = ""
                 for tile in row.tiles{
-                    rowString += "\(tile.index[0]),\(tile.index[1]) "
+                    rowString += "\(tile.index[0]),\(tile.index[1]), \(tile.isEnabled ? "E" : ""), \(tile.canBeEnabled ? "T" : "") "
                 }
                 print(rowString)
             }
@@ -255,7 +254,7 @@ enum GridSolution : Codable {
         var tiles : [Tile]
     }
     
-struct Tile : Hashable, Codable{
+struct Tile : Identifiable, Hashable, Codable{
         
         let index : [Int]
         let content : Int
@@ -281,10 +280,5 @@ struct Tile : Hashable, Codable{
         func setCanBeEnabled(){
             canBeEnabled = true
         }
-    
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-    
 }
 

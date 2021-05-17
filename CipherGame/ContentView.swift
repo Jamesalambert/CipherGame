@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+        
     @StateObject
     var viewModel : CipherPuzzle
     
@@ -44,9 +44,9 @@ struct ContentView: View {
                         
                         ForEach(book.chapters){ chapter in
                             NavigationLink(destination: NavigationLazyView(
-                                            CipherSolverPage(puzzleLines: viewModel.puzzleLines(charsPerLine: 25),                                                          showLetterCount: $showLetterCount)
-                                                                            .environment(\.bookTheme, book.theme)
-                                                                            .navigationBarTitle("\(chapter.title)", displayMode: .inline))
+                                            CipherSolverPage(showLetterCount: $showLetterCount)
+                                                .environment(\.bookTheme, book.theme)
+                                                .navigationBarTitle("\(chapter.title)", displayMode: .inline))
                                            ,
                                            tag: chapter.id,
                                            selection: $viewModel.currentChapterHash){
