@@ -22,11 +22,21 @@ struct TilePuzzle: View {
     @Environment(\.bookTheme)
     var bookTheme : BookTheme
     
-    var puzzleImage : UIImage
+    @Namespace
+    private
+    var namespace
+    
+    var puzzleImageName : String
+    
+    var solvedPuzzleImageName : String
     
     var screenSize : CGSize
     
     var grid : GridPuzzle
+    
+    @State
+    private
+    var selectedTile : Tile? = nil
     
     var body: some View {
         ZStack{
@@ -35,19 +45,42 @@ struct TilePuzzle: View {
                     .opacity(0.3)
                     .transition(.scale)
             }
+            
             LazyVGrid(columns: self.columns(), spacing: 0){
                 ForEach(grid.rows.flatMap{$0.tiles}){ tile in
-                    TileView(tile: tile, grid: grid, image: puzzleImage)
-//                        .animation(.interpolatingSpring(stiffness: 380, damping: 45))
-                        .onTapGesture {
-                            withAnimation{
-                                viewModel.gridTap(tile)
+                    if tile != selectedTile{
+                        TileView(tile: tile,
+                                 grid: grid,
+                                 imageName: puzzleImageName,
+                                 solvedPuzzleImageName: solvedPuzzleImageName)
+                            .matchedGeometryEffect(id: tile.content == 1 ? "x" : tile.id.uuidString , in: namespace)
+                            .onTapGesture {
+                                withAnimation{
+                                    if grid.isSolved && tile.content == 1 {
+                                        selectedTile = tile
+                                    } else {
+                                        viewModel.gridTap(tile)
+                                    }
+                                }
                             }
-                        }
+                    } else {
+                        ZStack{}
+                    }
                 }
             }
+            if selectedTile != nil {
+                Image(solvedPuzzleImageName)
+                    .resizable()
+                    .aspectRatio(1,contentMode: .fit)
+                    .matchedGeometryEffect(id: "x", in: namespace)
+                    .cornerRadius(TilePuzzle.tileCornerRadius)
+                    .onTapGesture {
+                        withAnimation{
+                            selectedTile = nil
+                        }
+                    }
+            }
         }
-        .zIndex(0)
     }
     
     
@@ -99,14 +132,16 @@ struct TilePuzzle: View {
             set{rotation = newValue}
         }
         var grid : GridPuzzle
-        var puzzleImage : UIImage
+        var puzzleImageName : String
+        var solvedPuzzleImageName : String
         
-        init(tile : Tile, grid : GridPuzzle, image : UIImage){
+        init(tile : Tile, grid : GridPuzzle, imageName : String, solvedPuzzleImageName : String){
             self.tile = tile
             self.grid = grid
-            self.puzzleImage = image
+            self.puzzleImageName = imageName
             self.rotation = 0
-            
+            self.solvedPuzzleImageName = solvedPuzzleImageName
+        
             if grid.isSolved || (tile.isEnabled && tile.content == 0){
                 self.rotation = 0       //image
             } else if tile.content == 1 && !grid.isSolved{
@@ -117,14 +152,14 @@ struct TilePuzzle: View {
         }
         
         var body: some View{
-            if isFaceUp || tile.canBeEnabled {
-                tileWithImage()
-                    .rotation3DEffect(Angle.degrees(rotation), axis: (0,1,0))
-            } else if tile.content == 0 {
-                mysteryTile()
-            } else {
-                ZStack{}
-            }
+                if isFaceUp || tile.canBeEnabled {
+                    tileWithImage()
+                        .rotation3DEffect(Angle.degrees(rotation), axis: (0,1,0))
+                } else if tile.content == 0 {
+                    mysteryTile()
+                } else {
+                    ZStack{}
+                }
         }
 
         @ViewBuilder
@@ -135,10 +170,18 @@ struct TilePuzzle: View {
                         .cornerRadius(TilePuzzle.tileCornerRadius)
                     Image(systemName: "hand.tap")
                         .resizable(capInsets: EdgeInsets.zero(), resizingMode: .stretch)
-                        .aspectRatio(1,contentMode: .fit)
-                        .padding()
+                        .aspectRatio(1,contentMode: .fill)
+                        
                 }
                 .overlay(RoundedRectangle(cornerRadius: TilePuzzle.tileCornerRadius).stroke(Color.black, lineWidth: 2)  )
+            } else if tile.content == 1 {
+              //solved image tile
+                    ZStack{
+                            Image(self.solvedPuzzleImageName)
+                                .resizable(capInsets: EdgeInsets.zero(), resizingMode: .stretch)
+                                .aspectRatio(1,contentMode: .fit)
+                                .cornerRadius(TilePuzzle.tileCornerRadius)
+                    }
             } else {
                 switch grid.solutionType{
                 case .rows, .columns:
@@ -151,7 +194,7 @@ struct TilePuzzle: View {
                         .aspectRatio(1, contentMode: .fill)
                         .cornerRadius(TilePuzzle.tileCornerRadius)
                 case .all:
-                    Image(uiImage: puzzleImage.rect(row: tile.index[0], col: tile.index[1], size: grid.size))
+                    Image(uiImage: (UIImage(named: puzzleImageName)?.rect(row: tile.index[0], col: tile.index[1], size: grid.size))!)
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)
                         .cornerRadius(TilePuzzle.tileCornerRadius)
@@ -186,3 +229,5 @@ extension UIImage {
         return UIImage(cgImage: croppedImage)
     }
 }
+
+

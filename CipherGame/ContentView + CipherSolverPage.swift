@@ -74,8 +74,8 @@ extension ContentView {
                                 }
                             } else if let currentChapterGridPuzzle = viewModel.currentChapterGridPuzzle {
                                 
-                                TilePuzzle(puzzleImage: UIImage(named: currentChapterGridPuzzle.imageName)!,
-                                           screenSize: geometry.size, grid: viewModel.currentChapterGridPuzzle!)
+                                TilePuzzle(puzzleImageName: currentChapterGridPuzzle.imageName,
+                                           solvedPuzzleImageName: "mars", screenSize: geometry.size, grid: viewModel.currentChapterGridPuzzle!)
                                     .padding()
                             }
                             Spacer(minLength: 50)

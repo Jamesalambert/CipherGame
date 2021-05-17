@@ -60,19 +60,7 @@ import Foundation
 
         mutating
         func reset(){
-            
-            //shuffle tiles
-            let tiles : [Tile] = rows.flatMap{$0.tiles}.shuffled()
-            
-            for rowIndex in 0..<self.size{
-                let startIndex = rowIndex * self.size
-                self.rows[rowIndex].tiles = Array(tiles[startIndex...startIndex + self.size - 1])
-            }
-            
-            //reset hidden tile IDs
-//            if self.numberOfHiddenTiles < tiles.count{
-//                self.disabledTileIDs = tiles[0..<self.numberOfHiddenTiles].map{$0.id}
-//            }
+            self = GridPuzzle(imageName: self.imageName, size: self.size, hiddenTiles: self.numberOfHiddenTiles)
         }
 
         mutating
