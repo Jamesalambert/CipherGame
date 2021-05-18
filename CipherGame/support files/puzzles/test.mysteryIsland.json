@@ -55,13 +55,9 @@
             ],
             "gridPuzzle" : {
                     "type" : "all",
-                    "solutionImage" : "purpleSpace"
+                    "image" : "purpleSpace"
             }
             
         }
     ]
-    
-    
 }
-
-

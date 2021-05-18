@@ -85,6 +85,7 @@ struct TilePuzzle: View {
                             self.selectedTile = nil
                         }
                     }
+                    .transition(.snap)
                     .zIndex(4)
             }
         }
@@ -239,3 +240,20 @@ extension UIImage {
 }
 
 
+struct Snap : AnimatableModifier {
+        
+    var animatableData: Double
+    
+    func body(content: Content) -> some View {
+        content.opacity(1)
+    }
+}
+
+
+extension AnyTransition{
+    static var snap : AnyTransition {
+        AnyTransition.modifier(
+            active: Snap(animatableData: 0),
+            identity: Snap(animatableData: 1))
+    }
+}
