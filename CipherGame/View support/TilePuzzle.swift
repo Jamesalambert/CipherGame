@@ -26,9 +26,9 @@ struct TilePuzzle: View {
     private
     var namespace
     
-    var puzzleImageName : String
+    var puzzleImageName : String?
     
-    var solvedPuzzleImageName : String
+    var solvedPuzzleImageName : String?
     
     var screenSize : CGSize
     
@@ -73,7 +73,7 @@ struct TilePuzzle: View {
                 }
             }
             
-            if let selectedTile = selectedTile {
+            if let selectedTile = selectedTile, let solvedPuzzleImageName = solvedPuzzleImageName {
                 Image(solvedPuzzleImageName)
                     .resizable()
                     .aspectRatio(1,contentMode: .fit)
@@ -138,10 +138,10 @@ struct TilePuzzle: View {
             set{rotation = newValue}
         }
         var grid : GridPuzzle
-        var puzzleImageName : String
-        var solvedPuzzleImageName : String
+        var puzzleImageName : String?
+        var solvedPuzzleImageName : String?
         
-        init(tile : Tile, grid : GridPuzzle, imageName : String, solvedPuzzleImageName : String){
+        init(tile : Tile, grid : GridPuzzle, imageName : String?, solvedPuzzleImageName : String?){
             self.tile = tile
             self.grid = grid
             self.puzzleImageName = imageName
@@ -183,10 +183,12 @@ struct TilePuzzle: View {
             } else if tile.content == 1 {
               //solved image tile
                     ZStack{
-                            Image(self.solvedPuzzleImageName)
+                        if let prizeImageName = self.solvedPuzzleImageName {
+                            Image(prizeImageName)
                                 .resizable(capInsets: EdgeInsets.zero(), resizingMode: .stretch)
                                 .aspectRatio(1,contentMode: .fit)
                                 .cornerRadius(TilePuzzle.tileCornerRadius)
+                        }
                     }
             } else {
                 switch grid.solutionType{
@@ -200,7 +202,7 @@ struct TilePuzzle: View {
                         .aspectRatio(1, contentMode: .fill)
                         .cornerRadius(TilePuzzle.tileCornerRadius)
                 case .all:
-                    Image(uiImage: (UIImage(named: puzzleImageName)?.rect(row: tile.index[0], col: tile.index[1], size: grid.size))!)
+                    Image(uiImage: (UIImage(named: puzzleImageName!)?.rect(row: tile.index[0], col: tile.index[1], size: grid.size))!)
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)
                         .cornerRadius(TilePuzzle.tileCornerRadius)

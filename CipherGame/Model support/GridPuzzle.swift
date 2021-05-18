@@ -11,7 +11,8 @@ import Foundation
     struct GridPuzzle : Codable {
 
         var rows : [Row]
-        let imageName : String
+        let imageName : String?
+        let solutionImageName : String?
         let size : Int
         let numberOfHiddenTiles : Int
         var id = UUID()
@@ -60,7 +61,11 @@ import Foundation
 
         mutating
         func reset(){
-            self = GridPuzzle(imageName: self.imageName, size: self.size, hiddenTiles: self.numberOfHiddenTiles)
+            self = GridPuzzle(imageName: self.imageName,
+                              size: self.size,
+                              hiddenTiles: self.numberOfHiddenTiles,
+                              revealedImage: self.solutionImageName,
+                              type: self.solutionType)
         }
 
         mutating
@@ -168,8 +173,15 @@ import Foundation
         }
         //solution funcs
         
+        init(puzzle : ReadableGridPuzzle, hiddenTiles : Int) {
+            self = GridPuzzle(imageName: puzzle.image,
+                              size: 4,
+                              hiddenTiles: hiddenTiles,
+                              revealedImage: puzzle.solutionImage,
+                              type: puzzle.type)
+        }
         
-        init(imageName: String, size : Int = 4, hiddenTiles : Int = 5) {
+        init(imageName: String?, size : Int = 4, hiddenTiles : Int = 5, revealedImage : String?, type: GridSolution) {
             var arr : [[Int]] = Array(repeating: Array(repeating: 0, count: size), count: size)
             arr[size - 1][0] = 1
             
@@ -200,6 +212,8 @@ import Foundation
             self.numberOfHiddenTiles = hiddenTiles
             self.rows = rows
             self.imageName = imageName
+            self.solutionImageName = revealedImage
+            self.solutionType = type
             #if DEBUG
             print("init")
             printState()

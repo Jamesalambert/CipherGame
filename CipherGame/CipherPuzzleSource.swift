@@ -177,22 +177,18 @@ struct Game : Codable {
                 
                 let chaptersOfPuzzles : [Chapter] = readableBook.chapters.map{ chapter in
                     let puzzles = chapter.puzzles.map{readablePuzzle in
-                        
-                        Puzzle(title: readablePuzzle.title,
-                               plaintext: readablePuzzle.plaintext,
-                               header: readablePuzzle.header,
-                               footer: readablePuzzle.footer,
-                               keyAlphabet: readablePuzzle.keyAlphabet,
-                               riddle: readablePuzzle.riddle,
-                               riddleAnswers: readablePuzzle.riddleAnswers,
-                               riddleKey: readablePuzzle.riddleKey,
-                               id: puzzleID())
+                        Puzzle(puzzle: readablePuzzle, with: puzzleID())
                     }
                     
-                    return Chapter(title: chapter.title,
-                                   puzzles: puzzles,
-                                   gridPuzzle: chapter.puzzleImageName != "" ? GridPuzzle(imageName: chapter.puzzleImageName,
-                                                                                          hiddenTiles: puzzles.count) : nil)
+                    if let gridPuzzle = chapter.gridPuzzle {
+                        return Chapter(title: chapter.title,
+                                       puzzles: puzzles,
+                                       gridPuzzle: GridPuzzle(puzzle: gridPuzzle, hiddenTiles: chapter.puzzles.count) )
+                    } else {
+                        return Chapter(title: chapter.title,
+                                       puzzles: puzzles,
+                                       gridPuzzle: nil)
+                    }
                 }
                 
                 decodedBook = Book(title: readableBook.title,
@@ -260,6 +256,18 @@ struct Puzzle : Hashable, Codable, Identifiable{
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
+    }
+    
+    init(puzzle : ReadablePuzzle, with id : UUID){
+        self = Puzzle(title: puzzle.title,
+               plaintext: puzzle.plaintext,
+               header: puzzle.header,
+               footer: puzzle.footer,
+               keyAlphabet: puzzle.keyAlphabet,
+               riddle: puzzle.riddle,
+               riddleAnswers: puzzle.riddleAnswers,
+               riddleKey: puzzle.riddleKey,
+               id: id)
     }
     
     init(title : String, plaintext: String, header: String, footer : String,
@@ -373,7 +381,7 @@ struct ReadableBook : Codable {
 struct ReadableChapter :  Codable {
     var title : String
     var puzzles : [ReadablePuzzle]
-    var puzzleImageName : String
+    var gridPuzzle : ReadableGridPuzzle?
 }
 
 struct ReadablePuzzle : Codable {
@@ -387,5 +395,9 @@ struct ReadablePuzzle : Codable {
     var riddleKey : String //is the user chooses this value as the answer to another riddle, this puzzle is shown
 }
 
-
+struct ReadableGridPuzzle : Codable {
+    var type : GridSolution
+    var image : String?
+    var solutionImage : String?
+}
 
