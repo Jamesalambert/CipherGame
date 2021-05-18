@@ -32,11 +32,15 @@ struct TilePuzzle: View {
     
     var screenSize : CGSize
     
+    var tileWidth : CGFloat {
+        0.8 * min(screenSize.height, screenSize.width) / CGFloat(grid.size)
+    }
+    
     var grid : GridPuzzle
     
     @State
     private
-    var selectedTile : Tile? = nil
+    var selectedTile : Tile?
     
     var body: some View {
         ZStack{
@@ -48,12 +52,12 @@ struct TilePuzzle: View {
             
             LazyVGrid(columns: self.columns(), spacing: 0){
                 ForEach(grid.rows.flatMap{$0.tiles}){ tile in
-                    if tile != selectedTile{
+                    if tile.id != selectedTile?.id{
                         TileView(tile: tile,
                                  grid: grid,
                                  imageName: puzzleImageName,
                                  solvedPuzzleImageName: solvedPuzzleImageName)
-                            .matchedGeometryEffect(id: tile.content == 1 ? "x" : tile.id.uuidString , in: namespace)
+                            .matchedGeometryEffect(id: tile, in: namespace)
                             .onTapGesture {
                                 withAnimation{
                                     if grid.isSolved && tile.content == 1 {
@@ -68,17 +72,20 @@ struct TilePuzzle: View {
                     }
                 }
             }
-            if selectedTile != nil {
+            
+            if let selectedTile = selectedTile {
                 Image(solvedPuzzleImageName)
                     .resizable()
                     .aspectRatio(1,contentMode: .fit)
-                    .matchedGeometryEffect(id: "x", in: namespace)
+                    .matchedGeometryEffect(id: selectedTile, in: namespace)
                     .cornerRadius(TilePuzzle.tileCornerRadius)
+                    .frame(width: self.tileWidth * CGFloat(grid.size), height: self.tileWidth * CGFloat(grid.size))
                     .onTapGesture {
                         withAnimation{
-                            selectedTile = nil
+                            self.selectedTile = nil
                         }
                     }
+                    .zIndex(4)
             }
         }
     }
@@ -108,8 +115,7 @@ struct TilePuzzle: View {
     
     
     func columns()->[GridItem]{
-        let width = 0.8 * min(screenSize.height, screenSize.width) / CGFloat(grid.size)
-        return Array(repeating: GridItem(.fixed(CGFloat(width)),
+        return Array(repeating: GridItem(.fixed(CGFloat(self.tileWidth)),
                                          spacing: CGFloat(0),
                                          alignment: .center),
                      count: grid.size)
