@@ -74,45 +74,54 @@ struct TilePuzzle: View {
             }
             
             if let selectedTile = selectedTile, let solvedPuzzleImageName = solvedPuzzleImageName {
-                Image(solvedPuzzleImageName)
-                    .resizable()
-                    .aspectRatio(1,contentMode: .fit)
-                    .matchedGeometryEffect(id: selectedTile, in: namespace)
-                    .cornerRadius(TilePuzzle.tileCornerRadius)
-                    .frame(width: self.tileWidth * CGFloat(grid.size), height: self.tileWidth * CGFloat(grid.size))
+                solvedPuzzleImage(for: solvedPuzzleImageName, matchedWith: selectedTile)
+                    .transition(.snap)
                     .onTapGesture {
                         withAnimation{
                             self.selectedTile = nil
                         }
                     }
-                    .transition(.snap)
                     .zIndex(4)
             }
         }
     }
     
-    
+    @ViewBuilder
+    func solvedPuzzleImage(for solvedPuzzleImageName : String, matchedWith tile : Tile) -> some View {
+        Image(solvedPuzzleImageName)
+            .resizable()
+            .aspectRatio(1,contentMode: .fit)
+            .matchedGeometryEffect(id: tile, in: self.namespace)
+            .cornerRadius(TilePuzzle.tileCornerRadius)
+            .frame(width: self.tileWidth * CGFloat(grid.size), height: self.tileWidth * CGFloat(grid.size))
+    }
     
     @ViewBuilder
     func tilePuzzleBackground() -> some View {
+        Group{
             switch grid.solutionType{
             case .rows:
                 VStack(spacing:0){
-                    ForEach(0..<grid.size){ index in
-                        Self.tileColors[index]
-                    }
+                    puzzleColours
                 }
             case .columns:
                 HStack(spacing:0){
-                    ForEach(0..<grid.size){ index in
-                        Self.tileColors[index]
-                    }
+                    puzzleColours
                 }
             case .all:
                 ZStack{}
             }
+        }
+        .frame(width: (grid.solutionType == .rows ? 1.2 : 1.0) * tileWidth * CGFloat(grid.size),
+               height: (grid.solutionType == .columns ? 1.2 : 1.0) * tileWidth * CGFloat(grid.size))
     }
     
+    private
+    var puzzleColours : some View {
+        ForEach(0..<grid.size){ index in
+            Self.tileColors[index]
+        }
+    }
     
     
     func columns()->[GridItem]{
@@ -125,19 +134,10 @@ struct TilePuzzle: View {
     
     
 
-    struct TileView : View, Animatable {
+    struct TileView : View {
         
         var tile : Tile
-        var rotation : Double
-
-        var isFaceUp : Bool{
-            return rotation < 90
-        }
-        
-        var animatableData: Double{
-            get{rotation}
-            set{rotation = newValue}
-        }
+        var isFaceUp : Bool
         var grid : GridPuzzle
         var puzzleImageName : String?
         var solvedPuzzleImageName : String?
@@ -146,22 +146,21 @@ struct TilePuzzle: View {
             self.tile = tile
             self.grid = grid
             self.puzzleImageName = imageName
-            self.rotation = 0
             self.solvedPuzzleImageName = solvedPuzzleImageName
-        
+            self.isFaceUp = true
+            
             if grid.isSolved || (tile.isEnabled && tile.content == 0){
-                self.rotation = 0       //image
+                self.isFaceUp = true      //image
             } else if tile.content == 1 && !grid.isSolved{
-                self.rotation = 180      //blank
+                self.isFaceUp = false      //blank
             } else if tile.content == 0 && !grid.isSolved && !tile.isEnabled{
-                self.rotation = 180     //mystery
+                self.isFaceUp = false     //mystery
             }
         }
         
         var body: some View{
                 if isFaceUp || tile.canBeEnabled {
                     tileWithImage()
-                        .rotation3DEffect(Angle.degrees(rotation), axis: (0,1,0))
                 } else if tile.content == 0 {
                     mysteryTile()
                 } else {
@@ -202,11 +201,13 @@ struct TilePuzzle: View {
                         .opacity(0.7)
                         .aspectRatio(1, contentMode: .fill)
                         .cornerRadius(TilePuzzle.tileCornerRadius)
+                        .transition(.flip)
                 case .all:
                     Image(uiImage: (UIImage(named: puzzleImageName!)?.rect(row: tile.index[0], col: tile.index[1], size: grid.size))!)
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)
-                        .cornerRadius(TilePuzzle.tileCornerRadius)
+                    .cornerRadius(TilePuzzle.tileCornerRadius)
+                    .transition(.flip)
                 }
             }
         }
@@ -241,14 +242,31 @@ extension UIImage {
 
 
 struct Snap : AnimatableModifier {
-        
     var animatableData: Double
-    
     func body(content: Content) -> some View {
         content.opacity(1)
     }
 }
 
+
+struct Flip : AnimatableModifier {
+    var animatableData: Double {
+        get {rotation / 180}
+        set {rotation = newValue * 180}
+    }
+    var rotation : Double
+    func body(content: Content) -> some View {
+        content.rotation3DEffect(Angle(degrees: rotation), axis: (0,1,0))
+    }
+}
+
+extension AnyTransition{
+    static var flip : AnyTransition {
+        AnyTransition.modifier(
+            active: Flip(rotation: 0),
+            identity: Flip(rotation: 180))
+    }
+}
 
 extension AnyTransition{
     static var snap : AnyTransition {

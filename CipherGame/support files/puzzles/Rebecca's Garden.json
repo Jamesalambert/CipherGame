@@ -54,7 +54,7 @@
                 }
             ],
             "gridPuzzle" : {
-                    "type" : "rows",
+                    "type" : "columns",
                     "solutionImage" : "mars"
             }
         }
