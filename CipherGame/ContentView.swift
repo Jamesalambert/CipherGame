@@ -44,13 +44,13 @@ struct ContentView: View {
                         
                         ForEach(book.chapters){ chapter in
                             NavigationLink(destination: NavigationLazyView(
-                                            CipherSolverPage(showLetterCount: $showLetterCount)
+                                            ChapterViewer(showLetterCount: $showLetterCount)
                                                 .environment(\.bookTheme, book.theme)
                                                 .navigationBarTitle("\(chapter.title)", displayMode: .inline))
                                            ,
                                            tag: chapter.id,
                                            selection: $viewModel.currentChapterHash){
-                                puzzleEntry(for: chapter, in: book)
+                                chapterEntry(for: chapter, in: book)
                             }
                         }
                     }
@@ -84,7 +84,7 @@ struct ContentView: View {
     }
     
     @ViewBuilder
-    func puzzleEntry(for chapter : Chapter, in book : Book) -> some View {
+    func chapterEntry(for chapter : Chapter, in book : Book) -> some View {
         
         Text("\(chapter.title)")
             .lineLimit(1)

@@ -8,7 +8,7 @@
 import SwiftUI
 
 
-extension ContentView.CipherSolverPage {
+extension ContentView.ChapterViewer {
     
     private
     func printCipherPage() {

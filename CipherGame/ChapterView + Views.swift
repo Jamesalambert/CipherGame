@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-extension ContentView.CipherSolverPage {
+extension ContentView.ChapterViewer {
     
     @ViewBuilder
     func puzzleChooser(for geometry : GeometryProxy) -> some View {

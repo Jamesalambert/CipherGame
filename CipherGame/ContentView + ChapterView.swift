@@ -9,7 +9,7 @@ import SwiftUI
 
 extension ContentView {
 //    MARK:- the puzzle
-    struct CipherSolverPage : View {
+    struct ChapterViewer : View {
         
         static let phoneLetterPickerHeight = CGFloat(160)
         static let letterCountHeight = CGFloat(100)
