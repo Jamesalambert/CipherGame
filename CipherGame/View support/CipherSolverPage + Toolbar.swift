@@ -13,13 +13,13 @@ extension ContentView.CipherSolverPage {
     private
     func printCipherPage() {
         let formatter = UIMarkupTextPrintFormatter(markupText: viewModel.printableHTML)
-        
+
         let printController = UIPrintInteractionController.shared
-        
+
         let printInfo = UIPrintInfo(dictionary: nil)
         printInfo.outputType = .general
         printInfo.jobName = viewModel.puzzleTitle
-        
+
         printController.printInfo = printInfo
         printController.printFormatter = formatter
         

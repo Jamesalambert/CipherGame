@@ -31,6 +31,7 @@ class CipherGameTests: XCTestCase {
     func testLoadPuzzleUI() throws {
         
         let cipherPuzzleViewModel = CipherPuzzle()
+        cipherPuzzleViewModel.currentChapterHash = cipherPuzzleViewModel.model.books.first(where: {$0.title == "Queen of the Zlogs"})?.id
                 
         self.measure {
             let _ = ContentView(viewModel: cipherPuzzleViewModel, saveAction: {})

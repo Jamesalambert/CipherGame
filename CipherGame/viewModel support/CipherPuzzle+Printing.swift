@@ -134,7 +134,6 @@ extension CipherPuzzle{
             output += "<p class='guessRow'>" + plaintext + "</p>"
             output += "</td>\n"
         }
-        
         output += "\n</tr>\n"
         return output
     }

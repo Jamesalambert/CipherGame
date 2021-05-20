@@ -112,7 +112,7 @@ extension ContentView {
                     .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
                 Spacer(minLength: 50)
                 
-                VStack(alignment: .leading){
+                LazyVStack(alignment: .center){
                     ForEach(viewModel.puzzleLines(charsPerLine: Int(geometry.size.width / Self.characterWidth))){ puzzleLine in
                         HStack(alignment: .bottom, spacing: 20){
                             Text(String(puzzleLine.id))
@@ -135,8 +135,7 @@ extension ContentView {
                         }
                     }
                 }
-                
-                
+
                 Spacer(minLength: 50)
                 Text(viewModel.footer)
                     .padding(EdgeInsets.sized(horizontally: geometry.size.width/7,
