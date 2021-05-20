@@ -12,7 +12,10 @@ extension ContentView.ChapterViewer {
     
     private
     func printCipherPage() {
-        self.printing = true
+        
+        withAnimation{
+            self.printing = true
+        }
         
         let formatter = UIMarkupTextPrintFormatter(markupText: viewModel.printableHTML)
 
@@ -26,7 +29,9 @@ extension ContentView.ChapterViewer {
         printController.printFormatter = formatter
         
         printController.present(animated: true){_,_,_ in
-            self.printing = false
+            withAnimation{
+                self.printing = false
+            }
         }
     }
     

@@ -56,32 +56,32 @@ extension ContentView {
         
         var body : some View {
             GeometryReader { geometry in
-                ZStack(alignment: .bottom){
-                    ScrollView(.vertical){
-                        VStack{
-                            Spacer(minLength : 40)
-                            if viewModel.currentPuzzleHash != nil {
+                ZStack{
+                    
+                    if viewModel.currentPuzzleHash != nil {
+                        ScrollView(.vertical){
+                            VStack{
+                                Spacer(minLength : 50)
                                 cipherPuzzleListView(with: geometry)
                                     .id(viewModel.currentPuzzleHash)
                                     .padding()
                                     .toolbar(content: toolbarView)
-                                    
+                                
                                 if viewModel.isSolved {
                                     riddleOptions(with: geometry)
                                         .id(viewModel.currentPuzzleHash)
                                         .transition(.scale)
                                     Spacer(minLength: 250)
                                 }
-                            } else if let currentChapterGridPuzzle = viewModel.currentChapterGridPuzzle {
-                                TilePuzzle(grid: currentChapterGridPuzzle, screenSize: geometry.size)
-                                    .padding()
                             }
-                            Spacer(minLength: 50)
+                            .background(viewModel.theme.image(for: .puzzlePaper, for: bookTheme)?
+                                            .resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
                         }
-                        .background(viewModel.theme.image(for: .puzzlePaper, for: bookTheme)?
-                                        .resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
+                        .zIndex(0)
+                    } else if let currentChapterGridPuzzle = viewModel.currentChapterGridPuzzle {
+                        TilePuzzle(grid: currentChapterGridPuzzle, screenSize: geometry.size)
                     }
-                    .zIndex(0)
+                    Spacer(minLength: 50)
                     
                     VStack{
                         puzzleChooser(for: geometry)
@@ -90,6 +90,7 @@ extension ContentView {
                             keyboardAndLettercount(for: geometry)
                         }
                     }
+                    .zIndex(1)
                 }
                 .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
                 .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
@@ -108,16 +109,12 @@ extension ContentView {
                     .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
                     .font(viewModel.theme.font(for: .largeTitle, for: bookTheme))
                 Spacer(minLength: 50)
-                Text(viewModel.header)
+                paragraph(text: viewModel.header)
                     .padding(EdgeInsets.sized(horizontally: geometry.size.width/7,
                                               vertically: 0))
-                    .fixedSize(horizontal: false, vertical: true)
-                    .lineSpacing(Self.bodyLineSpacing)
-                    .font(viewModel.theme.font(for: .body, for: bookTheme))
-                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
                 Spacer(minLength: 50)
                 
-                LazyVStack(alignment: .center){
+                LazyVStack(alignment: .leading){
                     ForEach(viewModel.puzzleLines(charsPerLine: Int(geometry.size.width / Self.characterWidth))){ puzzleLine in
                         HStack(alignment: .bottom, spacing: 20){
                             Text(String(puzzleLine.id))
@@ -140,20 +137,24 @@ extension ContentView {
                         }
                     }
                 }
+                .padding(EdgeInsets.sized(horizontally: geometry.size.width/9, vertically: 0))
 
                 Spacer(minLength: 50)
-                Text(viewModel.footer)
+                paragraph(text: viewModel.footer)
                     .padding(EdgeInsets.sized(horizontally: geometry.size.width/7,
                                               vertically: 0))
-                    .fixedSize(horizontal: false, vertical: true)
-                    .lineSpacing(Self.bodyLineSpacing)
-                    .font(viewModel.theme.font(for: .body, for: bookTheme))
-                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
             }
         }
         
+        @ViewBuilder
+        func paragraph(text : String) -> some View{
+            Text(text)
+                .fixedSize(horizontal: false, vertical: true)
+                .lineSpacing(Self.bodyLineSpacing)
+                .font(viewModel.theme.font(for: .body, for: bookTheme))
+                .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
+        }
 
-        
         @ViewBuilder
         func keyboardAndLettercount(for geometry : GeometryProxy) -> some View {
             Group{

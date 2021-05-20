@@ -39,61 +39,69 @@ struct TilePuzzle: View {
     var selectedTile : Tile?
     
     var body: some View {
-        Button("play again"){
-            withAnimation{
-                viewModel.reset(grid: grid)
+        
+        VStack{
+            if grid.isSolved{
+                Button("play again"){
+                    withAnimation{
+                        viewModel.reset(grid: grid)
+                    }
+                }
+                .transition(.scale)
+            }
+        
+            ZStack{
+                    tilePuzzleBackground()
+                        .opacity(grid.isSolved || grid.solutionType == .all ? 0 : 0.3)
+                        .transition(.scale)
+                
+                LazyVGrid(columns: self.columns(), spacing: 0){
+                    ForEach(grid.rows.flatMap{$0.tiles}){ tile in
+                        if tile.id != selectedTile?.id{
+                            ZStack{
+                                if grid.isMystery(tile) {
+                                    mysteryTile()
+                                } else if grid.isEmpty(tile) {
+                                    ZStack{}
+                                } else {
+                                    RoundedRectangle(cornerRadius: Self.tileCornerRadius)
+                                        .modifier(TileModifier(tile: tile, grid: grid))
+                                        .matchedGeometryEffect(id: tile, in: namespace)
+                                }
+                            }
+                            .padding(EdgeInsets.sized(horizontally: 2, vertically: 2))
+                                .onTapGesture {
+                                    withAnimation{
+                                        //only the old blank tile can be tapped to reveal the solution image
+                                        if grid.isSolved && tile.content == 1 {
+                                            selectedTile = tile
+                                        } else {
+                                            viewModel.gridTap(tile)
+                                        }
+                                    }
+                                }
+                        } else {
+                            //blank tile
+                            ZStack{}
+                        }
+                    }
+                }
+                
+                if let selectedTile = selectedTile,
+                   let solvedPuzzleImageName = grid.solutionImageName {
+                    solvedPuzzleImage(for: solvedPuzzleImageName, matchedWith: selectedTile)
+                        .transition(.snap)
+                        .onTapGesture {
+                            withAnimation{
+                                self.selectedTile = nil
+                            }
+                        }
+                        .zIndex(4)
+                }
             }
         }
         
-        ZStack{
-                tilePuzzleBackground()
-                    .opacity(grid.isSolved || grid.solutionType == .all ? 0 : 0.3)
-                    .transition(.scale)
-            
-            LazyVGrid(columns: self.columns(), spacing: 0){
-                ForEach(grid.rows.flatMap{$0.tiles}){ tile in
-                    if tile.id != selectedTile?.id{
-                        ZStack{
-                            if grid.isMystery(tile) {
-                                mysteryTile()
-                            } else if grid.isEmpty(tile) {
-                                ZStack{}
-                            } else {
-                                RoundedRectangle(cornerRadius: Self.tileCornerRadius)
-                                    .modifier(TileModifier(tile: tile, grid: grid))
-                                    .matchedGeometryEffect(id: tile, in: namespace)
-                            }
-                        }
-                        .padding(EdgeInsets.sized(horizontally: 2, vertically: 2))
-                            .onTapGesture {
-                                withAnimation{
-                                    //only the old blank tile can be tapped to reveal the solution image
-                                    if grid.isSolved && tile.content == 1 {
-                                        selectedTile = tile
-                                    } else {
-                                        viewModel.gridTap(tile)
-                                    }
-                                }
-                            }
-                    } else {
-                        //blank tile
-                        ZStack{}
-                    }
-                }
-            }
-            
-            if let selectedTile = selectedTile,
-               let solvedPuzzleImageName = grid.solutionImageName {
-                solvedPuzzleImage(for: solvedPuzzleImageName, matchedWith: selectedTile)
-                    .transition(.snap)
-                    .onTapGesture {
-                        withAnimation{
-                            self.selectedTile = nil
-                        }
-                    }
-                    .zIndex(4)
-            }
-        }
+        
     }
     
     

@@ -33,7 +33,8 @@ extension ContentView.ChapterViewer {
                                 )
                         }
                     }
-                    .modifier(RoundSomeCorners(radius: ContentView.ChapterViewer.viewCornerRadius, corners: [.topLeft , .topRight] ))
+                    .modifier(RoundSomeCorners(radius: ContentView.ChapterViewer.viewCornerRadius,
+                                               corners: [.topLeft , .topRight] ))
                     .transition(.move(edge: .bottom))
                 }
             }
@@ -79,7 +80,7 @@ extension ContentView.ChapterViewer {
                     .foregroundColor(viewModel.theme.color(of: .completed, for: bookTheme, in: colorScheme))
             }
         }
-        .padding()
+        .padding(EdgeInsets.sized(horizontally: 10, vertically: 15))
     }
     
     @ViewBuilder
