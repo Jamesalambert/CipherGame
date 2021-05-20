@@ -15,6 +15,7 @@
 		AA31EAA3260BE32A0031D56C /* CipherPuzzle+Printing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */; };
 		AA31EAAE260BE3E80031D56C /* CipherPuzzle+Difficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */; };
 		AA31EAB4260BE5370031D56C /* useful extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAB3260BE5370031D56C /* useful extensions.swift */; };
+		AA342D9B26570A0F0039E315 /* useful view code.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA342D9A26570A0F0039E315 /* useful view code.swift */; };
 		AA3ED4472611493300B25B4A /* ContentView + letter count.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3ED4462611493300B25B4A /* ContentView + letter count.swift */; };
 		AA5D867D2614F680008D3B44 /* CipherPrint.css in Resources */ = {isa = PBXBuildFile; fileRef = AA5D867C2614F680008D3B44 /* CipherPrint.css */; };
 		AA5DCE3326484DDF005D2B14 /* GridPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5DCE3226484DDF005D2B14 /* GridPuzzle.swift */; };
@@ -73,6 +74,7 @@
 		AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle+Printing.swift"; sourceTree = "<group>"; };
 		AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle+Difficulty.swift"; sourceTree = "<group>"; };
 		AA31EAB3260BE5370031D56C /* useful extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "useful extensions.swift"; sourceTree = "<group>"; };
+		AA342D9A26570A0F0039E315 /* useful view code.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "useful view code.swift"; sourceTree = "<group>"; };
 		AA3ED4462611493300B25B4A /* ContentView + letter count.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + letter count.swift"; sourceTree = "<group>"; };
 		AA5D867C2614F680008D3B44 /* CipherPrint.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = CipherPrint.css; path = CipherGame/CipherPrint.css; sourceTree = SOURCE_ROOT; };
 		AA5DCE3226484DDF005D2B14 /* GridPuzzle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridPuzzle.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 				AA5D867C2614F680008D3B44 /* CipherPrint.css */,
 				AA8F640B26053E2E005B148F /* UITextFieldView.swift */,
 				AA31EAB3260BE5370031D56C /* useful extensions.swift */,
+				AA342D9A26570A0F0039E315 /* useful view code.swift */,
 			);
 			path = "support files";
 			sourceTree = "<group>";
@@ -451,6 +454,7 @@
 				AAEE3B11261CEE30008E2233 /* CipherPuzzle + Persistence.swift in Sources */,
 				AAE9CE3D262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift in Sources */,
 				AA31EAB4260BE5370031D56C /* useful extensions.swift in Sources */,
+				AA342D9B26570A0F0039E315 /* useful view code.swift in Sources */,
 				AAE55AED262628090019407E /* PuzzleThemes + Treasure.swift in Sources */,
 				AA9766D226016EB60076B879 /* CipherPuzzle.swift in Sources */,
 			);

@@ -11,32 +11,38 @@ extension ContentView.ChapterViewer {
     
     @ViewBuilder
     func puzzleChooser(for geometry : GeometryProxy) -> some View {
-        ScrollView(.horizontal){
-            HStack(alignment: .bottom){
-                Spacer()
-                Group{
-                    ForEach(viewModel.visiblePuzzles){ puzzle in
-                        cipherPuzzleChooserButton(for: puzzle)
-                            .padding()
-                            .background(
-                                viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)
-                                    .opacity(puzzle.id == viewModel.currentPuzzleHash ? 0.30 : 0.1)
-                            )
-                    }
+        
+        VStack(spacing:0){
+            ScrollView(.horizontal){
+                HStack(alignment: .bottom){
                     Spacer()
-                    if let gridPuzzle = viewModel.currentChapterGridPuzzle {
-                        gridPuzzleChooserButton(for: gridPuzzle)
-                            .padding()
-                            .background(
-                                viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)
-                                    .opacity(gridPuzzle.id == viewModel.currentGridPuzzleHash ? 0.30 : 0.1)
-                            )
+                    Group{
+                        ForEach(viewModel.visiblePuzzles){ puzzle in
+                            cipherPuzzleChooserButton(for: puzzle)
+                                .background(
+                                    viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)
+                                        .opacity(puzzle.id == viewModel.currentPuzzleHash ? 0.3 : 0.1)
+                                )
+                        }
+                        Spacer()
+                        if let gridPuzzle = viewModel.currentChapterGridPuzzle {
+                            gridPuzzleChooserButton(for: gridPuzzle)
+                                .background(
+                                    viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)
+                                        .opacity(gridPuzzle.id == viewModel.currentGridPuzzleHash ? 0.3 : 0.1)
+                                )
+                        }
                     }
+                    .modifier(RoundSomeCorners(radius: ContentView.ChapterViewer.viewCornerRadius, corners: [.topLeft , .topRight] ))
+                    .transition(.move(edge: .bottom))
                 }
-                .cornerRadius(Self.viewCornerRadius)
-                .transition(.move(edge: .bottom))
             }
+            Rectangle()
+                .fill(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)!)
+                .frame(height: 3)
+                .opacity(0.3)
         }
+        .background(Blur(style: self.colorScheme == .dark ? .systemThickMaterialDark : .systemUltraThinMaterialLight))
     }
     
     @ViewBuilder
@@ -58,27 +64,29 @@ extension ContentView.ChapterViewer {
             }
         } label: {
             buttonLabel(titled: puzzle.title, isSolved: puzzle.isSolved)
-            
         }
     }
     
     @ViewBuilder
     func buttonLabel(titled title : String, isSolved : Bool) -> some View{
-        Text(title)
-            .lineLimit(1)
-            .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
-            .foregroundColor(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
-        if isSolved{
-            Image(systemName: "checkmark.circle")
-                .foregroundColor(viewModel.theme.color(of: .completed, for: bookTheme, in: colorScheme))
+        HStack{
+            Text(title)
+                .lineLimit(1)
+                .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
+                .foregroundColor(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
+            if isSolved{
+                Image(systemName: "checkmark.circle")
+                    .foregroundColor(viewModel.theme.color(of: .completed, for: bookTheme, in: colorScheme))
+            }
         }
+        .padding()
     }
     
     @ViewBuilder
     func riddleOptions(with geometry : GeometryProxy) -> some View {
-            if viewModel.riddleAnswers.count > 1 {
-                MultipleChoiceRiddle(geometry: geometry)
-            }
+        if viewModel.riddleAnswers.count > 1 {
+            MultipleChoiceRiddle(geometry: geometry)
+        }
     }
     
     struct MultipleChoiceRiddle : View {
@@ -168,4 +176,8 @@ extension ContentView.ChapterViewer {
             }
         }
     }
+    
+    
+
+    
 }

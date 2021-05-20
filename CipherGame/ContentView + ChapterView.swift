@@ -59,10 +59,7 @@ extension ContentView {
                 ZStack(alignment: .bottom){
                     ScrollView(.vertical){
                         VStack{
-                            Spacer()
-                            puzzleChooser(for: geometry)
-                            Spacer()
-                            Spacer(minLength: 30)
+                            Spacer(minLength : 40)
                             if viewModel.currentPuzzleHash != nil {
                                 cipherPuzzleListView(with: geometry)
                                     .id(viewModel.currentPuzzleHash)
@@ -84,8 +81,14 @@ extension ContentView {
                         .background(viewModel.theme.image(for: .puzzlePaper, for: bookTheme)?
                                         .resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
                     }
-                    if viewModel.currentPuzzleHash != nil {
-                        keyboardAndLettercount(for: geometry)
+                    .zIndex(0)
+                    
+                    VStack{
+                        puzzleChooser(for: geometry)
+                        Spacer()
+                        if viewModel.currentPuzzleHash != nil {
+                            keyboardAndLettercount(for: geometry)
+                        }
                     }
                 }
                 .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
@@ -93,7 +96,6 @@ extension ContentView {
                 .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?
                                 .resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
                 .onTapGesture{deselect()}
-                .zIndex(0)
             }
         }
     
@@ -174,53 +176,6 @@ extension ContentView {
             return Array(repeating: GridItem(.fixed(20)),
                          count: Int(screenWidth / 35))
         }
-        
-        
-        //        test using a list vs a grid. Buggy but maybe helpful.
-        //        @ViewBuilder
-        //        func cipherPuzzleViewEXP(with geometry : GeometryProxy) -> some View {
-        //            List{
-        //
-        //                Text(viewModel.headerText)
-        //                    .fixedSize(horizontal: false, vertical: true)
-        //                    .font(viewModel.theme.font(for: .body, for: bookTheme))
-        //                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-        //
-        //                ForEach(viewModel.puzzleLines){ puzzleLine in
-        //                    HStack(alignment: .bottom, spacing: 0){
-        //                        Spacer()
-        //                        Text(String(puzzleLine.id))
-        //                        Spacer()
-        //                        ForEach(puzzleLine.characters){ cipherPair in
-        //                            CipherSolverCharacterPair(
-        //                                tappedIndex: $tappedIndex,
-        //                                userMadeASelection: $userMadeASelection,
-        //                                cipherTextLetter: cipherPair.cipherLetter,
-        //                                plainTextLetter: cipherPair.userGuessLetter,
-        //                                indexInTheCipher: cipherPair.id)
-        //                                .frame(width: geometry.size.width / 40, height: nil, alignment: .center)
-        //                        }
-        //                        Spacer()
-        //                    }
-        //
-        //                    if line(puzzleLine.id, contains: tappedIndex){
-        //                        LetterPicker()
-        //                    }
-        //
-        //                }
-        //
-        //                Text(viewModel.footerText)
-        //                    .font(viewModel.theme.font(for: .body, for: bookTheme))
-        //                    .foregroundColor(viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme))
-        //
-        //
-        //            }
-        //
-        //        }
-        //
-        //        private func line(_ line : Int, contains index : Int) -> Bool {
-        //            return line == Int(floor(Double(index / viewModel.charsPerLine)))
-        //        }
         
         private
         func resetPuzzleAlert() -> Alert {

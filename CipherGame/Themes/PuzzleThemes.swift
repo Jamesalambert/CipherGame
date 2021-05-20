@@ -15,7 +15,7 @@ class ThemeManager {
         return Self.theme(for: themeName).color(ColorContext(item: item, colorScheme: colorScheme))
     }
     
-    func size(of shape: Shape, for themeName : BookTheme) -> Double? {
+    func size(of shape: ThemeShape, for themeName : BookTheme) -> Double? {
         return Self.theme(for: themeName).size(SizeContext(shape: shape))
     }
     
@@ -141,7 +141,7 @@ class ThemeManager {
     }
 
     struct SizeContext : Hashable {
-        var shape : Shape
+        var shape : ThemeShape
     }
 
     struct TimeContext : Hashable {
@@ -176,7 +176,7 @@ enum Item : Hashable {
     case openButton
 }
 
-enum Shape {
+enum ThemeShape {
     case puzzlePadding
 }
 
