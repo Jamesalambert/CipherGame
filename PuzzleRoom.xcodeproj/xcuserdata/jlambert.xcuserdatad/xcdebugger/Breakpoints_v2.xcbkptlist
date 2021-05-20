@@ -14,8 +14,8 @@
             filePath = "CipherGame/CipherPuzzleSource.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "404"
-            endingLineNumber = "404">
+            startingLineNumber = "431"
+            endingLineNumber = "431">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -40,8 +40,8 @@
             filePath = "CipherGame/Model support/GridPuzzle.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "34"
-            endingLineNumber = "34"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "addTile()"
             landmarkType = "7">
             <Locations>
@@ -103,8 +103,8 @@
             filePath = "CipherGame/View support/TilePuzzle.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "77"
-            endingLineNumber = "77"
+            startingLineNumber = "86"
+            endingLineNumber = "86"
             landmarkName = "body"
             landmarkType = "24">
          </BreakpointContent>

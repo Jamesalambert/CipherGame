@@ -90,11 +90,6 @@ extension ContentView {
                 }
                 
             }
-//            .overlay(Rectangle()
-//                        .frame(width: 30, height: Self.lineThickness, alignment: .bottom)
-//                        .foregroundColor(viewModel.theme.color(of: .puzzleLines,
-//                                                               for: bookTheme, in: colorScheme)),
-//                     alignment: .bottom )
             .padding(.top)
             .foregroundColor(foregroundColor(for: colorScheme))
             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
@@ -142,17 +137,17 @@ extension ContentView {
                                 .background(viewModel.theme.color(of: .keyboardLetters, for: bookTheme, in: colorScheme).opacity(0.1))
                                 .cornerRadius(10)
                                 .onTapGesture {
-                                withAnimation{
-                                    viewModel.guess(cipherTextLetter, is: character,
-                                                    at: indexInTheCipher)
-                                    displayTabletLetterPicker = false
-                                    wasTapped = false
+                                    withAnimation{
+                                        viewModel.guess(cipherTextLetter, is: character,
+                                                        at: indexInTheCipher)
+                                        displayTabletLetterPicker = false
+                                        wasTapped = false
+                                    }
                                 }
-                            }
-                            .fixedSize()
-                            .font(viewModel.theme.font(for: .title, for: bookTheme))
+                                .fixedSize()
+                                .font(viewModel.theme.font(for: .title, for: bookTheme))
                                 .foregroundColor(viewModel.theme.color(of: .keyboardLetters, for: bookTheme, in: colorScheme))
-                            .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
+                                .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
                         }
                     }
                 }

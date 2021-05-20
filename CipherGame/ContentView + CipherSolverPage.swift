@@ -73,9 +73,7 @@ extension ContentView {
                                     Spacer(minLength: 250)
                                 }
                             } else if let currentChapterGridPuzzle = viewModel.currentChapterGridPuzzle {
-                                
-                                TilePuzzle(puzzleImageName: currentChapterGridPuzzle.imageName,
-                                           solvedPuzzleImageName: "mars", screenSize: geometry.size, grid: viewModel.currentChapterGridPuzzle!)
+                                TilePuzzle(grid: currentChapterGridPuzzle, screenSize: geometry.size)
                                     .padding()
                             }
                             Spacer(minLength: 50)
@@ -150,11 +148,7 @@ extension ContentView {
             }
         }
         
-        
-        
-        
-        
-        
+
         
         @ViewBuilder
         func keyboardAndLettercount(for geometry : GeometryProxy) -> some View {

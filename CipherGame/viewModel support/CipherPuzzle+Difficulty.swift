@@ -24,10 +24,7 @@ extension CipherPuzzle {
     }
     
     
-    func reset() -> Void{
-        model.reset(currentPuzzleHash!)
-    }
-    
+   
     func quickHint() -> Void {
         
         let alphabet = String.alphabet.map{Character(extendedGraphemeClusterLiteral: $0)}

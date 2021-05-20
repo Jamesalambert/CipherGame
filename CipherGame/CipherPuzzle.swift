@@ -209,6 +209,15 @@ class CipherPuzzle : ObservableObject {
             model.move(tile, gridPuzzleHash: currentGridPuzzleHash!)
         }
     }
+    
+    func reset() -> Void{
+        model.reset(currentPuzzleHash!)
+    }
+    
+    
+    func reset(grid : GridPuzzle){
+        model.shuffle(grid)
+    }
 
     //MARK:-
     

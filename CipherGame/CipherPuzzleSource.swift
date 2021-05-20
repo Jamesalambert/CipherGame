@@ -29,7 +29,7 @@ struct Game : Codable {
     
     mutating
     func reset(_ puzzleID : UUID){
-        guard let currentPuzzleIndexPath = self.indexPath(for: puzzleID) else {return}
+        guard let currentPuzzleIndexPath = self.indexPath(forPuzzle: puzzleID) else {return}
 
         let bookIndex = currentPuzzleIndexPath.bookIndex
         let chapterIndex = currentPuzzleIndexPath.chapterIndex
@@ -47,12 +47,23 @@ struct Game : Codable {
     }
     
     mutating
+    func shuffle(_ gridPuzzle : GridPuzzle){
+        guard let currentPuzzleIndexPath = self.indexPath(forGrid: gridPuzzle.id) else {return}
+
+        let bookIndex = currentPuzzleIndexPath.bookIndex
+        let chapterIndex = currentPuzzleIndexPath.chapterIndex
+
+        //reset grid puzzle if it exists
+        books[bookIndex].chapters[chapterIndex].gridPuzzle?.shuffleTiles()
+    }
+    
+    mutating
     func updateUsersGuesses(cipherCharacter : Character,
                             plaintextCharacter : Character?,
                             for puzzleID : UUID,
                             at index : Int){
         
-        guard let currentPuzzleIndexPath = self.indexPath(for: puzzleID) else {return}
+        guard let currentPuzzleIndexPath = self.indexPath(forPuzzle: puzzleID) else {return}
         let bookIndex = currentPuzzleIndexPath.bookIndex
         let chapterIndex = currentPuzzleIndexPath.chapterIndex
         let puzzleIndex = currentPuzzleIndexPath.puzzleIndex
@@ -87,7 +98,7 @@ struct Game : Codable {
     
     mutating
     func add(answer : String, for puzzleID : UUID){
-        guard let currentPuzzleIndexPath = self.indexPath(for: puzzleID) else {return}
+        guard let currentPuzzleIndexPath = self.indexPath(forPuzzle: puzzleID) else {return}
         let bookIndex = currentPuzzleIndexPath.bookIndex
         let chapterIndex = currentPuzzleIndexPath.chapterIndex
         let puzzleIndex = currentPuzzleIndexPath.puzzleIndex
@@ -135,7 +146,7 @@ struct Game : Codable {
     }
     
     private
-    func indexPath(for puzzleID: UUID)  -> (bookIndex: Int, chapterIndex: Int, puzzleIndex: Int)? {
+    func indexPath(forPuzzle puzzleID: UUID)  -> (bookIndex: Int, chapterIndex: Int, puzzleIndex: Int)? {
         guard let bookIndex = books.firstIndex(where: {book in
                                                 book.chapters.contains{ chapter in
                                                     chapter.puzzles.contains{ puzzle in
@@ -151,6 +162,22 @@ struct Game : Codable {
         guard let puzzleIndex = books[bookIndex].chapters[chapterIndex].puzzles.firstIndex(where: {$0.id == puzzleID}) else {return nil}
         
         return (bookIndex, chapterIndex, puzzleIndex)
+    }
+    
+    private
+    func indexPath(forGrid gridPuzzleID: UUID) -> (bookIndex: Int, chapterIndex: Int)? {
+        guard let bookIndex = books.firstIndex(where: {book in
+            book.chapters.contains(where: {chapter in
+                chapter.gridPuzzle?.id == gridPuzzleID
+            })
+        })
+        else {return nil}
+        
+        guard let chapterIndex = books[bookIndex].chapters.firstIndex(where: {chapter in
+            chapter.gridPuzzle?.id == gridPuzzleID
+        })
+        else {return nil}
+        return (bookIndex, chapterIndex)
     }
     
     init(){
