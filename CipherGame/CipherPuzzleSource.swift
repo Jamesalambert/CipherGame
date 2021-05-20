@@ -424,6 +424,7 @@ struct ReadablePuzzle : Codable {
 
 struct ReadableGridPuzzle : Codable {
     var type : GridSolution
+    var size : Int
     var image : String?
     var solutionImage : String?
 }

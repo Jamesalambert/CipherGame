@@ -47,7 +47,7 @@ struct TilePuzzle: View {
         
         ZStack{
                 tilePuzzleBackground()
-                    .opacity(grid.isSolved ? 0 : 0.3)
+                    .opacity(grid.isSolved || grid.solutionType == .all ? 0 : 0.3)
                     .transition(.scale)
             
             LazyVGrid(columns: self.columns(), spacing: 0){
@@ -64,6 +64,7 @@ struct TilePuzzle: View {
                                     .matchedGeometryEffect(id: tile, in: namespace)
                             }
                         }
+                        .padding(EdgeInsets.sized(horizontally: 2, vertically: 2))
                             .onTapGesture {
                                 withAnimation{
                                     //only the old blank tile can be tapped to reveal the solution image
@@ -161,8 +162,6 @@ struct TilePuzzle: View {
         var tile : Tile
         var grid : GridPuzzle
         var rotation : Double
-//        var puzzleImageName : String?
-//        var solvedPuzzleImageName : String?
         
         private
         var isFaceUp : Bool {rotation < 90}
@@ -203,16 +202,13 @@ struct TilePuzzle: View {
                                     center: .center,
                                     startRadius: 0,
                                     endRadius: 900)
-                        .opacity(0.7)
                         .aspectRatio(1, contentMode: .fill)
                         .cornerRadius(TilePuzzle.tileCornerRadius)
-//                        .transition(.flip)
                 case .all:
                     Image(uiImage: (UIImage(named: grid.imageName!)?.rect(row: tile.index[0], col: tile.index[1], size: grid.size))!)
                     .resizable()
                     .aspectRatio(1, contentMode: .fit)
                     .cornerRadius(TilePuzzle.tileCornerRadius)
-//                    .transition(.flip)
                 }
             }
         }

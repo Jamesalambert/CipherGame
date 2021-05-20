@@ -19,6 +19,7 @@
             ],
             "gridPuzzle" : {
                     "type" : "rows",
+                    "size" : 4,
                     "solutionImage" : "mars"
             }
         }

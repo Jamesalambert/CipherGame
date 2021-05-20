@@ -37,7 +37,6 @@ extension ContentView {
         var resettingPuzzle : Bool = false
         
         @State
-        private
         var printing : Bool = false
         
         @Binding

@@ -55,6 +55,7 @@
             ],
             "gridPuzzle" : {
                     "type" : "columns",
+                    "size" : 5,
                     "solutionImage" : "purpleSpace"
             }
         }

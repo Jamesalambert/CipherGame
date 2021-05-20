@@ -55,6 +55,7 @@
             ],
             "gridPuzzle" : {
                     "type" : "all",
+                    "size" : 3,
                     "image" : "purpleSpace"
             }
             
