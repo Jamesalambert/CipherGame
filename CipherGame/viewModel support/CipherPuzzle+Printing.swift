@@ -138,7 +138,6 @@ extension CipherPuzzle{
         return output
     }
     
-    
     static let cssStyling = { () -> String in
         if let url = Bundle.main.path(forResource: "CipherPrint", ofType: "css"){
             do {

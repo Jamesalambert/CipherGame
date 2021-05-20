@@ -12,6 +12,8 @@ extension ContentView.CipherSolverPage {
     
     private
     func printCipherPage() {
+        self.printing = true
+        
         let formatter = UIMarkupTextPrintFormatter(markupText: viewModel.printableHTML)
 
         let printController = UIPrintInteractionController.shared
@@ -23,7 +25,9 @@ extension ContentView.CipherSolverPage {
         printController.printInfo = printInfo
         printController.printFormatter = formatter
         
-        printController.present(animated: true)
+        printController.present(animated: true){_,_,_ in
+            self.printing = false
+        }
     }
     
     
@@ -91,7 +95,7 @@ extension ContentView.CipherSolverPage {
             
             ToolbarItem(placement: .navigationBarTrailing){
                 Button(action: printCipherPage, label: {
-                    Label("print", systemImage: "printer")
+                    Label("print", systemImage: self.printing ? "printer.fill" : "printer")
                 })
             }
     }

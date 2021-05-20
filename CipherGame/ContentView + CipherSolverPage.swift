@@ -36,6 +36,10 @@ extension ContentView {
         private
         var resettingPuzzle : Bool = false
         
+        @State
+        private
+        var printing : Bool = false
+        
         @Binding
         var showLetterCount : Bool
         
