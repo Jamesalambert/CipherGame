@@ -56,47 +56,47 @@ extension ContentView {
         
         var body : some View {
             GeometryReader { geometry in
-                ZStack{
-                    
-                    if viewModel.currentPuzzleHash != nil {
-                        ScrollView(.vertical){
-                            VStack{
-                                Spacer(minLength : 50)
-                                cipherPuzzleListView(with: geometry)
-                                    .id(viewModel.currentPuzzleHash)
-                                    .padding()
-                                    .toolbar(content: toolbarView)
-                                
-                                if viewModel.isSolved {
-                                    riddleOptions(with: geometry)
-                                        .id(viewModel.currentPuzzleHash)
-                                        .transition(.scale)
-                                    Spacer(minLength: 250)
-                                }
-                            }
-                            .background(viewModel.theme.image(for: .puzzlePaper, for: bookTheme)?
-                                            .resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
-                        }
-                        .zIndex(0)
-                    } else if let currentChapterGridPuzzle = viewModel.currentChapterGridPuzzle {
-                        TilePuzzle(grid: currentChapterGridPuzzle, screenSize: geometry.size)
-                    }
-                    Spacer(minLength: 50)
-                    
+                ZStack(alignment: .bottom){
                     VStack{
                         puzzleChooser(for: geometry)
                         Spacer()
+                        
                         if viewModel.currentPuzzleHash != nil {
-                            keyboardAndLettercount(for: geometry)
+                            ScrollView(.vertical){
+                                VStack{
+                                    Spacer(minLength : 50)
+                                    cipherPuzzleListView(with: geometry)
+                                        .id(viewModel.currentPuzzleHash)
+                                        .padding()
+                                        .toolbar(content: toolbarView)
+                                    
+                                    if viewModel.isSolved {
+                                        riddleOptions(with: geometry)
+                                            .id(viewModel.currentPuzzleHash)
+                                            .transition(.scale)
+                                        Spacer(minLength: 250)
+                                    }
+                                }
+                                .background(viewModel.theme.image(for: .puzzlePaper, for: bookTheme)?
+                                                .resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
+                            }
+                            .zIndex(0)
+                        } else if let currentChapterGridPuzzle = viewModel.currentChapterGridPuzzle {
+                            TilePuzzle(grid: currentChapterGridPuzzle, screenSize: geometry.size)
+                                
                         }
+                        Spacer(minLength: 50)
                     }
-                    .zIndex(1)
+                    .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
+                    .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
+                    .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?
+                                    .resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
+                    .onTapGesture{deselect()}
+                    
+                    if viewModel.currentPuzzleHash != nil {
+                        keyboardAndLettercount(for: geometry)
+                    }
                 }
-                .alert(isPresented: $resettingPuzzle){resetPuzzleAlert()}
-                .background(viewModel.theme.color(of: .puzzleBackground, for: bookTheme, in: colorScheme))
-                .background(viewModel.theme.image(for: .puzzleBackground, for: bookTheme)?
-                                .resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
-                .onTapGesture{deselect()}
             }
         }
     

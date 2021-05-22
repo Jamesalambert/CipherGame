@@ -57,7 +57,6 @@ struct TilePuzzle: View {
                 
                 LazyVGrid(columns: self.columns(), spacing: 0){
                     ForEach(grid.rows.flatMap{$0.tiles}){ tile in
-                        if tile.id != selectedTile?.id{
                             ZStack{
                                 if grid.isMystery(tile) {
                                     mysteryTile()
@@ -70,26 +69,23 @@ struct TilePuzzle: View {
                                 }
                             }
                             .padding(EdgeInsets.sized(horizontally: 2, vertically: 2))
-                                .onTapGesture {
-                                    withAnimation{
-                                        //only the old blank tile can be tapped to reveal the solution image
-                                        if grid.isSolved && tile.content == 1 {
-                                            selectedTile = tile
-                                        } else {
-                                            viewModel.gridTap(tile)
-                                        }
+                            .onTapGesture{
+                                withAnimation{
+                                    //only the old blank tile can be tapped to reveal the solution image
+                                    if grid.isSolved {
+                                        selectedTile = tile
+                                    } else {
+                                        viewModel.gridTap(tile)
                                     }
                                 }
-                        } else {
-                            //blank tile
-                            ZStack{}
-                        }
+                            }
+                         
                     }
                 }
                 
-                if let selectedTile = selectedTile,
+                if let selectedTile = selectedTile, selectedTile.content == 1,
                    let solvedPuzzleImageName = grid.solutionImageName {
-                    solvedPuzzleImage(for: solvedPuzzleImageName, matchedWith: selectedTile)
+                    solvedPuzzleImage(for: solvedPuzzleImageName, animatedFrom: selectedTile)
                         .transition(.snap)
                         .onTapGesture {
                             withAnimation{
@@ -119,12 +115,12 @@ struct TilePuzzle: View {
     }
     
     @ViewBuilder
-    func solvedPuzzleImage(for solvedPuzzleImageName : String, matchedWith tile : Tile) -> some View {
+    func solvedPuzzleImage(for solvedPuzzleImageName : String, animatedFrom tile : Tile) -> some View {
         Image(solvedPuzzleImageName)
             .resizable()
             .aspectRatio(1,contentMode: .fit)
-            .matchedGeometryEffect(id: tile, in: self.namespace)
             .cornerRadius(TilePuzzle.tileCornerRadius)
+            .matchedGeometryEffect(id: tile, in: self.namespace)
             .frame(width: self.tileWidth * CGFloat(grid.size), height: self.tileWidth * CGFloat(grid.size))
     }
     
@@ -144,8 +140,8 @@ struct TilePuzzle: View {
                 ZStack{}
             }
         }
-        .frame(width: (grid.solutionType == .rows ? 1.2 : 1.0) * tileWidth * CGFloat(grid.size),
-               height: (grid.solutionType == .columns ? 1.2 : 1.0) * tileWidth * CGFloat(grid.size))
+        .frame(width:   (grid.solutionType == .rows ? 1.2 : 1.0) * tileWidth * CGFloat(grid.size),
+               height:  (grid.solutionType == .columns ? 1.2 : 1.0) * tileWidth * CGFloat(grid.size))
     }
     
     private

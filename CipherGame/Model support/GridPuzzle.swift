@@ -30,9 +30,9 @@ struct GridPuzzle : Codable {
         return self.isHidden(tile) && !tile.canBeEnabled
     }
     
-    func isTappable(_ tile : Tile) -> Bool{
-        return self.isHidden(tile) && tile.canBeEnabled
-    }
+//    func isTappable(_ tile : Tile) -> Bool{
+//        return self.isHidden(tile) && tile.canBeEnabled
+//    }
     
     func isEmpty(_ tile : Tile) -> Bool {
         return tile.content == 1 && !self.isSolved
