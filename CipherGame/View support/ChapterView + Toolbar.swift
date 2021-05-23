@@ -13,9 +13,7 @@ extension ContentView.ChapterViewer {
     private
     func printCipherPage() {
         
-        withAnimation{
-            self.printing = true
-        }
+        withAnimation{self.printing = true}
         
         let formatter = UIMarkupTextPrintFormatter(markupText: viewModel.printableHTML)
 
@@ -29,47 +27,42 @@ extension ContentView.ChapterViewer {
         printController.printFormatter = formatter
         
         printController.present(animated: true){_,_,_ in
-            withAnimation{
-                self.printing = false
-            }
+            withAnimation{self.printing = false}
         }
     }
     
     
     @ToolbarContentBuilder
-    func toolbarView() -> some ToolbarContent {
+    func cipherPuzzletoolbar() -> some ToolbarContent {
         
             ToolbarItem(placement: .navigationBarTrailing){
                 Menu{
-                    if viewModel.currentPuzzleHash != nil {
-                        if !viewModel.isSolved {
-                            
-                            #if DEBUG
-                            Button("solve!"){
-                                withAnimation{
-                                    while !viewModel.isSolved {
-                                        viewModel.quickHint()
-                                    }
+                    if !viewModel.isSolved {
+                        
+                        #if DEBUG
+                        Button("solve!"){
+                            withAnimation{
+                                while !viewModel.isSolved {
+                                    viewModel.quickHint()
                                 }
                             }
-                            #endif
-                            
-                            if !viewModel.isSolved{
+                        }
+                        #endif
+                        
+                        if !viewModel.isSolved{
                             Picker("difficulty", selection: $viewModel.difficultyLevel){
                                 Text("easy").tag(UInt(0))
                                 Text("medium").tag(UInt(1))
                                 Text("hard").tag(UInt(2))
                             }
-                            
-                            
-                                Button("quick hint"){
-                                    withAnimation{
-                                        viewModel.quickHint()
-                                    }
+                            Button("quick hint"){
+                                withAnimation{
+                                    viewModel.quickHint()
                                 }
                             }
                         }
                     }
+                    
                     #if DEBUG
                     Button{
                         Debug.animation.toggle()
@@ -79,13 +72,12 @@ extension ContentView.ChapterViewer {
                         }
                     }
                     #endif
+                    
                     Button("reset puzzle"){
                         withAnimation{
                             resetPuzzle()
                         }
                     }
-                    
-                    
                 } label: {
                     Label("difficulty", systemImage: "dial")
                 }
@@ -109,5 +101,34 @@ extension ContentView.ChapterViewer {
                     Label("print", systemImage: self.printing ? "printer.fill" : "printer")
                 })
             }
+        
+    }
+    
+    
+    @ToolbarContentBuilder
+    func gridPuzzleToolbar() -> some ToolbarContent {
+        
+        ToolbarItem(placement: .navigationBarTrailing){
+                
+            Menu{
+                #if DEBUG
+                Button{
+                    Debug.animation.toggle()
+                } label: {
+                    HStack{
+                        Text(Debug.animation ? "Debug animations off" : "Debug animations on")
+                    }
+                }
+                #endif
+                
+                Button("reset puzzle"){
+                    withAnimation{
+                        resetPuzzle()
+                    }
+                }
+            } label: {
+                Label("settings", systemImage: "dial")
+            }
+        }
     }
 }

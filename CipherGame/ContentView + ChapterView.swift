@@ -67,6 +67,7 @@ extension ContentView {
                                     Spacer(minLength : 50)
                                     cipherPuzzleListView(with: geometry)
                                         .id(viewModel.currentPuzzleHash)
+                                        .toolbar(content: cipherPuzzletoolbar)
                                     
                                     if viewModel.isSolved {
                                         riddleOptions(with: geometry)
@@ -81,7 +82,7 @@ extension ContentView {
                             .zIndex(0)
                         } else if let currentChapterGridPuzzle = viewModel.currentChapterGridPuzzle {
                             TilePuzzle(grid: currentChapterGridPuzzle, screenSize: geometry.size)
-                                
+                                .toolbar(content: gridPuzzleToolbar)
                         }
                         Spacer(minLength: 50)
                     }
@@ -97,7 +98,7 @@ extension ContentView {
                             .transition(.move(edge: .bottom))
                     }
                 }
-                .toolbar(content: toolbarView)
+                
             }
         }
     
