@@ -43,7 +43,7 @@ struct TilePuzzle: View {
         VStack{
             if grid.isSolved{
                 Button("play again"){
-                    withAnimation{
+                    withAnimation(.standardUI){
                         viewModel.reset(grid: grid)
                     }
                 }
@@ -70,7 +70,7 @@ struct TilePuzzle: View {
                         }
                         .padding(EdgeInsets.sized(horizontally: 2, vertically: 2))
                         .onTapGesture{
-                            withAnimation{
+                            withAnimation(.standardUI){
                                 //only the old blank tile can be tapped to reveal the solution image
                                 if grid.isSolved {
                                     selectedTile = tile
@@ -87,7 +87,7 @@ struct TilePuzzle: View {
                     solvedPuzzleImage(for: solvedPuzzleImageName, animatedFrom: selectedTile)
                         .transition(.snap)
                         .onTapGesture {
-                            withAnimation{
+                            withAnimation(.standardUI){
                                 self.selectedTile = nil
                             }
                         }
@@ -249,37 +249,3 @@ extension UIImage {
 }
 
 
-struct Snap : AnimatableModifier {
-    var animatableData: Double
-    func body(content: Content) -> some View {
-        content.opacity(1)
-    }
-}
-
-
-struct Flip : AnimatableModifier {
-    var animatableData: Double {
-        get {rotation / 180}
-        set {rotation = newValue * 180}
-    }
-    var rotation : Double
-    func body(content: Content) -> some View {
-        content.rotation3DEffect(Angle(degrees: rotation), axis: (0,1,0))
-    }
-}
-
-extension AnyTransition{
-    static var flip : AnyTransition {
-        AnyTransition.modifier(
-            active: Flip(rotation: 0),
-            identity: Flip(rotation: 180))
-    }
-}
-
-extension AnyTransition{
-    static var snap : AnyTransition {
-        AnyTransition.modifier(
-            active: Snap(animatableData: 0),
-            identity: Snap(animatableData: 1))
-    }
-}

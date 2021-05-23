@@ -138,3 +138,19 @@ extension Font.Design {
     }
 }
 
+extension EdgeInsets {
+    static
+    func zero() -> EdgeInsets {
+        return EdgeInsets(top: 0.0, leading: 0.0, bottom: 0.0, trailing: 0.0)
+    }
+    
+    static
+    func sized(horizontally width : CGFloat? = 0, vertically height : CGFloat? = 0) -> EdgeInsets {
+        return EdgeInsets(top: height ?? 0, leading: width ?? 0, bottom: height ?? 0, trailing: width ?? 0)
+    }
+    
+    static
+    func sized(leading : CGFloat? = 0, trailing : CGFloat? = 0, top : CGFloat? = 0 , bottom : CGFloat? = 0) -> EdgeInsets{
+        return EdgeInsets(top: top ?? 0, leading: leading ?? 0, bottom: bottom ?? 0, trailing: trailing ?? 0)
+    }
+}

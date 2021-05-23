@@ -211,7 +211,12 @@ class CipherPuzzle : ObservableObject {
     }
     
     func reset() -> Void{
-        model.reset(currentPuzzleHash!)
+        //if cipher puzzle
+        if let currentPuzzleHash = currentPuzzleHash{
+            model.reset(currentPuzzleHash)
+        } else if let currentGrid = currentChapterGridPuzzle {
+            reset(grid: currentGrid)
+        }
     }
     
     

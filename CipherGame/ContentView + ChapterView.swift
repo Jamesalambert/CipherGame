@@ -67,8 +67,6 @@ extension ContentView {
                                     Spacer(minLength : 50)
                                     cipherPuzzleListView(with: geometry)
                                         .id(viewModel.currentPuzzleHash)
-                                        .padding()
-                                        .toolbar(content: toolbarView)
                                     
                                     if viewModel.isSolved {
                                         riddleOptions(with: geometry)
@@ -95,31 +93,34 @@ extension ContentView {
                     
                     if viewModel.currentPuzzleHash != nil {
                         keyboardAndLettercount(for: geometry)
-                            .zIndex(1) //without this the keyboard doesnt animate as it hides
+                            .zIndex(1) //without this the keyboard doesn't animate as it hides
                             .transition(.move(edge: .bottom))
                     }
                 }
+                .toolbar(content: toolbarView)
             }
         }
     
         
         @ViewBuilder
         func cipherPuzzleListView(with geometry : GeometryProxy) -> some View {
-            VStack(alignment: .center){
+            VStack{
                 Spacer()
                 Text(viewModel.puzzleTitle)
                     .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
                     .font(viewModel.theme.font(for: .largeTitle, for: bookTheme))
                 Spacer(minLength: 50)
                 paragraph(text: viewModel.header)
-                    .padding(EdgeInsets.sized(horizontally: geometry.size.width/7,
-                                              vertically: 0))
+                    .padding(EdgeInsets.sized(horizontally: geometry.size.width/7))
                 Spacer(minLength: 50)
                 
                 LazyVStack(alignment: .leading){
                     ForEach(viewModel.puzzleLines(charsPerLine: Int(geometry.size.width / Self.characterWidth))){ puzzleLine in
-                        HStack(alignment: .bottom, spacing: 20){
+                        HStack(alignment: .bottom){
                             Text(String(puzzleLine.id))
+                                .frame(alignment:.leading)
+                                .fixedSize()
+                                .lineLimit(1)
                                 .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
                             HStack{
                                 ForEach(puzzleLine.characters){ character in
@@ -136,15 +137,14 @@ extension ContentView {
                                         .foregroundColor(viewModel.theme.color(of: .puzzleLines,
                                                                                for: bookTheme, in: colorScheme)),
                                     alignment: .bottom )
-                        }
+                        }//.background(Color.red)
                     }
                 }
-                .padding(EdgeInsets.sized(horizontally: geometry.size.width/9, vertically: 0))
-
+//                .background(Color.blue)
+                .padding(EdgeInsets.sized(horizontally: UIDevice.current.userInterfaceIdiom == .pad ? geometry.size.width/7 : 10))
                 Spacer(minLength: 50)
                 paragraph(text: viewModel.footer)
-                    .padding(EdgeInsets.sized(horizontally: geometry.size.width/7,
-                                              vertically: 0))
+                    .padding(EdgeInsets.sized(horizontally: geometry.size.width/7))
             }
         }
         
@@ -219,21 +219,6 @@ extension EnvironmentValues {
     }
 }
 
-extension EdgeInsets {
-    static
-    func zero() -> EdgeInsets {
-        return EdgeInsets(top: 0.0, leading: 0.0, bottom: 0.0, trailing: 0.0)
-    }
-    
-    static
-    func sized(horizontally width : CGFloat, vertically height : CGFloat) -> EdgeInsets {
-        return EdgeInsets(top: height, leading: width, bottom: height, trailing: width)
-    }
-    
-    static
-    func sized(leading : CGFloat? = 0, trailing : CGFloat? = 0, top : CGFloat? = 0 , bottom : CGFloat? = 0) -> EdgeInsets{
-        return EdgeInsets(top: top ?? 0, leading: leading ?? 0, bottom: bottom ?? 0, trailing: trailing ?? 0)
-    }
-}
+
 
 

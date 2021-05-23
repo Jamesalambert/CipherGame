@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    //private
+    var debugAnimation : Bool = false
         
     @StateObject
     var viewModel : CipherPuzzle
@@ -46,8 +49,7 @@ struct ContentView: View {
                             NavigationLink(destination: NavigationLazyView(
                                             ChapterViewer(showLetterCount: $showLetterCount)
                                                 .environment(\.bookTheme, book.theme)
-                                                .navigationBarTitle("\(chapter.title)", displayMode: .inline))
-                                           ,
+                                                .navigationBarTitle("\(chapter.title)", displayMode: .inline)),
                                            tag: chapter.id,
                                            selection: $viewModel.currentChapterHash){
                                 chapterEntry(for: chapter, in: book)
@@ -55,10 +57,9 @@ struct ContentView: View {
                         }
                     }
                 }
-                Button("More Books"){
-                    isShowingIAP = true
-                }
-            }.navigationTitle("Puzzle Rooms")
+                Button("More Books"){isShowingIAP = true}
+            }
+            .navigationTitle("Puzzle Rooms")
             .listStyle(GroupedListStyle())
             .toolbar{toolbar()}
         }

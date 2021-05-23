@@ -19,7 +19,7 @@ class ThemeManager {
         return Self.theme(for: themeName).size(SizeContext(shape: shape))
     }
     
-    func time(for animation: Animation, for themeName : BookTheme) -> Double? {
+    func time(for animation: ThemeAnimation, for themeName : BookTheme) -> Double? {
         return Self.theme(for: themeName).time(TimeContext(animation: animation))
     }
     
@@ -145,7 +145,7 @@ class ThemeManager {
     }
 
     struct TimeContext : Hashable {
-        var animation : Animation
+        var animation : ThemeAnimation
     }
 
     struct FontContext : Hashable {
@@ -180,7 +180,7 @@ enum ThemeShape {
     case puzzlePadding
 }
 
-enum Animation{
+enum ThemeAnimation{
     case text
 }
 

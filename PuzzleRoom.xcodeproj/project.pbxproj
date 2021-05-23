@@ -21,6 +21,7 @@
 		AA5DCE3326484DDF005D2B14 /* GridPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5DCE3226484DDF005D2B14 /* GridPuzzle.swift */; };
 		AA5DCE35264AE5E9005D2B14 /* ChapterView + CharacterPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5DCE34264AE5E9005D2B14 /* ChapterView + CharacterPair.swift */; };
 		AA7D415B2627986600E1558C /* Lucida Console.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA7D415A2627986600E1558C /* Lucida Console.ttf */; };
+		AA86CC69265AFED9001C6E04 /* Custom Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA86CC68265AFED8001C6E04 /* Custom Animation.swift */; };
 		AA8F640C26053E2E005B148F /* UITextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F640B26053E2E005B148F /* UITextFieldView.swift */; };
 		AA93855D2639FD7B00051BC6 /* ChapterView + Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93855C2639FD7A00051BC6 /* ChapterView + Views.swift */; };
 		AA938562263CB72300051BC6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA938561263CB72300051BC6 /* StoreKit.framework */; };
@@ -80,6 +81,7 @@
 		AA5DCE3226484DDF005D2B14 /* GridPuzzle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridPuzzle.swift; sourceTree = "<group>"; };
 		AA5DCE34264AE5E9005D2B14 /* ChapterView + CharacterPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChapterView + CharacterPair.swift"; sourceTree = "<group>"; };
 		AA7D415A2627986600E1558C /* Lucida Console.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lucida Console.ttf"; sourceTree = "<group>"; };
+		AA86CC68265AFED8001C6E04 /* Custom Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Custom Animation.swift"; sourceTree = "<group>"; };
 		AA8F640B26053E2E005B148F /* UITextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldView.swift; sourceTree = "<group>"; };
 		AA93855C2639FD7A00051BC6 /* ChapterView + Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChapterView + Views.swift"; sourceTree = "<group>"; };
 		AA938561263CB72300051BC6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -181,6 +183,7 @@
 				AAE9CE49262E3A86001B9E87 /* ChapterView + Toolbar.swift */,
 				AAE55ABB261FBDAC0019407E /* ContentView + Blur.swift */,
 				AADEE3592645AB7F00C3107A /* TilePuzzle.swift */,
+				AA86CC68265AFED8001C6E04 /* Custom Animation.swift */,
 			);
 			path = "View support";
 			sourceTree = "<group>";
@@ -447,6 +450,7 @@
 				AA5DCE35264AE5E9005D2B14 /* ChapterView + CharacterPair.swift in Sources */,
 				AA3ED4472611493300B25B4A /* ContentView + letter count.swift in Sources */,
 				AADB10DD2644657F00089D8B /* PuzzleThemes + Space.swift in Sources */,
+				AA86CC69265AFED9001C6E04 /* Custom Animation.swift in Sources */,
 				AAE55ADF2624E4220019407E /* PuzzleThemes.swift in Sources */,
 				AAE9CE4A262E3A86001B9E87 /* ChapterView + Toolbar.swift in Sources */,
 				AA8F640C26053E2E005B148F /* UITextFieldView.swift in Sources */,

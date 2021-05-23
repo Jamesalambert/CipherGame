@@ -86,9 +86,7 @@ extension ContentView {
                         .foregroundColor(viewModel.theme.color(of: .plaintext,
                                                                for: bookTheme, in: colorScheme))
                         .font(viewModel.theme.font(for: .title, item: .plaintext, for: bookTheme))
-                        
                 }
-                
             }
             .padding(.top)
             .foregroundColor(foregroundColor(for: colorScheme))
