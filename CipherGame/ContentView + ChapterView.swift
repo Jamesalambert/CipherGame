@@ -95,6 +95,8 @@ extension ContentView {
                     
                     if viewModel.currentPuzzleHash != nil {
                         keyboardAndLettercount(for: geometry)
+                            .zIndex(1) //without this the keyboard doesnt animate as it hides
+                            .transition(.move(edge: .bottom))
                     }
                 }
             }
@@ -167,7 +169,6 @@ extension ContentView {
                         .frame(height: showLetterCount ? Self.letterCountHeight : 30)
                 }
             }
-            .transition(.move(edge: .bottom))
             .background(Blur(style: viewModel.theme.blurStyle(for: bookTheme, in: colorScheme)))
             .cornerRadius(Self.viewCornerRadius)
         }
@@ -194,9 +195,11 @@ extension ContentView {
         
         private
         func deselect() {
-            self.viewModel.currentCiphertextCharacter = nil
+            withAnimation{
+                self.viewModel.currentCiphertextCharacter = nil
+                self.displayPhoneLetterPicker = false
+            }
         }
-        
     }
 }
 

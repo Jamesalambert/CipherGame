@@ -39,7 +39,7 @@ struct TilePuzzle: View {
     var selectedTile : Tile?
     
     var body: some View {
-        
+
         VStack{
             if grid.isSolved{
                 Button("play again"){
@@ -49,7 +49,7 @@ struct TilePuzzle: View {
                 }
                 .transition(.scale)
             }
-        
+
             ZStack{
                     tilePuzzleBackground()
                         .opacity(grid.isSolved || grid.solutionType == .all ? 0 : 0.3)
@@ -57,29 +57,28 @@ struct TilePuzzle: View {
                 
                 LazyVGrid(columns: self.columns(), spacing: 0){
                     ForEach(grid.rows.flatMap{$0.tiles}){ tile in
-                            ZStack{
-                                if grid.isMystery(tile) {
-                                    mysteryTile()
-                                } else if grid.isEmpty(tile) {
-                                    ZStack{}
+                        ZStack{
+                            if grid.isMystery(tile) {
+                                mysteryTile()
+                            } else if grid.isEmpty(tile) {
+                                ZStack{}
+                            } else {
+                                RoundedRectangle(cornerRadius: Self.tileCornerRadius)
+                                    .modifier(TileModifier(tile: tile, grid: grid))
+                                    .matchedGeometryEffect(id: tile, in: namespace)
+                            }
+                        }
+                        .padding(EdgeInsets.sized(horizontally: 2, vertically: 2))
+                        .onTapGesture{
+                            withAnimation{
+                                //only the old blank tile can be tapped to reveal the solution image
+                                if grid.isSolved {
+                                    selectedTile = tile
                                 } else {
-                                    RoundedRectangle(cornerRadius: Self.tileCornerRadius)
-                                        .modifier(TileModifier(tile: tile, grid: grid))
-                                        .matchedGeometryEffect(id: tile, in: namespace)
+                                    viewModel.gridTap(tile)
                                 }
                             }
-                            .padding(EdgeInsets.sized(horizontally: 2, vertically: 2))
-                            .onTapGesture{
-                                withAnimation{
-                                    //only the old blank tile can be tapped to reveal the solution image
-                                    if grid.isSolved {
-                                        selectedTile = tile
-                                    } else {
-                                        viewModel.gridTap(tile)
-                                    }
-                                }
-                            }
-                         
+                        }
                     }
                 }
                 
@@ -96,8 +95,6 @@ struct TilePuzzle: View {
                 }
             }
         }
-        
-        
     }
     
     
@@ -232,7 +229,6 @@ struct TilePuzzle: View {
         init(tile : Tile, grid : GridPuzzle){
             self.tile = tile
             self.grid = grid
-            
             self.rotation = grid.isFaceUp(tile) ? 0 : 180
         }
     }
