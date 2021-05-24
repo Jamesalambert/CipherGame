@@ -12,6 +12,9 @@ extension CipherPuzzle{
     static let charsPerPrintedLine = 40
     
     var printableHTML : String {
+        
+        guard let currentCipherPuzzle = currentCipherPuzzle else {return ""}
+        
         let puzzleLines = self.puzzleLines(charsPerLine: Self.charsPerPrintedLine)
         
         var cipherChars : [[String]] = []
@@ -41,11 +44,11 @@ extension CipherPuzzle{
         output += "<html>\n"
         output += Self.cssStyling.replacingOccurrences(of: "@@@", with: self.fontDesign.cssName())
         
-        output += "\n<h1>\(String(self.puzzleTitle.capitalized))</h1>\n"
+        output += "\n<h1>\(String(currentCipherPuzzle.title.capitalized))</h1>\n"
         
         output += HTMLletterCountTable
         
-        output += "<p class='text'>" + self.header + "</p>"
+        output += "<p class='text'>" + currentCipherPuzzle.header + "</p>"
         
         output += "\n<table id='ciphertext'>\n"
         
@@ -54,7 +57,7 @@ extension CipherPuzzle{
         }
         output += "\n</table>\n"
 
-        output += "<p class='text'>" + self.footer + "</p>"
+        output += "<p class='text'>" + currentCipherPuzzle.footer + "</p>"
 
         output += "\n</html>\n"
         

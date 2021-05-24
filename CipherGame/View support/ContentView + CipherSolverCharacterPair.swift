@@ -49,7 +49,6 @@ extension ContentView {
                             } else {
                                 viewModel.currentCiphertextCharacter = cipherTextLetter
                                 viewModel.selectedIndex = indexInTheCipher
-                                
                                 displayTabletLetterPicker = true
                                 wasTapped = true
                             }

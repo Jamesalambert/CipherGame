@@ -27,22 +27,24 @@ extension CipherPuzzle {
    
     func quickHint() -> Void {
         
+        guard let currentCipherPuzzle = currentCipherPuzzle else {return}
+        
         let alphabet = String.alphabet.map{Character(extendedGraphemeClusterLiteral: $0)}
         
         //dict that maps ciphertext to plaintext
-        let plaintextFor = Dictionary(uniqueKeysWithValues: zip(self.keyAlphabet.map{Character(extendedGraphemeClusterLiteral: $0)}, alphabet))
+        let plaintextFor = Dictionary(uniqueKeysWithValues: zip(((currentCipherPuzzle.keyAlphabet.map{Character(extendedGraphemeClusterLiteral: $0)})), alphabet))
 
         //get alphabetically first unguessed cipher char
         guard let firstUnguessedCipherChar = hintFunction[Int(difficultyLevel)]?() else {return}
         
         //get location of first occurance of the ciphertext char
-        guard let indexInCiphertext = self.ciphertext.firstIndex(of: firstUnguessedCipherChar) else {return}
+        guard let indexInCiphertext = currentCipherPuzzle.ciphertext.firstIndex(of: firstUnguessedCipherChar) else {return}
         
         //the answer we'll give to the user
         let hintSolution = plaintextFor[firstUnguessedCipherChar]
         
         //where it will be substituted into the puzzle
-        let hintIndex = self.ciphertext.distance(from: self.ciphertext.startIndex,
+        let hintIndex = currentCipherPuzzle.ciphertext.distance(from: currentCipherPuzzle.ciphertext.startIndex,
                                                                 to: indexInCiphertext)
         
         //update model.
@@ -55,22 +57,26 @@ extension CipherPuzzle {
     
     private
     func easyHintChar() -> Character? {
+        guard let currentCipherPuzzle = currentCipherPuzzle else {return nil}
+        
         //chars that occur in the cipher arranged alphabetically
         let cipherLetters = self.letterCount.filter{$0.count != 0}.sorted(by: {$0.count > $1.count}).map{$0.character}
     
         //get numerically first unguessed cipher char
-        guard let firstUnguessedCipherChar = cipherLetters.first(where: {!userGuesses.keys.contains(String($0))}) else {return nil}
+        guard let firstUnguessedCipherChar = cipherLetters.first(where: {!(currentCipherPuzzle.usersGuesses.keys.contains(String($0)))}) else {return nil}
         
         return firstUnguessedCipherChar
     }
     
     private
     func hardHintChar() -> Character? {
+        guard let currentCipherPuzzle = currentCipherPuzzle else {return nil}
+
         //chars that occur in the cipher arranged alphabetically
         let cipherLetters = self.letterCount.filter{$0.count != 0}.map{$0.character}.sorted(by: {$0 < $1})
     
         //get alphabetically first unguessed cipher char
-        guard let firstUnguessedCipherChar = cipherLetters.first(where: {!userGuesses.keys.contains(String($0))}) else {return nil}
+        guard let firstUnguessedCipherChar = cipherLetters.first(where: {!currentCipherPuzzle.usersGuesses.keys.contains(String($0))}) else {return nil}
         
         return firstUnguessedCipherChar
     }
@@ -99,9 +105,11 @@ extension CipherPuzzle {
     private
     func hardGameInfo(for ciphertext : Character, at index: Int) -> GameInfo? {
         
+        guard let currentCipherPuzzle = currentCipherPuzzle else {return nil}
+        
         var mediumLevel = mediumGameInfo(for: ciphertext, at: index)
         
-        if let guessIndices = guessIndices[String(ciphertext)] {
+        if let guessIndices = currentCipherPuzzle.guessIndices[String(ciphertext)] {
             if guessIndices.containsItem(within: 20, of: index){
                 return mediumLevel
             }

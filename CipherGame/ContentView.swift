@@ -24,15 +24,14 @@ struct ContentView: View {
     @Environment(\.scenePhase)
     var scenePhase : ScenePhase
     
+    @Namespace
+    var namespace
+    
     let saveAction : () -> Void
     
     @State
     private
     var deletingLessons : Bool = false
-    
-    @State
-    private
-    var showLetterCount : Bool = true
     
     @State
     var isShowingIAP : Bool = false
@@ -47,7 +46,8 @@ struct ContentView: View {
                         
                         ForEach(book.chapters){ chapter in
                             NavigationLink(destination: NavigationLazyView(
-                                            ChapterViewer(showLetterCount: $showLetterCount)
+                                            ChapterViewer(cipherPuzzle: viewModel.displayedCipherPuzzle,
+                                                          gridPuzzle: viewModel.currentChapterGridPuzzle)
                                                 .environment(\.bookTheme, book.theme)
                                                 .navigationBarTitle("\(chapter.title)", displayMode: .inline)),
                                            tag: chapter.id,

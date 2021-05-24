@@ -117,9 +117,20 @@ extension String {
         }
         return result.map{String($0)}
     }
-    
-    
 }
+
+
+extension Array {
+    func asLines(of length : Int) -> [[Element]] {
+        
+        if self.count <= length {
+            return [self]
+        } else {
+            return [Array(self[0..<length])] + Array(self.dropFirst(length)).asLines(of: length)
+        }
+    }
+}
+
 
 extension Font.Design {
     func cssName() -> String {

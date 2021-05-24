@@ -58,6 +58,15 @@ struct Game : Codable {
     }
     
     mutating
+    func solveCipher(_ puzzleID : UUID){
+        guard let currentPuzzleIndexPath = self.indexPath(forPuzzle: puzzleID) else {return}
+        let bookIndex = currentPuzzleIndexPath.bookIndex
+        let chapterIndex = currentPuzzleIndexPath.chapterIndex
+        let puzzleIndex = currentPuzzleIndexPath.puzzleIndex
+        books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].solve()
+    }
+    
+    mutating
     func updateUsersGuesses(cipherCharacter : Character,
                             plaintextCharacter : Character?,
                             for puzzleID : UUID,
@@ -280,6 +289,13 @@ struct Puzzle : Hashable, Codable, Identifiable{
     var usersGuesses : [String : String] = Dictionary()
     var guessIndices : [String : Set<Int>] = Dictionary()
     var letterCount : [String : Int]
+    
+    mutating
+    func solve(){
+        let key = keyAlphabet.map{String($0)}
+        let alphabet = String.alphabet.map({String($0)})
+        usersGuesses = Dictionary(uniqueKeysWithValues: zip(key,alphabet))
+    }
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)

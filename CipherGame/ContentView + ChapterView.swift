@@ -25,11 +25,13 @@ extension ContentView {
         
         @Environment(\.bookTheme)
         var bookTheme : BookTheme
-                
+        
         @State
+        private
         var displayPhoneLetterPicker : Bool = false
         
         @State
+        private
         var displayTabletLetterPicker : Bool = false
         
         @State
@@ -39,8 +41,12 @@ extension ContentView {
         @State
         var printing : Bool = false
         
-        @Binding
-        var showLetterCount : Bool
+        @State
+        private
+        var showLetterCount : Bool = true
+        
+        var cipherPuzzle : DisplayedCipherPuzzle?
+        var gridPuzzle : GridPuzzle?
         
         private
         var dismissPhoneKeyboard : some Gesture {
@@ -61,20 +67,13 @@ extension ContentView {
                         puzzleChooser(for: geometry)
                         Spacer()
                         
-                        if viewModel.currentPuzzleHash != nil {
+                        if let cipherPuzzle = cipherPuzzle {
                             ScrollView(.vertical){
                                 VStack{
                                     Spacer(minLength : 50)
-                                    cipherPuzzleListView(with: geometry)
-                                        .id(viewModel.currentPuzzleHash)
-                                        .toolbar(content: cipherPuzzletoolbar)
-                                    
-                                    if viewModel.isSolved {
-                                        riddleOptions(with: geometry)
-                                            .id(viewModel.currentPuzzleHash)
-                                            .transition(.scale)
-                                        Spacer(minLength: 250)
-                                    }
+                                    cipherPuzzleListView(cipherPuzzle, with: geometry)
+                                        .id(cipherPuzzle.id)
+                                        .toolbar(content: {cipherPuzzletoolbar(cipherPuzzle)})
                                 }
                                 .background(viewModel.theme.image(for: .puzzlePaper, for: bookTheme)?
                                                 .resizable(capInsets: EdgeInsets.zero(), resizingMode: .tile))
@@ -104,19 +103,20 @@ extension ContentView {
     
         
         @ViewBuilder
-        func cipherPuzzleListView(with geometry : GeometryProxy) -> some View {
+        func cipherPuzzleListView(_ cipherPuzzle : DisplayedCipherPuzzle, with geometry : GeometryProxy) -> some View {
             VStack{
                 Spacer()
-                Text(viewModel.puzzleTitle)
+                
+                Text(cipherPuzzle.title)
                     .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
                     .font(viewModel.theme.font(for: .largeTitle, for: bookTheme))
-                Spacer(minLength: 50)
-                paragraph(text: viewModel.header)
+
+                paragraph(text: cipherPuzzle.header)
                     .padding(EdgeInsets.sized(horizontally: geometry.size.width/7))
-                Spacer(minLength: 50)
+                
                 
                 LazyVStack(alignment: .leading){
-                    ForEach(viewModel.puzzleLines(charsPerLine: Int(geometry.size.width / Self.characterWidth))){ puzzleLine in
+                    ForEach(enumeratedLines(from: cipherPuzzle.puzzleCharacters, charsPerLine: Int(geometry.size.width / Self.characterWidth) )){ puzzleLine in
                         HStack(alignment: .bottom){
                             Text(String(puzzleLine.id))
                                 .frame(alignment:.leading)
@@ -124,13 +124,13 @@ extension ContentView {
                                 .lineLimit(1)
                                 .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
                             HStack{
-                                ForEach(puzzleLine.characters){ character in
+                                ForEach(puzzleLine.characters){ characterPair in
                                     CipherSolverCharacterPair(
                                         displayPhoneLetterPicker: $displayPhoneLetterPicker,
                                         displayTabletLetterPicker: $displayTabletLetterPicker,
-                                        cipherTextLetter: character.cipherLetter,
-                                        plainTextLetter: character.userGuessLetter,
-                                        indexInTheCipher: character.id)
+                                        cipherTextLetter: characterPair.cipherLetter,
+                                        plainTextLetter: characterPair.userGuessLetter,
+                                        indexInTheCipher: characterPair.id)
                                 }
                             }
                             .overlay(Rectangle()
@@ -138,24 +138,25 @@ extension ContentView {
                                         .foregroundColor(viewModel.theme.color(of: .puzzleLines,
                                                                                for: bookTheme, in: colorScheme)),
                                     alignment: .bottom )
-                        }//.background(Color.red)
+                        }
                     }
                 }
-//                .background(Color.blue)
                 .padding(EdgeInsets.sized(horizontally: UIDevice.current.userInterfaceIdiom == .pad ? geometry.size.width/7 : 10))
-                Spacer(minLength: 50)
-                paragraph(text: viewModel.footer)
+
+                paragraph(text: cipherPuzzle.footer)
                     .padding(EdgeInsets.sized(horizontally: geometry.size.width/7))
             }
         }
         
         @ViewBuilder
         func paragraph(text : String) -> some View{
+            Spacer(minLength: 50)
             Text(text)
                 .fixedSize(horizontal: false, vertical: true)
                 .lineSpacing(Self.bodyLineSpacing)
                 .font(viewModel.theme.font(for: .body, for: bookTheme))
                 .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
+            Spacer(minLength: 50)
         }
 
         @ViewBuilder
@@ -173,6 +174,13 @@ extension ContentView {
             .background(Blur(style: viewModel.theme.blurStyle(for: bookTheme, in: colorScheme)))
             .cornerRadius(Self.viewCornerRadius)
         }
+        
+        private
+        func enumeratedLines(from puzzleData : [GameInfo], charsPerLine : Int) -> [PuzzleLine]{
+            let lines = puzzleData.asLines(of: charsPerLine)
+            return lines.enumerated().map{(lineNumber, line) in PuzzleLine(id: lineNumber, characters: line)}
+        }
+        
         
         private
         func columns(screenWidth : CGFloat) -> [GridItem] {

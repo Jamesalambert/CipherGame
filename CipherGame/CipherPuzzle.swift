@@ -52,6 +52,11 @@ class CipherPuzzle : ObservableObject {
         return currentChapter?.gridPuzzle
     }
     
+    var displayedCipherPuzzle : DisplayedCipherPuzzle? {
+        return DisplayedCipherPuzzle(currentCipherPuzzle,
+                                     puzzleCharacters: gameInfo(from: currentCipherPuzzle))
+    }
+    
     @Published
     var currentGridPuzzleHash : UUID?{
         didSet{
@@ -89,56 +94,8 @@ class CipherPuzzle : ObservableObject {
     
     @Published
     var characterCount : [CharacterCount] = []    
-    //MARK:- public computed properties
-    
-    var puzzleTitle : String {
-        return currentPuzzle.title
-    }
-    
-    var header : String {
-        return currentPuzzle.header
-    }
-    
-    var ciphertext : String {
-        return currentPuzzle.ciphertext
-    }
-    
-    var footer : String {
-        return currentPuzzle.footer
-    }
-    
-    var keyAlphabet : String {
-        return currentPuzzle.keyAlphabet
-    }
-    
-    var userGuesses : [String : String] {
-        return currentPuzzle.usersGuesses
-    }
-    
-    var guessIndices : [String: Set<Int>] {
-        return currentPuzzle.guessIndices
-    }
-    
-    var isSolved : Bool {
-        return currentPuzzle.isSolved
-    }
-    
-    var riddleAnswers : [String] {
-        return currentPuzzle.riddleAnswers
-    }
-    
-    var riddle : String {
-        return currentPuzzle.riddle
-    }
-    
-    var riddleKey : String {
-        return currentPuzzle.riddleKey
-    }
-    
-    var userRiddleAnswers : [String] {
-        return currentPuzzle.userRiddleAnswers
-    }
-    
+
+
     var installedBooks : [Book] {
         let books = model.books
         if showLessons {
@@ -167,7 +124,7 @@ class CipherPuzzle : ObservableObject {
         }
     }
     
-    //MARK:- private
+    //MARK:-
     private
     var currentPuzzle : Puzzle {
         guard let currentPuzzleHash = self.currentPuzzleHash else {
@@ -179,6 +136,11 @@ class CipherPuzzle : ObservableObject {
         guard let currentPuzzle = puzzles.first(where: {$0.id == currentPuzzleHash}) else {
             return Puzzle(title: "B", plaintext: "B",header: "B", footer: "B", keyAlphabet: "b", riddle: "?", riddleAnswers: [], riddleKey: "", id: UUID())}
         return currentPuzzle
+    }
+    
+    
+    var currentCipherPuzzle : Puzzle? {
+        return currentChapter?.puzzles.first(where: {$0.id == currentPuzzleHash})
     }
     
     private
@@ -223,6 +185,11 @@ class CipherPuzzle : ObservableObject {
     func reset(grid : GridPuzzle){
         model.shuffle(grid)
     }
+    
+    //for debugging
+    func solveCipher(_ puzzleID : UUID){
+        model.solveCipher(puzzleID)
+    }
 
     //MARK:-
     
@@ -250,6 +217,13 @@ class CipherPuzzle : ObservableObject {
             return PuzzleLine(id: ciphertextLineNumber, characters: puzzleLine)
         }
         return gameLines
+    }
+    
+    func gameInfo(from puzzle : Puzzle?) -> [GameInfo]{
+        guard let puzzle = puzzle else {return []}
+        return puzzle.ciphertext.enumerated().compactMap{(index, char) in
+            return gameRules[Int(difficultyLevel)]?(char,index)
+        }
     }
     
     func plaintext(for ciphertext : Character) -> Character?{
@@ -284,4 +258,24 @@ struct CharacterCount : Identifiable {
     }
     var character : Character
     var count : Int
+}
+
+
+struct DisplayedCipherPuzzle {
+    let title: String
+    let header: String
+    let footer: String
+    let puzzleCharacters : [GameInfo]
+    let isSolved : Bool
+    let id : UUID
+
+    init?(_ puzzle : Puzzle?, puzzleCharacters : [GameInfo]){
+        guard let puzzle = puzzle else {return nil}
+        self.title = puzzle.title
+        self.header = puzzle.header
+        self.footer = puzzle.footer
+        self.puzzleCharacters = puzzleCharacters
+        self.isSolved = puzzle.isSolved
+        self.id = puzzle.id
+    }
 }

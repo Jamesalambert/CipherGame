@@ -25,7 +25,7 @@ extension ContentView.ChapterViewer {
                                 )
                         }
                         Spacer()
-                        if let gridPuzzle = viewModel.currentChapterGridPuzzle {
+                        if let gridPuzzle = gridPuzzle {
                             gridPuzzleChooserButton(for: gridPuzzle)
                                 .background(
                                     viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)
@@ -49,8 +49,8 @@ extension ContentView.ChapterViewer {
     @ViewBuilder
     func gridPuzzleChooserButton(for puzzle : GridPuzzle) -> some View {
         Button {
-            withAnimation{
-                viewModel.currentGridPuzzleHash = viewModel.currentChapterGridPuzzle?.id
+            withAnimation(.standardUI){
+                viewModel.currentGridPuzzleHash = puzzle.id
             }
         } label: {
             buttonLabel(titled: "grid puzzle", isSolved: puzzle.isSolved)
@@ -83,100 +83,100 @@ extension ContentView.ChapterViewer {
         .padding(EdgeInsets.sized(horizontally: 10, vertically: 15))
     }
     
-    @ViewBuilder
-    func riddleOptions(with geometry : GeometryProxy) -> some View {
-        if viewModel.riddleAnswers.count > 1 {
-            MultipleChoiceRiddle(geometry: geometry)
-        }
-    }
+//    @ViewBuilder
+//    func riddleOptions(with geometry : GeometryProxy) -> some View {
+//        if viewModel.riddleAnswers.count > 1 {
+//            MultipleChoiceRiddle(geometry: geometry)
+//        }
+//    }
     
-    struct MultipleChoiceRiddle : View {
-        
-        static let viewCornerRadius = CGFloat(10)
-        
-        @EnvironmentObject
-        var viewModel : CipherPuzzle
-        
-        @Environment(\.bookTheme)
-        var bookTheme : BookTheme
-        
-        @Environment(\.colorScheme)
-        var colorScheme : ColorScheme
-        
-        @State
-        private
-        var lastUserChoice : String?
-        
-        var message : String = "Now you have a new puzzle to solve"
-        
-        var geometry : GeometryProxy
-        
-        @State
-        private
-        var typewriterString : String = ""
-        
-        var body: some View {
-            VStack{
-                Text(viewModel.riddle)
-                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
-                Spacer()
-                VStack{
-                    ForEach(viewModel.riddleAnswers, id:\.self){ answer in
-                        Button{
-                            if viewModel.userRiddleAnswers.isEmpty{
-                                typewriter(completion: {
-                                    withAnimation{
-                                        lastUserChoice = answer
-                                        viewModel.add(answer: lastUserChoice!)
-                                    }
-                                })
-                            } else {
-                                withAnimation{
-                                    lastUserChoice = answer
-                                    viewModel.add(answer: lastUserChoice!)
-                                }
-                            }
-                        } label: {
-                            Text(answer)
-                                .foregroundColor(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
-                        }
-                        .padding()
-                        .background(viewModel.theme.color(of: .tappable,
-                                                          for: bookTheme, in: colorScheme)?
-                                        .opacity(lastUserChoice == answer ? 0.3 : 0.1)
-                        )
-                        .cornerRadius(Self.viewCornerRadius)
-                    }
-                }
-                //typewriter text
-                Text(lastUserChoice == nil ? typewriterString : message)
-                    .frame(width: 0.5 * geometry.size.width, alignment: .center)
-                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
-            }
-            .padding()
-            .background(Blur(style: viewModel.theme.blurStyle(for: bookTheme, in: colorScheme)))
-            .cornerRadius(Self.viewCornerRadius)
-            .font(Font.system(.body, design: .monospaced))
-            .onAppear{lastUserChoice = viewModel.userRiddleAnswers.last}
-        }
-        
-        private
-        func typewriter(completion: @escaping () -> Void) {
-            let serialQueue = DispatchQueue(label: "typewriter")
-            for character in message {
-                serialQueue.async{
-                    typewriterString.append(character)
-                    let delay = Double(arc4random_uniform(3)) / 10.0
-                    Thread.sleep(forTimeInterval: delay)
-                }
-            }
-            serialQueue.async {
-                DispatchQueue.main.async {
-                    completion()
-                }
-            }
-        }
-    }
+//    struct MultipleChoiceRiddle : View {
+//        
+//        static let viewCornerRadius = CGFloat(10)
+//        
+//        @EnvironmentObject
+//        var viewModel : CipherPuzzle
+//        
+//        @Environment(\.bookTheme)
+//        var bookTheme : BookTheme
+//        
+//        @Environment(\.colorScheme)
+//        var colorScheme : ColorScheme
+//        
+//        @State
+//        private
+//        var lastUserChoice : String?
+//        
+//        var message : String = "Now you have a new puzzle to solve"
+//        
+//        var geometry : GeometryProxy
+//        
+//        @State
+//        private
+//        var typewriterString : String = ""
+//        
+//        var body: some View {
+//            VStack{
+//                Text(viewModel.riddle)
+//                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
+//                Spacer()
+//                VStack{
+//                    ForEach(viewModel.riddleAnswers, id:\.self){ answer in
+//                        Button{
+//                            if viewModel.userRiddleAnswers.isEmpty{
+//                                typewriter(completion: {
+//                                    withAnimation{
+//                                        lastUserChoice = answer
+//                                        viewModel.add(answer: lastUserChoice!)
+//                                    }
+//                                })
+//                            } else {
+//                                withAnimation{
+//                                    lastUserChoice = answer
+//                                    viewModel.add(answer: lastUserChoice!)
+//                                }
+//                            }
+//                        } label: {
+//                            Text(answer)
+//                                .foregroundColor(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
+//                        }
+//                        .padding()
+//                        .background(viewModel.theme.color(of: .tappable,
+//                                                          for: bookTheme, in: colorScheme)?
+//                                        .opacity(lastUserChoice == answer ? 0.3 : 0.1)
+//                        )
+//                        .cornerRadius(Self.viewCornerRadius)
+//                    }
+//                }
+//                //typewriter text
+//                Text(lastUserChoice == nil ? typewriterString : message)
+//                    .frame(width: 0.5 * geometry.size.width, alignment: .center)
+//                    .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
+//            }
+//            .padding()
+//            .background(Blur(style: viewModel.theme.blurStyle(for: bookTheme, in: colorScheme)))
+//            .cornerRadius(Self.viewCornerRadius)
+//            .font(Font.system(.body, design: .monospaced))
+//            .onAppear{lastUserChoice = viewModel.userRiddleAnswers.last}
+//        }
+//        
+//        private
+//        func typewriter(completion: @escaping () -> Void) {
+//            let serialQueue = DispatchQueue(label: "typewriter")
+//            for character in message {
+//                serialQueue.async{
+//                    typewriterString.append(character)
+//                    let delay = Double(arc4random_uniform(3)) / 10.0
+//                    Thread.sleep(forTimeInterval: delay)
+//                }
+//            }
+//            serialQueue.async {
+//                DispatchQueue.main.async {
+//                    completion()
+//                }
+//            }
+//        }
+//    }
     
     
 

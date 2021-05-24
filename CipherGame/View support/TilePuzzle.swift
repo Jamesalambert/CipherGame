@@ -43,7 +43,8 @@ struct TilePuzzle: View {
         VStack{
             if grid.isSolved{
                 Button("play again"){
-                    withAnimation(.standardUI){
+                    withAnimation{
+                        selectedTile = nil
                         viewModel.reset(grid: grid)
                     }
                 }
@@ -86,6 +87,7 @@ struct TilePuzzle: View {
                    let solvedPuzzleImageName = grid.solutionImageName {
                     solvedPuzzleImage(for: solvedPuzzleImageName, animatedFrom: selectedTile)
                         .transition(.snap)
+                        .animation(.spring)
                         .onTapGesture {
                             withAnimation(.standardUI){
                                 self.selectedTile = nil

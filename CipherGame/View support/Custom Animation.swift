@@ -12,8 +12,8 @@ struct Debug {
 }
 
 extension Animation {
-    static var standardUI: Animation {Debug.animation ? debug : .easeInOut(duration:0.15) }
-    static var debug: Animation {.easeInOut(duration: 3)}
+    static var spring : Animation {.spring(response: Debug.animation ? 3 : 0.3, dampingFraction: 0.5, blendDuration: 0)}
+    static var standardUI: Animation {.easeInOut(duration: Debug.animation ? 3 : 0.15) }
 }
 
 

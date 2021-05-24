@@ -29,7 +29,7 @@ extension ContentView {
             GeometryReader { geometry in
                 VStack(alignment: .center){
                     Button{
-                        withAnimation{
+                        withAnimation(.standardUI){
                             displayLetterCount.toggle()
                         }
                     } label: {
@@ -49,7 +49,9 @@ extension ContentView {
                                         .frame(width: pairCountWidth(for: geometry))
                                         .animation(.easeInOut)
                                         .onTapGesture {
-                                            viewModel.currentCiphertextCharacter = cipherChar
+                                            withAnimation{
+                                                viewModel.currentCiphertextCharacter = cipherChar
+                                            }
                                         }
                             }
                         }

@@ -21,7 +21,7 @@ extension ContentView.ChapterViewer {
 
         let printInfo = UIPrintInfo(dictionary: nil)
         printInfo.outputType = .general
-        printInfo.jobName = viewModel.puzzleTitle
+        //printInfo.jobName = viewModel.puzzleTitle
 
         printController.printInfo = printInfo
         printController.printFormatter = formatter
@@ -33,23 +33,21 @@ extension ContentView.ChapterViewer {
     
     
     @ToolbarContentBuilder
-    func cipherPuzzletoolbar() -> some ToolbarContent {
+    func cipherPuzzletoolbar(_ puzzle : DisplayedCipherPuzzle) -> some ToolbarContent {
         
             ToolbarItem(placement: .navigationBarTrailing){
                 Menu{
-                    if !viewModel.isSolved {
+                    if !puzzle.isSolved {
                         
                         #if DEBUG
                         Button("solve!"){
                             withAnimation{
-                                while !viewModel.isSolved {
-                                    viewModel.quickHint()
-                                }
+                                viewModel.solveCipher(puzzle.id)
                             }
                         }
                         #endif
                         
-                        if !viewModel.isSolved{
+                        if !puzzle.isSolved{
                             Picker("difficulty", selection: $viewModel.difficultyLevel){
                                 Text("easy").tag(UInt(0))
                                 Text("medium").tag(UInt(1))
