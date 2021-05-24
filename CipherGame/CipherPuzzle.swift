@@ -15,17 +15,6 @@ class CipherPuzzle : ObservableObject {
     @Published
     var model : Game
     
-    var visiblePuzzles : [Puzzle] {
-        guard let currentChapter = currentChapter else {return []}
-        let defaultPuzzles = currentChapter.puzzles.filter{puzzle in puzzle.riddleKey.isEmpty}
-        //get unlocked puzzles from model.
-        let userAnswers = model.userAnswers(for: currentChapterHash!)
-        let unlockedPuzzles = userAnswers.compactMap{guessedKey in
-            currentChapter.puzzles.first(where: {$0.riddleKey == guessedKey})
-        }
-        return defaultPuzzles + unlockedPuzzles
-    }
-    
     @Published
     var currentPuzzleHash : UUID?{
         didSet{
@@ -88,13 +77,25 @@ class CipherPuzzle : ObservableObject {
     
     @Published
     var fontDesign : Font.Design = .monospaced
-        
+    
     @Published
     var showLessons : Bool = true
     
     @Published
-    var characterCount : [CharacterCount] = []    
+    var characterCount : [CharacterCount] = []
 
+    var visiblePuzzles : [Puzzle] {
+        guard let currentPuzzles = currentChapter?.puzzles else {return []}
+        
+        var output : [Int] = []
+        
+        for index in 0..<currentPuzzles.count{
+            if index == 0 || currentPuzzles[index - 1].isSolved {
+                output.append(index)
+            }
+        }
+        return output.map{currentPuzzles[currentPuzzles.index(currentPuzzles.startIndex, offsetBy: $0, limitedBy: currentPuzzles.count) ?? 0]}
+    }
 
     var installedBooks : [Book] {
         let books = model.books
@@ -111,9 +112,11 @@ class CipherPuzzle : ObservableObject {
     }
     
     var letterCount : [(character: Character, count: Int)] {
+        guard let currentCipherPuzzle = currentCipherPuzzle else { return [] }
+        
         var output : [(character:Character, count:Int)] = []
-        for keyChar in currentPuzzle.letterCount.keys {
-            output.append((Character(keyChar), currentPuzzle.letterCount[keyChar] ?? 0))
+        for keyChar in currentCipherPuzzle.letterCount.keys {
+            output.append((Character(keyChar), currentCipherPuzzle.letterCount[keyChar] ?? 0))
         }
         return output.sorted {
             if self.difficultyLevel == 0 {
@@ -124,21 +127,7 @@ class CipherPuzzle : ObservableObject {
         }
     }
     
-    //MARK:-
-    private
-    var currentPuzzle : Puzzle {
-        guard let currentPuzzleHash = self.currentPuzzleHash else {
-            return Puzzle(title: "A", plaintext: "A",header: "A", footer: "A", keyAlphabet: "a", riddle: "", riddleAnswers: [], riddleKey: "", id: UUID())}
-        
-        let chapters : [Chapter] = model.books.flatMap{book in book.chapters}
-        let puzzles : [Puzzle] = chapters.flatMap{$0.puzzles}
-        
-        guard let currentPuzzle = puzzles.first(where: {$0.id == currentPuzzleHash}) else {
-            return Puzzle(title: "B", plaintext: "B",header: "B", footer: "B", keyAlphabet: "b", riddle: "?", riddleAnswers: [], riddleKey: "", id: UUID())}
-        return currentPuzzle
-    }
-    
-    
+    //MARK:- State
     var currentCipherPuzzle : Puzzle? {
         return currentChapter?.puzzles.first(where: {$0.id == currentPuzzleHash})
     }
@@ -150,10 +139,6 @@ class CipherPuzzle : ObservableObject {
     }
  
     //MARK:- Intent
-    
-    func add(answer : String){
-        model.add(answer: answer, for: currentPuzzleHash!)
-    }
     
     func guess(_ cipherCharacter : Character, is plainCharacter : Character?,
                at index : Int) {
@@ -199,7 +184,9 @@ class CipherPuzzle : ObservableObject {
     }
 
     func puzzleLines(charsPerLine : Int) -> [PuzzleLine]{
-        let gameLines = currentPuzzle.ciphertext.asLines(of: charsPerLine).enumerated().map { (ciphertextLineNumber, ciphertextLine) -> PuzzleLine in
+        guard let currentCipherPuzzle = currentCipherPuzzle else { return [] }
+
+        let gameLines = currentCipherPuzzle.ciphertext.asLines(of: charsPerLine).enumerated().map { (ciphertextLineNumber, ciphertextLine) -> PuzzleLine in
 
             let puzzleLine = ciphertextLine.enumerated().compactMap{ (index, char) -> GameInfo? in
 
@@ -227,7 +214,9 @@ class CipherPuzzle : ObservableObject {
     }
     
     func plaintext(for ciphertext : Character) -> Character?{
-        if let plaintextCharacter = currentPuzzle.usersGuesses[String(ciphertext)] {
+        guard let currentCipherPuzzle = currentCipherPuzzle else {return nil}
+
+        if let plaintextCharacter = currentCipherPuzzle.usersGuesses[String(ciphertext)] {
             return Character(plaintextCharacter)
         }
         return nil

@@ -10,10 +10,7 @@
                     "header" : "What might you do on the day of a party? ",
                     "plaintext": "To the shops, she was buying a lot of cheese and wine for her drunken friends. She also cut down a tree to burn. Thank you Rebecca for all the cheese. And the fire.",
                     "footer" : "How long did that take?",
-                    "keyAlphabet": "escidpoumgvhaqrjntzfbwklyx",
-                    "riddle" : "",
-                    "riddleAnswers" : [],
-                    "riddleKey" : ""
+                    "keyAlphabet": "escidpoumgvhaqrjntzfbwklyx"
                 }
             ]
         },
@@ -25,10 +22,7 @@
                     "header" : "",
                     "plaintext": "rose, but it's made from grapes. If you drink too much you may start singing. This is probably a bad idea unless you are Louise. Seven",
                     "footer" : "",
-                    "keyAlphabet": "aurzmgnwqhoxidfvkpesjtylbc",
-                    "riddle" : "What's Rose made from?",
-                    "riddleAnswers" : ["grapes", "potatoes"],
-                    "riddleKey" : ""
+                    "keyAlphabet": "aurzmgnwqhoxidfvkpesjtylbc"
                 }
                 ,
                 {
@@ -36,10 +30,7 @@
                     "header" : "",
                     "plaintext": "chocolate are a great idea. Give James more chocolate too so he doesn't steal any. You also can't trust him with cheese. Four",
                     "footer" : "",
-                    "keyAlphabet": "xkzwqnvgjrpuistahdmofbcley",
-                    "riddle" : "",
-                    "riddleAnswers" : [],
-                    "riddleKey" : "grapes"
+                    "keyAlphabet": "xkzwqnvgjrpuistahdmofbcley"
                 }
                 ,
                 {
@@ -47,10 +38,7 @@
                     "header" : "",
                     "plaintext": "Cheese, it will keep you warm in the evening but you could make cheese toasties on the barbecue. Don't sue me if you get burnt. Eight",
                     "footer" : "",
-                    "keyAlphabet": "ovqdfxmlparuesjtkgcbnizwhy",
-                    "riddle" : "",
-                    "riddleAnswers" : [],
-                    "riddleKey" : "potatoes"
+                    "keyAlphabet": "ovqdfxmlparuesjtkgcbnizwhy"
                 }
             ],
             "gridPuzzle" : {

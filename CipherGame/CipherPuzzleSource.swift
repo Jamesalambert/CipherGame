@@ -39,9 +39,6 @@ struct Game : Codable {
         books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].usersGuesses.removeAll()
         books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].guessIndices.removeAll()
         
-        //reset user answers to riddles
-        books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].userRiddleAnswers.removeAll()
-        
         //reset grid puzzle if it exists
         books[bookIndex].chapters[chapterIndex].gridPuzzle?.reset()
     }
@@ -103,22 +100,6 @@ struct Game : Codable {
             books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].usersGuesses.removeValue(forKey: lowerCipherCharacter)
             books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].guessIndices.removeValue(forKey: lowerCipherCharacter)
         }
-    }
-    
-    mutating
-    func add(answer : String, for puzzleID : UUID){
-        guard let currentPuzzleIndexPath = self.indexPath(forPuzzle: puzzleID) else {return}
-        let bookIndex = currentPuzzleIndexPath.bookIndex
-        let chapterIndex = currentPuzzleIndexPath.chapterIndex
-        let puzzleIndex = currentPuzzleIndexPath.puzzleIndex
-        
-        books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].userRiddleAnswers.removeAll{$0 == answer}  //prevent duplicates
-        books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].userRiddleAnswers.append(answer)
-    }
-    
-    func userAnswers(for inputChapterHash : UUID) -> [String] {
-        guard let theChapter : Chapter = books.flatMap({$0.chapters}).first(where: {$0.id == inputChapterHash}) else {return []}
-        return theChapter.puzzles.flatMap{$0.userRiddleAnswers}
     }
     
     mutating
@@ -269,10 +250,6 @@ struct Puzzle : Hashable, Codable, Identifiable{
     var footer : String
     var keyAlphabet : String        //the original key alphabet, use for encrypting
     var solution : String           //what the user needs to figure out (the message may not use all letters)
-    var riddle : String
-    var riddleAnswers : [String]    // first entry is the correct one
-    var riddleKey : String          //if the user chooses this value as the answer to another riddle, this puzzle is shown
-    var userRiddleAnswers : [String] = []
     
     var isSolved : Bool {
         var guesses : String = ""
@@ -292,7 +269,7 @@ struct Puzzle : Hashable, Codable, Identifiable{
     
     mutating
     func solve(){
-        let key = keyAlphabet.map{String($0)}
+        let key = solution.map{String($0)}
         let alphabet = String.alphabet.map({String($0)})
         usersGuesses = Dictionary(uniqueKeysWithValues: zip(key,alphabet))
     }
@@ -307,14 +284,11 @@ struct Puzzle : Hashable, Codable, Identifiable{
                header: puzzle.header,
                footer: puzzle.footer,
                keyAlphabet: puzzle.keyAlphabet,
-               riddle: puzzle.riddle,
-               riddleAnswers: puzzle.riddleAnswers,
-               riddleKey: puzzle.riddleKey,
                id: id)
     }
     
     init(title : String, plaintext: String, header: String, footer : String,
-         keyAlphabet : String, riddle : String, riddleAnswers: [String], riddleKey : String, id: UUID){
+         keyAlphabet : String, id: UUID){
         
         //Helper functions
         func letterCount(in ciphertext : String) -> [String : Int]{
@@ -365,9 +339,6 @@ struct Puzzle : Hashable, Codable, Identifiable{
         self.plaintext = plaintext.lowercased()
         self.header = header
         self.footer = footer
-        self.riddle = riddle
-        self.riddleAnswers = riddleAnswers
-        self.riddleKey = riddleKey
         self.id = id
         
         //remove whitespace except spaces
@@ -433,9 +404,6 @@ struct ReadablePuzzle : Codable {
     var plaintext : String
     var footer : String
     var keyAlphabet : String
-    var riddle : String
-    var riddleAnswers : [String] // first entry is the correct one
-    var riddleKey : String //is the user chooses this value as the answer to another riddle, this puzzle is shown
 }
 
 struct ReadableGridPuzzle : Codable {
