@@ -67,13 +67,13 @@ extension CipherPuzzle{
 
     private
     var HTMLletterCountTable : String {
-        
+                
         let letterCount = self.letterCount
         var output = ""
         
-        let characters : [String] = letterCount.map {pair in String(pair.0)}
+        let characters : [String] = letterCount.map {pair in String(pair.character)}
         let userGuesses : [String] = String.alphabet.map {char in String(plaintext(for: char) ?? " ")}
-        var counts : [String] = letterCount.map {pair in String(pair.1)}
+        var counts : [String] = letterCount.map {pair in String(pair.count)}
         
         //replace zeros with -
         counts = counts.map{number in number == "0" ? "-" : number}

@@ -41,7 +41,7 @@ extension ContentView {
                     
                     ScrollView(.horizontal) {
                         HStack(spacing: 0){
-                            ForEach(viewModel.characterCount) { letterCountTriple in
+                            ForEach(viewModel.letterCount) { letterCountTriple in
                                     let cipherChar = letterCountTriple.character
                                     PairCount(cipherChar: cipherChar,
                                               plainChar: viewModel.plaintext(for: cipherChar),

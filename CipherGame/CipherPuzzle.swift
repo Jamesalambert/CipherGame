@@ -20,8 +20,6 @@ class CipherPuzzle : ObservableObject {
         didSet{
             if let currentPuzzleHash = currentPuzzleHash {
                 model.lastOpenPuzzleHash = currentPuzzleHash
-                characterCount = letterCount.map{pair in
-                    CharacterCount(character: pair.character, count: pair.count)}
                 currentGridPuzzleHash = nil
             }
             currentCiphertextCharacter = nil
@@ -67,8 +65,6 @@ class CipherPuzzle : ObservableObject {
             if difficultyLevel > (gameRules.count - 1) {
                 difficultyLevel = UInt(gameRules.count - 1)
             }
-            characterCount = letterCount.map{pair in
-                CharacterCount(character: pair.character, count: pair.count)}
         }
     }
     
@@ -80,9 +76,6 @@ class CipherPuzzle : ObservableObject {
     
     @Published
     var showLessons : Bool = true
-    
-    @Published
-    var characterCount : [CharacterCount] = []
 
     var visiblePuzzles : [Puzzle] {
         guard let currentPuzzles = currentChapter?.puzzles else {return []}
@@ -111,20 +104,25 @@ class CipherPuzzle : ObservableObject {
         return model.activeBookIds
     }
     
-    var letterCount : [(character: Character, count: Int)] {
-        guard let currentCipherPuzzle = currentCipherPuzzle else { return [] }
+    
+    var letterCount: [CharacterCount] {
+        
+        guard let currentCipherPuzzle = currentCipherPuzzle else {return []}
         
         var output : [(character:Character, count:Int)] = []
         for keyChar in currentCipherPuzzle.letterCount.keys {
             output.append((Character(keyChar), currentCipherPuzzle.letterCount[keyChar] ?? 0))
         }
-        return output.sorted {
+        
+        let counts =  output.sorted {
             if self.difficultyLevel == 0 {
                 return ($0.count > $1.count) || (($0.count == $1.count) && ($0.character < $1.character))
             } else {
                 return $0.character < $1.character
             }
         }
+        
+        return counts.map{(character, count) in CharacterCount(character: character, count: count)}
     }
     
     //MARK:- State
@@ -206,6 +204,7 @@ class CipherPuzzle : ObservableObject {
         return gameLines
     }
     
+    private
     func gameInfo(from puzzle : Puzzle?) -> [GameInfo]{
         guard let puzzle = puzzle else {return []}
         return puzzle.ciphertext.enumerated().compactMap{(index, char) in
