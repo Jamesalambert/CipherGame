@@ -274,8 +274,8 @@ struct Puzzle : Hashable, Codable, Identifiable{
     
     mutating
     func solve(){
-        let key = solution.map{String($0)}
-        let alphabet = String.alphabet.map({String($0)})
+        let key = keyAlphabet.map{String($0)}.filter({ciphertext.number(of: Character($0)) != 0})
+        let alphabet = String.alphabet.map({String($0)}).filter({plaintext.number(of: Character($0)) != 0})
         usersGuesses = Dictionary(uniqueKeysWithValues: zip(key,alphabet))
     }
     
