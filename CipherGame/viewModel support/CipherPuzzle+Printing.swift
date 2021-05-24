@@ -15,9 +15,7 @@ extension CipherPuzzle{
         
         guard let currentCipherPuzzle = currentCipherPuzzle else {return ""}
         
-        //let puzzleLines = self.puzzleLines(charsPerLine: Self.charsPerPrintedLine)
         let puzzleLines = gameInfo(from: currentCipherPuzzle).asLines(of: Self.charsPerPrintedLine)
-        
         
         var cipherChars : [[String]] = []
         var userGuesses : [[String]] = []
