@@ -20,19 +20,19 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "050F7D57-726A-4663-9D29-1652F05FE226"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "CipherGame/Model support/GridPuzzle.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
+            startingLineNumber = "44"
+            endingLineNumber = "44"
             landmarkName = "addTile()"
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "050F7D57-726A-4663-9D29-1652F05FE226 - 84f84ad79ecb0f5e"
+                  uuid = "050F7D57-726A-4663-9D29-1652F05FE226 - 84f84ad79ecb08e3"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -42,12 +42,12 @@
                   urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/Model%20support/GridPuzzle.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "33"
-                  endingLineNumber = "33"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
                   offsetFromSymbolStart = "536">
                </Location>
                <Location
-                  uuid = "050F7D57-726A-4663-9D29-1652F05FE226 - bb54a2811dbcaed4"
+                  uuid = "050F7D57-726A-4663-9D29-1652F05FE226 - bb54a2811dbca969"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -57,12 +57,12 @@
                   urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/Model%20support/GridPuzzle.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "33"
-                  endingLineNumber = "33"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
                   offsetFromSymbolStart = "28">
                </Location>
                <Location
-                  uuid = "050F7D57-726A-4663-9D29-1652F05FE226 - 9f36f18d53108e61"
+                  uuid = "050F7D57-726A-4663-9D29-1652F05FE226 - 9f36f18d531089dc"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
@@ -72,9 +72,9 @@
                   urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/Model%20support/GridPuzzle.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "33"
-                  endingLineNumber = "33"
-                  offsetFromSymbolStart = "28">
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "100">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -173,54 +173,6 @@
             endingLineNumber = "30"
             landmarkName = "quickHint()"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "BFC5CDE3-054F-4DF4-8B1D-317CC9CB8293"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CipherGame/CipherPuzzle.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "81"
-            endingLineNumber = "81"
-            landmarkName = "visiblePuzzles"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "BFC5CDE3-054F-4DF4-8B1D-317CC9CB8293 - 8b1fdf6f35e7b432"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "CipherGame.CipherPuzzle.visiblePuzzles.getter : Swift.Array&lt;CipherGame.Puzzle&gt;"
-                  moduleName = "CipherGame"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/CipherPuzzle.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "97"
-                  endingLineNumber = "97"
-                  offsetFromSymbolStart = "1716">
-               </Location>
-               <Location
-                  uuid = "BFC5CDE3-054F-4DF4-8B1D-317CC9CB8293 - c7660f76abb45c7b"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (Swift.Int) -&gt; CipherGame.Puzzle in CipherGame.CipherPuzzle.visiblePuzzles.getter : Swift.Array&lt;CipherGame.Puzzle&gt;"
-                  moduleName = "CipherGame"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/CipherPuzzle.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "97"
-                  endingLineNumber = "97"
-                  offsetFromSymbolStart = "36">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

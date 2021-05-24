@@ -61,6 +61,11 @@ struct Game : Codable {
         let chapterIndex = currentPuzzleIndexPath.chapterIndex
         let puzzleIndex = currentPuzzleIndexPath.puzzleIndex
         books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].solve()
+        
+        //check to see if puzzle has been solved and add a tile to the grid if it exists.
+        if books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].isSolved{
+            books[bookIndex].chapters[chapterIndex].gridPuzzle?.addTile()
+        }
     }
     
     mutating

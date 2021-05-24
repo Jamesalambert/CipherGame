@@ -30,10 +30,6 @@ struct GridPuzzle : Codable {
         return self.isHidden(tile) && !tile.canBeEnabled
     }
     
-//    func isTappable(_ tile : Tile) -> Bool{
-//        return self.isHidden(tile) && tile.canBeEnabled
-//    }
-    
     func isEmpty(_ tile : Tile) -> Bool {
         return tile.content == 1 && !self.isSolved
     }
@@ -144,6 +140,8 @@ struct GridPuzzle : Codable {
     private
     static
     func soultionChecker(_ puzzle : GridPuzzle) -> Bool {
+        guard puzzle.rows.allSatisfy({row in !row.tiles.contains(where: {tile in !tile.isEnabled})}) else {return false}
+        
         switch puzzle.solutionType {
         case .all:
             return GridPuzzle.allChecker(rows: puzzle.rows)
