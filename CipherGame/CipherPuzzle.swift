@@ -35,15 +35,6 @@ class CipherPuzzle : ObservableObject {
         }
     }
     
-    var currentChapterGridPuzzle : GridPuzzle?{
-        return currentChapter?.gridPuzzle
-    }
-    
-    var displayedCipherPuzzle : DisplayedCipherPuzzle? {
-        return DisplayedCipherPuzzle(currentCipherPuzzle,
-                                     puzzleCharacters: gameInfo(from: currentCipherPuzzle))
-    }
-    
     @Published
     var currentGridPuzzleHash : UUID?{
         didSet{
@@ -105,26 +96,6 @@ class CipherPuzzle : ObservableObject {
     }
     
     
-    var letterCount: [CharacterCount] {
-        
-        guard let currentCipherPuzzle = currentCipherPuzzle else {return []}
-        
-        var output : [(character:Character, count:Int)] = []
-        for keyChar in currentCipherPuzzle.letterCount.keys {
-            output.append((Character(keyChar), currentCipherPuzzle.letterCount[keyChar] ?? 0))
-        }
-        
-        let counts =  output.sorted {
-            if self.difficultyLevel == 0 {
-                return ($0.count > $1.count) || (($0.count == $1.count) && ($0.character < $1.character))
-            } else {
-                return $0.character < $1.character
-            }
-        }
-        
-        return counts.map{(character, count) in CharacterCount(character: character, count: count)}
-    }
-    
     //MARK:- State
     var currentCipherPuzzle : Puzzle? {
         return currentChapter?.puzzles.first(where: {$0.id == currentPuzzleHash})
@@ -137,6 +108,11 @@ class CipherPuzzle : ObservableObject {
     }
  
     //MARK:- Intent
+    
+    func openBook(with bookID : String){
+        let book = model.books.first{$0.productID == bookID}
+        self.currentChapterHash = book?.chapters.first?.id
+    }
     
     func guess(_ cipherCharacter : Character, is plainCharacter : Character?,
                at index : Int) {
@@ -174,11 +150,17 @@ class CipherPuzzle : ObservableObject {
         model.solveCipher(puzzleID)
     }
 
-    //MARK:-
+    //MARK:- grid Data
     
-    func firstChapterHash(for bookID : String) -> UUID?{
-        let book = model.books.first{$0.productID == bookID}
-        return book?.chapters.first?.id
+    var currentChapterGridPuzzle : GridPuzzle?{
+        return currentChapter?.gridPuzzle
+    }
+    
+    //MARK:- Cipher Data
+    
+    var displayedCipherPuzzle : DisplayedCipherPuzzle? {
+        return DisplayedCipherPuzzle(currentCipherPuzzle,
+                                     puzzleCharacters: gameInfo(from: currentCipherPuzzle))
     }
 
     func puzzleLines(charsPerLine : Int) -> [PuzzleLine]{
@@ -204,7 +186,27 @@ class CipherPuzzle : ObservableObject {
         return gameLines
     }
     
-    private
+    var letterCount: [CharacterCount] {
+        
+        guard let currentCipherPuzzle = currentCipherPuzzle else {return []}
+        
+        var output : [(character:Character, count:Int)] = []
+        for keyChar in currentCipherPuzzle.letterCount.keys {
+            output.append((Character(keyChar), currentCipherPuzzle.letterCount[keyChar] ?? 0))
+        }
+        
+        let counts =  output.sorted {
+            if self.difficultyLevel == 0 {
+                return ($0.count > $1.count) || (($0.count == $1.count) && ($0.character < $1.character))
+            } else {
+                return $0.character < $1.character
+            }
+        }
+        
+        return counts.map{(character, count) in CharacterCount(character: character, count: count)}
+    }
+    
+    
     func gameInfo(from puzzle : Puzzle?) -> [GameInfo]{
         guard let puzzle = puzzle else {return []}
         return puzzle.ciphertext.enumerated().compactMap{(index, char) in

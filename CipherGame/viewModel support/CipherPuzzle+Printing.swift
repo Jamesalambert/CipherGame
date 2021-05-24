@@ -15,13 +15,15 @@ extension CipherPuzzle{
         
         guard let currentCipherPuzzle = currentCipherPuzzle else {return ""}
         
-        let puzzleLines = self.puzzleLines(charsPerLine: Self.charsPerPrintedLine)
+        //let puzzleLines = self.puzzleLines(charsPerLine: Self.charsPerPrintedLine)
+        let puzzleLines = gameInfo(from: currentCipherPuzzle).asLines(of: Self.charsPerPrintedLine)
+        
         
         var cipherChars : [[String]] = []
         var userGuesses : [[String]] = []
         
         
-        cipherChars = puzzleLines.map{line in line.characters.map{info in
+        cipherChars = puzzleLines.map{line in line.map{info in
             if self.capType == 3 {
                 return info.cipherLetter.uppercased()
             } else {
@@ -29,7 +31,7 @@ extension CipherPuzzle{
             }
         }}
         
-        userGuesses = puzzleLines.map{line in line.characters.map{info in
+        userGuesses = puzzleLines.map{line in line.map{info in
             if self.capType == 3 {
                 return info.userGuessLetter?.uppercased() ?? " "
             } else {
@@ -72,7 +74,7 @@ extension CipherPuzzle{
         var output = ""
         
         let characters : [String] = letterCount.map {pair in String(pair.character)}
-        let userGuesses : [String] = String.alphabet.map {char in String(plaintext(for: char) ?? " ")}
+        let userGuesses : [String] = characters.map {char in String(plaintext(for: Character(char)) ?? " ")}
         var counts : [String] = letterCount.map {pair in String(pair.count)}
         
         //replace zeros with -

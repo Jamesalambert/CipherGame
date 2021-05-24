@@ -55,7 +55,7 @@ extension ContentView{
             Button {
                 if viewModel.installedBookIDs.contains(bookForSale.id){
                     isShowingIAP = false
-                    viewModel.currentChapterHash = viewModel.firstChapterHash(for: bookForSale.id)
+                    viewModel.openBook(with: bookForSale.id)
                 } else {
                     withAnimation{
                         store.buyProduct(bookForSale.id)
