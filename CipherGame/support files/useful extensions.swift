@@ -77,9 +77,16 @@ extension Character {
 
 extension Collection where Element : Hashable {
     
+    func sample(of number : Int) -> [Element] {
+        var choices : Set<Element> = []
+        while choices.count < number {
+            choices.insert(self.randomElement()!)
+        }
+        return Array(choices)
+    }
+
     func count(for item : Element) -> Int {
-        return reduce(0) { (total, nextItem) -> Int in
-            nextItem == item ? total + 1 : total}
+        return self.filter{$0 == item}.count
     }
 }
 
@@ -163,5 +170,12 @@ extension EdgeInsets {
     static
     func sized(leading : CGFloat? = 0, trailing : CGFloat? = 0, top : CGFloat? = 0 , bottom : CGFloat? = 0) -> EdgeInsets{
         return EdgeInsets(top: top ?? 0, leading: leading ?? 0, bottom: bottom ?? 0, trailing: trailing ?? 0)
+    }
+}
+
+extension OSStatus {
+    var string : String {
+        let errorString : CFString? = SecCopyErrorMessageString(self, nil)
+        return (errorString as String?) ?? ""
     }
 }

@@ -8,8 +8,6 @@
 import Foundation
 
 extension CipherPuzzle {
-    
-    static let kcServiceString = "Puzzle Room"
      
     private static var documentsFolder : URL {
         do {
@@ -18,7 +16,6 @@ extension CipherPuzzle {
         catch{
             fatalError("couldn't find Documents folder")
         }
-        
     }
     
     private static var fileURL : URL {
@@ -27,10 +24,8 @@ extension CipherPuzzle {
     
     func load() {
         DispatchQueue.global(qos: .background).async { [weak self] in
-            
             //if this fails we fall back to the blank Game() inited by the viewModel
             guard let data = try? Data(contentsOf: Self.fileURL) else {return}
-            
             guard let savedGame = try? JSONDecoder().decode(Game.self, from: data) else {
                 fatalError("couldn't decode data to type 'Game'")
             }

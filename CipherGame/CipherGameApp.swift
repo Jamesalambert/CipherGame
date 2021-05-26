@@ -16,7 +16,7 @@ struct CipherGameApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView(viewModel: viewModel){
-                //this is the saveAction being inited by a trailing closure
+                //this is the save action being inited by a trailing closure
                 viewModel.save()
             }
             .onAppear{

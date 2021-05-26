@@ -22,6 +22,7 @@
 		AA5DCE35264AE5E9005D2B14 /* ChapterView + CharacterPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5DCE34264AE5E9005D2B14 /* ChapterView + CharacterPair.swift */; };
 		AA7D415B2627986600E1558C /* Lucida Console.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA7D415A2627986600E1558C /* Lucida Console.ttf */; };
 		AA86CC69265AFED9001C6E04 /* Custom Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA86CC68265AFED8001C6E04 /* Custom Animation.swift */; };
+		AA8C1003265D761900AA30DD /* OnlineStore keychain tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8C1002265D761900AA30DD /* OnlineStore keychain tests.swift */; };
 		AA8F640C26053E2E005B148F /* UITextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F640B26053E2E005B148F /* UITextFieldView.swift */; };
 		AA93855D2639FD7B00051BC6 /* ChapterView + Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93855C2639FD7A00051BC6 /* ChapterView + Views.swift */; };
 		AA938562263CB72300051BC6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA938561263CB72300051BC6 /* StoreKit.framework */; };
@@ -82,6 +83,7 @@
 		AA5DCE34264AE5E9005D2B14 /* ChapterView + CharacterPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChapterView + CharacterPair.swift"; sourceTree = "<group>"; };
 		AA7D415A2627986600E1558C /* Lucida Console.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lucida Console.ttf"; sourceTree = "<group>"; };
 		AA86CC68265AFED8001C6E04 /* Custom Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Custom Animation.swift"; sourceTree = "<group>"; };
+		AA8C1002265D761900AA30DD /* OnlineStore keychain tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "OnlineStore keychain tests.swift"; path = "CipherGame/OnlineStore keychain tests.swift"; sourceTree = SOURCE_ROOT; };
 		AA8F640B26053E2E005B148F /* UITextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldView.swift; sourceTree = "<group>"; };
 		AA93855C2639FD7A00051BC6 /* ChapterView + Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChapterView + Views.swift"; sourceTree = "<group>"; };
 		AA938561263CB72300051BC6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
@@ -261,6 +263,7 @@
 		AA9766AF2601651E0076B879 /* CipherGameTests */ = {
 			isa = PBXGroup;
 			children = (
+				AA8C1002265D761900AA30DD /* OnlineStore keychain tests.swift */,
 				AA9766B02601651E0076B879 /* CipherGameTests.swift */,
 				AA9766B22601651E0076B879 /* Info.plist */,
 			);
@@ -468,6 +471,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA8C1003265D761900AA30DD /* OnlineStore keychain tests.swift in Sources */,
 				AA9766B12601651E0076B879 /* CipherGameTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

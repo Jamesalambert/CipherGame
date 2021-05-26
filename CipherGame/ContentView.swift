@@ -129,7 +129,7 @@ struct ContentView: View {
                 viewModel.deleteAllPurchasesFromKeychain()
             }
             Button("print Keychain"){
-                print(viewModel.getpurchasesFromKeychain())
+                print(viewModel.printKeychainData())
             }
             #endif
         } label : {

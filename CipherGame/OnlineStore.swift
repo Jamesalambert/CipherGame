@@ -49,8 +49,8 @@ class OnlineStore : NSObject, ObservableObject {
     func getAvailableProductIds(){
         let defaults = UserDefaults.standard
         defaults.set(["test.mysteryIsland","test.spaceBook"], forKey: Self.productsKey)
-        //TODO: retrieve product identiffiers from the network
-        guard let array =  UserDefaults.standard.object(forKey: OnlineStore.productsKey) as? [String] else {return}
+        //TODO: retrieve product identifiers from the network
+        guard let array =  UserDefaults.standard.object(forKey: Self.productsKey) as? [String] else {return}
         print(array)
         self.productIDs = array
     }
@@ -96,6 +96,7 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
     //SKPaymentTransactionObserver
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
         var numberOfFinishedTransactions = 0
+        
         for transaction in transactions {
             switch transaction.transactionState {
             case .purchasing:
@@ -103,7 +104,10 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
                 break
             case .purchased, .restored:
                 //unlock the item!
-                storeInKeychain(identifier: transaction.payment.productIdentifier)
+                let id = transaction.payment.productIdentifier
+                let bookName = booksForSale.first(where: {$0.id == id})?.title
+                
+                storeRecieptInKeychain(for: bookName ?? "unknown book", identifier: id)
                 numberOfFinishedTransactions += 1
                 
                 state = .inactive
@@ -120,6 +124,7 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
             }
             stateDescription = "\(transaction.transactionState.rawValue)"
         }
+        
         if numberOfFinishedTransactions > 0 {finishedTransactions.toggle()}
     }
     
@@ -137,7 +142,6 @@ struct ProductInfo : Identifiable{
     var description : String = ""
     
     init(product : SKProduct){
-        
         func formattedPrice(for product : SKProduct) -> String {
             let formatter = NumberFormatter()
             formatter.numberStyle = .currency
@@ -154,29 +158,89 @@ struct ProductInfo : Identifiable{
 extension OnlineStore {
     
     static let kcServiceString = "Puzzle Room"
+    static let kcAccountString = "Purchased Books"
     
-    func storeInKeychain(identifier : String) {
-        guard let data = identifier.data(using: .utf8) else {
-            print("couldn't encode data")
-            return
+    func storeRecieptInKeychain(for bookName : String, identifier : String) {
+        
+        var usersBooksString = self.booksInKeychain()
+        
+        //append new product id
+        if !usersBooksString.contains(identifier){
+            usersBooksString.append("," + identifier)
+        }
+        
+        guard let data = usersBooksString.data(using: .utf8) else {print("couldn't encode data");return}
+
+        var query : [String : Any] = [
+            kSecClass as String                 : kSecClassGenericPassword,
+            kSecAttrService as String           : Self.kcServiceString,        //"Puzzle Room"
+            kSecAttrAccount as String           : Self.kcAccountString         //book ID
+        ]
+        
+        let attributes : [String : Any] = [kSecValueData as String : data as Any]
+        
+        var foundItem : CFTypeRef?
+        let searchStatus = SecItemCopyMatching(query as CFDictionary, &foundItem)
+        
+        switch searchStatus {
+        case errSecSuccess:
+            //update keychain
+            let success = SecItemUpdate(query as CFDictionary, attributes as CFDictionary)
+            
+            switch success {
+            case errSecSuccess:
+                stateDescription = "recoded purchase in keychain)"
+                print("successfully wrote \(identifier) to keychain: \(success.string)")
+                return
+            default:
+                stateDescription = "couldn't record purcase in keychain)"
+                print("couldn't write \(identifier) to keychain error: \(success.string)")
+            }
+            
+        default:
+            //create new keychain item
+            query[kSecValueData as String] = data as Any
+            var createdItem : CFTypeRef?
+            let success = SecItemAdd(query as CFDictionary, &createdItem)
+
+            switch success {
+            case errSecSuccess:
+                stateDescription = "recoded purchase in keychain)"
+                print("successfully wrote \(identifier) to keychain: \(success.string)")
+                return
+            default:
+                stateDescription = "couldn't record purcase in keychain)"
+                print("couldn't write \(identifier) to keychain error: \(success.string)")
+            }
         }
 
-        let query : [String : Any] = [
-            kSecClass as String : kSecClassGenericPassword,
-            kSecAttrService as String: Self.kcServiceString,
-            kSecAttrAccount as String : identifier, //store in unique location
-            kSecValueData as String : data]
-        //write into keychain
-        let success = SecItemAdd(query as CFDictionary, nil)
-        switch success {
-        case errSecSuccess:
-            stateDescription = "recoded purchase in keychain"
-            return
-        default:
-            stateDescription = "couldn't record purcase in keychain"
-           print("couldn't write to keychain error: \(success)")
-        }
     }
+    
+    
+    private
+    func booksInKeychain() -> String{
+        let query : [String : Any] = [
+            kSecClass       as String       : kSecClassGenericPassword,
+            kSecAttrService as String       : OnlineStore.kcServiceString as Any,
+            kSecAttrAccount as String       : OnlineStore.kcAccountString as Any,
+            kSecReturnAttributes as String  : true,
+            kSecReturnData as String      : true
+        ]
+        
+        var foundItems : CFTypeRef?
+        let searchStatus = SecItemCopyMatching(query as CFDictionary, &foundItems)
+
+        print("Keychain message \(searchStatus): \(searchStatus.string)")
+
+        guard let result = foundItems as? [String : Any] else {return ""}
+        guard let productIDsData = result[kSecValueData as String] as? Data else {return ""}
+        guard let productIDs = String(data: productIDsData, encoding: .utf8) else {return ""}
+        
+       // let uniqueList = Set(productIDs.split(separator: ",").map{String($0)})
+        return productIDs
+    }
+    
+    
 }
 
 enum StoreState : Equatable {

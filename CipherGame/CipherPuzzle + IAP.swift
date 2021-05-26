@@ -8,87 +8,88 @@
 import Foundation
 
 extension CipherPuzzle {
-    
-    func loadPurchasedBooksFromKeychain(){
+        
+    func loadPurchasedBooksFromKeychain(completion : (([String]) -> Void)? = nil){
         //read keychain for IAP
         DispatchQueue.global(qos: .background).async {
             let purchasedBookIds = self.getpurchasesFromKeychain()
             DispatchQueue.main.async {
+                print("adding to model: \(purchasedBookIds)")
                 self.model.add(books: purchasedBookIds)
+                
+                //call completion block if it exists
+                completion?(purchasedBookIds)
             }
         }
     }
     
-    
-    func getpurchasesFromKeychain() -> [String] {
+    //for debugging
+    func deleteAllPurchasesFromKeychain(){
+        print("deleting...")
         let query : [String : Any] = [
-            kSecClass as String : kSecClassGenericPassword,
-            kSecAttrService as String: Self.kcServiceString,
-            kSecMatchLimit as String : kSecMatchLimitAll,
-            kSecReturnAttributes as String : true,
-            kSecReturnData as String : true]
+            kSecClass       as String       : kSecClassGenericPassword,
+            kSecAttrService as String       : OnlineStore.kcServiceString as Any,
+            kSecAttrAccount as String       : OnlineStore.kcAccountString as Any
+        ]
+
+        //delete!
+        let success = SecItemDelete(query as CFDictionary)
+        print("Keychain message \(success): \(success.string)")
         
-        //retrieve
-        var item : CFTypeRef?
-        let success = SecItemCopyMatching(query as CFDictionary, &item)
-        guard success != errSecItemNotFound  else {
-            print("not found")
-            return []
-        }
-        guard success == errSecSuccess else {
-            print("Keychain error")
-            return []
-        }
-        //read item
-        guard let result = item as? [[String : Any]] else {return []}
-        let output : [String] = result.map{ result in
-            guard let value = result[kSecValueData as String] as? Data else {return "b"}
-            guard let string = String(data: value, encoding: .utf8) else {return "c"}
-            return string
-        }
+    }
+    
+    private
+    func getpurchasesFromKeychain() -> [String] {
+        print("printing keychain")
+        
+        let query : [String : Any] = [
+            kSecClass       as String       : kSecClassGenericPassword,
+            kSecAttrService as String       : OnlineStore.kcServiceString as Any,
+            kSecAttrAccount as String       : OnlineStore.kcAccountString as Any,
+            kSecReturnAttributes as String  : true,
+            kSecReturnData as String      : true
+        ]
+        
+        var foundItems : CFTypeRef?
+        let searchStatus = SecItemCopyMatching(query as CFDictionary, &foundItems)
+
+        print("Keychain message \(searchStatus): \(searchStatus.string)")
+
+        guard let result = foundItems as? [String : Any] else {return []}
+        guard let productIDsData = result[kSecValueData as String] as? Data else {return []}
+        guard let productIDs = String(data: productIDsData, encoding: .utf8) else {return []}
+        
+        let output = productIDs.split(separator: ",").map{String($0)}
+        
         return output
     }
     
-    
-    //for debugging
-    #if DEBUG
-    func deleteAllPurchasesFromKeychain(){
+    func printKeychainData(){
+        print("printing keychain")
         
-        let productIDs = ["test.mysteryIsland",
-                          "test.spaceBook"]
+        let query : [String : Any] = [
+            kSecClass       as String       : kSecClassGenericPassword,
+            kSecAttrService as String       : OnlineStore.kcServiceString as Any,
+            kSecAttrAccount as String       : OnlineStore.kcAccountString as Any,
+            kSecReturnAttributes as String  : true,
+            kSecReturnData as String      : true
+        ]
         
-        for _ in productIDs {
-            
-            for _ in [1,2,3] {
-                let query : [String : Any] = [
-                    kSecClass as String : kSecClassGenericPassword,
-                    kSecAttrService as String: Self.kcServiceString as Any,
-                    //kSecAttrAccount as String : productID as Any,
-                    kSecReturnAttributes as String : true,
-                    kSecReturnData as String : true
-                ]
-                
-                var itemToDelete : CFTypeRef?
-                let _ = SecItemCopyMatching(query as CFDictionary, &itemToDelete)
-                
-                guard let result = itemToDelete as? [String : Any] else {return}
-                guard let productIDData = result[kSecValueData as String] as? Data else {return}
-                guard let productID = String(data: productIDData, encoding: .utf8) else {return}
-                
-                print("deleting these:")
-                print(productID)
-                
-                let success = SecItemDelete(query as CFDictionary)
-                guard success != errSecItemNotFound  else {
-                    print("deleted Items")
-                    return
-                }
-                guard success == errSecSuccess else {
-                    print("Keychain error \(success)")
-                    return
-                }
-            }
-        }
+        var foundItems : CFTypeRef?
+        let searchStatus = SecItemCopyMatching(query as CFDictionary, &foundItems)
+
+        print("Keychain message \(searchStatus): \(searchStatus.string)")
+
+        guard let result = foundItems as? [String : Any] else {return}
+        guard let productIDsData = result[kSecValueData as String] as? Data else {return}
+        guard let productIDs = String(data: productIDsData, encoding: .utf8) else {return}
+        print(productIDs)
     }
-    #endif
+    
+    
+    
+    
+    
+    
 }
+
