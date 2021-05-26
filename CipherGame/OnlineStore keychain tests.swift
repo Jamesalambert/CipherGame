@@ -29,7 +29,7 @@ class OnlineStore_keychain_tests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        OnlineStore.shared.deleteAllPurchasesFromKeychain()
+        self.store.deleteAllPurchasesFromKeychain()
     }
 
     func testExample() throws {
@@ -44,7 +44,7 @@ class OnlineStore_keychain_tests: XCTestCase {
             }
             
             DispatchQueue.global().async {
-                OnlineStore.shared.loadPurchasedBooksFromKeychain{ bookIds in
+                self.store.loadPurchasedBooksFromKeychain{ bookIds in
                     assert(bookIds.allSatisfy({self.viewModel.model.activeBookIds.contains($0)}))
                     exp.fulfill()
                 }

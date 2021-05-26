@@ -70,10 +70,10 @@ struct ContentView: View {
             }
         }
         .sheet(isPresented: $isShowingIAP){
-            IAPContent()
+            IAPMenu(isShowingIAP: $isShowingIAP)
                 .environmentObject(viewModel)
-                //.environmentObject(OnlineStore.shared)
-                .onAppear(perform: OnlineStore.shared.getAvailableProductIds)
+                .environmentObject(viewModel.store)
+                .onAppear(perform: viewModel.store.getAvailableProductIds)
         }
     }
     
