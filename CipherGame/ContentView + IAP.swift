@@ -16,7 +16,7 @@ extension ContentView{
         List{
             Section(footer: restorePurchasesButton())
             {
-                ForEach(store.booksForSale) { bookForSale in
+                ForEach(viewModel.store.booksForSale) { bookForSale in
                     HStack{
                         Image("book").resizable().aspectRatio(contentMode: .fit).frame(width: 60)
                         VStack(alignment: .leading){
@@ -29,7 +29,7 @@ extension ContentView{
                 }
             }
             #if DEBUG
-            Text(store.stateDescription).foregroundColor(Color.gray)
+            Text(viewModel.store.stateDescription).foregroundColor(Color.gray)
             #endif
         }
     }
@@ -40,8 +40,8 @@ extension ContentView{
         @EnvironmentObject
         var viewModel : CipherPuzzle
         
-        @EnvironmentObject
-        var store : OnlineStore
+//        @EnvironmentObject
+//        var store : OnlineStore
         
         @Environment(\.colorScheme)
         var colorScheme : ColorScheme
@@ -58,13 +58,13 @@ extension ContentView{
                     viewModel.openBook(with: bookForSale.id)
                 } else {
                     withAnimation{
-                        store.buyProduct(bookForSale.id)
+                        viewModel.store.buyProduct(bookForSale.id)
                     }
                 }
             } label: {
                     VStack(alignment: .trailing){
                         HStack(spacing: 0){
-                            ActivityIndicator(isActive: store.state == StoreState.busy(bookForSale.id))
+                            ActivityIndicator(isActive: viewModel.store.state == StoreState.busy(bookForSale.id))
                             Text(viewModel.installedBookIDs.contains(bookForSale.id) ? "open" : bookForSale.price)
                                 .padding(EdgeInsets.sized(horizontally: 10, vertically: 5))
                         }
@@ -103,7 +103,7 @@ extension ContentView{
         HStack{
             Spacer()
             Button{
-                store.restorePurchases()
+                viewModel.store.restorePurchases()
             } label: {
                 Text("Restore previous purchases")
                     .foregroundColor(Color.blue)

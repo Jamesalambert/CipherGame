@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		AA0B9CD7263DDF18006A4CD1 /* test.mysteryIsland.json in Resources */ = {isa = PBXBuildFile; fileRef = AA0B9CD6263DDF18006A4CD1 /* test.mysteryIsland.json */; };
 		AA0B9CD9263DDF46006A4CD1 /* test.spaceBook.json in Resources */ = {isa = PBXBuildFile; fileRef = AA0B9CD8263DDF45006A4CD1 /* test.spaceBook.json */; };
-		AA0B9CDD263E14AA006A4CD1 /* CipherPuzzle + IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0B9CDC263E14AA006A4CD1 /* CipherPuzzle + IAP.swift */; };
+		AA0B9CDD263E14AA006A4CD1 /* OnlineStore + Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0B9CDC263E14AA006A4CD1 /* OnlineStore + Keychain.swift */; };
 		AA14EB48261E12D3004AFD15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA14EB47261E12D3004AFD15 /* Assets.xcassets */; };
 		AA23A7722636E484002F9F39 /* ContentView + PhoneLetterPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA23A7712636E484002F9F39 /* ContentView + PhoneLetterPicker.swift */; };
 		AA31EAA3260BE32A0031D56C /* CipherPuzzle+Printing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */; };
@@ -70,7 +70,7 @@
 /* Begin PBXFileReference section */
 		AA0B9CD6263DDF18006A4CD1 /* test.mysteryIsland.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.mysteryIsland.json; sourceTree = "<group>"; };
 		AA0B9CD8263DDF45006A4CD1 /* test.spaceBook.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.spaceBook.json; sourceTree = "<group>"; };
-		AA0B9CDC263E14AA006A4CD1 /* CipherPuzzle + IAP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "CipherPuzzle + IAP.swift"; path = "CipherGame/CipherPuzzle + IAP.swift"; sourceTree = SOURCE_ROOT; };
+		AA0B9CDC263E14AA006A4CD1 /* OnlineStore + Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "OnlineStore + Keychain.swift"; path = "CipherGame/OnlineStore + Keychain.swift"; sourceTree = SOURCE_ROOT; };
 		AA14EB47261E12D3004AFD15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA23A7712636E484002F9F39 /* ContentView + PhoneLetterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + PhoneLetterPicker.swift"; sourceTree = "<group>"; };
 		AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle+Printing.swift"; sourceTree = "<group>"; };
@@ -193,7 +193,6 @@
 		AA93855F263ADCA100051BC6 /* viewModel support */ = {
 			isa = PBXGroup;
 			children = (
-				AA0B9CDC263E14AA006A4CD1 /* CipherPuzzle + IAP.swift */,
 				AAEE3B10261CEE30008E2233 /* CipherPuzzle + Persistence.swift */,
 				AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */,
 				AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */,
@@ -241,6 +240,7 @@
 				AA9766D126016EB60076B879 /* CipherPuzzle.swift */,
 				AA93855F263ADCA100051BC6 /* viewModel support */,
 				AA938563263CB9CF00051BC6 /* OnlineStore.swift */,
+				AA0B9CDC263E14AA006A4CD1 /* OnlineStore + Keychain.swift */,
 				AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */,
 				AA5DCE2C26484B7D005D2B14 /* Model support */,
 				AA9766A22601651D0076B879 /* Assets.xcassets */,
@@ -449,7 +449,7 @@
 				AA5DCE3326484DDF005D2B14 /* GridPuzzle.swift in Sources */,
 				AAEE3AEC261A813A008E2233 /* ContentView + ChapterView.swift in Sources */,
 				AA97669F2601651A0076B879 /* CipherGameApp.swift in Sources */,
-				AA0B9CDD263E14AA006A4CD1 /* CipherPuzzle + IAP.swift in Sources */,
+				AA0B9CDD263E14AA006A4CD1 /* OnlineStore + Keychain.swift in Sources */,
 				AA5DCE35264AE5E9005D2B14 /* ChapterView + CharacterPair.swift in Sources */,
 				AA3ED4472611493300B25B4A /* ContentView + letter count.swift in Sources */,
 				AADB10DD2644657F00089D8B /* PuzzleThemes + Space.swift in Sources */,

@@ -29,7 +29,7 @@ class OnlineStore_keychain_tests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        self.viewModel.deleteAllPurchasesFromKeychain()
+        OnlineStore.shared.deleteAllPurchasesFromKeychain()
     }
 
     func testExample() throws {
@@ -40,18 +40,17 @@ class OnlineStore_keychain_tests: XCTestCase {
         
         do {
             for (bookName, bookID) in zip(bookNames, bookIds){
-                self.store.storeRecieptInKeychain(for: bookName, identifier: bookID)
+                self.store.storeRecieptInKeychain(for: bookName, newBookIdentifier: bookID)
             }
             
             DispatchQueue.global().async {
-                self.viewModel.loadPurchasedBooksFromKeychain{ bookIds in
+                OnlineStore.shared.loadPurchasedBooksFromKeychain{ bookIds in
                     assert(bookIds.allSatisfy({self.viewModel.model.activeBookIds.contains($0)}))
                     exp.fulfill()
                 }
             }
-            
+        
             wait(for: [exp], timeout: 10)
-            
         }
     }
 

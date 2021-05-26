@@ -14,9 +14,6 @@ struct ContentView: View {
         
     @StateObject
     var viewModel : CipherPuzzle
-    
-    @StateObject
-    var store : OnlineStore = OnlineStore.shared
         
     @Environment(\.colorScheme)
     var colorScheme : ColorScheme
@@ -67,14 +64,16 @@ struct ContentView: View {
         .onChange(of: scenePhase) { phase in
             if phase == .inactive {saveAction()}
         }
-        .onChange(of: store.finishedTransactions){_ in
-            viewModel.loadPurchasedBooksFromKeychain()
+        .onChange(of: viewModel.store.finishedTransactions){_ in
+            viewModel.store.loadPurchasedBooksFromKeychain{ purchasedBookIds in
+                viewModel.model.add(books: purchasedBookIds)
+            }
         }
         .sheet(isPresented: $isShowingIAP){
             IAPContent()
                 .environmentObject(viewModel)
-                .environmentObject(store)
-                .onAppear(perform: store.getAvailableProductIds)
+                //.environmentObject(OnlineStore.shared)
+                .onAppear(perform: OnlineStore.shared.getAvailableProductIds)
         }
     }
     
@@ -126,10 +125,10 @@ struct ContentView: View {
             Toggle("Show Lessons", isOn: $viewModel.showLessons.animation())
             #if DEBUG
             Button("clear Keychain"){
-                viewModel.deleteAllPurchasesFromKeychain()
+                viewModel.store.deleteAllPurchasesFromKeychain()
             }
             Button("print Keychain"){
-                print(viewModel.printKeychainData())
+                print(viewModel.store.printKeychainData())
             }
             #endif
         } label : {
@@ -143,9 +142,8 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         let game = CipherPuzzle()
-        let store = OnlineStore.shared
         Group {
-            ContentView(viewModel: game, store: store, saveAction: {})
+            ContentView(viewModel: game, saveAction: {})
         }
     }
 }

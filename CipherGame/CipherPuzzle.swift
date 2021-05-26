@@ -16,6 +16,9 @@ class CipherPuzzle : ObservableObject {
     var model : Game
     
     @Published
+    var store : OnlineStore = OnlineStore.shared
+    
+    @Published
     var currentPuzzleHash : UUID?{
         didSet{
             if let currentPuzzleHash = currentPuzzleHash {
@@ -227,7 +230,9 @@ class CipherPuzzle : ObservableObject {
         self.model = Game()
         self.currentPuzzleHash = self.model.lastOpenPuzzleHash
         self.currentChapterHash = self.model.lastOpenChapterHash
-        self.loadPurchasedBooksFromKeychain()
+        self.store.loadPurchasedBooksFromKeychain{ purchasedBookIds in
+            self.model.add(books: purchasedBookIds)
+        }
     }
 }
 
