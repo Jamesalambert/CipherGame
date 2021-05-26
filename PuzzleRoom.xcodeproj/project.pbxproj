@@ -70,7 +70,7 @@
 /* Begin PBXFileReference section */
 		AA0B9CD6263DDF18006A4CD1 /* test.mysteryIsland.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.mysteryIsland.json; sourceTree = "<group>"; };
 		AA0B9CD8263DDF45006A4CD1 /* test.spaceBook.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.spaceBook.json; sourceTree = "<group>"; };
-		AA0B9CDC263E14AA006A4CD1 /* OnlineStore + Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "OnlineStore + Keychain.swift"; path = "CipherGame/OnlineStore + Keychain.swift"; sourceTree = SOURCE_ROOT; };
+		AA0B9CDC263E14AA006A4CD1 /* OnlineStore + Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "OnlineStore + Keychain.swift"; path = "CipherGame/Online Store/OnlineStore + Keychain.swift"; sourceTree = SOURCE_ROOT; };
 		AA14EB47261E12D3004AFD15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA23A7712636E484002F9F39 /* ContentView + PhoneLetterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + PhoneLetterPicker.swift"; sourceTree = "<group>"; };
 		AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle+Printing.swift"; sourceTree = "<group>"; };
@@ -239,8 +239,7 @@
 				AA93855E263ADC7F00051BC6 /* View support */,
 				AA9766D126016EB60076B879 /* CipherPuzzle.swift */,
 				AA93855F263ADCA100051BC6 /* viewModel support */,
-				AA938563263CB9CF00051BC6 /* OnlineStore.swift */,
-				AA0B9CDC263E14AA006A4CD1 /* OnlineStore + Keychain.swift */,
+				AAD347F3265EE08300D69955 /* Online Store */,
 				AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */,
 				AA5DCE2C26484B7D005D2B14 /* Model support */,
 				AA9766A22601651D0076B879 /* Assets.xcassets */,
@@ -277,6 +276,15 @@
 				AA9766BD2601651E0076B879 /* Info.plist */,
 			);
 			path = CipherGameUITests;
+			sourceTree = "<group>";
+		};
+		AAD347F3265EE08300D69955 /* Online Store */ = {
+			isa = PBXGroup;
+			children = (
+				AA938563263CB9CF00051BC6 /* OnlineStore.swift */,
+				AA0B9CDC263E14AA006A4CD1 /* OnlineStore + Keychain.swift */,
+			);
+			path = "Online Store";
 			sourceTree = "<group>";
 		};
 		AAE626E9261663C3004BF125 /* puzzles */ = {
