@@ -11,6 +11,12 @@ extension OnlineStore {
     
     static let kcServiceString = "Puzzle Room"
     static let kcAccountString = "Purchased Books"
+    static let kcQuery : [String : Any] = [
+        kSecClass               as String           : kSecClassGenericPassword,
+        kSecAttrService         as String           : OnlineStore.kcServiceString as Any,
+        kSecAttrAccount         as String           : OnlineStore.kcAccountString as Any,
+        kSecAttrSynchronizable  as String           : true
+    ]
     
     func storeRecieptInKeychain(for bookName : String, newBookIdentifier : String) {
         
@@ -22,22 +28,16 @@ extension OnlineStore {
         }
         
         guard let dataToWrite = try? JSONEncoder().encode(booksInKeychain) else {print("couldn't encode data");return}
-
-        var query : [String : Any] = [
-            kSecClass as String                 : kSecClassGenericPassword,
-            kSecAttrService as String           : Self.kcServiceString,        //"Puzzle Room"
-            kSecAttrAccount as String           : Self.kcAccountString         //book ID
-        ]
         
         let newKeychainData : [String : Any] = [kSecValueData as String : dataToWrite as Any]
         
         var foundItem : CFTypeRef?
-        let searchStatus = SecItemCopyMatching(query as CFDictionary, &foundItem)
+        let searchStatus = SecItemCopyMatching(Self.kcQuery as CFDictionary, &foundItem)
         
         switch searchStatus {
         case errSecSuccess:
             //update keychain
-            let success = SecItemUpdate(query as CFDictionary, newKeychainData as CFDictionary)
+            let success = SecItemUpdate(Self.kcQuery as CFDictionary, newKeychainData as CFDictionary)
             
             switch success {
             case errSecSuccess:
@@ -51,9 +51,11 @@ extension OnlineStore {
             
         default:
             //create new keychain item
-            query[kSecValueData as String] = dataToWrite as Any
+            var queryForWriting = Self.kcQuery
+            queryForWriting[kSecValueData as String] = dataToWrite as Any
+            
             var createdItem : CFTypeRef?
-            let success = SecItemAdd(query as CFDictionary, &createdItem)
+            let success = SecItemAdd(queryForWriting as CFDictionary, &createdItem)
 
             switch success {
             case errSecSuccess:
@@ -80,13 +82,11 @@ extension OnlineStore {
     
     private
     func getpurchasesFromKeychain() -> [String] {
-        let query : [String : Any] = [
-            kSecClass       as String       : kSecClassGenericPassword,
-            kSecAttrService as String       : OnlineStore.kcServiceString as Any,
-            kSecAttrAccount as String       : OnlineStore.kcAccountString as Any,
-            kSecReturnAttributes as String  : true,
-            kSecReturnData as String      : true
-        ]
+        
+        var query = Self.kcQuery
+        query[kSecReturnAttributes as String] = true
+        query[kSecReturnData as String] = true
+        
         
         var foundItems : CFTypeRef?
         let searchStatus = SecItemCopyMatching(query as CFDictionary, &foundItems)
@@ -106,12 +106,7 @@ extension OnlineStore {
     //MARK:- debug
     func deleteAllPurchasesFromKeychain(){
         print("deleting...")
-        let query : [String : Any] = [
-            kSecClass       as String       : kSecClassGenericPassword,
-            kSecAttrService as String       : OnlineStore.kcServiceString as Any,
-            kSecAttrAccount as String       : OnlineStore.kcAccountString as Any
-        ]
-        let success = SecItemDelete(query as CFDictionary)
+        let success = SecItemDelete(Self.kcQuery as CFDictionary)
         print("Keychain message \(success): \(success.string)")
     }
     

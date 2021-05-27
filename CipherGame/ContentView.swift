@@ -14,6 +14,9 @@ struct ContentView: View {
         
     @StateObject
     var viewModel : CipherPuzzle
+    
+    @ObservedObject
+    var store = OnlineStore.shared
         
     @Environment(\.colorScheme)
     var colorScheme : ColorScheme
