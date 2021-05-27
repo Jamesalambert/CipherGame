@@ -15,7 +15,6 @@ extension CGRect {
 
 //used for hard setting
 extension Array where Element == Int {
-    
     func containsItem(within distance : Int, of index : Int)-> Bool {
         if self.first(where: { item in abs(item - index) <= distance}) != nil {
             return true
@@ -77,6 +76,18 @@ extension Character {
 
 extension Collection where Element : Hashable {
     
+    func initial(_ number : Int) -> [Element]{
+        return self.dropLast(self.count - number)
+    }
+    
+    func asLines(of length : Int) -> [[Element]] {
+        if self.count <= length {
+            return [self.map{$0}]
+        } else {
+            return [self.initial(length)] + Array(self.dropFirst(length)).asLines(of: length)
+        }
+    }
+    
     func sample(of number : Int) -> [Element] {
         var choices : Set<Element> = []
         while choices.count < number {
@@ -85,7 +96,7 @@ extension Collection where Element : Hashable {
         return Array(choices)
     }
 
-    func count(for item : Element) -> Int {
+    func number(of item : Element) -> Int {
         return self.filter{$0 == item}.count
     }
 }
@@ -99,45 +110,13 @@ extension String {
                          "asdfghjkl",
                          "zxcvbnm"]
     
-    
-    func number(of character : Character) -> Int{
-        return reduce(0) { (total, nextChar) -> Int in
-            nextChar == character ? total + 1 : total
-        }
-    }
-    
-
     func removeCharacters(in set : CharacterSet) -> String {
-        
         return self.filter{ (character) -> Bool in
             character.unicodeScalars.contains(where: {
                 !set.contains($0) })
         }
     }
-    
-    func asLines(of length : Int) -> [String] {
-        
-        let result = stride(from: 0, to: self.count, by: length).map{ lineBreakIndex in
-            
-            self[self.index(self.startIndex, offsetBy: lineBreakIndex) ..<
-                    self.index(self.startIndex, offsetBy: min(lineBreakIndex + length, self.count))]
-        }
-        return result.map{String($0)}
-    }
 }
-
-
-extension Array {
-    func asLines(of length : Int) -> [[Element]] {
-        
-        if self.count <= length {
-            return [self]
-        } else {
-            return [Array(self[0..<length])] + Array(self.dropFirst(length)).asLines(of: length)
-        }
-    }
-}
-
 
 extension Font.Design {
     func cssName() -> String {

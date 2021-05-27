@@ -13,7 +13,6 @@ class OnlineStore : NSObject, ObservableObject {
     static let shared = OnlineStore()
     static let productsKey = "productIDs"
     
-    @Published
     var productIDs : [String] = [] {
         didSet{
             getProductsFromAppStore()
