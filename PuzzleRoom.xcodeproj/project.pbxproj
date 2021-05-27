@@ -24,7 +24,7 @@
 		AA86CC69265AFED9001C6E04 /* Custom Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA86CC68265AFED8001C6E04 /* Custom Animation.swift */; };
 		AA8C1003265D761900AA30DD /* OnlineStore keychain tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8C1002265D761900AA30DD /* OnlineStore keychain tests.swift */; };
 		AA8F640C26053E2E005B148F /* UITextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8F640B26053E2E005B148F /* UITextFieldView.swift */; };
-		AA93855D2639FD7B00051BC6 /* ChapterView + Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93855C2639FD7A00051BC6 /* ChapterView + Views.swift */; };
+		AA93855D2639FD7B00051BC6 /* ChapterView + Chooser.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA93855C2639FD7A00051BC6 /* ChapterView + Chooser.swift */; };
 		AA938562263CB72300051BC6 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AA938561263CB72300051BC6 /* StoreKit.framework */; };
 		AA938564263CB9CF00051BC6 /* OnlineStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA938563263CB9CF00051BC6 /* OnlineStore.swift */; };
 		AA97669F2601651A0076B879 /* CipherGameApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA97669E2601651A0076B879 /* CipherGameApp.swift */; };
@@ -85,7 +85,7 @@
 		AA86CC68265AFED8001C6E04 /* Custom Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Custom Animation.swift"; sourceTree = "<group>"; };
 		AA8C1002265D761900AA30DD /* OnlineStore keychain tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "OnlineStore keychain tests.swift"; path = "CipherGame/OnlineStore keychain tests.swift"; sourceTree = SOURCE_ROOT; };
 		AA8F640B26053E2E005B148F /* UITextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UITextFieldView.swift; sourceTree = "<group>"; };
-		AA93855C2639FD7A00051BC6 /* ChapterView + Views.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChapterView + Views.swift"; sourceTree = "<group>"; };
+		AA93855C2639FD7A00051BC6 /* ChapterView + Chooser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChapterView + Chooser.swift"; sourceTree = "<group>"; };
 		AA938561263CB72300051BC6 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		AA938563263CB9CF00051BC6 /* OnlineStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineStore.swift; sourceTree = "<group>"; };
 		AA97669B2601651A0076B879 /* CipherGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CipherGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -235,7 +235,7 @@
 				AA97669E2601651A0076B879 /* CipherGameApp.swift */,
 				AA9766A02601651A0076B879 /* ContentView.swift */,
 				AAEE3AEB261A813A008E2233 /* ContentView + ChapterView.swift */,
-				AA93855C2639FD7A00051BC6 /* ChapterView + Views.swift */,
+				AA93855C2639FD7A00051BC6 /* ChapterView + Chooser.swift */,
 				AA93855E263ADC7F00051BC6 /* View support */,
 				AA9766D126016EB60076B879 /* CipherPuzzle.swift */,
 				AA93855F263ADCA100051BC6 /* viewModel support */,
@@ -452,7 +452,7 @@
 				AADB10DB2641F21400089D8B /* ContentView + IAP.swift in Sources */,
 				AA9766CD26016DED0076B879 /* CipherPuzzleSource.swift in Sources */,
 				AA9766A12601651A0076B879 /* ContentView.swift in Sources */,
-				AA93855D2639FD7B00051BC6 /* ChapterView + Views.swift in Sources */,
+				AA93855D2639FD7B00051BC6 /* ChapterView + Chooser.swift in Sources */,
 				AADEE35A2645AB7F00C3107A /* TilePuzzle.swift in Sources */,
 				AA5DCE3326484DDF005D2B14 /* GridPuzzle.swift in Sources */,
 				AAEE3AEC261A813A008E2233 /* ContentView + ChapterView.swift in Sources */,

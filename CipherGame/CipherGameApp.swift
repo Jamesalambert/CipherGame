@@ -20,7 +20,7 @@ struct CipherGameApp: App {
                 viewModel.save()
             }
             .onAppear{
-                viewModel.load()
+                viewModel.load()        //saved state
             }
         }
     }

@@ -87,7 +87,6 @@ extension OnlineStore {
         query[kSecReturnAttributes as String] = true
         query[kSecReturnData as String] = true
         
-        
         var foundItems : CFTypeRef?
         let searchStatus = SecItemCopyMatching(query as CFDictionary, &foundItems)
 
@@ -107,12 +106,14 @@ extension OnlineStore {
     func deleteAllPurchasesFromKeychain(){
         print("deleting...")
         let success = SecItemDelete(Self.kcQuery as CFDictionary)
+        if success == errSecSuccess {objectWillChange.send()} //update debug ui automatically
         print("Keychain message \(success): \(success.string)")
     }
     
-    func printKeychainData(){
-        print("printing keychain")
-        print(getpurchasesFromKeychain())
+    func printKeychainData() -> String {
+        print("printing keychain data")
+        let data = getpurchasesFromKeychain()
+        return data.description
     }
 }
 

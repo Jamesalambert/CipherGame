@@ -23,6 +23,7 @@ extension CipherPuzzle {
     }
     
     func load() {
+        //load prior state
         DispatchQueue.global(qos: .background).async { [weak self] in
             //if this fails we fall back to the blank Game() inited by the viewModel
             guard let data = try? Data(contentsOf: Self.fileURL) else {return}
@@ -37,6 +38,15 @@ extension CipherPuzzle {
             }
         }
     }
+    
+    private
+    func checkKeychainForPurchases(){
+        //load purchased books from keychain
+        self.store.loadPurchasedBooksFromKeychain{ purchasedBookIds in
+                self.model.add(books: purchasedBookIds)
+        }
+    }
+    
     
     func save(){
         DispatchQueue.global(qos: .background).async { [weak self] in

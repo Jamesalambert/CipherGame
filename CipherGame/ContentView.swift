@@ -58,6 +58,15 @@ struct ContentView: View {
                     }
                 }
                 Button("More Books"){isShowingIAP = true}
+                #if DEBUG
+                Text(OnlineStore.shared.printKeychainData())
+                Button("clear keychain"){
+                    OnlineStore.shared.deleteAllPurchasesFromKeychain()
+                }
+                Button("toggle store state"){
+                    OnlineStore.shared.finishedTransactions.toggle()
+                }
+                #endif
             }
             .navigationTitle("Puzzle Rooms")
             .listStyle(GroupedListStyle())
@@ -65,12 +74,13 @@ struct ContentView: View {
         }
         .environmentObject(viewModel)
         .onChange(of: scenePhase) { phase in
-            if phase == .inactive {saveAction()}
+            if phase == .inactive {
+                loadPurchsesFromKeychain()
+                saveAction()
+            }
         }
         .onChange(of: viewModel.store.finishedTransactions){_ in
-            viewModel.store.loadPurchasedBooksFromKeychain{ purchasedBookIds in
-                viewModel.model.add(books: purchasedBookIds)
-            }
+            loadPurchsesFromKeychain()
         }
         .sheet(isPresented: $isShowingIAP){
             IAPMenu(isShowingIAP: $isShowingIAP)
@@ -138,6 +148,17 @@ struct ContentView: View {
             Image(systemName: "gearshape")
         }
     }
+    
+    private
+    func loadPurchsesFromKeychain(){
+        viewModel.store.loadPurchasedBooksFromKeychain{ purchasedBookIds in
+            withAnimation(.standardUI){
+                viewModel.model.add(books: purchasedBookIds)
+            }
+        }
+    }
+    
+    
 }
 
     

@@ -230,9 +230,6 @@ class CipherPuzzle : ObservableObject {
         self.model = Game()
         self.currentPuzzleHash = self.model.lastOpenPuzzleHash
         self.currentChapterHash = self.model.lastOpenChapterHash
-        self.store.loadPurchasedBooksFromKeychain{ purchasedBookIds in
-            self.model.add(books: purchasedBookIds)
-        }
     }
 }
 
