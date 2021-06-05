@@ -35,6 +35,7 @@
 		AA9766BC2601651E0076B879 /* CipherGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766BB2601651E0076B879 /* CipherGameUITests.swift */; };
 		AA9766CD26016DED0076B879 /* CipherPuzzleSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */; };
 		AA9766D226016EB60076B879 /* CipherPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766D126016EB60076B879 /* CipherPuzzle.swift */; };
+		AAD347F52661551E00D69955 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD347F42661551E00D69955 /* DebugView.swift */; };
 		AADB10D92641812800089D8B /* Lucida Calligraphy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AADB10D826417EBE00089D8B /* Lucida Calligraphy.ttf */; };
 		AADB10DB2641F21400089D8B /* ContentView + IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADB10DA2641F21400089D8B /* ContentView + IAP.swift */; };
 		AADB10DD2644657F00089D8B /* PuzzleThemes + Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADB10DC2644657D00089D8B /* PuzzleThemes + Space.swift */; };
@@ -102,6 +103,7 @@
 		AA9766BD2601651E0076B879 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherPuzzleSource.swift; sourceTree = "<group>"; };
 		AA9766D126016EB60076B879 /* CipherPuzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherPuzzle.swift; sourceTree = "<group>"; };
+		AAD347F42661551E00D69955 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DebugView.swift; path = CipherGame/DebugView.swift; sourceTree = SOURCE_ROOT; };
 		AADB10D826417EBE00089D8B /* Lucida Calligraphy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lucida Calligraphy.ttf"; sourceTree = "<group>"; };
 		AADB10DA2641F21400089D8B /* ContentView + IAP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ContentView + IAP.swift"; path = "CipherGame/ContentView + IAP.swift"; sourceTree = SOURCE_ROOT; };
 		AADB10DC2644657D00089D8B /* PuzzleThemes + Space.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleThemes + Space.swift"; sourceTree = "<group>"; };
@@ -186,6 +188,7 @@
 				AAE55ABB261FBDAC0019407E /* ContentView + Blur.swift */,
 				AADEE3592645AB7F00C3107A /* TilePuzzle.swift */,
 				AA86CC68265AFED8001C6E04 /* Custom Animation.swift */,
+				AAD347F42661551E00D69955 /* DebugView.swift */,
 			);
 			path = "View support";
 			sourceTree = "<group>";
@@ -469,6 +472,7 @@
 				AAEE3B11261CEE30008E2233 /* CipherPuzzle + Persistence.swift in Sources */,
 				AAE9CE3D262E39CE001B9E87 /* ContentView + CipherSolverCharacterPair.swift in Sources */,
 				AA31EAB4260BE5370031D56C /* useful extensions.swift in Sources */,
+				AAD347F52661551E00D69955 /* DebugView.swift in Sources */,
 				AA342D9B26570A0F0039E315 /* useful view code.swift in Sources */,
 				AAE55AED262628090019407E /* PuzzleThemes + Treasure.swift in Sources */,
 				AA9766D226016EB60076B879 /* CipherPuzzle.swift in Sources */,

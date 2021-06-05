@@ -36,6 +36,9 @@ struct ContentView: View {
     @State
     var isShowingIAP : Bool = false
     
+    @State
+    var isShowingDebug : Bool = false
+    
     var body: some View {
         NavigationView{
             List{
@@ -59,20 +62,13 @@ struct ContentView: View {
                 }
                 Button("More Books"){isShowingIAP = true}
                 #if DEBUG
-                Text(OnlineStore.shared.printKeychainData())
-                Button("clear keychain"){
-                    OnlineStore.shared.deleteAllPurchasesFromKeychain()
-                }
-                Button("toggle store state"){
-                    OnlineStore.shared.finishedTransactions.toggle()
-                }
+                Button("debug"){isShowingDebug = true}
                 #endif
             }
             .navigationTitle("Puzzle Rooms")
             .listStyle(GroupedListStyle())
             .toolbar{toolbar()}
         }
-        .environmentObject(viewModel)
         .onChange(of: scenePhase) { phase in
             if phase == .inactive {
                 loadPurchsesFromKeychain()
@@ -84,10 +80,11 @@ struct ContentView: View {
         }
         .sheet(isPresented: $isShowingIAP){
             IAPMenu(isShowingIAP: $isShowingIAP)
-                .environmentObject(viewModel)
                 .environmentObject(viewModel.store)
                 .onAppear(perform: viewModel.store.getAvailableProductIds)
         }
+        .sheet(isPresented: $isShowingDebug){DebugView()}
+        .environmentObject(viewModel)
     }
     
     @ViewBuilder
