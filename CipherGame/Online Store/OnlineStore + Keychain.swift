@@ -18,7 +18,7 @@ extension OnlineStore {
         kSecAttrSynchronizable  as String           : true
     ]
     
-    func storeRecieptInKeychain(for bookName : String, newBookIdentifier : String) {
+    func storeRecieptInKeychain(newBookIdentifier : String) {
         
         var booksInKeychain : [String] = self.getpurchasesFromKeychain()
         

@@ -13,6 +13,16 @@ class OnlineStore : NSObject, ObservableObject {
     static let shared = OnlineStore()
     static let productsKey = "productIDs"
     
+    static var documentsURL : URL {
+        do {
+            return try FileManager.default.url(for: .documentDirectory,
+                                                             in: .userDomainMask,
+                                                             appropriateFor: nil, create: false)
+        } catch {
+            fatalError("couldn't get documents folder")
+        }
+    }
+    
     var productIDs : [String] = [] {
         didSet{
             getProductsFromAppStore()
@@ -30,6 +40,9 @@ class OnlineStore : NSObject, ObservableObject {
     
     @Published
     var state : StoreState = .inactive
+    
+    @Published
+    var downloads : [SKDownload] = []
     
     private
     var products = [SKProduct]()
@@ -99,19 +112,27 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
         for transaction in transactions {
             switch transaction.transactionState {
             case .purchasing:
+                state = .busy("purchasing")
                 //do nothing
                 break
             case .purchased, .restored:
+                state = .busy("done!")
+                
                 //unlock the item!
                 let id = transaction.payment.productIdentifier
-                let bookName = booksForSale.first(where: {$0.id == id})?.title
+                //let bookName = booksForSale.first(where: {$0.id == id})?.title
+                storeRecieptInKeychain(newBookIdentifier: id)
                 
-                storeRecieptInKeychain(for: bookName ?? "unknown book", newBookIdentifier: id)
-                numberOfFinishedTransactions += 1
-                
-                state = .inactive
-                SKPaymentQueue.default().finishTransaction(transaction)
-                SKPaymentQueue.default().remove(self)
+                //download content if available
+                if !transaction.downloads.isEmpty{
+                    print("added download!")
+                    SKPaymentQueue.default().start(transaction.downloads)
+                } else {
+                    state = .inactive
+                    SKPaymentQueue.default().finishTransaction(transaction)
+                    SKPaymentQueue.default().remove(self)
+                    numberOfFinishedTransactions += 1
+                }
             case .failed, .deferred:
                 state = .inactive
                 SKPaymentQueue.default().finishTransaction(transaction)
@@ -123,13 +144,63 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
             }
             stateDescription = "\(transaction.transactionState.rawValue)"
         }
-        
         if numberOfFinishedTransactions > 0 {finishedTransactions.toggle()}
+    }
+    
+    
+    func paymentQueue(_ queue: SKPaymentQueue, updatedDownloads downloads: [SKDownload]) {
+        for download in downloads{
+            switch download.state{
+            case .waiting:
+                self.downloads.append(download)
+            case.finished:
+                state = .inactive
+                //deal with files!
+                if let _ = download.contentURL {
+                    saveFiles(for: download)
+                }
+                
+                SKPaymentQueue.default().finishTransaction(download.transaction)
+                SKPaymentQueue.default().remove(self)
+                finishedTransactions.toggle()
+            default:
+                //never runs?
+                print(download.contentIdentifier + String(describing: download.state))
+                self.downloads.removeAll(where: {$0 == download})
+                self.downloads.append(download)
+            }
+        }
     }
     
     //needed for restoring transactions
     func paymentQueueRestoreCompletedTransactionsFinished(_ queue: SKPaymentQueue) {
         stateDescription = "finished restoring purchases."
+    }
+    
+    private
+    func saveFiles(for download : SKDownload){
+        guard let downloadURL = download.contentURL else {return}
+        
+        let contentsURL = downloadURL.appendingPathComponent("Contents", isDirectory: true)
+        
+        let destinationURL = OnlineStore.documentsURL.appendingPathComponent(download.contentIdentifier, isDirectory: true)
+        do {
+            try FileManager.default.copyItem(at: contentsURL, to: destinationURL)
+        } catch {
+            print(error)
+        }
+    }
+    
+//    For debugging
+    private
+    func contents(of url : String) -> [String]{
+        do{
+            let contents = try FileManager.default.contentsOfDirectory(atPath: url)
+            return contents
+        } catch {
+            print("couldn't find folder! \(url)")
+            return []
+        }
     }
     
 }

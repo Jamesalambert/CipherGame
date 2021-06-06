@@ -190,8 +190,11 @@ struct Game : Codable {
     
     private
     mutating func loadFromFile(bookName : String) {
+        
+        guard let JSONurl = url(for: bookName) else {return}
+        
         var decodedBook : Book
-        guard let JSONurl = Bundle.main.url(forResource: bookName, withExtension: "json") else {return}
+        
         do {
             if let data = try String(contentsOf: JSONurl).data(using: .utf8) {
                 
@@ -221,10 +224,23 @@ struct Game : Codable {
             }
         }
         catch {
+            //remove from active IDs if file wasn't found
+            activeBookIds.removeAll(where: {$0 == bookName})
             print("error Couldn't read input for \(bookName) json file:\n \(JSONurl)")
         }
     }
     
+    
+    private
+    func url(for bookID : String) -> URL? {
+        if let JSONurl = Bundle.main.url(forResource: bookID, withExtension: "json") {
+            return JSONurl
+        } else {
+            let docsURL = OnlineStore.documentsURL
+                .appendingPathComponent("\(bookID)/\(bookID).json")
+            return docsURL
+        }
+    }
     
     
     private

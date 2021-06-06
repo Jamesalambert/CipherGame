@@ -43,7 +43,13 @@ extension ContentView{
                     }
                 }
                 #if DEBUG
-                Text(viewModel.store.stateDescription).foregroundColor(Color.gray)
+                Section(header: Text("debug")){
+                    Text("store state: " + viewModel.store.stateDescription).foregroundColor(Color.gray)
+                    Text("Downloads").font(.title)
+                    ForEach(store.downloads, id:\.self){download in
+                        Text("\(download.contentIdentifier) \t \(String(download.progress))")
+                    }
+                }
                 #endif
             }
         }

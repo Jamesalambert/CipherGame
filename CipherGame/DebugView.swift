@@ -32,9 +32,31 @@ extension ContentView {
                         OnlineStore.shared.deleteAllPurchasesFromKeychain()
                     }
                 }
+                
+                Section(header: Text("Docs folder")){
+                    ForEach(contents(of: OnlineStore.documentsURL.path), id:\.self){file in
+                        Text(file)
+                    }
+                }
             }
             .listStyle(GroupedListStyle())
         }
+        
+        
+        private
+        func contents(of url : String) -> [String]{
+            do{
+                let contents = try FileManager.default.contentsOfDirectory(atPath: url)
+                return contents
+            } catch {
+                print("couldn't find folder! \(url)")
+                return []
+            }
+        }
+        
+        
+        
+        
     }
 }
 

@@ -1,0 +1,31 @@
+
+{
+    "title" : "Queen of the Zlogs",
+    "theme" : "space",
+    "chapters": [
+        {
+            "title": "First Chapter",
+            "puzzles" : [
+                {
+                    "title": "X Arrival",
+                    "header" : "The Martian dust swirls. Around you there is a vast landscape of red rocks and a yellow sky. You look up and see a shape morphing from an oval to a circle to a barely discernible disc. It spins towards you until it is a blur of liquid metal then suddenly stops mid-air. A beam of light opens up in its centre, dazzling you with its brightness and a great roar of air blasts the dust into the skies.",
+                    "plaintext": "You see a gold helmet and scaly tentacles. The visor slides up and you see one bright green eye. A low voice growls ‘Welcome to Mars, we have been expecting you’. You are frozen to the spot with fear. ‘Don’t worry,’ the creature says, ‘I’m here in your mind. I can see and feel everything you feel. I am Hurth, Queen of the Zlogs. Let me introduce you to my subjects. You don’t want to miss the welcome party.’ The alien Queen points to the beam of light under the spaceship.",
+                    "footer" : "",
+                    "keyAlphabet": "escidpoumgvhaqrjntzfbwklyx",
+                    "riddle" : " Should you:",
+                    "riddleAnswers" : ["accept the invitation and walk towards the beam of light.","radio for help."],
+                    "riddleKey" : ""
+                }
+            ],
+            "gridPuzzle" : {
+                    "type" : "rows",
+                    "size" : 4,
+                    "solutionImage" : "mars"
+            }
+        }
+    ]
+}
+
+
+
+

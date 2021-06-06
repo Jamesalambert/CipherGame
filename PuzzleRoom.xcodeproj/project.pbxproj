@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		AA0B9CD7263DDF18006A4CD1 /* test.mysteryIsland.json in Resources */ = {isa = PBXBuildFile; fileRef = AA0B9CD6263DDF18006A4CD1 /* test.mysteryIsland.json */; };
-		AA0B9CD9263DDF46006A4CD1 /* test.spaceBook.json in Resources */ = {isa = PBXBuildFile; fileRef = AA0B9CD8263DDF45006A4CD1 /* test.spaceBook.json */; };
+		AA0B9CD9263DDF46006A4CD1 /* X.test.spaceBook.json in Resources */ = {isa = PBXBuildFile; fileRef = AA0B9CD8263DDF45006A4CD1 /* X.test.spaceBook.json */; };
 		AA0B9CDD263E14AA006A4CD1 /* OnlineStore + Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0B9CDC263E14AA006A4CD1 /* OnlineStore + Keychain.swift */; };
 		AA14EB48261E12D3004AFD15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA14EB47261E12D3004AFD15 /* Assets.xcassets */; };
 		AA23A7722636E484002F9F39 /* ContentView + PhoneLetterPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA23A7712636E484002F9F39 /* ContentView + PhoneLetterPicker.swift */; };
@@ -35,6 +35,8 @@
 		AA9766BC2601651E0076B879 /* CipherGameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766BB2601651E0076B879 /* CipherGameUITests.swift */; };
 		AA9766CD26016DED0076B879 /* CipherPuzzleSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */; };
 		AA9766D226016EB60076B879 /* CipherPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766D126016EB60076B879 /* CipherPuzzle.swift */; };
+		AACAA4A2266C229E00E20966 /* mars.png in Resources */ = {isa = PBXBuildFile; fileRef = AACAA4A0266C229E00E20966 /* mars.png */; };
+		AACAA4A3266C229E00E20966 /* test.spaceBook.json in Resources */ = {isa = PBXBuildFile; fileRef = AACAA4A1266C229E00E20966 /* test.spaceBook.json */; };
 		AAD347F52661551E00D69955 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD347F42661551E00D69955 /* DebugView.swift */; };
 		AADB10D92641812800089D8B /* Lucida Calligraphy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AADB10D826417EBE00089D8B /* Lucida Calligraphy.ttf */; };
 		AADB10DB2641F21400089D8B /* ContentView + IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADB10DA2641F21400089D8B /* ContentView + IAP.swift */; };
@@ -70,7 +72,7 @@
 
 /* Begin PBXFileReference section */
 		AA0B9CD6263DDF18006A4CD1 /* test.mysteryIsland.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.mysteryIsland.json; sourceTree = "<group>"; };
-		AA0B9CD8263DDF45006A4CD1 /* test.spaceBook.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = test.spaceBook.json; sourceTree = "<group>"; };
+		AA0B9CD8263DDF45006A4CD1 /* X.test.spaceBook.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = X.test.spaceBook.json; sourceTree = "<group>"; };
 		AA0B9CDC263E14AA006A4CD1 /* OnlineStore + Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "OnlineStore + Keychain.swift"; path = "CipherGame/Online Store/OnlineStore + Keychain.swift"; sourceTree = SOURCE_ROOT; };
 		AA14EB47261E12D3004AFD15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA23A7712636E484002F9F39 /* ContentView + PhoneLetterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + PhoneLetterPicker.swift"; sourceTree = "<group>"; };
@@ -103,6 +105,10 @@
 		AA9766BD2601651E0076B879 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherPuzzleSource.swift; sourceTree = "<group>"; };
 		AA9766D126016EB60076B879 /* CipherPuzzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CipherPuzzle.swift; sourceTree = "<group>"; };
+		AACAA49A266C220800E20966 /* space Book */ = {isa = PBXFileReference; explicitFileType = folder; includeInIndex = 0; path = "space Book"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AACAA49C266C220800E20966 /* ContentInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ContentInfo.plist; sourceTree = "<group>"; };
+		AACAA4A0266C229E00E20966 /* mars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mars.png; sourceTree = "<group>"; };
+		AACAA4A1266C229E00E20966 /* test.spaceBook.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test.spaceBook.json; sourceTree = "<group>"; };
 		AAD347F42661551E00D69955 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DebugView.swift; path = CipherGame/DebugView.swift; sourceTree = SOURCE_ROOT; };
 		AADB10D826417EBE00089D8B /* Lucida Calligraphy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lucida Calligraphy.ttf"; sourceTree = "<group>"; };
 		AADB10DA2641F21400089D8B /* ContentView + IAP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ContentView + IAP.swift"; path = "CipherGame/ContentView + IAP.swift"; sourceTree = SOURCE_ROOT; };
@@ -217,6 +223,7 @@
 				AA97669D2601651A0076B879 /* CipherGame */,
 				AA9766AF2601651E0076B879 /* CipherGameTests */,
 				AA9766BA2601651E0076B879 /* CipherGameUITests */,
+				AACAA49B266C220800E20966 /* test.spaceBook */,
 				AA97669C2601651A0076B879 /* Products */,
 				AA938560263CB72300051BC6 /* Frameworks */,
 			);
@@ -228,6 +235,7 @@
 				AA97669B2601651A0076B879 /* CipherGame.app */,
 				AA9766AC2601651E0076B879 /* CipherGameTests.xctest */,
 				AA9766B72601651E0076B879 /* CipherGameUITests.xctest */,
+				AACAA49A266C220800E20966 /* space Book */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -281,6 +289,16 @@
 			path = CipherGameUITests;
 			sourceTree = "<group>";
 		};
+		AACAA49B266C220800E20966 /* test.spaceBook */ = {
+			isa = PBXGroup;
+			children = (
+				AACAA4A0266C229E00E20966 /* mars.png */,
+				AACAA4A1266C229E00E20966 /* test.spaceBook.json */,
+				AACAA49C266C220800E20966 /* ContentInfo.plist */,
+			);
+			path = test.spaceBook;
+			sourceTree = "<group>";
+		};
 		AAD347F3265EE08300D69955 /* Online Store */ = {
 			isa = PBXGroup;
 			children = (
@@ -296,7 +314,7 @@
 				AAEE3AF6261B8676008E2233 /* Lessons.json */,
 				AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */,
 				AA0B9CD6263DDF18006A4CD1 /* test.mysteryIsland.json */,
-				AA0B9CD8263DDF45006A4CD1 /* test.spaceBook.json */,
+				AA0B9CD8263DDF45006A4CD1 /* X.test.spaceBook.json */,
 			);
 			path = puzzles;
 			sourceTree = "<group>";
@@ -367,6 +385,21 @@
 			productReference = AA9766B72601651E0076B879 /* CipherGameUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
+		AACAA499266C220800E20966 /* test.spaceBook */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AACAA49F266C220800E20966 /* Build configuration list for PBXNativeTarget "test.spaceBook" */;
+			buildPhases = (
+				AACAA498266C220800E20966 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = test.spaceBook;
+			productName = test.spaceBook;
+			productReference = AACAA49A266C220800E20966 /* space Book */;
+			productType = "com.apple.product-type.in-app-purchase-content";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -387,6 +420,9 @@
 						CreatedOnToolsVersion = 12.4;
 						TestTargetID = AA97669A2601651A0076B879;
 					};
+					AACAA499266C220800E20966 = {
+						CreatedOnToolsVersion = 12.5;
+					};
 				};
 			};
 			buildConfigurationList = AA9766962601651A0076B879 /* Build configuration list for PBXProject "PuzzleRoom" */;
@@ -405,6 +441,7 @@
 				AA97669A2601651A0076B879 /* CipherGame */,
 				AA9766AB2601651E0076B879 /* CipherGameTests */,
 				AA9766B62601651E0076B879 /* CipherGameUITests */,
+				AACAA499266C220800E20966 /* test.spaceBook */,
 			);
 		};
 /* End PBXProject section */
@@ -418,7 +455,7 @@
 				AADB10D92641812800089D8B /* Lucida Calligraphy.ttf in Resources */,
 				AAE6270D2617ED50004BF125 /* Rebecca's Garden.json in Resources */,
 				AA7D415B2627986600E1558C /* Lucida Console.ttf in Resources */,
-				AA0B9CD9263DDF46006A4CD1 /* test.spaceBook.json in Resources */,
+				AA0B9CD9263DDF46006A4CD1 /* X.test.spaceBook.json in Resources */,
 				AA0B9CD7263DDF18006A4CD1 /* test.mysteryIsland.json in Resources */,
 				AA5D867D2614F680008D3B44 /* CipherPrint.css in Resources */,
 				AA14EB48261E12D3004AFD15 /* Assets.xcassets in Resources */,
@@ -438,6 +475,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AACAA498266C220800E20966 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AACAA4A3266C229E00E20966 /* test.spaceBook.json in Resources */,
+				AACAA4A2266C229E00E20966 /* mars.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -756,6 +802,30 @@
 			};
 			name = Release;
 		};
+		AACAA49D266C220800E20966 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3F7MQRNEB5;
+				INFOPLIST_FILE = test.spaceBook/ContentInfo.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/InAppPurchaseContent";
+				PRODUCT_NAME = "space Book";
+				WRAPPER_EXTENSION = "";
+			};
+			name = Debug;
+		};
+		AACAA49E266C220800E20966 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 3F7MQRNEB5;
+				INFOPLIST_FILE = test.spaceBook/ContentInfo.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/InAppPurchaseContent";
+				PRODUCT_NAME = "space Book";
+				WRAPPER_EXTENSION = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -791,6 +861,15 @@
 			buildConfigurations = (
 				AA9766C72601651E0076B879 /* Debug */,
 				AA9766C82601651E0076B879 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AACAA49F266C220800E20966 /* Build configuration list for PBXNativeTarget "test.spaceBook" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AACAA49D266C220800E20966 /* Debug */,
+				AACAA49E266C220800E20966 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
