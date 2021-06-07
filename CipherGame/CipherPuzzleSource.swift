@@ -191,6 +191,7 @@ struct Game : Codable {
     private
     mutating func loadFromFile(bookName : String) {
         
+        //check in app bundle or Documents folder
         guard let JSONurl = url(for: bookName) else {return}
         
         var decodedBook : Book

@@ -39,14 +39,6 @@ extension CipherPuzzle {
         }
     }
     
-    private
-    func checkKeychainForPurchases(){
-        //load purchased books from keychain
-        self.store.loadPurchasedBooksFromKeychain{ purchasedBookIds in
-                self.model.add(books: purchasedBookIds)
-        }
-    }
-    
     
     func save(){
         DispatchQueue.global(qos: .background).async { [weak self] in

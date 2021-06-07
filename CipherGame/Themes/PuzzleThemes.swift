@@ -51,7 +51,7 @@ class ThemeManager {
         }
     }
     
-    //MARK:-  --------Default-Theme----------
+    //MARK:-  --------Default Theme----------
     
     private
     static let defaultTheme = ThemeStructure(color: ThemeStructure.defaultColors,
@@ -186,9 +186,9 @@ enum ThemeAnimation{
 
 
 enum BookTheme : Codable {
-    
+
     case defaultTheme, space, treasure
-    
+
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
         let rawValue = try? container.decode(String.self)
@@ -200,7 +200,7 @@ enum BookTheme : Codable {
             self = .defaultTheme
         }
     }
-    
+
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
         switch self {
@@ -209,5 +209,4 @@ enum BookTheme : Codable {
         case .treasure: try container.encode("treasure")
         }
     }
-    
 }

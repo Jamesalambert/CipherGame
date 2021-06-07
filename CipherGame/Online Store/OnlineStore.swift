@@ -112,12 +112,9 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
         for transaction in transactions {
             switch transaction.transactionState {
             case .purchasing:
-                state = .busy("purchasing")
                 //do nothing
                 break
             case .purchased, .restored:
-                state = .busy("done!")
-                
                 //unlock the item!
                 let id = transaction.payment.productIdentifier
                 //let bookName = booksForSale.first(where: {$0.id == id})?.title
@@ -159,7 +156,6 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
                 if let _ = download.contentURL {
                     saveFiles(for: download)
                 }
-                
                 SKPaymentQueue.default().finishTransaction(download.transaction)
                 SKPaymentQueue.default().remove(self)
                 finishedTransactions.toggle()

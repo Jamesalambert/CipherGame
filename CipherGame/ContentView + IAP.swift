@@ -84,7 +84,9 @@ extension ContentView{
                 } label: {
                     VStack(alignment: .trailing){
                         HStack(spacing: 0){
-                            ActivityIndicator(isActive: viewModel.store.state == StoreState.busy(bookForSale.id))
+                            
+                            ActivityIndicator(bookForSale: bookForSale)
+                            
                             Text(viewModel.installedBookIDs.contains(bookForSale.id) ? "open" : bookForSale.price)
                                 .padding(EdgeInsets.sized(horizontally: 10, vertically: 5))
                         }
@@ -99,22 +101,40 @@ extension ContentView{
         }
         
         struct ActivityIndicator : View {
-            var indicatorColour : Color = .white
-            var isActive : Bool = false
+            
+            @EnvironmentObject
+            var store : OnlineStore
+            
+            @State
+            private var isSpinning = false
+            
+            let indicatorColour : Color = .white
+            
+            var bookForSale : ProductInfo
+            var progress : Float {
+                store.downloads.first(where: {$0.contentIdentifier == bookForSale.id})?.progress ?? 0
+            }
+            
+            var isVisible : Bool {
+                return store.state == StoreState.busy(bookForSale.id)
+            }
+            
             var body : some View {
                 ZStack{
-                    Circle()
-                        .trim(from: 0, to: 0.3)
-                        .stroke(lineWidth: 3)
-                        .aspectRatio(1, contentMode: .fit)
-                        .frame(width: 20, height: 20, alignment: .trailing)
-                        .rotationEffect(Angle.degrees(isActive ? 360 : 0))
-                        .animation(.linear(duration: 1).repeatForever(autoreverses: false))
+                    if isVisible {
+                        Circle()
+                            .trim(from: 0, to: CGFloat(0.3 + progress))
+                            .stroke(lineWidth: 3)
+                            .aspectRatio(1, contentMode: .fit)
+                            .frame(width: 15, height: 15, alignment: .trailing)
+                            .padding(EdgeInsets.sized(horizontally: 5, vertically: 0))
+                            .rotationEffect(Angle.degrees(isSpinning ? 360 : 0))
+                            .animation(.linear(duration: 1).repeatForever(autoreverses: false), value: isSpinning)
+                            .onAppear{
+                                self.isSpinning = true
+                            }
+                    }
                 }
-                .frame(width: isActive ? 20 : 0,
-                       height: 20,
-                       alignment: .trailing)
-                .opacity(isActive ? 1 : 0)
             }
         }
         
