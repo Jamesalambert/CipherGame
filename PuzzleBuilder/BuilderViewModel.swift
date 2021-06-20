@@ -109,6 +109,8 @@ class BuilderViewModel: ObservableObject{
     init(){
         let book = ReadableBook()
         self.book = book
+        selectedChapterID = self.book.chapters.first?.id
+        selectedPuzzleID = self.book.chapters.first?.puzzles.first?.id
     }
     
 }
