@@ -40,6 +40,17 @@ class BuilderViewModel: ObservableObject{
         self.book.chapters[chapterIndex].puzzles.append(newPuzzle)
     }
     
+    func deletePuzzle(puzzleID : UUID){
+        guard let chapterIndex = self.chapterIndex else {return}
+        guard let puzzleIndex = self.puzzleIndex else {return}
+        book.chapters[chapterIndex].puzzles.remove(at: puzzleIndex)
+    }
+    
+    func deleteChapter(chapterID : UUID){
+        guard let chapterIndex = self.chapterIndex else {return}
+        book.chapters.remove(at: chapterIndex)
+    }
+    
     var JSON : String {
         do{
             let encoder = JSONEncoder()

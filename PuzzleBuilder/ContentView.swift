@@ -16,21 +16,21 @@ struct ContentView: View {
     
     var body: some View {
         
-        Form{
-            Text("Book").font(.title)
-            TextField("book title", text: $viewModel.book.title)
-            Picker("theme", selection: $viewModel.book.theme){
-                ForEach(BookTheme.allCases, id:\.self){ theme in
-                    Text(theme.rawValue)
+        VStack(alignment: .leading){
+            Form{
+                TextField("book title", text: $viewModel.book.title)
+                Picker("theme", selection: $viewModel.book.theme){
+                    ForEach(BookTheme.allCases, id:\.self){ theme in
+                        Text(theme.rawValue)
+                    }
                 }
             }
-        }
-        
-        ChapterList(chapters: $viewModel.book.chapters)
-        .environmentObject(viewModel)
-        
-        ScrollView{
-            Text(viewModel.JSON)
+            ChapterList(chapters: $viewModel.book.chapters)
+                .environmentObject(viewModel)
+            
+            ScrollView{
+                TextField("JSON", text: .constant(viewModel.JSON))
+            }
         }
     }
     
@@ -43,22 +43,33 @@ struct ContentView: View {
         @Binding var chapters: [ReadableChapter]
         
         var body: some View {
+            
             NavigationView{
                 List{
-                    ForEach(chapters){chapter in
-                        NavigationLink(chapter.title,
-                                       destination: ChapterEditor(chapter: chapter),
-                                       tag: chapter.id,
-                                       selection: $viewModel.selectedChapterID)
-                    }
-                    
-                    Button("add chapter"){
-                        let newChapter = ReadableChapter(title: "title \(viewModel.book.chapters.count + 1)",
-                                                         puzzles: [ReadablePuzzle()])
-                        viewModel.book.chapters.append(newChapter)
+                    Section(header: Text("Chapters"), footer: button()){
+                        ForEach(chapters){chapter in
+                            NavigationLink(chapter.title,
+                                           destination: ChapterEditor(chapter: chapter),
+                                           tag: chapter.id,
+                                           selection: $viewModel.selectedChapterID)
+                                .contextMenu{
+                                    Button("delete"){
+                                        viewModel.deleteChapter(chapterID: chapter.id)
+                                    }
+                                }
+                        }
                     }
                 }
             }.navigationTitle("Chapters")
+        }
+        
+        
+        private func button() -> some View {
+            Button("add chapter"){
+                let newChapter = ReadableChapter(title: "Chapter \(viewModel.book.chapters.count + 1)",
+                                                 puzzles: [ReadablePuzzle()])
+                viewModel.book.chapters.append(newChapter)
+            }
         }
     }
     
@@ -71,25 +82,35 @@ struct ContentView: View {
         var chapter: ReadableChapter
         
         var body: some View {
-            NavigationView{
-                Form{
-                    TextField("chapter title", text: $chapterTitle, onCommit: save)
-                    List{
-                        Button("Add Puzzle"){
-                            viewModel.addPuzzle()
-                        }
-                    
-                        ForEach(chapter.puzzles){puzzle in
-                            NavigationLink(puzzle.title,
-                                           destination: PuzzleBuilder(puzzle: puzzle),
-                                           tag: puzzle.id,
-                                           selection: $viewModel.selectedPuzzleID)
+            VStack(alignment: .leading){
+                TextField("chapter title", text: $chapterTitle, onCommit: save)
+                NavigationView{
+                        List{
+                            Section(header: Text("Puzzles"),footer: button()){
+                                ForEach(chapter.puzzles){puzzle in
+                                    NavigationLink(puzzle.title,
+                                                   destination: PuzzleBuilder(puzzle: puzzle),
+                                                   tag: puzzle.id,
+                                                   selection: $viewModel.selectedPuzzleID)
+                                        .contextMenu{
+                                            Button("delete"){
+                                                viewModel.deletePuzzle(puzzleID: puzzle.id)
+                                            }
+                                        }
+                                }
+                            }
                         }
                     }
-                }
-                .onAppear{
-                    chapterTitle = chapter.title
-                }
+                    .onAppear{
+                        chapterTitle = chapter.title
+                    }
+            }
+        }
+        
+        private
+        func button() -> some View {
+            Button("Add Puzzle"){
+                viewModel.addPuzzle()
             }
         }
         

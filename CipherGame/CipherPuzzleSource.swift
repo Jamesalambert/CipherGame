@@ -424,7 +424,7 @@ struct ReadableBook : Codable, Equatable {
 struct ReadableChapter :  Codable, Identifiable, Hashable {
     
     init(title : String, puzzles : [ReadablePuzzle]){
-        self.title = "title"
+        self.title = title
         self.puzzles = [ReadablePuzzle()]
         gridPuzzle = ReadableGridPuzzle()
     }
