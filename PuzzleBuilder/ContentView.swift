@@ -46,10 +46,10 @@ struct ContentView: View {
             
             NavigationView{
                 List{
-                    Section(header: Text("Chapters"), footer: button()){
+                    Section(header: header()){
                         ForEach(chapters){chapter in
                             NavigationLink(chapter.title,
-                                           destination: ChapterEditor(chapter: chapter),
+                                           destination: ChapterEditor(chapter: .constant(chapter)),
                                            tag: chapter.id,
                                            selection: $viewModel.selectedChapterID)
                                 .contextMenu{
@@ -64,11 +64,15 @@ struct ContentView: View {
         }
         
         
-        private func button() -> some View {
-            Button("add chapter"){
-                let newChapter = ReadableChapter(title: "Chapter \(viewModel.book.chapters.count + 1)",
-                                                 puzzles: [ReadablePuzzle()])
-                viewModel.book.chapters.append(newChapter)
+        private func header() -> some View {
+            HStack{
+                Text("chapters")
+                Button{
+                    let newChapter = ReadableChapter(title: "Chapter \(viewModel.book.chapters.count + 1)")
+                    viewModel.book.chapters.append(newChapter)
+                } label: {
+                    Image(systemName: "plus")
+                }
             }
         }
     }
@@ -79,14 +83,14 @@ struct ContentView: View {
         
         @State var chapterTitle: String = ""
         
-        var chapter: ReadableChapter
+        @Binding var chapter: ReadableChapter
         
         var body: some View {
             VStack(alignment: .leading){
                 TextField("chapter title", text: $chapterTitle, onCommit: save)
                 NavigationView{
                         List{
-                            Section(header: Text("Puzzles"),footer: button()){
+                            Section(header: header()){
                                 ForEach(chapter.puzzles){puzzle in
                                     NavigationLink(puzzle.title,
                                                    destination: PuzzleBuilder(puzzle: puzzle),
@@ -99,6 +103,19 @@ struct ContentView: View {
                                         }
                                 }
                             }
+                            if let gridPuzzle = chapter.gridPuzzle {
+                                Section(header: Text("grid puzzles")){
+                                    NavigationLink("puzzle",
+                                                   destination: GridPuzzleBuilder(readableGridPuzzle: .constant(gridPuzzle)),
+                                                   tag: gridPuzzle.id,
+                                                   selection: $viewModel.selectedGridPuzzleID)
+                                        .contextMenu{
+                                            Button("delete"){
+                                                viewModel.deleteGridPuzzle(puzzleID : gridPuzzle.id)
+                                            }
+                                        }
+                                }
+                            }
                         }
                     }
                     .onAppear{
@@ -107,10 +124,14 @@ struct ContentView: View {
             }
         }
         
-        private
-        func button() -> some View {
-            Button("Add Puzzle"){
-                viewModel.addPuzzle()
+        private func header() -> some View {
+            HStack{
+                Text("cipher puzzles")
+                Button{
+                    viewModel.addPuzzle()
+                } label: {
+                    Image(systemName: "plus")
+                }
             }
         }
         
@@ -142,6 +163,7 @@ struct ContentView: View {
                 TextField("key alphabet", text: $puzzleKeyAlphabet, onCommit: save)
                 TextField("header", text: $puzzleHeader, onCommit: save)
                 TextEditor(text: $puzzlePlaintext)
+                    .onChange(of: puzzlePlaintext, perform: {_ in save()})
                 TextField("footer", text: $puzzleFooter, onCommit: save)
             }
             .onAppear{
@@ -155,42 +177,71 @@ struct ContentView: View {
         
         private
         func save(){
-            var newPuzzle = ReadablePuzzle()
+            var newPuzzle = puzzle
             newPuzzle.title         = puzzleTitle
             newPuzzle.keyAlphabet   = puzzleKeyAlphabet
             newPuzzle.header        = puzzleHeader
             newPuzzle.plaintext     = puzzlePlaintext
             newPuzzle.footer        = puzzleFooter
-            newPuzzle.id            = puzzle.id
             viewModel.updatePuzzle(newPuzzle: newPuzzle)
         }
     }
 
+    
+    
     struct GridPuzzleBuilder: View {
         
-        @EnvironmentObject
-        var viewModel : BuilderViewModel
+        @EnvironmentObject var viewModel: BuilderViewModel
         
         @Binding var readableGridPuzzle: ReadableGridPuzzle
         
+        @State private var size: Int = 3
+        @State private var type: GridSolution = .all
+        @State private var solutionImage: String = ""
+        @State private var image: String = ""
+        
         var body: some View{
-            Picker("type", selection: $readableGridPuzzle.type){
-                ForEach(GridSolution.allCases, id:\.self){ type in
-                    Text(type.rawValue)
+            VStack{
+                HStack{
+                    Picker("type", selection: $type){
+                        ForEach(GridSolution.allCases, id:\.self){ type in
+                            Text(type.rawValue)
+                                .fixedSize()
+                        }
+                    }
+                    Stepper("size", onIncrement: moreSquares, onDecrement: lessSquares)
+                    Text(String(size))
                 }
+                TextField("image", text: $image)
+                TextField("solutionImage", text: $solutionImage)
+                    .onAppear{
+                        self.type = readableGridPuzzle.type
+                        self.size = readableGridPuzzle.size
+                        self.solutionImage = readableGridPuzzle.solutionImage ?? ""
+                        self.image = readableGridPuzzle.image ?? ""
+                    }
             }
-            Stepper("size", onIncrement: moreSquares, onDecrement: lessSquares)
-            
-            TextField("image", text: $readableGridPuzzle.image ?? "")
-            TextField("solutionImage", text: $readableGridPuzzle.solutionImage ?? "")
+            .onChange(of: size, perform: {_ in save()})
+            .onChange(of: type, perform: {_ in save()})
+            .onChange(of: image, perform: {_ in save()})
+            .onChange(of: solutionImage, perform: {_ in save()})
         }
         
         private func moreSquares(){
-            self.readableGridPuzzle.size = self.readableGridPuzzle.size + 1
+            size = size + 1
         }
         
         private func lessSquares(){
-            self.readableGridPuzzle.size = self.readableGridPuzzle.size - 1
+            size = size - 1
+        }
+        
+        private func save(){
+            var newGrid = self.readableGridPuzzle
+            newGrid.type = type
+            newGrid.size = size
+            newGrid.image = image
+            newGrid.solutionImage = solutionImage
+            viewModel.updateGridPuzzle(newGrid: newGrid )
         }
     }
     
@@ -198,7 +249,6 @@ struct ContentView: View {
 }
 
 struct ContentView_Previews: PreviewProvider {
-        
     static var previews: some View {
         ContentView(viewModel: BuilderViewModel())
     }

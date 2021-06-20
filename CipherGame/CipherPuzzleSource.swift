@@ -413,7 +413,7 @@ struct ReadableBook : Codable, Equatable {
     init(){
         title = "title"
         theme = .defaultTheme
-        chapters = []
+        chapters = [ReadableChapter(title: "Chapter 1")]
     }
     
     var title : String
@@ -423,7 +423,7 @@ struct ReadableBook : Codable, Equatable {
 
 struct ReadableChapter :  Codable, Identifiable, Hashable {
     
-    init(title : String, puzzles : [ReadablePuzzle]){
+    init(title : String){
         self.title = title
         self.puzzles = [ReadablePuzzle()]
         gridPuzzle = ReadableGridPuzzle()
@@ -462,13 +462,14 @@ struct ReadablePuzzle : Codable, Equatable, Identifiable {
     var keyAlphabet : String
 }
 
-struct ReadableGridPuzzle : Codable {
+struct ReadableGridPuzzle : Codable, Identifiable {
     
     init(){
         type = .all
         size = 4
     }
     
+    var id = UUID()
     var type : GridSolution
     var size : Int
     var image : String?

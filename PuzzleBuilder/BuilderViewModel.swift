@@ -20,6 +20,9 @@ class BuilderViewModel: ObservableObject{
     @Published
     var selectedPuzzleID : UUID?
     
+    @Published
+    var selectedGridPuzzleID : UUID?
+    
     func updateChapter(newChapter : ReadableChapter){
         guard let chapterIndex = self.chapterIndex else {return}
         book.chapters[chapterIndex] = newChapter
@@ -29,6 +32,11 @@ class BuilderViewModel: ObservableObject{
         guard let chapterIndex = self.chapterIndex else {return}
         guard let puzzleIndex = self.puzzleIndex else {return}
         book.chapters[chapterIndex].puzzles[puzzleIndex] = newPuzzle
+    }
+    
+    func updateGridPuzzle(newGrid : ReadableGridPuzzle){
+        guard let chapterIndex = self.chapterIndex else {return}
+        self.book.chapters[chapterIndex].gridPuzzle = newGrid
     }
     
     func addPuzzle(){
@@ -49,6 +57,11 @@ class BuilderViewModel: ObservableObject{
     func deleteChapter(chapterID : UUID){
         guard let chapterIndex = self.chapterIndex else {return}
         book.chapters.remove(at: chapterIndex)
+    }
+    
+    func deleteGridPuzzle(puzzleID: UUID){
+        guard let chapterIndex = self.chapterIndex else {return}
+        self.book.chapters[chapterIndex].gridPuzzle = nil
     }
     
     var JSON : String {
