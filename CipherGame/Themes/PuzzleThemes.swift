@@ -31,7 +31,7 @@ class ThemeManager {
         return Self.theme(for: bookName).images(ImageContext(item: item))
     }
     
-    func blurStyle(for bookTheme : BookTheme, in colorScheme : ColorScheme) -> UIBlurEffect.Style {
+    func blurStyle(for bookTheme : BookTheme, in colorScheme : ColorScheme) -> Int {
         return Self.theme(for: bookTheme).blurStyle(colorScheme)
     }
     
@@ -72,7 +72,7 @@ class ThemeManager {
         var time : (TimeContext) -> Double
         var font : (FontContext) -> Font
         var images : (ImageContext) -> Image?
-        var blurStyle : (ColorScheme) -> UIBlurEffect.Style
+        var blurStyle : (ColorScheme) -> Int
         
         
         static func defaultColors(_ context : ColorContext) -> Color {            
@@ -129,8 +129,14 @@ class ThemeManager {
             return nil
         }
         
-        static func defaultBlurStyle(colorScheme: ColorScheme) -> UIBlurEffect.Style {
-            return colorScheme == .light ? .systemUltraThinMaterialLight : .systemUltraThinMaterialDark
+        static func defaultBlurStyle(colorScheme: ColorScheme) -> Int {
+            if colorScheme == .light{
+//                UIBlurEffect.Style.systemUltraThinMaterialLight.rawValue
+                return 11
+            } else {
+//                UIBlurEffect.Style.systemUltraThinMaterialDark.rawValue
+                return 16
+            }
         }
     }
 
@@ -185,9 +191,9 @@ enum ThemeAnimation{
 }
 
 
-enum BookTheme : Codable {
+enum BookTheme : String, Codable, CaseIterable {
 
-    case defaultTheme, space, treasure
+    case defaultTheme = "default", space = "space", treasure = "treasure"
 
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()

@@ -268,11 +268,11 @@ struct Tile : Identifiable, Hashable, Codable{
     }
 }
 
-enum GridSolution : Codable {
+enum GridSolution : String, Codable, CaseIterable {
     
-    case all
-    case rows
-    case columns
+    case all  = "all"
+    case rows = "rows"
+    case columns = "columns"
     
     init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
@@ -288,10 +288,12 @@ enum GridSolution : Codable {
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
-        switch self {
-        case .all: try container.encode("all")
-        case .rows: try container.encode("rows")
-        case .columns: try container.encode("columns")
-        }
+        try container.encode(self.rawValue)
+//        switch self {
+//        case .all: try container.encode(self.rawValue)
+//        case .rows: try container.encode("rows")
+//        case .columns: try container.encode("columns")
+//        }
     }
+    
 }

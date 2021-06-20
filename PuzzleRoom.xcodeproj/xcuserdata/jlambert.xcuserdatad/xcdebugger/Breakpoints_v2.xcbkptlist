@@ -32,27 +32,27 @@
             landmarkType = "7">
             <Locations>
                <Location
-                  uuid = "050F7D57-726A-4663-9D29-1652F05FE226 - 84f84ad79ecb08e3"
+                  uuid = "050F7D57-726A-4663-9D29-1652F05FE226 - d5373d2b48ce0d21"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "CipherGame.GridPuzzle.addTile() -&gt; ()"
-                  moduleName = "CipherGame"
+                  symbolName = "PuzzleBuilder.GridPuzzle.addTile() -&gt; ()"
+                  moduleName = "PuzzleBuilder"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/Model%20support/GridPuzzle.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "44"
                   endingLineNumber = "44"
-                  offsetFromSymbolStart = "536">
+                  offsetFromSymbolStart = "260">
                </Location>
                <Location
-                  uuid = "050F7D57-726A-4663-9D29-1652F05FE226 - bb54a2811dbca969"
+                  uuid = "050F7D57-726A-4663-9D29-1652F05FE226 - f20dae001aaa0baa"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (CipherGame.Row) -&gt; Swift.Array&lt;CipherGame.Tile&gt; in CipherGame.GridPuzzle.addTile() -&gt; ()"
-                  moduleName = "CipherGame"
+                  symbolName = "closure #1 (PuzzleBuilder.Row) -&gt; Swift.Array&lt;PuzzleBuilder.Tile&gt; in PuzzleBuilder.GridPuzzle.addTile() -&gt; ()"
+                  moduleName = "PuzzleBuilder"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/Model%20support/GridPuzzle.swift"
                   startingColumnNumber = "9223372036854775807"
@@ -62,19 +62,19 @@
                   offsetFromSymbolStart = "28">
                </Location>
                <Location
-                  uuid = "050F7D57-726A-4663-9D29-1652F05FE226 - 9f36f18d531089dc"
+                  uuid = "050F7D57-726A-4663-9D29-1652F05FE226 - 758956d52bb6a5b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #2 (CipherGame.Tile) -&gt; Swift.Bool in CipherGame.GridPuzzle.addTile() -&gt; ()"
-                  moduleName = "CipherGame"
+                  symbolName = "closure #2 (PuzzleBuilder.Tile) -&gt; Swift.Bool in PuzzleBuilder.GridPuzzle.addTile() -&gt; ()"
+                  moduleName = "PuzzleBuilder"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/Model%20support/GridPuzzle.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "44"
                   endingLineNumber = "44"
-                  offsetFromSymbolStart = "100">
+                  offsetFromSymbolStart = "68">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -188,6 +188,22 @@
             startingLineNumber = "77"
             endingLineNumber = "77"
             landmarkName = "updateUsersGuesses(cipherCharacter:plaintextCharacter:for:at:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6A70306E-CD2B-477D-A727-A3FC794013B0"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PuzzleBuilder/BuilderViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
+            landmarkName = "updateChapter(newChapter:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

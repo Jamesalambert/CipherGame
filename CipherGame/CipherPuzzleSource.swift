@@ -408,19 +408,53 @@ struct Chapter : Hashable, Codable, Identifiable {
     }
 }
 
-struct ReadableBook : Codable {
+struct ReadableBook : Codable, Equatable {
+    
+    init(){
+        title = "title"
+        theme = .defaultTheme
+        chapters = []
+    }
+    
     var title : String
     var theme : BookTheme
     var chapters : [ReadableChapter]
 }
 
-struct ReadableChapter :  Codable {
+struct ReadableChapter :  Codable, Identifiable, Hashable {
+    
+    init(title : String, puzzles : [ReadablePuzzle]){
+        self.title = "title"
+        self.puzzles = [ReadablePuzzle()]
+        gridPuzzle = ReadableGridPuzzle()
+    }
+    
+    static func == (lhs: ReadableChapter, rhs: ReadableChapter) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
+    var id = UUID()
     var title : String
     var puzzles : [ReadablePuzzle]
     var gridPuzzle : ReadableGridPuzzle?
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
 }
 
-struct ReadablePuzzle : Codable {
+struct ReadablePuzzle : Codable, Equatable, Identifiable {
+    
+    var id = UUID()
+    
+    init(){
+        title = "title"
+        header = "header"
+        footer = "footer"
+        plaintext = "plaintext"
+        keyAlphabet = "key alphabet"
+    }
+    
     var title : String
     var header : String
     var plaintext : String
@@ -429,6 +463,12 @@ struct ReadablePuzzle : Codable {
 }
 
 struct ReadableGridPuzzle : Codable {
+    
+    init(){
+        type = .all
+        size = 4
+    }
+    
     var type : GridSolution
     var size : Int
     var image : String?

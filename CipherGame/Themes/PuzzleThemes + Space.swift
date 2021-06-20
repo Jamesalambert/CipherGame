@@ -91,7 +91,8 @@ extension ThemeManager {
         }
         
         private
-        static func spaceBlurStyle(colorscheme : ColorScheme) -> UIBlurEffect.Style {
-            return .systemUltraThinMaterialDark
+        static func spaceBlurStyle(colorscheme : ColorScheme) -> Int {
+//            UIBlurEffect.Style.systemUltraThinMaterialDark.rawValue
+            return 16
         }
 }

@@ -91,8 +91,9 @@ extension ThemeManager {
     }
     
     private
-    static func treasureBlurStyle(colorscheme : ColorScheme) -> UIBlurEffect.Style {
-        return .systemUltraThinMaterialLight
+    static func treasureBlurStyle(colorscheme : ColorScheme) -> Int {
+//        UIBlurEffect.Style.systemUltraThinMaterialLight.rawValue
+        return 11
     }
     
 }

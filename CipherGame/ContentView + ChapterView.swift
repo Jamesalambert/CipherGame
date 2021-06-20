@@ -171,7 +171,7 @@ extension ContentView {
                         .frame(height: showLetterCount ? Self.letterCountHeight : 30)
                 }
             }
-            .background(Blur(style: viewModel.theme.blurStyle(for: bookTheme, in: colorScheme)))
+            .background(Blur(style: UIBlurEffect.Style(rawValue: viewModel.theme.blurStyle(for: bookTheme, in: colorScheme)) ?? .regular))
             .cornerRadius(Self.viewCornerRadius)
         }
         

@@ -20,6 +20,21 @@
 		AA5D867D2614F680008D3B44 /* CipherPrint.css in Resources */ = {isa = PBXBuildFile; fileRef = AA5D867C2614F680008D3B44 /* CipherPrint.css */; };
 		AA5DCE3326484DDF005D2B14 /* GridPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5DCE3226484DDF005D2B14 /* GridPuzzle.swift */; };
 		AA5DCE35264AE5E9005D2B14 /* ChapterView + CharacterPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5DCE34264AE5E9005D2B14 /* ChapterView + CharacterPair.swift */; };
+		AA644E1C267D2D4500373377 /* PuzzleBuilderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA644E1B267D2D4500373377 /* PuzzleBuilderApp.swift */; };
+		AA644E1E267D2D4500373377 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA644E1D267D2D4500373377 /* ContentView.swift */; };
+		AA644E20267D2D4900373377 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA644E1F267D2D4900373377 /* Assets.xcassets */; };
+		AA644E23267D2D4900373377 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA644E22267D2D4900373377 /* Preview Assets.xcassets */; };
+		AA644E2F267D2D4900373377 /* PuzzleBuilderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA644E2E267D2D4900373377 /* PuzzleBuilderTests.swift */; };
+		AA644E3A267D2D4900373377 /* PuzzleBuilderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA644E39267D2D4900373377 /* PuzzleBuilderUITests.swift */; };
+		AA644E45267D30F500373377 /* PuzzleThemes.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE55ADE2624E4220019407E /* PuzzleThemes.swift */; };
+		AA644E46267D337000373377 /* PuzzleThemes + Treasure.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAE55AEC262628090019407E /* PuzzleThemes + Treasure.swift */; };
+		AA644E47267D337200373377 /* PuzzleThemes + Space.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADB10DC2644657D00089D8B /* PuzzleThemes + Space.swift */; };
+		AA644E48267D3B1300373377 /* CipherPuzzleSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */; };
+		AA644E49267D3CF300373377 /* GridPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA5DCE3226484DDF005D2B14 /* GridPuzzle.swift */; };
+		AA644E4A267D438F00373377 /* useful extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAB3260BE5370031D56C /* useful extensions.swift */; };
+		AA644E4B267D43C100373377 /* OnlineStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA938563263CB9CF00051BC6 /* OnlineStore.swift */; };
+		AA644E4C267D43C400373377 /* OnlineStore + Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0B9CDC263E14AA006A4CD1 /* OnlineStore + Keychain.swift */; };
+		AA644E4E267D5BF400373377 /* BuilderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA644E4D267D5BF400373377 /* BuilderViewModel.swift */; };
 		AA7D415B2627986600E1558C /* Lucida Console.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA7D415A2627986600E1558C /* Lucida Console.ttf */; };
 		AA86CC69265AFED9001C6E04 /* Custom Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA86CC68265AFED8001C6E04 /* Custom Animation.swift */; };
 		AA8C1003265D761900AA30DD /* OnlineStore keychain tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8C1002265D761900AA30DD /* OnlineStore keychain tests.swift */; };
@@ -54,6 +69,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		AA644E2B267D2D4900373377 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA9766932601651A0076B879 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA644E18267D2D4500373377;
+			remoteInfo = PuzzleBuilder;
+		};
+		AA644E36267D2D4900373377 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = AA9766932601651A0076B879 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = AA644E18267D2D4500373377;
+			remoteInfo = PuzzleBuilder;
+		};
 		AA9766AD2601651E0076B879 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = AA9766932601651A0076B879 /* Project object */;
@@ -84,6 +113,20 @@
 		AA5D867C2614F680008D3B44 /* CipherPrint.css */ = {isa = PBXFileReference; lastKnownFileType = text.css; name = CipherPrint.css; path = CipherGame/CipherPrint.css; sourceTree = SOURCE_ROOT; };
 		AA5DCE3226484DDF005D2B14 /* GridPuzzle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GridPuzzle.swift; sourceTree = "<group>"; };
 		AA5DCE34264AE5E9005D2B14 /* ChapterView + CharacterPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ChapterView + CharacterPair.swift"; sourceTree = "<group>"; };
+		AA644E19267D2D4500373377 /* PuzzleBuilder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PuzzleBuilder.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA644E1B267D2D4500373377 /* PuzzleBuilderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleBuilderApp.swift; sourceTree = "<group>"; };
+		AA644E1D267D2D4500373377 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		AA644E1F267D2D4900373377 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AA644E22267D2D4900373377 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		AA644E24267D2D4900373377 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA644E25267D2D4900373377 /* PuzzleBuilder.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PuzzleBuilder.entitlements; sourceTree = "<group>"; };
+		AA644E2A267D2D4900373377 /* PuzzleBuilderTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PuzzleBuilderTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA644E2E267D2D4900373377 /* PuzzleBuilderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleBuilderTests.swift; sourceTree = "<group>"; };
+		AA644E30267D2D4900373377 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA644E35267D2D4900373377 /* PuzzleBuilderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PuzzleBuilderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA644E39267D2D4900373377 /* PuzzleBuilderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleBuilderUITests.swift; sourceTree = "<group>"; };
+		AA644E3B267D2D4900373377 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA644E4D267D5BF400373377 /* BuilderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderViewModel.swift; sourceTree = "<group>"; };
 		AA7D415A2627986600E1558C /* Lucida Console.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lucida Console.ttf"; sourceTree = "<group>"; };
 		AA86CC68265AFED8001C6E04 /* Custom Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Custom Animation.swift"; sourceTree = "<group>"; };
 		AA8C1002265D761900AA30DD /* OnlineStore keychain tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "OnlineStore keychain tests.swift"; path = "CipherGame/OnlineStore keychain tests.swift"; sourceTree = SOURCE_ROOT; };
@@ -126,6 +169,27 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AA644E16267D2D4500373377 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA644E27267D2D4900373377 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA644E32267D2D4900373377 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AA9766982601651A0076B879 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -171,6 +235,46 @@
 				AA5DCE3226484DDF005D2B14 /* GridPuzzle.swift */,
 			);
 			path = "Model support";
+			sourceTree = "<group>";
+		};
+		AA644E1A267D2D4500373377 /* PuzzleBuilder */ = {
+			isa = PBXGroup;
+			children = (
+				AA644E1B267D2D4500373377 /* PuzzleBuilderApp.swift */,
+				AA644E1D267D2D4500373377 /* ContentView.swift */,
+				AA644E4D267D5BF400373377 /* BuilderViewModel.swift */,
+				AA644E1F267D2D4900373377 /* Assets.xcassets */,
+				AA644E24267D2D4900373377 /* Info.plist */,
+				AA644E25267D2D4900373377 /* PuzzleBuilder.entitlements */,
+				AA644E21267D2D4900373377 /* Preview Content */,
+			);
+			path = PuzzleBuilder;
+			sourceTree = "<group>";
+		};
+		AA644E21267D2D4900373377 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				AA644E22267D2D4900373377 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		AA644E2D267D2D4900373377 /* PuzzleBuilderTests */ = {
+			isa = PBXGroup;
+			children = (
+				AA644E2E267D2D4900373377 /* PuzzleBuilderTests.swift */,
+				AA644E30267D2D4900373377 /* Info.plist */,
+			);
+			path = PuzzleBuilderTests;
+			sourceTree = "<group>";
+		};
+		AA644E38267D2D4900373377 /* PuzzleBuilderUITests */ = {
+			isa = PBXGroup;
+			children = (
+				AA644E39267D2D4900373377 /* PuzzleBuilderUITests.swift */,
+				AA644E3B267D2D4900373377 /* Info.plist */,
+			);
+			path = PuzzleBuilderUITests;
 			sourceTree = "<group>";
 		};
 		AA7D41642627987000E1558C /* fonts */ = {
@@ -224,6 +328,9 @@
 				AA9766AF2601651E0076B879 /* CipherGameTests */,
 				AA9766BA2601651E0076B879 /* CipherGameUITests */,
 				AACAA49B266C220800E20966 /* test.spaceBook */,
+				AA644E1A267D2D4500373377 /* PuzzleBuilder */,
+				AA644E2D267D2D4900373377 /* PuzzleBuilderTests */,
+				AA644E38267D2D4900373377 /* PuzzleBuilderUITests */,
 				AA97669C2601651A0076B879 /* Products */,
 				AA938560263CB72300051BC6 /* Frameworks */,
 			);
@@ -236,6 +343,9 @@
 				AA9766AC2601651E0076B879 /* CipherGameTests.xctest */,
 				AA9766B72601651E0076B879 /* CipherGameUITests.xctest */,
 				AACAA49A266C220800E20966 /* space Book */,
+				AA644E19267D2D4500373377 /* PuzzleBuilder.app */,
+				AA644E2A267D2D4900373377 /* PuzzleBuilderTests.xctest */,
+				AA644E35267D2D4900373377 /* PuzzleBuilderUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -332,6 +442,59 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		AA644E18267D2D4500373377 /* PuzzleBuilder */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA644E42267D2D4900373377 /* Build configuration list for PBXNativeTarget "PuzzleBuilder" */;
+			buildPhases = (
+				AA644E15267D2D4500373377 /* Sources */,
+				AA644E16267D2D4500373377 /* Frameworks */,
+				AA644E17267D2D4500373377 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PuzzleBuilder;
+			productName = PuzzleBuilder;
+			productReference = AA644E19267D2D4500373377 /* PuzzleBuilder.app */;
+			productType = "com.apple.product-type.application";
+		};
+		AA644E29267D2D4900373377 /* PuzzleBuilderTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA644E43267D2D4900373377 /* Build configuration list for PBXNativeTarget "PuzzleBuilderTests" */;
+			buildPhases = (
+				AA644E26267D2D4900373377 /* Sources */,
+				AA644E27267D2D4900373377 /* Frameworks */,
+				AA644E28267D2D4900373377 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA644E2C267D2D4900373377 /* PBXTargetDependency */,
+			);
+			name = PuzzleBuilderTests;
+			productName = PuzzleBuilderTests;
+			productReference = AA644E2A267D2D4900373377 /* PuzzleBuilderTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		AA644E34267D2D4900373377 /* PuzzleBuilderUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AA644E44267D2D4900373377 /* Build configuration list for PBXNativeTarget "PuzzleBuilderUITests" */;
+			buildPhases = (
+				AA644E31267D2D4900373377 /* Sources */,
+				AA644E32267D2D4900373377 /* Frameworks */,
+				AA644E33267D2D4900373377 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				AA644E37267D2D4900373377 /* PBXTargetDependency */,
+			);
+			name = PuzzleBuilderUITests;
+			productName = PuzzleBuilderUITests;
+			productReference = AA644E35267D2D4900373377 /* PuzzleBuilderUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		AA97669A2601651A0076B879 /* CipherGame */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = AA9766C02601651E0076B879 /* Build configuration list for PBXNativeTarget "CipherGame" */;
@@ -406,9 +569,20 @@
 		AA9766932601651A0076B879 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1240;
+				LastSwiftUpdateCheck = 1250;
 				LastUpgradeCheck = 1240;
 				TargetAttributes = {
+					AA644E18267D2D4500373377 = {
+						CreatedOnToolsVersion = 12.5;
+					};
+					AA644E29267D2D4900373377 = {
+						CreatedOnToolsVersion = 12.5;
+						TestTargetID = AA644E18267D2D4500373377;
+					};
+					AA644E34267D2D4900373377 = {
+						CreatedOnToolsVersion = 12.5;
+						TestTargetID = AA644E18267D2D4500373377;
+					};
 					AA97669A2601651A0076B879 = {
 						CreatedOnToolsVersion = 12.4;
 					};
@@ -442,11 +616,37 @@
 				AA9766AB2601651E0076B879 /* CipherGameTests */,
 				AA9766B62601651E0076B879 /* CipherGameUITests */,
 				AACAA499266C220800E20966 /* test.spaceBook */,
+				AA644E18267D2D4500373377 /* PuzzleBuilder */,
+				AA644E29267D2D4900373377 /* PuzzleBuilderTests */,
+				AA644E34267D2D4900373377 /* PuzzleBuilderUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		AA644E17267D2D4500373377 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA644E23267D2D4900373377 /* Preview Assets.xcassets in Resources */,
+				AA644E20267D2D4900373377 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA644E28267D2D4900373377 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA644E33267D2D4900373377 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AA9766992601651A0076B879 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -490,6 +690,40 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		AA644E15267D2D4500373377 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA644E1E267D2D4500373377 /* ContentView.swift in Sources */,
+				AA644E4E267D5BF400373377 /* BuilderViewModel.swift in Sources */,
+				AA644E49267D3CF300373377 /* GridPuzzle.swift in Sources */,
+				AA644E45267D30F500373377 /* PuzzleThemes.swift in Sources */,
+				AA644E46267D337000373377 /* PuzzleThemes + Treasure.swift in Sources */,
+				AA644E48267D3B1300373377 /* CipherPuzzleSource.swift in Sources */,
+				AA644E4B267D43C100373377 /* OnlineStore.swift in Sources */,
+				AA644E4C267D43C400373377 /* OnlineStore + Keychain.swift in Sources */,
+				AA644E1C267D2D4500373377 /* PuzzleBuilderApp.swift in Sources */,
+				AA644E4A267D438F00373377 /* useful extensions.swift in Sources */,
+				AA644E47267D337200373377 /* PuzzleThemes + Space.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA644E26267D2D4900373377 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA644E2F267D2D4900373377 /* PuzzleBuilderTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		AA644E31267D2D4900373377 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AA644E3A267D2D4900373377 /* PuzzleBuilderUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		AA9766972601651A0076B879 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -545,6 +779,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		AA644E2C267D2D4900373377 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA644E18267D2D4500373377 /* PuzzleBuilder */;
+			targetProxy = AA644E2B267D2D4900373377 /* PBXContainerItemProxy */;
+		};
+		AA644E37267D2D4900373377 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = AA644E18267D2D4500373377 /* PuzzleBuilder */;
+			targetProxy = AA644E36267D2D4900373377 /* PBXContainerItemProxy */;
+		};
 		AA9766AE2601651E0076B879 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = AA97669A2601651A0076B879 /* CipherGame */;
@@ -558,6 +802,146 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		AA644E3C267D2D4900373377 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PuzzleBuilder/PuzzleBuilder.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"PuzzleBuilder/Preview Content\"";
+				DEVELOPMENT_TEAM = 3F7MQRNEB5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = PuzzleBuilder/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.handmadescience.PuzzleBuilder;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		AA644E3D267D2D4900373377 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PuzzleBuilder/PuzzleBuilder.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_ASSET_PATHS = "\"PuzzleBuilder/Preview Content\"";
+				DEVELOPMENT_TEAM = 3F7MQRNEB5;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = PuzzleBuilder/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.handmadescience.PuzzleBuilder;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		AA644E3E267D2D4900373377 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 3F7MQRNEB5;
+				INFOPLIST_FILE = PuzzleBuilderTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.handmadescience.PuzzleBuilderTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PuzzleBuilder.app/Contents/MacOS/PuzzleBuilder";
+			};
+			name = Debug;
+		};
+		AA644E3F267D2D4900373377 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 3F7MQRNEB5;
+				INFOPLIST_FILE = PuzzleBuilderTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.handmadescience.PuzzleBuilderTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/PuzzleBuilder.app/Contents/MacOS/PuzzleBuilder";
+			};
+			name = Release;
+		};
+		AA644E40267D2D4900373377 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 3F7MQRNEB5;
+				INFOPLIST_FILE = PuzzleBuilderUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.handmadescience.PuzzleBuilderUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = PuzzleBuilder;
+			};
+			name = Debug;
+		};
+		AA644E41267D2D4900373377 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = 3F7MQRNEB5;
+				INFOPLIST_FILE = PuzzleBuilderUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 11.3;
+				PRODUCT_BUNDLE_IDENTIFIER = uk.co.handmadescience.PuzzleBuilderUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_VERSION = 5.0;
+				TEST_TARGET_NAME = PuzzleBuilder;
+			};
+			name = Release;
+		};
 		AA9766BE2601651E0076B879 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -829,6 +1213,33 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		AA644E42267D2D4900373377 /* Build configuration list for PBXNativeTarget "PuzzleBuilder" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA644E3C267D2D4900373377 /* Debug */,
+				AA644E3D267D2D4900373377 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA644E43267D2D4900373377 /* Build configuration list for PBXNativeTarget "PuzzleBuilderTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA644E3E267D2D4900373377 /* Debug */,
+				AA644E3F267D2D4900373377 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		AA644E44267D2D4900373377 /* Build configuration list for PBXNativeTarget "PuzzleBuilderUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AA644E40267D2D4900373377 /* Debug */,
+				AA644E41267D2D4900373377 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		AA9766962601651A0076B879 /* Build configuration list for PBXProject "PuzzleRoom" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
