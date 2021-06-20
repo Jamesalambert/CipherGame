@@ -37,11 +37,7 @@ struct ContentView: View {
             }
         }
         .padding()
-        .onChange(of: scenePhase, perform: { phase in
-            if phase == .inactive{
-                saveAction()
-            }
-        })
+        .onChange(of: viewModel.book, perform: { _ in saveAction()})
     }
     
     
