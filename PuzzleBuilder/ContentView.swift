@@ -160,7 +160,8 @@ struct ContentView: View {
         var body: some View {
             Form{
                 TextField("puzzle title", text: $puzzleTitle, onCommit: save)
-                TextField("key alphabet", text: $puzzleKeyAlphabet, onCommit: save)
+                TextField("key alphabet", text: $puzzleKeyAlphabet, onCommit: save )
+                    .foregroundColor(check() ? .blue : .black)
                 TextField("header", text: $puzzleHeader, onCommit: save)
                 TextEditor(text: $puzzlePlaintext)
                     .onChange(of: puzzlePlaintext, perform: {_ in save()})
@@ -184,6 +185,12 @@ struct ContentView: View {
             newPuzzle.plaintext     = puzzlePlaintext
             newPuzzle.footer        = puzzleFooter
             viewModel.updatePuzzle(newPuzzle: newPuzzle)
+        }
+        
+        private func check() -> Bool{
+            let counts = String.alphabet.map{character in puzzleKeyAlphabet.number(of: character)}
+            let verdict = counts.count == 26 && counts.allSatisfy({$0 == 1})
+            return verdict
         }
     }
 
@@ -228,11 +235,15 @@ struct ContentView: View {
         }
         
         private func moreSquares(){
-            size = size + 1
+            if size < 6 {
+                size = size + 1
+            }
         }
         
         private func lessSquares(){
-            size = size - 1
+            if size > 0 {
+                size = size - 1
+            }
         }
         
         private func save(){
