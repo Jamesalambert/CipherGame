@@ -14,15 +14,19 @@ struct ContentView: View {
         
     @State private var json: String = ""
     
+    @Environment(\.scenePhase)
+    var scenePhase : ScenePhase
+    
+    let saveAction : () -> Void
+    
+    
     var body: some View {
         
         VStack(alignment: .leading){
-            Form{
-                TextField("book title", text: $viewModel.book.title)
-                Picker("theme", selection: $viewModel.book.theme){
-                    ForEach(BookTheme.allCases, id:\.self){ theme in
-                        Text(theme.rawValue)
-                    }
+            TextField("book title", text: $viewModel.book.title)
+            Picker("theme", selection: $viewModel.book.theme){
+                ForEach(BookTheme.allCases, id:\.self){ theme in
+                    Text(theme.rawValue)
                 }
             }
             ChapterList(chapters: $viewModel.book.chapters)
@@ -32,6 +36,12 @@ struct ContentView: View {
                 TextField("JSON", text: .constant(viewModel.JSON))
             }
         }
+        .padding()
+        .onChange(of: scenePhase, perform: { phase in
+            if phase == .inactive{
+                saveAction()
+            }
+        })
     }
     
     
@@ -60,7 +70,7 @@ struct ContentView: View {
                         }
                     }
                 }
-            }.navigationTitle("Chapters")
+            }
         }
         
         
@@ -159,14 +169,19 @@ struct ContentView: View {
         
         var body: some View {
             Form{
-                TextField("puzzle title", text: $puzzleTitle, onCommit: save)
-                TextField("key alphabet", text: $puzzleKeyAlphabet, onCommit: save )
+                TextField("puzzle title", text: $puzzleTitle)
+                TextField("key alphabet", text: $puzzleKeyAlphabet)
                     .foregroundColor(check() ? .blue : .black)
-                TextField("header", text: $puzzleHeader, onCommit: save)
+                TextField("header", text: $puzzleHeader)
                 TextEditor(text: $puzzlePlaintext)
-                    .onChange(of: puzzlePlaintext, perform: {_ in save()})
-                TextField("footer", text: $puzzleFooter, onCommit: save)
+                TextField("footer", text: $puzzleFooter)
             }
+            .padding()
+            .onChange(of: puzzleTitle, perform: {_ in save()})
+            .onChange(of: puzzleKeyAlphabet, perform: {_ in save()})
+            .onChange(of: puzzleHeader, perform: {_ in save()})
+            .onChange(of: puzzlePlaintext, perform: {_ in save()})
+            .onChange(of: puzzleFooter, perform: {_ in save()})
             .onAppear{
                 puzzleTitle         = puzzle.title
                 puzzleKeyAlphabet   = puzzle.keyAlphabet
@@ -208,14 +223,15 @@ struct ContentView: View {
         @State private var image: String = ""
         
         var body: some View{
-            VStack{
-                HStack{
-                    Picker("type", selection: $type){
-                        ForEach(GridSolution.allCases, id:\.self){ type in
-                            Text(type.rawValue)
-                                .fixedSize()
-                        }
+            VStack(alignment: .leading){
+                Picker("type", selection: $type){
+                    ForEach(GridSolution.allCases, id:\.self){ type in
+                        Text(type.rawValue)
+                            .fixedSize()
+                            .frame(width: 50)
                     }
+                }
+                HStack{
                     Stepper("size", onIncrement: moreSquares, onDecrement: lessSquares)
                     Text(String(size))
                 }
@@ -228,6 +244,7 @@ struct ContentView: View {
                         self.image = readableGridPuzzle.image ?? ""
                     }
             }
+            .padding()
             .onChange(of: size, perform: {_ in save()})
             .onChange(of: type, perform: {_ in save()})
             .onChange(of: image, perform: {_ in save()})
@@ -261,7 +278,12 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(viewModel: BuilderViewModel())
+        
+        let vm = BuilderViewModel()
+        
+        ContentView(viewModel: vm ){
+            vm.save()
+        }
     }
 }
 

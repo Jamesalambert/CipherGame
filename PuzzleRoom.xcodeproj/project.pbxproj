@@ -35,6 +35,7 @@
 		AA644E4B267D43C100373377 /* OnlineStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA938563263CB9CF00051BC6 /* OnlineStore.swift */; };
 		AA644E4C267D43C400373377 /* OnlineStore + Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0B9CDC263E14AA006A4CD1 /* OnlineStore + Keychain.swift */; };
 		AA644E4E267D5BF400373377 /* BuilderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA644E4D267D5BF400373377 /* BuilderViewModel.swift */; };
+		AA644E50267FE2C200373377 /* BuilderViewModel + Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA644E4F267FE2C200373377 /* BuilderViewModel + Persistence.swift */; };
 		AA7D415B2627986600E1558C /* Lucida Console.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AA7D415A2627986600E1558C /* Lucida Console.ttf */; };
 		AA86CC69265AFED9001C6E04 /* Custom Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA86CC68265AFED8001C6E04 /* Custom Animation.swift */; };
 		AA8C1003265D761900AA30DD /* OnlineStore keychain tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA8C1002265D761900AA30DD /* OnlineStore keychain tests.swift */; };
@@ -127,6 +128,7 @@
 		AA644E39267D2D4900373377 /* PuzzleBuilderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleBuilderUITests.swift; sourceTree = "<group>"; };
 		AA644E3B267D2D4900373377 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA644E4D267D5BF400373377 /* BuilderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderViewModel.swift; sourceTree = "<group>"; };
+		AA644E4F267FE2C200373377 /* BuilderViewModel + Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BuilderViewModel + Persistence.swift"; sourceTree = "<group>"; };
 		AA7D415A2627986600E1558C /* Lucida Console.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lucida Console.ttf"; sourceTree = "<group>"; };
 		AA86CC68265AFED8001C6E04 /* Custom Animation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Custom Animation.swift"; sourceTree = "<group>"; };
 		AA8C1002265D761900AA30DD /* OnlineStore keychain tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "OnlineStore keychain tests.swift"; path = "CipherGame/OnlineStore keychain tests.swift"; sourceTree = SOURCE_ROOT; };
@@ -243,6 +245,7 @@
 				AA644E1B267D2D4500373377 /* PuzzleBuilderApp.swift */,
 				AA644E1D267D2D4500373377 /* ContentView.swift */,
 				AA644E4D267D5BF400373377 /* BuilderViewModel.swift */,
+				AA644E4F267FE2C200373377 /* BuilderViewModel + Persistence.swift */,
 				AA644E1F267D2D4900373377 /* Assets.xcassets */,
 				AA644E24267D2D4900373377 /* Info.plist */,
 				AA644E25267D2D4900373377 /* PuzzleBuilder.entitlements */,
@@ -704,6 +707,7 @@
 				AA644E4C267D43C400373377 /* OnlineStore + Keychain.swift in Sources */,
 				AA644E1C267D2D4500373377 /* PuzzleBuilderApp.swift in Sources */,
 				AA644E4A267D438F00373377 /* useful extensions.swift in Sources */,
+				AA644E50267FE2C200373377 /* BuilderViewModel + Persistence.swift in Sources */,
 				AA644E47267D337200373377 /* PuzzleThemes + Space.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

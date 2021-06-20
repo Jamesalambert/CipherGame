@@ -14,7 +14,12 @@ struct PuzzleBuilderApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: viewModel)
+            ContentView(viewModel: viewModel){
+                viewModel.save()
+            }
+            .onAppear{
+                viewModel.load()
+            }
         }
     }
 }
