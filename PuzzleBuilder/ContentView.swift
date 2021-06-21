@@ -16,12 +16,8 @@ struct ContentView: View {
     
     @Environment(\.scenePhase)
     var scenePhase : ScenePhase
-    
-    let saveAction : () -> Void
-    
-    
-    var body: some View {
         
+    var body: some View {
         VStack(alignment: .leading){
             TextField("book title", text: $viewModel.book.title)
             Picker("theme", selection: $viewModel.book.theme){
@@ -37,7 +33,6 @@ struct ContentView: View {
             }
         }
         .padding()
-        .onChange(of: viewModel.book, perform: { _ in saveAction()})
     }
     
     
@@ -274,12 +269,8 @@ struct ContentView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        
         let vm = BuilderViewModel()
-        
-        ContentView(viewModel: vm ){
-            vm.save()
-        }
+        ContentView(viewModel: vm )
     }
 }
 

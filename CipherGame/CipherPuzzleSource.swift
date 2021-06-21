@@ -411,7 +411,7 @@ struct Chapter : Hashable, Codable, Identifiable {
 struct ReadableBook : Codable, Equatable {
     
     init(){
-        title = "title"
+        title = "book title"
         theme = .defaultTheme
         chapters = [ReadableChapter(title: "Chapter 1")]
     }
@@ -421,7 +421,7 @@ struct ReadableBook : Codable, Equatable {
     var chapters : [ReadableChapter]
 }
 
-struct ReadableChapter :  Codable, Identifiable, Hashable {
+struct ReadableChapter :  Codable, Equatable, Identifiable, Hashable {
     
     init(title : String){
         self.title = title
@@ -430,7 +430,7 @@ struct ReadableChapter :  Codable, Identifiable, Hashable {
     }
     
     static func == (lhs: ReadableChapter, rhs: ReadableChapter) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.hashValue == rhs.hashValue
     }
     
     var id = UUID()
@@ -462,7 +462,7 @@ struct ReadablePuzzle : Codable, Equatable, Identifiable {
     var keyAlphabet : String
 }
 
-struct ReadableGridPuzzle : Codable, Identifiable {
+struct ReadableGridPuzzle : Codable, Identifiable, Equatable {
     
     init(){
         type = .all
