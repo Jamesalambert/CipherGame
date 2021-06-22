@@ -12,6 +12,8 @@
 		AA0B9CDD263E14AA006A4CD1 /* OnlineStore + Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA0B9CDC263E14AA006A4CD1 /* OnlineStore + Keychain.swift */; };
 		AA14EB48261E12D3004AFD15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA14EB47261E12D3004AFD15 /* Assets.xcassets */; };
 		AA23A7722636E484002F9F39 /* ContentView + PhoneLetterPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA23A7712636E484002F9F39 /* ContentView + PhoneLetterPicker.swift */; };
+		AA2E52C72680FD910012C7FE /* venus.png in Resources */ = {isa = PBXBuildFile; fileRef = AA2E52C62680FD910012C7FE /* venus.png */; };
+		AA2E52C92680FDAC0012C7FE /* test.spaceBook.json in Resources */ = {isa = PBXBuildFile; fileRef = AA2E52C82680FDAC0012C7FE /* test.spaceBook.json */; };
 		AA31EAA3260BE32A0031D56C /* CipherPuzzle+Printing.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */; };
 		AA31EAAE260BE3E80031D56C /* CipherPuzzle+Difficulty.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */; };
 		AA31EAB4260BE5370031D56C /* useful extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA31EAB3260BE5370031D56C /* useful extensions.swift */; };
@@ -52,7 +54,6 @@
 		AA9766CD26016DED0076B879 /* CipherPuzzleSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */; };
 		AA9766D226016EB60076B879 /* CipherPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766D126016EB60076B879 /* CipherPuzzle.swift */; };
 		AACAA4A2266C229E00E20966 /* mars.png in Resources */ = {isa = PBXBuildFile; fileRef = AACAA4A0266C229E00E20966 /* mars.png */; };
-		AACAA4A3266C229E00E20966 /* test.spaceBook.json in Resources */ = {isa = PBXBuildFile; fileRef = AACAA4A1266C229E00E20966 /* test.spaceBook.json */; };
 		AAD347F52661551E00D69955 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD347F42661551E00D69955 /* DebugView.swift */; };
 		AADB10D92641812800089D8B /* Lucida Calligraphy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AADB10D826417EBE00089D8B /* Lucida Calligraphy.ttf */; };
 		AADB10DB2641F21400089D8B /* ContentView + IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADB10DA2641F21400089D8B /* ContentView + IAP.swift */; };
@@ -106,6 +107,8 @@
 		AA0B9CDC263E14AA006A4CD1 /* OnlineStore + Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "OnlineStore + Keychain.swift"; path = "CipherGame/Online Store/OnlineStore + Keychain.swift"; sourceTree = SOURCE_ROOT; };
 		AA14EB47261E12D3004AFD15 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA23A7712636E484002F9F39 /* ContentView + PhoneLetterPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ContentView + PhoneLetterPicker.swift"; sourceTree = "<group>"; };
+		AA2E52C62680FD910012C7FE /* venus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = venus.png; sourceTree = "<group>"; };
+		AA2E52C82680FDAC0012C7FE /* test.spaceBook.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test.spaceBook.json; sourceTree = "<group>"; };
 		AA31EAA2260BE32A0031D56C /* CipherPuzzle+Printing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle+Printing.swift"; sourceTree = "<group>"; };
 		AA31EAAD260BE3E80031D56C /* CipherPuzzle+Difficulty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CipherPuzzle+Difficulty.swift"; sourceTree = "<group>"; };
 		AA31EAB3260BE5370031D56C /* useful extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "useful extensions.swift"; sourceTree = "<group>"; };
@@ -153,7 +156,6 @@
 		AACAA49A266C220800E20966 /* space Book */ = {isa = PBXFileReference; explicitFileType = folder; includeInIndex = 0; path = "space Book"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AACAA49C266C220800E20966 /* ContentInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ContentInfo.plist; sourceTree = "<group>"; };
 		AACAA4A0266C229E00E20966 /* mars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mars.png; sourceTree = "<group>"; };
-		AACAA4A1266C229E00E20966 /* test.spaceBook.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = test.spaceBook.json; sourceTree = "<group>"; };
 		AAD347F42661551E00D69955 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DebugView.swift; path = CipherGame/DebugView.swift; sourceTree = SOURCE_ROOT; };
 		AADB10D826417EBE00089D8B /* Lucida Calligraphy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lucida Calligraphy.ttf"; sourceTree = "<group>"; };
 		AADB10DA2641F21400089D8B /* ContentView + IAP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ContentView + IAP.swift"; path = "CipherGame/ContentView + IAP.swift"; sourceTree = SOURCE_ROOT; };
@@ -406,7 +408,8 @@
 			isa = PBXGroup;
 			children = (
 				AACAA4A0266C229E00E20966 /* mars.png */,
-				AACAA4A1266C229E00E20966 /* test.spaceBook.json */,
+				AA2E52C62680FD910012C7FE /* venus.png */,
+				AA2E52C82680FDAC0012C7FE /* test.spaceBook.json */,
 				AACAA49C266C220800E20966 /* ContentInfo.plist */,
 			);
 			path = test.spaceBook;
@@ -685,7 +688,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AACAA4A3266C229E00E20966 /* test.spaceBook.json in Resources */,
+				AA2E52C92680FDAC0012C7FE /* test.spaceBook.json in Resources */,
+				AA2E52C72680FD910012C7FE /* venus.png in Resources */,
 				AACAA4A2266C229E00E20966 /* mars.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -812,7 +816,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PuzzleBuilder/PuzzleBuilder.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PuzzleBuilder/Preview Content\"";
@@ -838,7 +842,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = PuzzleBuilder/PuzzleBuilder.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"PuzzleBuilder/Preview Content\"";

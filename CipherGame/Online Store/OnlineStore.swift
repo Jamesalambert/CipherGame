@@ -188,7 +188,6 @@ extension OnlineStore : SKProductsRequestDelegate, SKPaymentTransactionObserver 
     }
     
 //    For debugging
-    private
     func contents(of url : String) -> [String]{
         do{
             let contents = try FileManager.default.contentsOfDirectory(atPath: url)

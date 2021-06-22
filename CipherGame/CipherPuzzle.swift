@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 class CipherPuzzle : ObservableObject {
     //MARK: - public API
@@ -98,6 +99,24 @@ class CipherPuzzle : ObservableObject {
         return model.activeBookIds
     }
     
+    func imageFromCurrentBookFolder(named imageName : String) -> UIImage?{
+        
+        guard let bookProductID : String = self.currentBook?.productID else {return nil}
+
+        let bookURL = OnlineStore.documentsURL.appendingPathComponent(bookProductID, isDirectory: true)
+        let imageURL = bookURL.appendingPathComponent("\(imageName).png")
+//        print("image URL\(imageURL)")
+        do {
+            let imageData = try Data(contentsOf: imageURL)
+            if let uiImage = UIImage(data: imageData){
+                return uiImage
+            }
+        } catch {
+            print("image not found in \(imageURL)")
+        }
+        return nil
+    }
+    
     
     //MARK:- State
     var currentCipherPuzzle : Puzzle? {
@@ -108,6 +127,10 @@ class CipherPuzzle : ObservableObject {
     var currentChapter : Chapter? {
         let chapters : [Chapter] = model.books.flatMap{$0.chapters}
         return chapters.first(where: {$0.id == currentChapterHash})
+    }
+    
+    var currentBook : Book? {
+        return model.books.first(where: {$0.chapters.contains(where: {$0.id == self.currentChapterHash})})
     }
  
     //MARK:- Intent

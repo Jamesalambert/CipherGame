@@ -37,6 +37,12 @@ extension ContentView {
                     ForEach(contents(of: OnlineStore.documentsURL.path), id:\.self){file in
                         Text(file)
                     }
+                    
+                }
+                Section(header: Text("/test.spaceBook/").font(.title)){
+                    ForEach(OnlineStore.shared.contents(of: OnlineStore.documentsURL.appendingPathComponent("test.spaceBook/").path), id:\.self){file in
+                        Text(file)
+                    }
                 }
             }
             .listStyle(GroupedListStyle())
@@ -52,11 +58,7 @@ extension ContentView {
                 print("couldn't find folder! \(url)")
                 return []
             }
-        }
-        
-        
-        
-        
+        }   
     }
 }
 

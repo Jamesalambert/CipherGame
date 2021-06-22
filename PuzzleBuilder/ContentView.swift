@@ -7,7 +7,6 @@
 
 import SwiftUI
 
-
 struct ContentView: View {
     
     @StateObject var viewModel : BuilderViewModel
@@ -64,8 +63,8 @@ struct ContentView: View {
             }
         }
         
-        
-        private func header() -> some View {
+        @ViewBuilder
+        func header() -> some View {
             HStack{
                 Text("chapters")
                 Button{
@@ -125,7 +124,8 @@ struct ContentView: View {
             }
         }
         
-        private func header() -> some View {
+        @ViewBuilder
+        func header() -> some View {
             HStack{
                 Text("cipher puzzles")
                 Button{

@@ -115,12 +115,14 @@ struct TilePuzzle: View {
     
     @ViewBuilder
     func solvedPuzzleImage(for solvedPuzzleImageName : String, animatedFrom tile : Tile) -> some View {
-        Image(solvedPuzzleImageName)
-            .resizable()
-            .aspectRatio(1,contentMode: .fit)
-            .cornerRadius(TilePuzzle.tileCornerRadius)
-            .matchedGeometryEffect(id: tile, in: self.namespace)
-            .frame(width: self.tileWidth * CGFloat(grid.size), height: self.tileWidth * CGFloat(grid.size))
+        if let image = viewModel.imageFromCurrentBookFolder(named: solvedPuzzleImageName) {
+            Image(uiImage: image)
+                .resizable()
+                .aspectRatio(1,contentMode: .fit)
+                .cornerRadius(TilePuzzle.tileCornerRadius)
+                .matchedGeometryEffect(id: tile, in: self.namespace)
+                .frame(width: self.tileWidth * CGFloat(grid.size), height: self.tileWidth * CGFloat(grid.size))
+        }
     }
     
     @ViewBuilder
@@ -162,6 +164,9 @@ struct TilePuzzle: View {
     
     struct TileModifier : AnimatableModifier {
         
+        @EnvironmentObject
+        var viewModel : CipherPuzzle
+        
         var tile : Tile
         var grid : GridPuzzle
         var rotation : Double
@@ -190,8 +195,8 @@ struct TilePuzzle: View {
             if tile.content == 1 {
               //solved image tile
                     ZStack{
-                        if let prizeImageName = grid.solutionImageName {
-                            Image(prizeImageName)
+                        if let image = viewModel.imageFromCurrentBookFolder(named: grid.solutionImageName ?? "") {
+                            Image(uiImage: image)
                                 .resizable(capInsets: EdgeInsets.zero(), resizingMode: .stretch)
                                 .aspectRatio(1,contentMode: .fit)
                                 .cornerRadius(TilePuzzle.tileCornerRadius)
@@ -208,10 +213,12 @@ struct TilePuzzle: View {
                         .aspectRatio(1, contentMode: .fill)
                         .cornerRadius(TilePuzzle.tileCornerRadius)
                 case .all:
-                    Image(uiImage: (UIImage(named: grid.imageName!)?.rect(row: tile.index[0], col: tile.index[1], size: grid.size))!)
-                    .resizable()
-                    .aspectRatio(1, contentMode: .fit)
-                    .cornerRadius(TilePuzzle.tileCornerRadius)
+                    if let image = viewModel.imageFromCurrentBookFolder(named: grid.imageName ?? ""){
+                        Image(uiImage: image.rect(row: tile.index[0], col: tile.index[1], size: grid.size))
+                        .resizable()
+                        .aspectRatio(1, contentMode: .fit)
+                        .cornerRadius(TilePuzzle.tileCornerRadius)
+                    }
                 }
             }
         }

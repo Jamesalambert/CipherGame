@@ -1,31 +1,64 @@
-
 {
-    "title" : "Queen of the Zlogs",
-    "theme" : "space",
-    "chapters": [
+  "title" : "Queen of the Zlogs",
+  "theme" : "space",
+  "chapters" : [
+    {
+      "id" : "92F03210-CBA8-4F6F-9FDC-6BE030CA3767",
+      "title" : "Chapter 1",
+      "gridPuzzle" : {
+        "size" : 4,
+        "id" : "E9FC2933-BDD0-4010-ADA9-617038D46488",
+        "type" : "rows",
+        "image" : "",
+        "solutionImage" : "venus"
+      },
+      "puzzles" : [
         {
-            "title": "First Chapter",
-            "puzzles" : [
-                {
-                    "title": "Arrival",
-                    "header" : "The Martian dust swirls. Around you there is a vast landscape of red rocks and a yellow sky. You look up and see a shape morphing from an oval to a circle to a barely discernible disc. It spins towards you until it is a blur of liquid metal then suddenly stops mid-air. A beam of light opens up in its centre, dazzling you with its brightness and a great roar of air blasts the dust into the skies.",
-                    "plaintext": "You see a gold helmet and scaly tentacles. The visor slides up and you see one bright green eye. A low voice growls ‘Welcome to Mars, we have been expecting you’. You are frozen to the spot with fear. ‘Don’t worry,’ the creature says, ‘I’m here in your mind. I can see and feel everything you feel. I am Hurth, Queen of the Zlogs. Let me introduce you to my subjects. You don’t want to miss the welcome party.’ The alien Queen points to the beam of light under the spaceship.",
-                    "footer" : "",
-                    "keyAlphabet": "escidpoumgvhaqrjntzfbwklyx",
-                    "riddle" : " Should you:",
-                    "riddleAnswers" : ["accept the invitation and walk towards the beam of light.","radio for help."],
-                    "riddleKey" : ""
-                }
-            ],
-            "gridPuzzle" : {
-                    "type" : "rows",
-                    "size" : 4,
-                    "solutionImage" : "mars"
-            }
+          "keyAlphabet" : "zgidxqynahrtcplsuvoebjwmkf",
+          "id" : "BAF5F613-F5E5-47A2-9128-039A7C579E93",
+          "title" : "Red Rocks",
+          "header" : "The year is 2071 and you are the latest recruit at the Aries space station on Mars. Today is your first Mars walk. What adventures await you on your journey?",
+          "plaintext" : "The Martian dust swirls in a storm. Your radio has lost contact. You are alone in a vast landscape of red rocks and a yellow sky. You look up and see an oval shape changing to a circle to a metal disc. It spins towards you until it is a blur then suddenly stops mid-air. A beam of light opens up in its centre, dazzling you with its brightness and a great roar of air blasts the dust into the skies.",
+          "footer" : ""
+        },
+        {
+          "keyAlphabet" : "vskzunbjegtrpwolcqxmahfydi",
+          "id" : "E06C9487-C335-46A5-BDB7-F12D50A31DA0",
+          "title" : "Welcome To Mars",
+          "header" : "",
+          "plaintext" : "When it settles you see a golden helmet and scaly tentacles. The visor slides up and you see one bright green eye. A low voice growls ‘Welcome to Mars, we have been expecting you’. You are frozen to the spot with fear. ‘Don’t worry,’ the creature says, ‘I’m here in your mind. I can see and feel everything you feel. I am Hurth, Queen of the Zlogs. Let me introduce you to my subjects. You don’t want to miss the welcome party.’ The alien Queen points to the beam of light under the spaceship.",
+          "footer" : ""
         }
-    ]
+      ]
+    },
+    {
+      "id" : "755230FA-9D49-45DF-8379-0C5F5811B7F2",
+      "title" : "Chapter 2",
+      "gridPuzzle" : {
+        "size" : 4,
+        "id" : "54E87537-CAD9-48B8-807D-66BAE6FA48C9",
+        "type" : "columns",
+        "image" : "",
+        "solutionImage" : "mars"
+      },
+      "puzzles" : [
+        {
+          "keyAlphabet" : "fywtqbmgldsjkpovhuxcenairz",
+          "id" : "88BCC716-46B0-4CD3-87F2-5EAA3D3467C1",
+          "title" : "The Great Hall",
+          "header" : "",
+          "plaintext" : "There is an orange flash and in a split second you are transported to the great hall of the spaceship. At the far end of the room on a glittering throne sits Hurth. ‘Earthling, only you can help us. Mars is under threat from the Venus. Their evil leader has taken the Red Rock, the sacred jewel of the Martians and the source of our power. Without it we grow weak, too weak to fight. Can you find it and bring it back to us? The survival of the universe depends on you.’",
+          "footer" : ""
+        },
+        {
+          "keyAlphabet" : "afgksewnxidvrqytmhpzloujcb",
+          "id" : "56D5E9F9-D7D8-4BB6-8CB5-16C629EF96FA",
+          "title" : "Away we Go",
+          "header" : "",
+          "plaintext" : "Hurth waves a tentacle and a small space pod appears in front of you. It gleams and inside the lights on the dashboard flash. Climbing into the driver’s seat Hurth hands you a golden helmet. ‘Good luck. Trust the space pod. It will take you where you need to go.’ Suddenly the pod hums into life. Your head is jerked back in your seat and you fly up into the air, spinning in a figure of eight until you speed out into the red dust of Mars and up and up until the planet is a small red circle behind you.",
+          "footer" : ""
+        }
+      ]
+    }
+  ]
 }
-
-
-
-
