@@ -64,9 +64,26 @@ struct TilePuzzle: View {
                             } else if grid.isEmpty(tile) {
                                 ZStack{}
                             } else {
-                                RoundedRectangle(cornerRadius: Self.tileCornerRadius)
-                                    .modifier(TileModifier(tile: tile, grid: grid))
-                                    .matchedGeometryEffect(id: tile, in: namespace)
+                                if let selectedTile = selectedTile, selectedTile.content == 1{
+                                    if selectedTile == tile {
+                                        //hide miniature image
+                                        ZStack{}
+                                    } else {
+                                        //display all the other tiles as normal!
+                                        RoundedRectangle(cornerRadius: Self.tileCornerRadius)
+                                            .modifier(TileModifier(tile: tile, grid: grid))
+                                            .transition(.snap)
+                                            .matchedGeometryEffect(id: tile, in: namespace)
+                                            .zIndex(0)
+                                    }
+                                } else {
+                                    //if there's no selection just display all tiles.
+                                    RoundedRectangle(cornerRadius: Self.tileCornerRadius)
+                                        .modifier(TileModifier(tile: tile, grid: grid))
+                                        .transition(.snap)
+                                        .matchedGeometryEffect(id: tile, in: namespace)
+                                        .zIndex(3)
+                                }
                             }
                         }
                         .padding(EdgeInsets.sized(horizontally: 2, vertically: 2))
@@ -87,7 +104,7 @@ struct TilePuzzle: View {
                    let solvedPuzzleImageName = grid.solutionImageName {
                     solvedPuzzleImage(for: solvedPuzzleImageName, animatedFrom: selectedTile)
                         .transition(.snap)
-                        .animation(.spring)
+//                        .animation(.spring)
                         .onTapGesture {
                             withAnimation(.standardUI){
                                 self.selectedTile = nil
@@ -166,7 +183,7 @@ struct TilePuzzle: View {
         
         @EnvironmentObject
         var viewModel : CipherPuzzle
-        
+                
         var tile : Tile
         var grid : GridPuzzle
         var rotation : Double

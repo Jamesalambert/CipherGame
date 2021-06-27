@@ -165,14 +165,18 @@ struct ContentView: View {
                     .foregroundColor(check() ? .blue : .black)
                 TextField("header", text: $puzzleHeader)
                 TextEditor(text: $puzzlePlaintext)
+                if puzzlePlaintext.count > 20 {
+                    HStack{Text("most common letters: "); LetterCount(plaintext: $puzzlePlaintext)}
+                        .transition(.scale)
+                }
                 TextField("footer", text: $puzzleFooter)
             }
             .padding()
-            .onChange(of: puzzleTitle, perform: {_ in save()})
+            .onChange(of: puzzleTitle,       perform: {_ in save()})
             .onChange(of: puzzleKeyAlphabet, perform: {_ in save()})
-            .onChange(of: puzzleHeader, perform: {_ in save()})
-            .onChange(of: puzzlePlaintext, perform: {_ in save()})
-            .onChange(of: puzzleFooter, perform: {_ in save()})
+            .onChange(of: puzzleHeader,      perform: {_ in save()})
+            .onChange(of: puzzlePlaintext,   perform: {_ in save()})
+            .onChange(of: puzzleFooter,      perform: {_ in save()})
             .onAppear{
                 puzzleTitle         = puzzle.title
                 puzzleKeyAlphabet   = puzzle.keyAlphabet
@@ -200,6 +204,25 @@ struct ContentView: View {
         }
     }
 
+    struct LetterCount : View {
+        
+        @Binding var plaintext: String
+        
+        var mostCommonLetters : String{
+            let counts: [(char : Character, count : Int)] = String.alphabet.map{character in
+                (character, plaintext.number(of: character))
+            }
+            
+            let sortedCounts = counts.sorted(by:
+                {($0.count > $1.count) || (($0.count == $1.count) && ($0.char < $1.char))})
+            
+            return String(sortedCounts.filter({$0.count > 0}).map{$0.char})
+        }
+        
+        var body : some View {
+            Text(mostCommonLetters)
+        }
+    }
     
     
     struct GridPuzzleBuilder: View {

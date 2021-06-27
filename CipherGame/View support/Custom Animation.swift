@@ -17,13 +17,31 @@ extension Animation {
 }
 
 
-struct Snap : AnimatableModifier {
-    var animatableData: Double
-    func body(content: Content) -> some View {
-        content.opacity(1)
+
+// transitions which use the modifiers
+extension AnyTransition{
+    static var flip : AnyTransition {
+        AnyTransition.modifier(
+            active: Flip(rotation: 0),
+            identity: Flip(rotation: 180))
     }
 }
 
+extension AnyTransition{
+    static var snap : AnyTransition {
+        AnyTransition.modifier(
+            active: Snap(animatableData: 1),
+            identity: Snap(animatableData: 1))
+    }
+}
+
+// View modifiers, of the animatable variety
+struct Snap : AnimatableModifier {
+    var animatableData: Double = 1.0
+    func body(content: Content) -> some View {
+        content.opacity(animatableData)
+    }
+}
 
 struct Flip : AnimatableModifier {
     var animatableData: Double {
@@ -36,20 +54,6 @@ struct Flip : AnimatableModifier {
     }
 }
 
-extension AnyTransition{
-    static var flip : AnyTransition {
-        AnyTransition.modifier(
-            active: Flip(rotation: 0),
-            identity: Flip(rotation: 180))
-    }
-}
 
-extension AnyTransition{
-    static var snap : AnyTransition {
-        AnyTransition.modifier(
-            active: Snap(animatableData: 0),
-            identity: Snap(animatableData: 1))
-    }
-}
 
 
