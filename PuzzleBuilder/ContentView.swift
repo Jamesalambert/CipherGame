@@ -208,6 +208,10 @@ struct ContentView: View {
         
         @Binding var plaintext: String
         
+        var body : some View {
+            Text(mostCommonLetters)
+        }
+        
         var mostCommonLetters : String{
             let counts: [(char : Character, count : Int)] = String.alphabet.map{character in
                 (character, plaintext.number(of: character))
@@ -217,10 +221,6 @@ struct ContentView: View {
                 {($0.count > $1.count) || (($0.count == $1.count) && ($0.char < $1.char))})
             
             return String(sortedCounts.filter({$0.count > 0}).map{$0.char})
-        }
-        
-        var body : some View {
-            Text(mostCommonLetters)
         }
     }
     

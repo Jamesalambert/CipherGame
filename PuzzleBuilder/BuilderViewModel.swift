@@ -47,6 +47,7 @@ class BuilderViewModel: ObservableObject{
         
         var newPuzzle = ReadablePuzzle()
         newPuzzle.title = "puzzle title \(self.book.chapters[chapterIndex].puzzles.count + 1)"
+        newPuzzle.keyAlphabet = self.shuffledAlphabet
         
         self.book.chapters[chapterIndex].puzzles.append(newPuzzle)
         save()
@@ -85,6 +86,20 @@ class BuilderViewModel: ObservableObject{
         return ""
     }
     
+    var shuffledAlphabet: String {
+        let alphabet : String = String.alphabet
+        var result: String = ""
+        
+        for character in alphabet{
+            let allowedLetters = alphabet.compactMap{
+                return result.contains($0) || $0 == character ? nil : $0
+            }
+            if let nextChar = allowedLetters.randomElement(){
+                result.append(nextChar)
+            }
+        }
+        return result
+    }
     
     private var chapterIndex : Int? {
         guard let selectedChapterID = self.selectedChapterID else {return nil}
