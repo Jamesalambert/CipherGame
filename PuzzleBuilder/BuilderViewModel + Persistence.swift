@@ -31,8 +31,6 @@ extension BuilderViewModel {
             }
             DispatchQueue.main.async {
                 self?.book = savedBook
-                self?.selectedChapterID = self?.book.chapters.first?.id
-                self?.selectedPuzzleID = self?.book.chapters.first?.puzzles.first?.id
             }
         }
     }

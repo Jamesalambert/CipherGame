@@ -15,8 +15,21 @@ struct ContentView: View {
     
     @Environment(\.scenePhase)
     var scenePhase : ScenePhase
-        
+    
     var body: some View {
+        
+        let JSONBinding = Binding(get: {viewModel.JSON},
+                                  set: {
+                                    let data = Data($0.utf8)
+                                    do {
+                                        let book = try JSONDecoder().decode(ReadableBook.self, from: data)
+                                        viewModel.book = book
+                                    } catch {
+                                        print("couldn't encode as a book!")
+                                    }
+                                  })
+        
+        
         VStack(alignment: .leading){
             TextField("book title", text: $viewModel.book.title)
             Picker("theme", selection: $viewModel.book.theme){
@@ -28,7 +41,7 @@ struct ContentView: View {
                 .environmentObject(viewModel)
             
             ScrollView{
-                TextField("JSON", text: .constant(viewModel.JSON))
+                TextField("JSON", text: JSONBinding)
             }
         }
         .padding()
@@ -84,43 +97,43 @@ struct ContentView: View {
         @State var chapterTitle: String = ""
         
         @Binding var chapter: ReadableChapter
-        
+                
         var body: some View {
             VStack(alignment: .leading){
                 TextField("chapter title", text: $chapterTitle, onCommit: save)
                 NavigationView{
-                        List{
-                            Section(header: header()){
-                                ForEach(chapter.puzzles){puzzle in
-                                    NavigationLink(puzzle.title,
-                                                   destination: PuzzleBuilder(puzzle: puzzle),
-                                                   tag: puzzle.id,
-                                                   selection: $viewModel.selectedPuzzleID)
-                                        .contextMenu{
-                                            Button("delete"){
-                                                viewModel.deletePuzzle(puzzleID: puzzle.id)
-                                            }
+                    List{
+                        Section(header: header()){
+                            ForEach(chapter.puzzles){puzzle in
+                                NavigationLink(puzzle.title,
+                                               destination: PuzzleBuilder(puzzle: puzzle),
+                                               tag: puzzle.id,
+                                               selection: $viewModel.selectedPuzzleID)
+                                    .contextMenu{
+                                        Button("delete"){
+                                            delete(puzzleID: puzzle.id)
                                         }
-                                }
+                                    }
                             }
-                            if let gridPuzzle = chapter.gridPuzzle {
-                                Section(header: Text("grid puzzles")){
-                                    NavigationLink("puzzle",
-                                                   destination: GridPuzzleBuilder(readableGridPuzzle: .constant(gridPuzzle)),
-                                                   tag: gridPuzzle.id,
-                                                   selection: $viewModel.selectedGridPuzzleID)
-                                        .contextMenu{
-                                            Button("delete"){
-                                                viewModel.deleteGridPuzzle(puzzleID : gridPuzzle.id)
-                                            }
+                        }
+                        if let gridPuzzle = chapter.gridPuzzle {
+                            Section(header: Text("grid puzzles")){
+                                NavigationLink("puzzle",
+                                               destination: GridPuzzleBuilder(readableGridPuzzle: .constant(gridPuzzle)),
+                                               tag: gridPuzzle.id,
+                                               selection: $viewModel.selectedGridPuzzleID)
+                                    .contextMenu{
+                                        Button("delete"){
+                                            delete(gridPuzzleID: gridPuzzle.id)
                                         }
-                                }
+                                    }
                             }
                         }
                     }
-                    .onAppear{
-                        chapterTitle = chapter.title
-                    }
+                }
+                .onAppear{
+                    chapterTitle = chapter.title
+                }
             }
         }
         
@@ -134,6 +147,16 @@ struct ContentView: View {
                     Image(systemName: "plus")
                 }
             }
+        }
+        
+        private
+        func delete(puzzleID : UUID){
+            viewModel.deletePuzzle(puzzleID : puzzleID)
+        }
+        
+        private
+        func delete(gridPuzzleID : UUID){
+            viewModel.deleteGridPuzzle(puzzleID : gridPuzzleID)
         }
         
         private
@@ -161,8 +184,16 @@ struct ContentView: View {
         var body: some View {
             Form{
                 TextField("puzzle title", text: $puzzleTitle)
-                TextField("key alphabet", text: $puzzleKeyAlphabet)
-                    .foregroundColor(check() ? .blue : .black)
+                HStack{
+                    TextField("key alphabet", text: $puzzleKeyAlphabet)
+                        .foregroundColor(check() ? .blue : .black)
+                    if puzzleKeyAlphabet.count == 0 {
+                        Button("new"){
+                            puzzleKeyAlphabet = viewModel.shuffledAlphabet
+                        }
+                    }
+                }
+                
                 TextField("header", text: $puzzleHeader)
                 TextEditor(text: $puzzlePlaintext)
                 if puzzlePlaintext.count > 20 {

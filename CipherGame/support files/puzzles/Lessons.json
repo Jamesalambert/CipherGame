@@ -1,32 +1,36 @@
 {
-    "title" : "Lessons",
-    "theme" : "default",
-    "chapters": [
+  "title" : "how to break codes",
+  "theme" : "default",
+  "chapters" : [
+    {
+      "id" : "BE9E1012-FD56-4AB0-A35F-454F8A8A19AE",
+      "title" : "Chapter 1",
+      "puzzles" : [
         {
-            "title": "getting started",
-            "puzzles" : [
-                {
-                    "title": "pattern words",
-                    "header" : "Words that have 2 or more of the same letter are called 'pattern words'. For example 'food', 'glug', 'salad'. These words are easy to spot and sometimes easy to guess! Can you name the capital city in Europe",
-                    "plaintext": "London",
-                    "footer" : "I'll give you a hint: The River Thames.",
-                    "keyAlphabet": "dtfljcxyiqskeownhpvzarubgm"
-                },
-                {
-                    "title": "short words",
-                    "header" : "There aren't many 2 and 3 letter words in English. Two letter words include 'it', 'an', 'on', 'in', 'of', 'he'. Three letters could be 'the', 'and', 'was', 'her', 'him', 'but' etc. Can you figure this out? It's the famous opening line from a book by Charles Dickens",
-                    "plaintext": "It was the best of times, it was the worst of times.",
-                    "footer" : "Hint: A Tale of Two Cities.",
-                    "keyAlphabet": "larxtvkoyhfijcbsewzugdpqnm"
-                },
-                {
-                    "title": "letter counts ETAONRHS",
-                    "header" : "The eight most common letters in English are usually ETAONRHS, in that order. Use the character count at the bottom of the screen to help you guess which ciphertext letter probably represents 'e' and so on. Don't forget to look for short words like 'the' and 'and'.\nLet's decode the cipher below.",
-                    "plaintext": "Blah, blah, blah.",
-                    "footer" : "Hint: Prefer to work on paper? tap the printer in the top right corner.",
-                    "keyAlphabet": "escidpoumgvhaqrjntzfbwklyx"
-                }
-            ]
+          "keyAlphabet" : "uvgtyjwqnxzcskamrdbihoeflp",
+          "id" : "A94939EA-E244-4CE1-8BF0-6C2EF26D7D7B",
+          "title" : "pattern words",
+          "header" : "Words that have 2 or more of the same letter are called 'pattern words'. For example 'food', 'glug', 'salad'. These words are easy to spot and sometimes easy to guess! Can you name the capital city in Europe",
+          "plaintext" : "London",
+          "footer" : "I'll give you a hint: The River Thames."
+        },
+        {
+          "keyAlphabet" : "pteiduxroshjlqmzawcyvbkfng",
+          "id" : "9A7D97DA-548C-4517-82ED-4BA7D49B045D",
+          "title" : "short words",
+          "header" : "There aren't many 2 and 3 letter words in English. Two letter words include 'it', 'an', 'on', 'in', 'of', 'he'. Three letters could be 'the', 'and', 'was', 'her', 'him', 'but' etc. Can you figure this out? It's the famous opening line from a book by Charles Dickens",
+          "plaintext" : "It was the best of times, it was the worst of times.",
+          "footer" : "Hint: A Tale of Two Cities."
+        },
+        {
+          "keyAlphabet" : "zfxsnayugcjmlwehbkditqvopr",
+          "id" : "3EB15C15-BF30-4B9F-8346-C20D4AF9925C",
+          "title" : "letter counds ETAONRHS",
+          "header" : "The eight most common letters in English are usually ETAONRHS, in that order. Use the character count at the bottom of the screen to help you guess which ciphertext letter probably represents 'e' and so on. Don't forget to look for short words like 'the' and 'and'.\\nLet's decode the cipher below.",
+          "plaintext" : "if the code is quite long, the most common letter is usually e. Once you know that you might be able to find the word the. don't forget to look for pattern words too. Short words are usually the easiest way to get started when you're breaking codes like these.",
+          "footer" : "Hint: Prefer to work on paper? tap the printer in the top right corner."
         }
-    ]
+      ]
+    }
+  ]
 }
