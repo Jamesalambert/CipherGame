@@ -8,7 +8,6 @@
 import Foundation
 import SwiftUI
 
-
 class BuilderViewModel: ObservableObject{
     
     @Published
@@ -126,11 +125,8 @@ class BuilderViewModel: ObservableObject{
         return puzzleIndex
     }
     
-    
-    
     init(){
-        let book = ReadableBook()
-        self.book = book
+        self.book = ReadableBook()
     }
 }
 

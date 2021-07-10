@@ -10,7 +10,7 @@ import SwiftUI
 struct ContentView: View {
     
     @StateObject var viewModel : BuilderViewModel
-        
+
     @State private var json: String = ""
     
     @Environment(\.scenePhase)
@@ -314,7 +314,7 @@ struct ContentView: View {
             newGrid.size = size
             newGrid.image = image
             newGrid.solutionImage = solutionImage
-            viewModel.updateGridPuzzle(newGrid: newGrid )
+            viewModel.updateGridPuzzle(newGrid: newGrid)
         }
     }
     

@@ -10,9 +10,7 @@ import SwiftUI
 extension ContentView {
     
     struct CipherSolverCharacterPair : View {
-        
-        static let lineThickness = CGFloat(2.0)
-                
+                        
         @EnvironmentObject
         var viewModel : CipherPuzzle
         
@@ -37,7 +35,6 @@ extension ContentView {
         var indexInTheCipher : Int
 
         var body : some View {
-            
             if cipherTextLetter.isPunctuation || cipherTextLetter.isWhitespace {
                 standardCipherPair(displayPlaintext: false)
             } else if UIDevice.current.userInterfaceIdiom == .pad {
@@ -50,12 +47,12 @@ extension ContentView {
                                 viewModel.currentCiphertextCharacter = cipherTextLetter
                                 viewModel.selectedIndex = indexInTheCipher
                                 displayTabletLetterPicker = true
-                                wasTapped = true
+                                wasTapped = true    //to locate the popover arrow
                             }
                         }
                     }
                     .popover(isPresented: $wasTapped,
-                             attachmentAnchor: .point(.top),
+                             attachmentAnchor: .point(.center),
                              arrowEdge: .bottom){letterPopover()}
                 
             } else if UIDevice.current.userInterfaceIdiom == .phone{
@@ -76,23 +73,33 @@ extension ContentView {
                 Text(String(cipherTextLetter))
                     .fixedSize()
                     .font(viewModel.theme.font(for: .title,item: .ciphertext, for: bookTheme))
-                Spacer()
+         
                 
-                if displayPlaintext {
-                    Text(plainTextLetter.string())
-                        .frame(height : 30)
-                        .fixedSize()
-                        .foregroundColor(viewModel.theme.color(of: .plaintext,
-                                                               for: bookTheme, in: colorScheme))
-                        .font(viewModel.theme.font(for: .title, item: .plaintext, for: bookTheme))
-                }
+                    ZStack{
+                        if indexInTheCipher == viewModel.selectedIndex {
+                            //selection highlight
+                            viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)
+                                .opacity(0.1)
+                                .cornerRadius(10)
+                        } else {
+                            Color.clear
+                        }
+                            
+                        
+                        Text(plainTextLetter.string())
+                            .frame(height : 30)
+                            .fixedSize()
+                            .foregroundColor(viewModel.theme.color(of: .plaintext,
+                                                                   for: bookTheme, in: colorScheme))
+                            .font(viewModel.theme.font(for: .title, item: .plaintext, for: bookTheme))
+                    }
             }
             .padding(.top)
             .foregroundColor(foregroundColor(for: colorScheme))
             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
         }
         
-        private
+        @ViewBuilder
         func letterPopover() -> some View {
             ZStack{
                 //background colour
@@ -109,7 +116,7 @@ extension ContentView {
                             withAnimation{
                                 viewModel.guess(cipherTextLetter, is: nil,
                                                 at: indexInTheCipher)
-                                displayTabletLetterPicker = false
+                                viewModel.currentCiphertextCharacter = nil
                                 wasTapped = false
                             }
                         } label: {

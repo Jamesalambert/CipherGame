@@ -46,12 +46,13 @@ extension ContentView {
                         HStack(spacing: 12){
                             ForEach(line.map{$0}, id:\.self){ character in
                                 
-                                Text(String(character)).onTapGesture {
-                                    withAnimation{
-                                        viewModel.guess(viewModel.currentCiphertextCharacter!,
-                                                        is: character,
-                                                        at: viewModel.selectedIndex!)
-            //                                    displayPhoneLetterPicker = false
+                                Text(String(character))
+                                    .onTapGesture {
+                                        withAnimation{
+                                            viewModel.guess(viewModel.currentCiphertextCharacter!,
+                                                            is: character,
+                                                            at: viewModel.selectedIndex!)
+                //                                    displayPhoneLetterPicker = false
                                     }
                                 }
                                 .fixedSize(horizontal: false, vertical: true)

@@ -135,6 +135,19 @@ extension Font.Design {
     }
 }
 
+
+extension View {
+    func background(with color: Color?) -> some View {
+        background(
+            GeometryReader{ geometry in
+                Rectangle()
+                    .path(in: geometry.frame(in: .local))
+                    .foregroundColor(color)
+            }
+        )
+    }
+}
+
 extension EdgeInsets {
     static
     func zero() -> EdgeInsets {

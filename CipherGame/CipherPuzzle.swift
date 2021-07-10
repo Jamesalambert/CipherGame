@@ -149,6 +149,20 @@ class CipherPuzzle : ObservableObject {
                                  at: index)
     }
     
+//    func selectNextCharacter(){
+//        guard let index = self.selectedIndex else {return}
+//        guard let cipherCharacter = self.currentCiphertextCharacter else {return}
+//        guard let currentCiphertext = self.currentCipherPuzzle?.plaintext else {return}
+//        
+//        if index < currentCiphertext.count - 1 {
+//            self.selectedIndex = index + 1
+//        }
+//        self.currentCiphertextCharacter = 
+//        
+//        
+//        
+//    }
+    
     func gridTap(_ tile : Tile) {
         if tile.canBeEnabled{
             model.reveal(tile, gridPuzzleHash: currentGridPuzzleHash!)
