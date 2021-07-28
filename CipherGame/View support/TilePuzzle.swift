@@ -132,7 +132,7 @@ struct TilePuzzle: View {
     
     @ViewBuilder
     func solvedPuzzleImage(for solvedPuzzleImageName : String, animatedFrom tile : Tile) -> some View {
-        if let image = viewModel.imageFromCurrentBookFolder(named: solvedPuzzleImageName) {
+        if let image = viewModel.imageForCurrentBook(named: solvedPuzzleImageName) {
             Image(uiImage: image)
                 .resizable()
                 .aspectRatio(1,contentMode: .fit)
@@ -212,7 +212,7 @@ struct TilePuzzle: View {
             if tile.content == 1 {
               //solved image tile
                     ZStack{
-                        if let image = viewModel.imageFromCurrentBookFolder(named: grid.solutionImageName ?? "") {
+                        if let image = viewModel.imageForCurrentBook(named: grid.solutionImageName ?? "") {
                             Image(uiImage: image)
                                 .resizable(capInsets: EdgeInsets.zero(), resizingMode: .stretch)
                                 .aspectRatio(1,contentMode: .fit)
@@ -220,8 +220,29 @@ struct TilePuzzle: View {
                         }
                     }
             } else {
-                switch grid.solutionType{
-                case .rows, .columns:
+//                switch grid.solutionType{
+//                case .rows, .columns:
+//                    RadialGradient(gradient: Gradient(
+//                                    colors: [tileColors[tile.index[grid.solutionType == .rows ? 0 : 1]],.white]),
+//                                    center: .center,
+//                                    startRadius: 0,
+//                                    endRadius: 900)
+//                        .aspectRatio(1, contentMode: .fill)
+//                        .cornerRadius(TilePuzzle.tileCornerRadius)
+//                case .all:
+//                    if let image = viewModel.imageForCurrentBook(named: grid.imageName ?? ""){
+//                        Image(uiImage: image.rect(row: tile.index[0], col: tile.index[1], size: grid.size))
+//                        .resizable()
+//                        .aspectRatio(1, contentMode: .fit)
+//                        .cornerRadius(TilePuzzle.tileCornerRadius)
+//                    }
+//                }
+                if let image = viewModel.imageForCurrentBook(named: grid.imageName ?? ""){
+                    Image(uiImage: image.rect(row: tile.index[0], col: tile.index[1], size: grid.size))
+                    .resizable()
+                    .aspectRatio(1, contentMode: .fit)
+                    .cornerRadius(TilePuzzle.tileCornerRadius)
+                } else {
                     RadialGradient(gradient: Gradient(
                                     colors: [tileColors[tile.index[grid.solutionType == .rows ? 0 : 1]],.white]),
                                     center: .center,
@@ -229,13 +250,6 @@ struct TilePuzzle: View {
                                     endRadius: 900)
                         .aspectRatio(1, contentMode: .fill)
                         .cornerRadius(TilePuzzle.tileCornerRadius)
-                case .all:
-                    if let image = viewModel.imageFromCurrentBookFolder(named: grid.imageName ?? ""){
-                        Image(uiImage: image.rect(row: tile.index[0], col: tile.index[1], size: grid.size))
-                        .resizable()
-                        .aspectRatio(1, contentMode: .fit)
-                        .cornerRadius(TilePuzzle.tileCornerRadius)
-                    }
                 }
             }
         }

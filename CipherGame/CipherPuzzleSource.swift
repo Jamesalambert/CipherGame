@@ -12,7 +12,7 @@ struct Game : Codable {
     
     static let puzzleFolder = "puzzles"
     
-    var activeBookIds : [String] = ["Lessons", "Rebecca's Garden"]
+    var activeBookIds : [String] = ["Lessons", "Rebecca's Garden", "queen of the zlogs"]
     var recordedIDOfFirstPuzzle = false
     
     //MARK: - public
@@ -201,17 +201,17 @@ struct Game : Codable {
                 
                 let readableBook = try JSONDecoder().decode(ReadableBook.self, from: data)
                 
-                let chaptersOfPuzzles : [Chapter] = readableBook.chapters.map{ chapter in
-                    let puzzles = chapter.puzzles.map{readablePuzzle in
-                        Puzzle(puzzle: readablePuzzle, with: puzzleID())
+                let chaptersOfPuzzles : [Chapter] = readableBook.chapters.map{ readableChapter in
+                    let puzzles = readableChapter.puzzles.map{readablePuzzle in
+                        Puzzle(puzzle: readablePuzzle)
                     }
                     
-                    if let gridPuzzle = chapter.gridPuzzle {
-                        return Chapter(title: chapter.title,
+                    if let gridPuzzle = readableChapter.gridPuzzle {
+                        return Chapter(title: readableChapter.title,
                                        puzzles: puzzles,
-                                       gridPuzzle: GridPuzzle(puzzle: gridPuzzle, hiddenTiles: chapter.puzzles.count) )
+                                       gridPuzzle: GridPuzzle(puzzle: gridPuzzle) )
                     } else {
-                        return Chapter(title: chapter.title,
+                        return Chapter(title: readableChapter.title,
                                        puzzles: puzzles,
                                        gridPuzzle: nil)
                     }
@@ -244,18 +244,18 @@ struct Game : Codable {
     }
     
     
-    private
-    mutating
-    func puzzleID() -> UUID {
-        let id = UUID()
-        if recordedIDOfFirstPuzzle {
-            return id
-        } else {
-            lastOpenPuzzleHash = id
-            recordedIDOfFirstPuzzle = true
-            return id
-        }
-    }
+//    private
+//    mutating
+//    func puzzleID() -> UUID {
+//        let id = UUID()
+//        if recordedIDOfFirstPuzzle {
+//            return id
+//        } else {
+//            lastOpenPuzzleHash = id
+//            recordedIDOfFirstPuzzle = true
+//            return id
+//        }
+//    }
 }
 
 
@@ -300,13 +300,13 @@ struct Puzzle : Hashable, Codable, Identifiable{
         hasher.combine(id)
     }
     
-    init(puzzle : ReadablePuzzle, with id : UUID){
+    init(puzzle : ReadablePuzzle){
         self = Puzzle(title: puzzle.title,
                plaintext: puzzle.plaintext,
                header: puzzle.header,
                footer: puzzle.footer,
                keyAlphabet: puzzle.keyAlphabet,
-               id: id)
+               id: puzzle.id)
     }
     
     init(title : String, plaintext: String, header: String, footer : String,
@@ -373,7 +373,6 @@ struct Puzzle : Hashable, Codable, Identifiable{
         
         self.ciphertext = ciphertext
         self.solution = keyAlphabet.filter{character in ciphertext.number(of: character) > 0}
-        
         self.letterCount = letterCount(in: self.ciphertext)
     }
 }

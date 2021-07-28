@@ -185,15 +185,14 @@ struct GridPuzzle : Codable {
     }
     //solution funcs
     
-    init(puzzle : ReadableGridPuzzle, hiddenTiles : Int) {
+    init(puzzle : ReadableGridPuzzle) {
         self = GridPuzzle(imageName: puzzle.image,
                           size: puzzle.size,
-                          hiddenTiles: hiddenTiles,
                           revealedImage: puzzle.solutionImage,
                           type: puzzle.type)
     }
     
-    init(imageName: String?, size : Int = 4, hiddenTiles : Int = 5, revealedImage : String?, type: GridSolution) {
+    init(imageName: String?, size : Int = 4, hiddenTiles : Int = 0, revealedImage : String?, type: GridSolution) {
         
         var arr : [[Int]] = Array(repeating: Array(repeating: 0, count: size), count: size)
         arr[size - 1][0] = 1

@@ -42,6 +42,7 @@ class CipherPuzzle : ObservableObject {
     @Published
     var currentGridPuzzleHash : UUID?{
         didSet{
+            //if a grid puzzle is selected then a cipher puzzle cannot be.
             if currentGridPuzzleHash != nil{
                 currentPuzzleHash = nil
             }
@@ -99,7 +100,7 @@ class CipherPuzzle : ObservableObject {
         return model.activeBookIds
     }
     
-    func imageFromCurrentBookFolder(named imageName : String) -> UIImage?{
+    func imageForCurrentBook(named imageName : String) -> UIImage?{
         
         guard let bookProductID : String = self.currentBook?.productID else {return nil}
 
@@ -112,7 +113,8 @@ class CipherPuzzle : ObservableObject {
                 return uiImage
             }
         } catch {
-            print("image not found in \(imageURL)")
+            print("image not found in \(imageURL), trying App bundle")
+            return UIImage(named: imageName)
         }
         return nil
     }

@@ -52,6 +52,7 @@
 		AA9766CD26016DED0076B879 /* CipherPuzzleSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766CC26016DED0076B879 /* CipherPuzzleSource.swift */; };
 		AA9766D226016EB60076B879 /* CipherPuzzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9766D126016EB60076B879 /* CipherPuzzle.swift */; };
 		AACAA4A2266C229E00E20966 /* mars.png in Resources */ = {isa = PBXBuildFile; fileRef = AACAA4A0266C229E00E20966 /* mars.png */; };
+		AAD2600B26B1BAFC00E4094D /* queen of the zlogs.json in Resources */ = {isa = PBXBuildFile; fileRef = AAD2600A26B1BAFC00E4094D /* queen of the zlogs.json */; };
 		AAD347F52661551E00D69955 /* DebugView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAD347F42661551E00D69955 /* DebugView.swift */; };
 		AADB10D92641812800089D8B /* Lucida Calligraphy.ttf in Resources */ = {isa = PBXBuildFile; fileRef = AADB10D826417EBE00089D8B /* Lucida Calligraphy.ttf */; };
 		AADB10DB2641F21400089D8B /* ContentView + IAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = AADB10DA2641F21400089D8B /* ContentView + IAP.swift */; };
@@ -153,6 +154,7 @@
 		AACAA49A266C220800E20966 /* space Book */ = {isa = PBXFileReference; explicitFileType = folder; includeInIndex = 0; path = "space Book"; sourceTree = BUILT_PRODUCTS_DIR; };
 		AACAA49C266C220800E20966 /* ContentInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = ContentInfo.plist; sourceTree = "<group>"; };
 		AACAA4A0266C229E00E20966 /* mars.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mars.png; sourceTree = "<group>"; };
+		AAD2600A26B1BAFC00E4094D /* queen of the zlogs.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "queen of the zlogs.json"; sourceTree = "<group>"; };
 		AAD347F42661551E00D69955 /* DebugView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DebugView.swift; path = CipherGame/DebugView.swift; sourceTree = SOURCE_ROOT; };
 		AADB10D826417EBE00089D8B /* Lucida Calligraphy.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Lucida Calligraphy.ttf"; sourceTree = "<group>"; };
 		AADB10DA2641F21400089D8B /* ContentView + IAP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "ContentView + IAP.swift"; path = "CipherGame/ContentView + IAP.swift"; sourceTree = SOURCE_ROOT; };
@@ -424,6 +426,7 @@
 		AAE626E9261663C3004BF125 /* puzzles */ = {
 			isa = PBXGroup;
 			children = (
+				AAD2600A26B1BAFC00E4094D /* queen of the zlogs.json */,
 				AAEE3AF6261B8676008E2233 /* Lessons.json */,
 				AAE6270C2617ED50004BF125 /* Rebecca's Garden.json */,
 				AA0B9CD6263DDF18006A4CD1 /* test.mysteryIsland.json */,
@@ -659,6 +662,7 @@
 				AA7D415B2627986600E1558C /* Lucida Console.ttf in Resources */,
 				AA0B9CD7263DDF18006A4CD1 /* test.mysteryIsland.json in Resources */,
 				AA5D867D2614F680008D3B44 /* CipherPrint.css in Resources */,
+				AAD2600B26B1BAFC00E4094D /* queen of the zlogs.json in Resources */,
 				AA14EB48261E12D3004AFD15 /* Assets.xcassets in Resources */,
 				AA9766A32601651D0076B879 /* Assets.xcassets in Resources */,
 				AAEE3AF7261B8676008E2233 /* Lessons.json in Resources */,
