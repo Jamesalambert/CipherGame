@@ -446,7 +446,7 @@ struct ReadableChapter :  Codable, Equatable, Identifiable, Hashable {
     }
 }
 
-struct ReadablePuzzle : Codable, Equatable, Identifiable, Hashable {
+struct ReadablePuzzle : Codable, Equatable, Identifiable, Hashable, GameStage {
     
     var id = UUID()
     
@@ -465,9 +465,10 @@ struct ReadablePuzzle : Codable, Equatable, Identifiable, Hashable {
     var footer : String
     var keyAlphabet : String
     var dependencies : [UUID]
+    var isSolved: Bool = false
 }
 
-struct ReadableGridPuzzle : Codable, Identifiable, Equatable {
+struct ReadableGridPuzzle : Codable, Identifiable, Equatable, GameStage {
     
     init(){
         title = "Grid puzzle"
@@ -483,6 +484,7 @@ struct ReadableGridPuzzle : Codable, Identifiable, Equatable {
     var image : String?
     var solutionImage : String?
     var dependencies : [UUID]
+    var isSolved: Bool = false
 }
 
 protocol GameStage {

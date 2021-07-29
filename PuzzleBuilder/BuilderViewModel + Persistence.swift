@@ -27,7 +27,9 @@ extension BuilderViewModel {
             //if this fails we fall back to the blank Game() inited by the viewModel
             guard let data = try? Data(contentsOf: Self.fileURL) else {return}
             guard let savedBook = try? JSONDecoder().decode(ReadableBook.self, from: data) else {
-                fatalError("couldn't decode data to type 'Game'")
+                print("couldn't decode data to type 'Game'")
+                return
+                //fatalError("couldn't decode data to type 'Game'")
             }
             DispatchQueue.main.async {
                 self?.book = savedBook

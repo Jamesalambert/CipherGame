@@ -106,7 +106,7 @@ struct ContentView: View {
                         Section(header: header()){
                             ForEach(chapter.puzzles){puzzle in
                                 NavigationLink(puzzle.title,
-                                               destination: PuzzleBuilder(puzzle: puzzle),
+                                               destination: PuzzleBuilder(puzzle: puzzle, chapter: chapter),
                                                tag: puzzle.id,
                                                selection: $viewModel.selectedPuzzleID)
                                     .contextMenu{
@@ -119,7 +119,7 @@ struct ContentView: View {
                         if let gridPuzzle = chapter.gridPuzzle {
                             Section(header: Text("grid puzzles")){
                                 NavigationLink("puzzle",
-                                               destination: GridPuzzleBuilder(readableGridPuzzle: .constant(gridPuzzle)),
+                                               destination: GridPuzzleBuilder(readableGridPuzzle: .constant(gridPuzzle), chapter: chapter),
                                                tag: gridPuzzle.id,
                                                selection: $viewModel.selectedGridPuzzleID)
                                     .contextMenu{
@@ -178,8 +178,10 @@ struct ContentView: View {
         @State private var puzzleHeader: String = ""
         @State private var puzzleFooter: String = ""
         @State private var puzzlePlaintext: String = ""
-                
+        @State private var puzzleDependencies: [UUID] = []
+        
         var puzzle : ReadablePuzzle
+        var chapter: ReadableChapter
         
         var body: some View {
             Form{
@@ -201,6 +203,8 @@ struct ContentView: View {
                         .transition(.scale)
                 }
                 TextField("footer", text: $puzzleFooter)
+                
+                DependencyPicker(dependencies: $puzzleDependencies, chapter: chapter)
             }
             .padding()
             .onChange(of: puzzleTitle,       perform: {_ in save()})
@@ -208,12 +212,14 @@ struct ContentView: View {
             .onChange(of: puzzleHeader,      perform: {_ in save()})
             .onChange(of: puzzlePlaintext,   perform: {_ in save()})
             .onChange(of: puzzleFooter,      perform: {_ in save()})
+            .onChange(of: puzzleDependencies, perform: {_ in save()})
             .onAppear{
                 puzzleTitle         = puzzle.title
                 puzzleKeyAlphabet   = puzzle.keyAlphabet
                 puzzleHeader        = puzzle.header
                 puzzleFooter        = puzzle.footer
                 puzzlePlaintext     = puzzle.plaintext
+                puzzleDependencies  = puzzle.dependencies
             }
         }
         
@@ -225,6 +231,7 @@ struct ContentView: View {
             newPuzzle.header        = puzzleHeader
             newPuzzle.plaintext     = puzzlePlaintext
             newPuzzle.footer        = puzzleFooter
+            newPuzzle.dependencies  = puzzleDependencies
             viewModel.updatePuzzle(newPuzzle: newPuzzle)
         }
         
@@ -262,13 +269,18 @@ struct ContentView: View {
         
         @Binding var readableGridPuzzle: ReadableGridPuzzle
         
+        @State private var title: String = ""
         @State private var size: Int = 3
         @State private var type: GridSolution = .all
         @State private var solutionImage: String = ""
         @State private var image: String = ""
+        @State private var dependencies: [UUID] = []
+        
+        var chapter: ReadableChapter
         
         var body: some View{
             VStack(alignment: .leading){
+                TextField("title", text: $title)
                 Picker("type", selection: $type){
                     ForEach(GridSolution.allCases, id:\.self){ type in
                         Text(type.rawValue)
@@ -282,18 +294,23 @@ struct ContentView: View {
                 }
                 TextField("image", text: $image)
                 TextField("solutionImage", text: $solutionImage)
-                    .onAppear{
-                        self.type = readableGridPuzzle.type
-                        self.size = readableGridPuzzle.size
-                        self.solutionImage = readableGridPuzzle.solutionImage ?? ""
-                        self.image = readableGridPuzzle.image ?? ""
-                    }
+                DependencyPicker(dependencies: $dependencies, chapter: chapter)
             }
             .padding()
+            .onChange(of: title, perform: {_ in save()})
             .onChange(of: size, perform: {_ in save()})
             .onChange(of: type, perform: {_ in save()})
             .onChange(of: image, perform: {_ in save()})
             .onChange(of: solutionImage, perform: {_ in save()})
+            .onChange(of: dependencies, perform: {_ in save()})
+            .onAppear{
+                self.title          = readableGridPuzzle.title
+                self.type           = readableGridPuzzle.type
+                self.size           = readableGridPuzzle.size
+                self.solutionImage  = readableGridPuzzle.solutionImage ?? ""
+                self.image          = readableGridPuzzle.image ?? ""
+                self.dependencies   = readableGridPuzzle.dependencies
+            }
         }
         
         private func moreSquares(){
@@ -310,12 +327,58 @@ struct ContentView: View {
         
         private func save(){
             var newGrid = self.readableGridPuzzle
+            newGrid.title = title
             newGrid.type = type
             newGrid.size = size
             newGrid.image = image
             newGrid.solutionImage = solutionImage
+            newGrid.dependencies = dependencies
             viewModel.updateGridPuzzle(newGrid: newGrid)
         }
+    }
+    
+    
+    struct DependencyPicker : View {
+        
+        @EnvironmentObject
+        var viewModel : BuilderViewModel
+    
+        @Binding var dependencies: [UUID]
+
+        var chapter : ReadableChapter
+
+        var puzzleData: [GameStage]{
+            var output: [GameStage] = []
+            
+            output += chapter.puzzles
+            
+            if let gridPuzzle = chapter.gridPuzzle {
+                output.append(gridPuzzle)
+            }
+            
+            output.removeAll(where: {$0.id == viewModel.selectedGridPuzzleID || $0.id == viewModel.selectedPuzzleID})
+            
+            return output
+        }
+
+        var body: some View {
+            Text("dependencies")
+            List(puzzleData, id:\.id){ puzzle in
+                Label(puzzle.title, systemImage: dependencies.contains(puzzle.id) ? "checkmark.circle.fill" : "circle")
+                    .onTapGesture{toggle(dependency: puzzle.id)}
+            }
+        }
+        
+        
+        private func toggle(dependency : UUID){
+            if dependencies.contains(dependency){
+                dependencies.removeAll(where: {$0 == dependency})
+            } else {
+                dependencies.append(dependency)
+            }
+        }
+        
+        
     }
     
     
