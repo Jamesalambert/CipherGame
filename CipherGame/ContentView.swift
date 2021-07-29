@@ -49,8 +49,7 @@ struct ContentView: View {
                         
                         ForEach(book.chapters){ chapter in
                             NavigationLink(destination: NavigationLazyView(
-                                            ChapterViewer(cipherPuzzle: viewModel.displayedCipherPuzzle,
-                                                          gridPuzzle: viewModel.currentChapterGridPuzzle)
+                                            ChapterViewer(cipherPuzzle: viewModel.displayedCipherPuzzle)
                                                 .environment(\.bookTheme, book.theme)
                                                 .navigationBarTitle("\(chapter.title)", displayMode: .inline)),
                                            tag: chapter.id,

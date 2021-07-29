@@ -259,7 +259,7 @@ struct Game : Codable {
 }
 
 
-struct Puzzle : Hashable, Codable, Identifiable{
+struct Puzzle : Hashable, Codable, Identifiable, GameStage{
     
     static func == (lhs: Puzzle, rhs: Puzzle) -> Bool {
         return lhs.id == rhs.id
@@ -272,6 +272,7 @@ struct Puzzle : Hashable, Codable, Identifiable{
     var footer : String
     var keyAlphabet : String        //the original key alphabet, use for encrypting
     var solution : String           //what the user needs to figure out (the message may not use all letters)
+    var dependencies : [UUID]
     
     var isSolved : Bool {
         var guesses : String = ""
@@ -306,11 +307,12 @@ struct Puzzle : Hashable, Codable, Identifiable{
                header: puzzle.header,
                footer: puzzle.footer,
                keyAlphabet: puzzle.keyAlphabet,
-               id: puzzle.id)
+               id: puzzle.id,
+               dependencies: puzzle.dependencies)
     }
     
     init(title : String, plaintext: String, header: String, footer : String,
-         keyAlphabet : String, id: UUID){
+         keyAlphabet : String, id: UUID, dependencies: [UUID]){
         
         //Helper functions
         func letterCount(in ciphertext : String) -> [String : Int]{
@@ -362,6 +364,7 @@ struct Puzzle : Hashable, Codable, Identifiable{
         self.header = header
         self.footer = footer
         self.id = id
+        self.dependencies = dependencies
         
         //remove whitespace except spaces
         var removeChars = CharacterSet.whitespacesAndNewlines
@@ -453,6 +456,7 @@ struct ReadablePuzzle : Codable, Equatable, Identifiable, Hashable {
         footer = "footer"
         plaintext = "plaintext"
         keyAlphabet = "key alphabet"
+        dependencies = []
     }
     
     var title : String
@@ -460,19 +464,30 @@ struct ReadablePuzzle : Codable, Equatable, Identifiable, Hashable {
     var plaintext : String
     var footer : String
     var keyAlphabet : String
+    var dependencies : [UUID]
 }
 
 struct ReadableGridPuzzle : Codable, Identifiable, Equatable {
     
     init(){
+        title = "Grid puzzle"
         type = .all
         size = 4
+        dependencies = []
     }
     
+    var title: String
     var id = UUID()
     var type : GridSolution
     var size : Int
     var image : String?
     var solutionImage : String?
+    var dependencies : [UUID]
 }
 
+protocol GameStage {
+    var isSolved: Bool {get}
+    var id: UUID {get}
+    var dependencies: [UUID] {get}
+    var title: String {get}
+}

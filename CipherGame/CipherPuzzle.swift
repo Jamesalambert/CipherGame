@@ -73,18 +73,42 @@ class CipherPuzzle : ObservableObject {
     @Published
     var showLessons : Bool = true
 
-    var visiblePuzzles : [Puzzle] {
-        guard let currentPuzzles = currentChapter?.puzzles else {return []}
+    var visiblePuzzles : [GameStage] {
+
+        guard let currentChapter = currentChapter else {return []}
         
-        var output : [Int] = []
+        let ciphers : [GameStage] = currentChapter.puzzles
+        var puzzles : [GameStage] = ciphers
+        if let grid : GameStage = currentChapter.gridPuzzle {
+            puzzles.append(grid)
+        }
         
-        for index in 0..<currentPuzzles.count{
-            if index == 0 || currentPuzzles[index - 1].isSolved {
-                output.append(index)
+        let visiblePuzzles =  puzzles.filter{ puzzle in
+            puzzle.dependencies.allSatisfy{ dependentPuzzleID in
+                if let dependentPuzzle = puzzles.first(where: {$0.id == dependentPuzzleID}){
+                    return dependentPuzzle.isSolved
+                }
+                return false
             }
         }
-        return output.map{currentPuzzles[currentPuzzles.index(currentPuzzles.startIndex, offsetBy: $0, limitedBy: currentPuzzles.count) ?? 0]}
+        return visiblePuzzles
     }
+    
+    var visibleGridPuzzle : GridPuzzle? {
+        
+        guard let currentGridPuzzle = currentChapter?.gridPuzzle else {return nil}
+        
+        if currentGridPuzzle.dependencies.allSatisfy({puzzleID in
+            if let dependentPuzzle = currentChapter?.puzzles.first(where: {$0.id == puzzleID}){
+                return dependentPuzzle.isSolved
+            }
+            return false
+        }) {
+            return currentGridPuzzle
+        }
+        return nil
+    }
+    
 
     var installedBooks : [Book] {
         let books = model.books
@@ -113,7 +137,9 @@ class CipherPuzzle : ObservableObject {
                 return uiImage
             }
         } catch {
+            #if DEBUG
             print("image not found in \(imageURL), trying App bundle")
+            #endif
             return UIImage(named: imageName)
         }
         return nil
@@ -140,6 +166,16 @@ class CipherPuzzle : ObservableObject {
     func openBook(with bookID : String){
         let book = model.books.first{$0.productID == bookID}
         self.currentChapterHash = book?.chapters.first?.id
+    }
+    
+    func choosePuzzle(id : UUID){
+        //check to see if puzzle is a cipher or grid
+        guard let currentChapter = currentChapter else {return}
+        if currentChapter.gridPuzzle?.id == id {
+            self.currentGridPuzzleHash = id
+        } else if currentChapter.puzzles.contains(where: {$0.id == id}){
+            self.currentPuzzleHash = id
+        }
     }
     
     func guess(_ cipherCharacter : Character, is plainCharacter : Character?,

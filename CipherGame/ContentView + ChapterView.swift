@@ -46,7 +46,7 @@ extension ContentView {
         var showLetterCount : Bool = true
         
         var cipherPuzzle : DisplayedCipherPuzzle?
-        var gridPuzzle : GridPuzzle?
+        //var gridPuzzle : GridPuzzle?
         
         private
         var dismissPhoneKeyboard : some Gesture {

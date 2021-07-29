@@ -8,15 +8,17 @@
 import Foundation
 
 //Model
-struct GridPuzzle : Codable {
+struct GridPuzzle : Codable, GameStage {
     
+    var title: String
     var rows : [Row]
     let imageName : String?
     let solutionImageName : String?
     let size : Int
     let numberOfHiddenTiles : Int
-    var id = UUID()
+    var id : UUID
     var solutionType : GridSolution = .rows
+    var dependencies : [UUID]
     
     var isSolved : Bool {
         return GridPuzzle.soultionChecker(self)
@@ -71,11 +73,14 @@ struct GridPuzzle : Codable {
     
     mutating
     func reset(){
-        self = GridPuzzle(imageName: self.imageName,
+        self = GridPuzzle(title: self.title,
+                          imageName: self.imageName,
                           size: self.size,
                           hiddenTiles: self.numberOfHiddenTiles,
                           revealedImage: self.solutionImageName,
-                          type: self.solutionType)
+                          type: self.solutionType,
+                          id: self.id,
+                          dependencies: self.dependencies)
     }
     
     mutating
@@ -186,13 +191,16 @@ struct GridPuzzle : Codable {
     //solution funcs
     
     init(puzzle : ReadableGridPuzzle) {
-        self = GridPuzzle(imageName: puzzle.image,
+        self = GridPuzzle(title: puzzle.title,
+                          imageName: puzzle.image,
                           size: puzzle.size,
                           revealedImage: puzzle.solutionImage,
-                          type: puzzle.type)
+                          type: puzzle.type,
+                          id: puzzle.id,
+                          dependencies: puzzle.dependencies)
     }
     
-    init(imageName: String?, size : Int = 4, hiddenTiles : Int = 0, revealedImage : String?, type: GridSolution) {
+    init(title: String, imageName: String?, size : Int = 4, hiddenTiles : Int = 0, revealedImage : String?, type: GridSolution, id: UUID, dependencies: [UUID]) {
         
         var arr : [[Int]] = Array(repeating: Array(repeating: 0, count: size), count: size)
         arr[size - 1][0] = 1
@@ -220,12 +228,15 @@ struct GridPuzzle : Codable {
             rows.append(Row(tiles: Array(tiles[startIndex...startIndex.advanced(by: size - 1)])))
         }
         
+        self.title = title
         self.size = size
         self.numberOfHiddenTiles = hiddenTiles
         self.rows = rows
         self.imageName = imageName
         self.solutionImageName = revealedImage
         self.solutionType = type
+        self.id = id
+        self.dependencies = dependencies
         #if DEBUG
         print("init")
         printState()

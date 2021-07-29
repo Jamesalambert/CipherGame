@@ -16,19 +16,11 @@ extension ContentView.ChapterViewer {
                 HStack(alignment: .bottom){
                     Spacer()
                     Group{
-                        ForEach(viewModel.visiblePuzzles){ puzzle in
-                            cipherPuzzleChooserButton(for: puzzle)
+                        ForEach(viewModel.visiblePuzzles, id:\.id){ puzzle in
+                            puzzleChooserButton(for: puzzle)
                                 .background(
                                     viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)
                                         .opacity(puzzle.id == viewModel.currentPuzzleHash ? 0.3 : 0.1)
-                                )
-                        }
-                        Spacer()
-                        if let gridPuzzle = gridPuzzle {
-                            gridPuzzleChooserButton(for: gridPuzzle)
-                                .background(
-                                    viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)
-                                        .opacity(gridPuzzle.id == viewModel.currentGridPuzzleHash ? 0.3 : 0.1)
                                 )
                         }
                     }
@@ -46,21 +38,10 @@ extension ContentView.ChapterViewer {
     }
     
     @ViewBuilder
-    func gridPuzzleChooserButton(for puzzle : GridPuzzle) -> some View {
-        Button {
-            withAnimation(.standardUI){
-                viewModel.currentGridPuzzleHash = puzzle.id
-            }
-        } label: {
-            buttonLabel(titled: "grid puzzle", isSolved: puzzle.isSolved)
-        }
-    }
-    
-    @ViewBuilder
-    func cipherPuzzleChooserButton(for puzzle : Puzzle) -> some View {
+    func puzzleChooserButton(for puzzle : GameStage) -> some View {
         Button {
             withAnimation{
-                viewModel.currentPuzzleHash = puzzle.id
+                viewModel.choosePuzzle(id: puzzle.id)
             }
         } label: {
             buttonLabel(titled: puzzle.title, isSolved: puzzle.isSolved)
