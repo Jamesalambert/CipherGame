@@ -71,31 +71,6 @@ class BuilderViewModel: ObservableObject{
         save()
     }
     
-    func toggle(_ dependency : UUID){
-        guard let chapterIndex = self.chapterIndex else {return}
-        
-        if let puzzleIndex = self.puzzleIndex {
-            
-            if book.chapters[chapterIndex].puzzles[puzzleIndex].dependencies.contains(dependency){
-                book.chapters[chapterIndex].puzzles[puzzleIndex].dependencies.removeAll(where: {$0 == dependency})
-            } else {
-                book.chapters[chapterIndex].puzzles[puzzleIndex].dependencies.append(dependency)
-            }
-            
-            
-        } else if let gridPuzzle = book.chapters[chapterIndex].gridPuzzle,
-                  gridPuzzle.id == self.selectedGridPuzzleID  {
-            
-            if gridPuzzle.dependencies.contains(dependency) {
-                book.chapters[chapterIndex].gridPuzzle?.dependencies.removeAll(where: {$0 == dependency})
-            } else {
-                book.chapters[chapterIndex].gridPuzzle?.dependencies.append(dependency)
-            }
-        }
-                
-        save()
-    }
-    
     var JSON : String {
         do{
             let encoder = JSONEncoder()

@@ -118,7 +118,7 @@ struct ContentView: View {
                         }
                         if let gridPuzzle = chapter.gridPuzzle {
                             Section(header: Text("grid puzzles")){
-                                NavigationLink("puzzle",
+                                NavigationLink(gridPuzzle.title,
                                                destination: GridPuzzleBuilder(readableGridPuzzle: .constant(gridPuzzle), chapter: chapter),
                                                tag: gridPuzzle.id,
                                                selection: $viewModel.selectedGridPuzzleID)
@@ -377,8 +377,6 @@ struct ContentView: View {
                 dependencies.append(dependency)
             }
         }
-        
-        
     }
     
     
