@@ -74,7 +74,6 @@ extension ContentView {
                     .fixedSize()
                     .font(viewModel.theme.font(for: .title,item: .ciphertext, for: bookTheme))
          
-                
                     ZStack{
                         if indexInTheCipher == viewModel.selectedIndex {
                             //selection highlight
@@ -84,8 +83,7 @@ extension ContentView {
                         } else {
                             Color.clear
                         }
-                            
-                        
+
                         Text(plainTextLetter.string())
                             .frame(height : 30)
                             .fixedSize()

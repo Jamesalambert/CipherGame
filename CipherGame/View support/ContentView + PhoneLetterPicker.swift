@@ -52,7 +52,7 @@ extension ContentView {
                                             viewModel.guess(viewModel.currentCiphertextCharacter!,
                                                             is: character,
                                                             at: viewModel.selectedIndex!)
-                //                                    displayPhoneLetterPicker = false
+                                                    displayPhoneLetterPicker = false
                                     }
                                 }
                                 .fixedSize(horizontal: false, vertical: true)

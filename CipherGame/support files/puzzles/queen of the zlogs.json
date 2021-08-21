@@ -6,85 +6,101 @@
       "id" : "BE9E1012-FD56-4AB0-A35F-454F8A8A19AE",
       "title" : "Chapter 1",
       "gridPuzzle" : {
+        "id" : "9460E9E3-0905-4590-8414-BBA74FC0A83F",
         "title" : "The Grid",
         "size" : 4,
-        "id" : "9460E9E3-0905-4590-8414-BBA74FC0A83F",
-        "type" : "rows",
         "image" : "venus_map",
         "solutionImage" : "venus_solution",
-        "dependencies" : ["AB5C3B61-ED1C-445B-9736-D43A7E2D2AA5"],
+        "type" : "rows",
+        "dependencies" : [
+          "AB5C3B61-ED1C-445B-9736-D43A7E2D2AA5"
+        ],
         "isSolved" : false
       },
       "puzzles" : [
         {
-          "keyAlphabet" : "uoyihmtdaxzpsbqwfvnglcjker",
+          "header" : "The year is 2071 and you are the latest recruit at the Aries space station on Mars. Today is your first Mars walk. What awaits you on your journey?",
+          "footer" : "",
           "id" : "A94939EA-E244-4CE1-8BF0-6C2EF26D7D7B",
           "title" : "Arrival",
-          "header" : "The year is 2071 and you are the latest recruit at the Aries space station on Mars. Today is your first Mars walk. What awaits you on your journey?",
+          "isSolved" : false,
           "plaintext" : "The Martian dust swirls in a storm. Your radio has lost contact. You are alone in a vast landscape of red rocks and a yellow sky. You look up and see an oval shape changing to a circle to a metal disc. It spins towards you until it is a blur then suddenly stops mid-air. A beam of light opens up in its centre, dazzling you with its brightness and a great roar of air blasts the dust into the skies. As the dust clears you see a golden helmet and scaly tentacles. The visor slides open to reveal one bright green eye.\n",
-          "footer" : "",
-          "dependencies" : [],
-          "isSolved" : false
+          "keyAlphabet" : "uoyihmtdaxzpsbqwfvnglcjker",
+          "dependencies" : [
+
+          ]
         },
         {
-          "keyAlphabet" : "lrtbposcenwzqaduhgjvimkyxf",
+          "header" : "A low voice growls, I am Hurth, Queen of the Martians. We have been expecting you.",
+          "footer" : "",
           "id" : "9A7D97DA-548C-4517-82ED-4BA7D49B045D",
           "title" : "Queen of the Martians",
-          "header" : "A low voice growls, I am Hurth, Queen of the Martians. We have been expecting you.",
+          "isSolved" : false,
           "plaintext" : "There is an orange flash and in a split second you are teleported to the great hall of the spaceship. At the far end of the room on a glittering throne sits Hurth. Earthling, only you can help us. Mars is under threat from Venus. Their evil leader has taken the Red Rock, the sacred jewel of the Martians and the source of our power. Without it we grow weak, too weak to fight. Can you find it and bring it back to us? The survival of the universe depends on you.\n",
-          "footer" : "",
-          "dependencies" : [],
-          "isSolved" : false
+          "keyAlphabet" : "lrtbposcenwzqaduhgjvimkyxf",
+          "dependencies" : [
+            "A94939EA-E244-4CE1-8BF0-6C2EF26D7D7B"
+          ]
         },
         {
-          "keyAlphabet" : "tmdxzqbgpkcwelvsnhraoyfjui",
+          "header" : "Hurth waves a tentacle and a gleaming space pod appears in front of you. ",
+          "footer" : "",
           "id" : "3EB15C15-BF30-4B9F-8346-C20D4AF9925C",
           "title" : "Mission Accepted",
-          "header" : "Hurth waves a tentacle and a gleaming space pod appears in front of you. ",
+          "isSolved" : false,
           "plaintext" : "You climb into the driver’s seat and Hurth hands you a golden helmet. Good luck. Trust the space pod. It will take you where you need to go. Suddenly the pod hums into life. Your head is jerked back in your seat and you fly up into the air, spinning in a figure of eight until you speed out into the red dust of Mars and up and up until the planet is a small red speck behind you. The pod speeds through space and fiery Venus glows ahead.",
-          "footer" : "",
-          "dependencies" : [],
-          "isSolved" : false
+          "keyAlphabet" : "tmdxzqbgpkcwelvsnhraoyfjui",
+          "dependencies" : [
+            "9A7D97DA-548C-4517-82ED-4BA7D49B045D"
+          ]
         },
         {
-          "keyAlphabet" : "sqwtazilnbxujrdhvocpgefmky",
+          "header" : "You are blinded by a blue flash. A disembodied light swims in the darkness and a voice fills the pod. ",
+          "footer" : "",
           "id" : "65BC93D8-7F4F-420D-AE9A-9939C682E3F9",
           "title" : "A Dangerous Game",
-          "header" : "You are blinded by a blue flash. A disembodied light swims in the darkness and a voice fills the pod. ",
+          "isSolved" : false,
           "plaintext" : "I am Klam, Emperor of Venus, you can come no further. The space pod shudders as if held in a force field. You must return the Red Rock, Klam! I am here to take it! The blue light flashes angrily and swells into clouds. Do you think you can challenge Klam and win earthling? A dangerous game indeed. Prepare to lose, impostor. The light swallows you and everything is black. You open your eyes and find yourself in a dark room with no doors or windows.",
-          "footer" : "",
-          "dependencies" : [],
-          "isSolved" : false
+          "keyAlphabet" : "sqwtazilnbxujrdhvocpgefmky",
+          "dependencies" : [
+            "3EB15C15-BF30-4B9F-8346-C20D4AF9925C"
+          ]
         },
         {
-          "keyAlphabet" : "imnsgealpdcutzwbhjkfxorqvy",
+          "header" : "Opposite you is Klam, his shape shifting into different forms:",
+          "footer" : "",
           "id" : "AB5C3B61-ED1C-445B-9736-D43A7E2D2AA5",
           "title" : "Klam’s Challenge",
-          "header" : "Opposite you is Klam, his shape shifting into different forms:",
+          "isSolved" : false,
           "plaintext" : "first a spider, then a cloud, then a huge mouth with sharp teeth. His voice fills the room again. If you want the Red Rock, earthling, then you must accept the challenge: your life if you lose, the Red Rock if you win. The mouth curled into a smile. Your stomach twists. I accept, Klam. The second the words are spoken a map appears on the table. But the map is floating and the scrawled symbols shift and change. You must read the ancient scroll of our planet and then the Red Rock will be yours.",
-          "footer" : "",
-          "dependencies" : [],
-          "isSolved" : false
+          "keyAlphabet" : "imnsgealpdcutzwbhjkfxorqvy",
+          "dependencies" : [
+            "65BC93D8-7F4F-420D-AE9A-9939C682E3F9"
+          ]
         },
         {
-          "keyAlphabet" : "ufeqtxpbsvhayoldnikcmgrwzj",
+          "header" : "As you chant the words on the map, Klam screams with fury.",
+          "footer" : "",
           "id" : "5F33A3C2-543E-4488-B6B2-1598F207BD2A",
           "title" : "Escape from Venus",
-          "header" : "As you chant the words on the map, Klam screams with fury.",
+          "isSolved" : false,
           "plaintext" : "You will never get away with this earthling. Nobody beats Klam and lives to tell the tale. But the words begin to lift from the page and swim around you like a thousand luminous snakes, they gather speed and a red jewel appears to float above you. It’s the Red Rock! It sinks into your hands and the moment your fingers touch it there is a loud crack and you are propelled through space and time. With a thump you land. You are back in the marble halls of Hurth’s spaceship.",
-          "footer" : "",
-          "dependencies" : ["9460E9E3-0905-4590-8414-BBA74FC0A83F"],
-          "isSolved" : false
+          "keyAlphabet" : "ufeqtxpbsvhayoldnikcmgrwzj",
+          "dependencies" : [
+            "9460E9E3-0905-4590-8414-BBA74FC0A83F"
+          ]
         },
         {
-          "keyAlphabet" : "vwuenirspczdoylkjthmxfbaqg",
+          "header" : "A huge green eye blinks down at you. Wake up! Wake up! ",
+          "footer" : "",
           "id" : "7E4FE4B2-536B-4DAE-ADF6-29880FB662BB",
           "title" : "The Red Rock returns",
-          "header" : "A huge green eye blinks down at you. Wake up! Wake up! ",
+          "isSolved" : false,
           "plaintext" : "You have succeeded! The Red Rock is returned. You see Hurth holding the glowing rock in her tentacles. Around you the crowd cheers and you are lifted into the air and paraded through the hall. Hurth offers you a golden talisman and places it around your neck. Take this small gift of thanks from my people. We will never forget the heroism you have shown. You look at the talisman and see one green flashing eye engraved in it… Where will your adventures take you next?",
-          "footer" : "",
-          "dependencies" : ["5F33A3C2-543E-4488-B6B2-1598F207BD2A"],
-          "isSolved" : false
+          "keyAlphabet" : "vwuenirspczdoylkjthmxfbaqg",
+          "dependencies" : [
+            "5F33A3C2-543E-4488-B6B2-1598F207BD2A"
+          ]
         }
       ]
     }

@@ -12,23 +12,26 @@ extension ContentView.ChapterViewer {
     @ViewBuilder
     func puzzleChooser(for geometry : GeometryProxy) -> some View {
         VStack(spacing:0){
-            ScrollView(.horizontal){
-                HStack(alignment: .bottom){
-                    Spacer()
-                    Group{
-                        ForEach(viewModel.visiblePuzzles, id:\.id){ puzzle in
-                            puzzleChooserButton(for: puzzle)
-                                .background(
-                                    viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)
-                                        .opacity(puzzle.id == viewModel.currentPuzzleHash ? 0.3 : 0.1)
-                                )
+            ScrollViewReader{ scrollView in
+                ScrollView(.horizontal){
+                    HStack(alignment: .bottom){
+                        Spacer()
+                        Group{
+                            ForEach(viewModel.visiblePuzzles, id:\.id){ puzzle in
+                                puzzleChooserButton(for: puzzle)
+                                    .background(
+                                        viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)
+                                            .opacity(puzzle.id == viewModel.currentPuzzleHash ? 0.3 : 0.1)
+                                    )
+                            }
                         }
+                        .modifier(RoundSomeCorners(radius: ContentView.ChapterViewer.viewCornerRadius,
+                                                   corners: [.topLeft , .topRight] ))
+                        .transition(.move(edge: .bottom))
                     }
-                    .modifier(RoundSomeCorners(radius: ContentView.ChapterViewer.viewCornerRadius,
-                                               corners: [.topLeft , .topRight] ))
-                    .transition(.move(edge: .bottom))
                 }
             }
+            
             Rectangle()
                 .fill(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme)!)
                 .frame(height: 3)

@@ -49,7 +49,7 @@ struct ContentView: View {
                         
                         ForEach(book.chapters){ chapter in
                             NavigationLink(destination: NavigationLazyView(
-                                            ChapterViewer(cipherPuzzle: viewModel.displayedCipherPuzzle)
+                                            ChapterViewer(chapter: chapter, cipherPuzzle: viewModel.displayedCipherPuzzle)
                                                 .environment(\.bookTheme, book.theme)
                                                 .navigationBarTitle("\(chapter.title)", displayMode: .inline)),
                                            tag: chapter.id,
@@ -59,7 +59,7 @@ struct ContentView: View {
                         }
                     }
                 }
-                Button("More Books"){isShowingIAP = true}
+//                Button("More Books"){isShowingIAP = true}
                 #if DEBUG
                 Button("debug"){isShowingDebug = true}
                 #endif

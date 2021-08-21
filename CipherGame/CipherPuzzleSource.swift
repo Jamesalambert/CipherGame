@@ -12,7 +12,7 @@ struct Game : Codable {
     
     static let puzzleFolder = "puzzles"
     
-    var activeBookIds : [String] = ["Lessons", "Rebecca's Garden", "queen of the zlogs"]
+    var activeBookIds : [String] = ["Lessons","queen of the zlogs"]
     var recordedIDOfFirstPuzzle = false
     
     //MARK: - public

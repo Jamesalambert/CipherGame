@@ -16,8 +16,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "90"
             endingLineNumber = "90"
-            landmarkName = "updateUsersGuesses(cipherCharacter:plaintextCharacter:for:at:)"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -32,72 +32,40 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "145"
             endingLineNumber = "145"
-            landmarkName = "indexPath(forPuzzle:)"
-            landmarkType = "7">
+            landmarkName = "unknown"
+            landmarkType = "0">
             <Locations>
                <Location
-                  uuid = "139CB3FF-84A9-4E18-B0A1-478ECB8D139A - 1f48e990f7588586"
+                  uuid = "139CB3FF-84A9-4E18-B0A1-478ECB8D139A - 98c1c4cca53c8c3b"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "PuzzleBuilder.Game.indexPath(forPuzzle: Foundation.UUID) -&gt; Swift.Optional&lt;(bookIndex: Swift.Int, chapterIndex: Swift.Int, puzzleIndex: Swift.Int)&gt;"
-                  moduleName = "PuzzleBuilder"
+                  symbolName = "CipherGame.Game.indexPath(forPuzzle: Foundation.UUID) -&gt; Swift.Optional&lt;(bookIndex: Swift.Int, chapterIndex: Swift.Int, puzzleIndex: Swift.Int)&gt;"
+                  moduleName = "CipherGame"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/CipherPuzzleSource.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "145"
                   endingLineNumber = "145"
-                  offsetFromSymbolStart = "313">
+                  offsetFromSymbolStart = "512">
                </Location>
                <Location
-                  uuid = "139CB3FF-84A9-4E18-B0A1-478ECB8D139A - 92bb9f974c3b2c71"
+                  uuid = "139CB3FF-84A9-4E18-B0A1-478ECB8D139A - bf3ef1e9c612aeff"
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (PuzzleBuilder.Book) -&gt; Swift.Bool in PuzzleBuilder.Game.indexPath(forPuzzle: Foundation.UUID) -&gt; Swift.Optional&lt;(bookIndex: Swift.Int, chapterIndex: Swift.Int, puzzleIndex: Swift.Int)&gt;"
-                  moduleName = "PuzzleBuilder"
+                  symbolName = "closure #1 (CipherGame.Book) -&gt; Swift.Bool in CipherGame.Game.indexPath(forPuzzle: Foundation.UUID) -&gt; Swift.Optional&lt;(bookIndex: Swift.Int, chapterIndex: Swift.Int, puzzleIndex: Swift.Int)&gt;"
+                  moduleName = "CipherGame"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/jlambert/Programming/CipherGame/CipherGame/CipherPuzzleSource.swift"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "146"
                   endingLineNumber = "146"
-                  offsetFromSymbolStart = "103">
+                  offsetFromSymbolStart = "128">
                </Location>
             </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "CF4724E2-048C-4163-9FA1-C626BF7FB80C"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CipherGame/CipherPuzzle.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "94"
-            endingLineNumber = "94"
-            landmarkName = "visiblePuzzles"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "A103A8E1-E909-4988-A0E4-E54EFE76E829"
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "CipherGame/CipherPuzzle.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
-            landmarkName = "visiblePuzzles"
-            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy

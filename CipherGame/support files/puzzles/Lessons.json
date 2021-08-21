@@ -1,34 +1,46 @@
 {
-  "title" : "How to solve ciphers",
-  "theme" : "space",
+  "title" : "Welcome to Puzzle Room",
+  "theme" : "default",
   "chapters" : [
     {
-      "id" : "A2851483-3AF2-4FB4-89DE-1C9FC9F938AD",
-      "title" : "Chapter 1",
+      "id" : "BE9E1012-FD56-4AB0-A35F-454F8A8A19AE",
+      "title" : "Training",
       "puzzles" : [
         {
-          "keyAlphabet" : "ndzpxhkgtqlbjcawuymsirfevo",
-          "id" : "E7C3D6E8-04BF-4B96-84C7-3462EDAF16E4",
-          "title" : "pattern words",
           "header" : "Words that have 2 or more of the same letter are called 'pattern words'. For example 'food', 'glug', 'salad'. These words are easy to spot and sometimes easy to guess! Can you name the capital city in Europe",
+          "footer" : "I'll give you a hint: The River Thames.",
+          "id" : "A94939EA-E244-4CE1-8BF0-6C2EF26D7D7B",
+          "title" : "pattern words",
+          "isSolved" : false,
           "plaintext" : "London",
-          "footer" : "I'll give you a hint: The River Thames."
+          "keyAlphabet" : "inwhqupzmbacsrlkgxedyfvojt",
+          "dependencies" : [
+
+          ]
         },
         {
-          "keyAlphabet" : "kfhsuzbaolqpjvteynwcxgmidr",
-          "id" : "A8E22FE0-6720-47DD-B792-31A1BA87B6F4",
+          "header" : "There aren't many 2 and 3 letter words in English so they're sometimes easy to guess. Can you figure this out? It's the famous opening line from a book by Charles Dickens",
+          "footer" : "Hint: A Tale of Two Cities.",
+          "id" : "9A7D97DA-548C-4517-82ED-4BA7D49B045D",
           "title" : "short words",
-          "header" : "There aren't many 2 and 3 letter words in English. Two letter words include 'it', 'an', 'on', 'in', 'of', 'he'. Three letters could be 'the', 'and', 'was', 'her', 'him', 'but' etc. Can you figure this out? It's the famous opening line from a book by Charles Dickens",
+          "isSolved" : false,
           "plaintext" : "It was the best of times, it was the worst of times.",
-          "footer" : "Hint: A Tale of Two Cities."
+          "keyAlphabet" : "rslbfxpjoudvyznqewichtakmg",
+          "dependencies" : [
+            "A94939EA-E244-4CE1-8BF0-6C2EF26D7D7B"
+          ]
         },
         {
-          "keyAlphabet" : "fkzbgdvxroswlyqmuijpceahtn",
-          "id" : "D09E1E02-548D-4252-B9D5-065B4FEAA762",
+          "header" : "The eight most common letters in English are usually ETAONRHS, in that order. Use the character count at the bottom of the screen to help you guess which ciphertext letter probably represents 'e' and so on. Don't forget to look for short words like 'the' and 'and'.\nLet's decode the cipher below.",
+          "footer" : "Hint: Prefer to work on paper? tap the printer in the top right corner.",
+          "id" : "CA2E9D05-75F7-4411-93F4-5081D69DB598",
           "title" : "letter counds ETAONRHS",
-          "header" : "The eight most common letters in English are usually ETAONRHS, in that order. Use the character count at the bottom of the screen to help you guess which ciphertext letter probably represents 'e' and so on. Don't forget to look for short words like 'the' and 'and'.\\\\nLet's decode the cipher below.",
-          "plaintext" : "if the code is quite long, the most common letter is usually e. Once you know that you might be able to find the word the. don't forget to look for pattern words too. Short words are usually the easiest way to get started.",
-          "footer" : "Hint: Prefer to work on paper? tap the printer in the top right corner."
+          "isSolved" : false,
+          "plaintext" : "Use the eight letters to make educated guesses. With a bit of trial and error you may spot the words 'and' or 'the'. After that search for pattern words and other easy short words. These puzzles can take some time to solve, patience and coffee can help.",
+          "keyAlphabet" : "dramjwpkscqgnlfvioubyzehtx",
+          "dependencies" : [
+            "9A7D97DA-548C-4517-82ED-4BA7D49B045D"
+          ]
         }
       ]
     }

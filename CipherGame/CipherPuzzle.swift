@@ -74,7 +74,6 @@ class CipherPuzzle : ObservableObject {
     var showLessons : Bool = true
 
     var visiblePuzzles : [GameStage] {
-
         guard let currentChapter = currentChapter else {return []}
         
         let ciphers : [GameStage] = currentChapter.puzzles
@@ -186,20 +185,6 @@ class CipherPuzzle : ObservableObject {
                                  for: currentPuzzleHash!,
                                  at: index)
     }
-    
-//    func selectNextCharacter(){
-//        guard let index = self.selectedIndex else {return}
-//        guard let cipherCharacter = self.currentCiphertextCharacter else {return}
-//        guard let currentCiphertext = self.currentCipherPuzzle?.plaintext else {return}
-//        
-//        if index < currentCiphertext.count - 1 {
-//            self.selectedIndex = index + 1
-//        }
-//        self.currentCiphertextCharacter = 
-//        
-//        
-//        
-//    }
     
     func gridTap(_ tile : Tile) {
         if tile.canBeEnabled{
