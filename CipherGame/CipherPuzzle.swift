@@ -22,6 +22,7 @@ class CipherPuzzle : ObservableObject {
     @Published
     var currentPuzzleHash : UUID?{
         didSet{
+            print("\(String(describing: currentPuzzleHash?.uuid))")
             if let currentPuzzleHash = currentPuzzleHash {
                 model.lastOpenPuzzleHash = currentPuzzleHash
                 currentGridPuzzleHash = nil

@@ -427,7 +427,6 @@ struct ReadableChapter :  Codable, Equatable, Identifiable, Hashable {
     
     init(title : String){
         self.title = title
-        self.id = UUID()
         self.puzzles = [ReadablePuzzle()]
         self.gridPuzzle = ReadableGridPuzzle()
     }
@@ -436,13 +435,16 @@ struct ReadableChapter :  Codable, Equatable, Identifiable, Hashable {
         return lhs.hashValue == rhs.hashValue
     }
     
-    var id : UUID
+    var id = UUID()
     var title : String
     var puzzles : [ReadablePuzzle]
     var gridPuzzle : ReadableGridPuzzle?
     
     func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+        hasher.combine(title)
+        for puzzle in puzzles {
+            hasher.combine(puzzle.hashValue)
+        }
     }
 }
 

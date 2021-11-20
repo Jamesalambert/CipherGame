@@ -3,13 +3,13 @@
   "theme" : "default",
   "chapters" : [
     {
-      "id" : "BE9E1012-FD56-4AB0-A35F-454F8A8A19AE",
+      "id" : "D1F3D336-4333-411C-9C38-C8EFFE932EC1",
       "title" : "Training",
       "puzzles" : [
         {
           "header" : "Words that have 2 or more of the same letter are called 'pattern words'. For example 'food', 'glug', 'salad'. These words are easy to spot and sometimes easy to guess! Can you name the capital city in Europe",
           "footer" : "I'll give you a hint: The River Thames.",
-          "id" : "A94939EA-E244-4CE1-8BF0-6C2EF26D7D7B",
+          "id" : "FFD9DA35-91CF-4E0B-AE58-1982F6F7F1D9",
           "title" : "pattern words",
           "isSolved" : false,
           "plaintext" : "London",
@@ -21,25 +21,25 @@
         {
           "header" : "There aren't many 2 and 3 letter words in English so they're sometimes easy to guess. Can you figure this out? It's the famous opening line from a book by Charles Dickens",
           "footer" : "Hint: A Tale of Two Cities.",
-          "id" : "9A7D97DA-548C-4517-82ED-4BA7D49B045D",
+          "id" : "D231A7A3-A33E-4AA6-A052-D63F6FC99C65",
           "title" : "short words",
           "isSolved" : false,
           "plaintext" : "It was the best of times, it was the worst of times.",
           "keyAlphabet" : "rslbfxpjoudvyznqewichtakmg",
           "dependencies" : [
-            "A94939EA-E244-4CE1-8BF0-6C2EF26D7D7B"
+              "FFD9DA35-91CF-4E0B-AE58-1982F6F7F1D9"
           ]
         },
         {
           "header" : "The eight most common letters in English are usually ETAONRHS, in that order. Use the character count at the bottom of the screen to help you guess which ciphertext letter probably represents 'e' and so on. Don't forget to look for short words like 'the' and 'and'.\nLet's decode the cipher below.",
           "footer" : "Hint: Prefer to work on paper? tap the printer in the top right corner.",
-          "id" : "CA2E9D05-75F7-4411-93F4-5081D69DB598",
+          "id" : "CF0243EE-46F6-40B8-BC55-EC0E951685BA",
           "title" : "letter counts ETAONRHS",
           "isSolved" : false,
           "plaintext" : "Use the eight letters to make educated guesses. With a bit of trial and error you may spot the words 'and' or 'the'. After that search for pattern words and other easy short words. These puzzles can take some time to solve, patience and coffee can help.",
           "keyAlphabet" : "dramjwpkscqgnlfvioubyzehtx",
           "dependencies" : [
-            "9A7D97DA-548C-4517-82ED-4BA7D49B045D"
+              "D231A7A3-A33E-4AA6-A052-D63F6FC99C65"
           ]
         }
       ]
