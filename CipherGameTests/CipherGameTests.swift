@@ -27,16 +27,25 @@ class CipherGameTests: XCTestCase {
             let _ = cipherPuzzleViewModel.puzzleLines(charsPerLine: 30)
         }
     }
-
-//    func testLoadPuzzleUI() throws {
-//        
-//        let cipherPuzzleViewModel = CipherPuzzle()
-//        cipherPuzzleViewModel.currentChapterHash = cipherPuzzleViewModel.model.books.first(where: {$0.title == "Queen of the Zlogs"})?.id
-//                
-//        self.measure {
-//            let _ = ContentView(viewModel: cipherPuzzleViewModel, saveAction: {})
-//        }
-//    }
+    
+    func testBooks() throws {
+        let puzzleModel = Game()
+        
+        //ensure book IDs are unique
+        let bookIDArray : [UUID] = puzzleModel.books.compactMap{book in book.id}
+        assert(bookIDArray.allSatisfy{id in
+            bookIDArray.number(of: id) == 1
+        })
+        
+        //ensure chapter ID's are unique
+        let chapterIDArray : [UUID] = puzzleModel.books.compactMap{book in
+            book.chapters}.joined().compactMap{ chapter in chapter.id}
+        
+        assert(chapterIDArray.allSatisfy{id in
+            chapterIDArray.number(of: id) == 1
+        })
+        
+    }
     
     func testPuzzles() throws {
         let puzzleModel = Game()
@@ -44,7 +53,7 @@ class CipherGameTests: XCTestCase {
         //make sure there's a first puzzle
         assert(puzzleModel.lastOpenPuzzleHash != nil)
         
-        let puzzles = puzzleModel.books.flatMap{book in book.puzzles}
+        let puzzles = puzzleModel.books.flatMap{book in book.chapters.flatMap{ chapter in chapter.puzzles}}
         
         for puzzle in puzzles {
             //any uppercase in plaintext?
