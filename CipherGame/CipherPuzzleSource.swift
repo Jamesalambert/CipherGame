@@ -30,11 +30,11 @@ struct Game : Codable {
     mutating
     func reset(_ puzzleID : UUID){
         guard let currentPuzzleIndexPath = self.indexPath(forPuzzle: puzzleID) else {return}
-
-        let bookIndex = currentPuzzleIndexPath.bookIndex
-        let chapterIndex = currentPuzzleIndexPath.chapterIndex
-        let puzzleIndex = currentPuzzleIndexPath.puzzleIndex
-    
+        
+        let bookIndex       = currentPuzzleIndexPath.bookIndex
+        let chapterIndex    = currentPuzzleIndexPath.chapterIndex
+        let puzzleIndex     = currentPuzzleIndexPath.puzzleIndex
+        
         //reset guesses and indices
         books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].usersGuesses.removeAll()
         books[bookIndex].chapters[chapterIndex].puzzles[puzzleIndex].guessIndices.removeAll()

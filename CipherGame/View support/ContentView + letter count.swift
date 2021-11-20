@@ -105,7 +105,7 @@ extension ContentView {
                 //.font(.system(.body, design: viewModel.fontDesign))
                 .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
                 .foregroundColor(foregroundColor)
-                .frame(height: ContentView.LetterCountLetterWidth )
+//                .frame(height: ContentView.LetterCountLetterWidth )
             }
         }
         

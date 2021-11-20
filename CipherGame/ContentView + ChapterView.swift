@@ -98,7 +98,6 @@ extension ContentView {
                             .transition(.move(edge: .bottom))
                     }
                 }
-                
             }
         }
     
@@ -119,7 +118,7 @@ extension ContentView {
                 LazyVStack(alignment: .leading){
                     ForEach(enumeratedLines(from: cipherPuzzle.puzzleCharacters, charsPerLine: Int(geometry.size.width / Self.characterWidth) )){ puzzleLine in
                         HStack(alignment: .bottom){
-                            Text(String(puzzleLine.id))
+                            Text(String(puzzleLine.id + 1))
                                 .frame(alignment:.leading)
                                 .fixedSize()
                                 .lineLimit(1)

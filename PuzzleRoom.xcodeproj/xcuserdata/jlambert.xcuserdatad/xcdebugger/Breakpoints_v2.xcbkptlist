@@ -16,8 +16,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "90"
             endingLineNumber = "90"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "updateUsersGuesses(cipherCharacter:plaintextCharacter:for:at:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -32,8 +32,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "145"
             endingLineNumber = "145"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "indexPath(forPuzzle:)"
+            landmarkType = "7">
             <Locations>
                <Location
                   uuid = "139CB3FF-84A9-4E18-B0A1-478ECB8D139A - 98c1c4cca53c8c3b"

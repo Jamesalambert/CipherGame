@@ -162,6 +162,8 @@ struct TilePuzzle: View {
                height:  (grid.solutionType == .columns ? 1.2 : 1.0) * tileWidth * CGFloat(grid.size))
     }
     
+    
+    @ViewBuilder
     private
     var puzzleColours : some View {
         ForEach(0..<grid.size){ index in

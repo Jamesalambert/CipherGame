@@ -54,7 +54,7 @@ struct ContentView: View {
                                                 .navigationBarTitle("\(chapter.title)", displayMode: .inline)),
                                            tag: chapter.id,
                                            selection: $viewModel.currentChapterHash){
-                                chapterEntry(for: chapter, in: book)
+                                TitleView(for: chapter, in: book)
                             }
                         }
                     }
@@ -93,7 +93,7 @@ struct ContentView: View {
     }
     
     @ViewBuilder
-    func chapterEntry(for chapter : Chapter, in book : Book) -> some View {
+    func TitleView(for chapter : Chapter, in book : Book) -> some View {
         
         Text("\(chapter.title)")
             .lineLimit(1)
