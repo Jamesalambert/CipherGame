@@ -24,7 +24,7 @@
           "id" : "A94939EA-E244-4CE1-8BF0-6C2EF26D7D7B",
           "title" : "Arrival",
           "isSolved" : false,
-          "plaintext" : "The Martian dust swirls in a storm. Your radio has lost contact. You are alone in a vast landscape of red rocks and a yellow sky. You look up and see an oval shape changing to a circle to a metal disc. It spins towards you until it is a blur then suddenly stops mid-air. A beam of light opens up in its centre, dazzling you with its brightness and a great roar of air blasts the dust into the skies. As the dust clears you see a golden helmet and scaly tentacles. The visor slides open to reveal one bright green eye.\n",
+          "plaintext" : "The Martian dust swirls in a storm. Your radio has lost contact. You are alone in a vast landscape of red rocks and a yellow sky. You look up and see an oval shape changing to a circle to a metal disc. It spins towards you until it is a blur then suddenly stops mid-air. A beam of light opens up in its centre, dazzling you with its brightness and a great roar of air blasts the dust into the skies. As the dust clears you see a golden helmet and scaly tentacles. The visor slides open to reveal one bright green eye.",
           "keyAlphabet" : "uoyihmtdaxzpsbqwfvnglcjker",
           "dependencies" : [
 
@@ -36,7 +36,7 @@
           "id" : "9A7D97DA-548C-4517-82ED-4BA7D49B045D",
           "title" : "Queen of the Martians",
           "isSolved" : false,
-          "plaintext" : "There is an orange flash and in a split second you are teleported to the great hall of the spaceship. At the far end of the room on a glittering throne sits Hurth. Earthling, only you can help us. Mars is under threat from Venus. Their evil leader has taken the Red Rock, the sacred jewel of the Martians and the source of our power. Without it we grow weak, too weak to fight. Can you find it and bring it back to us? The survival of the universe depends on you.\n",
+          "plaintext" : "There is an orange flash and in a split second you are teleported to the great hall of the spaceship. At the far end of the room on a glittering throne sits Hurth. Earthling, only you can help us. Mars is under threat from Venus. Their evil leader has taken the Red Rock, the sacred jewel of the Martians and the source of our power. Without it we grow weak, too weak to fight. Can you find it and bring it back to us? The survival of the universe depends on you.",
           "keyAlphabet" : "lrtbposcenwzqaduhgjvimkyxf",
           "dependencies" : [
             "A94939EA-E244-4CE1-8BF0-6C2EF26D7D7B"

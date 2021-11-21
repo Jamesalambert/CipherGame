@@ -226,11 +226,11 @@ struct ContentView: View {
         private
         func save(){
             var newPuzzle = puzzle
-            newPuzzle.title         = puzzleTitle
-            newPuzzle.keyAlphabet   = puzzleKeyAlphabet
-            newPuzzle.header        = puzzleHeader
-            newPuzzle.plaintext     = puzzlePlaintext
-            newPuzzle.footer        = puzzleFooter
+            newPuzzle.title         = puzzleTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+            newPuzzle.keyAlphabet   = puzzleKeyAlphabet.trimmingCharacters(in: .whitespacesAndNewlines)
+            newPuzzle.header        = puzzleHeader.trimmingCharacters(in: .whitespacesAndNewlines)
+            newPuzzle.plaintext     = puzzlePlaintext.trimmingCharacters(in: .whitespacesAndNewlines)
+            newPuzzle.footer        = puzzleFooter.trimmingCharacters(in: .whitespacesAndNewlines)
             newPuzzle.dependencies  = puzzleDependencies
             viewModel.updatePuzzle(newPuzzle: newPuzzle)
         }

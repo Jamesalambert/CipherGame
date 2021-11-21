@@ -18,15 +18,6 @@ class CipherGameTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
 
-
-    func testGetPuzzleData() throws {
-        // This is an example of a performance test case.
-        let cipherPuzzleViewModel = CipherPuzzle()
-        
-        self.measure {
-            let _ = cipherPuzzleViewModel.puzzleLines(charsPerLine: 30)
-        }
-    }
     
     func testBooks() throws {
         let puzzleModel = Game()
@@ -39,7 +30,10 @@ class CipherGameTests: XCTestCase {
         
         //ensure chapter ID's are unique
         let chapterIDArray : [UUID] = puzzleModel.books.compactMap{book in
-            book.chapters}.joined().compactMap{ chapter in chapter.id}
+            book.chapters
+        }.joined()
+        .compactMap{chapter in
+            chapter.id}
         
         assert(chapterIDArray.allSatisfy{id in
             chapterIDArray.number(of: id) == 1

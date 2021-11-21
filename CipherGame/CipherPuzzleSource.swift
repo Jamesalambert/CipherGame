@@ -222,6 +222,12 @@ struct Game : Codable {
                                          theme: readableBook.theme,
                                          productID: bookName)
                 self.books.append(decodedBook)
+                
+                //the first book's first puzzle becomes the starting puzzle
+                if lastOpenPuzzleHash == nil {
+                    lastOpenPuzzleHash = decodedBook.chapters.first?.puzzles.first?.id
+                }
+                
             }
         }
         catch {
