@@ -166,8 +166,9 @@ struct TilePuzzle: View {
     @ViewBuilder
     private
     var puzzleColours : some View {
-        ForEach(0..<grid.size){ index in
-            Self.tileColors[index]
+        
+        ForEach(Self.tileColors[0..<grid.size], id:\.self){ colour in
+            colour
         }
     }
     
@@ -289,5 +290,6 @@ extension UIImage {
         return UIImage(cgImage: croppedImage)
     }
 }
+
 
 
