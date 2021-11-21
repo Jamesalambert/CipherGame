@@ -53,7 +53,9 @@ struct TilePuzzle: View {
 
             ZStack{
                     tilePuzzleBackground()
-                        .opacity(grid.isSolved || grid.solutionType == .all ? 0 : 0.3)
+                        .opacity(grid.isSolved ||
+                                 grid.solutionType == .all ||
+                                 grid.imageName != nil ? 0 : 0.3)
                         .transition(.scale)
                 
                 LazyVGrid(columns: self.columns(), spacing: 0){
