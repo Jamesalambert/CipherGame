@@ -9,7 +9,7 @@ import SwiftUI
 
 extension ContentView {
     
-    static let LetterCountLetterWidth = CGFloat(20)
+    static let LetterCountLetterWidth = CGFloat(15)
     
     struct LetterCount : View {
         
@@ -105,7 +105,7 @@ extension ContentView {
                 //.font(.system(.body, design: viewModel.fontDesign))
                 .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
                 .foregroundColor(foregroundColor)
-//                .frame(height: ContentView.LetterCountLetterWidth )
+                .frame(height: ContentView.LetterCountLetterWidth)
             }
         }
         
