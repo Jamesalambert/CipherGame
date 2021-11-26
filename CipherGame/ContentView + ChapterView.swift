@@ -206,6 +206,7 @@ extension ContentView {
         func deselect() {
             withAnimation{
                 self.viewModel.currentCiphertextCharacter = nil
+                self.viewModel.selectedIndex = nil
                 self.displayPhoneLetterPicker = false
             }
         }

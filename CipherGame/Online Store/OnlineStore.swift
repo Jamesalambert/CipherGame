@@ -17,7 +17,8 @@ class OnlineStore : NSObject, ObservableObject {
         do {
             return try FileManager.default.url(for: .documentDirectory,
                                                              in: .userDomainMask,
-                                                             appropriateFor: nil, create: false)
+                              
+                                                  appropriateFor: nil, create: false)
         } catch {
             fatalError("couldn't get documents folder")
         }

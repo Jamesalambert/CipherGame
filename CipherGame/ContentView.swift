@@ -46,8 +46,8 @@ struct ContentView: View {
                     
                     Section(header: bookHeader(for: book.title),
                             footer: bookFooter(for: book.title)){
-                        
                         ForEach(book.chapters){ chapter in
+                            
                             NavigationLink(destination: NavigationLazyView(
                                             ChapterViewer(chapter: chapter, cipherPuzzle: viewModel.displayedCipherPuzzle)
                                                 .environment(\.bookTheme, book.theme)

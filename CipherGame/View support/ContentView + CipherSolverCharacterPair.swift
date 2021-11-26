@@ -51,9 +51,9 @@ extension ContentView {
                             }
                         }
                     }
-                    .popover(isPresented: $wasTapped,
-                             attachmentAnchor: .point(.center),
-                             arrowEdge: .bottom){letterPopover()}
+//                    .popover(isPresented: $wasTapped,
+//                             attachmentAnchor: .point(.center),
+//                             arrowEdge: .bottom){letterPopover()}
                 
             } else if UIDevice.current.userInterfaceIdiom == .phone{
                 standardCipherPair(displayPlaintext: true)
@@ -72,7 +72,7 @@ extension ContentView {
             VStack{
                 Text(String(cipherTextLetter))
                     .fixedSize()
-                    .font(viewModel.theme.font(for: .title,item: .ciphertext, for: bookTheme))
+                    .font(viewModel.theme.font(for: .title, item: .ciphertext, for: bookTheme))
          
                     ZStack{
                         if indexInTheCipher == viewModel.selectedIndex {
@@ -83,13 +83,15 @@ extension ContentView {
                         } else {
                             Color.clear
                         }
-
                         Text(plainTextLetter.string())
                             .frame(height : 30)
                             .fixedSize()
                             .foregroundColor(viewModel.theme.color(of: .plaintext,
                                                                    for: bookTheme, in: colorScheme))
                             .font(viewModel.theme.font(for: .title, item: .plaintext, for: bookTheme))
+                            .popover(isPresented: $wasTapped,
+                                     attachmentAnchor: .point(.center),
+                                     arrowEdge: .bottom){letterPopover()}
                     }
             }
             .padding(.top)
