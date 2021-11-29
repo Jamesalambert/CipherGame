@@ -41,19 +41,12 @@ extension ContentView {
                 standardCipherPair(displayPlaintext: true)
                     .onTapGesture {
                         withAnimation{
-                            if displayTabletLetterPicker {
-                                displayTabletLetterPicker = false
-                            } else {
                                 viewModel.currentCiphertextCharacter = cipherTextLetter
                                 viewModel.selectedIndex = indexInTheCipher
                                 displayTabletLetterPicker = true
                                 wasTapped = true    //to locate the popover arrow
-                            }
                         }
                     }
-//                    .popover(isPresented: $wasTapped,
-//                             attachmentAnchor: .point(.center),
-//                             arrowEdge: .bottom){letterPopover()}
                 
             } else if UIDevice.current.userInterfaceIdiom == .phone{
                 standardCipherPair(displayPlaintext: true)
@@ -91,7 +84,10 @@ extension ContentView {
                             .font(viewModel.theme.font(for: .title, item: .plaintext, for: bookTheme))
                             .popover(isPresented: $wasTapped,
                                      attachmentAnchor: .point(.center),
-                                     arrowEdge: .bottom){letterPopover()}
+                                     arrowEdge: .bottom){
+                                    letterPopover()
+                                
+                            }
                     }
             }
             .padding(.top)
