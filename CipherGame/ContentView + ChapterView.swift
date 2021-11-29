@@ -116,13 +116,22 @@ extension ContentView {
                 
                 
                 LazyVStack(alignment: .leading){
-                    ForEach(enumeratedLines(from: cipherPuzzle.puzzleCharacters, charsPerLine: Int(geometry.size.width / Self.characterWidth) )){ puzzleLine in
+                    
+                    let puzzleLines = enumeratedLines(from: cipherPuzzle.puzzleCharacters,
+                                                      charsPerLine: Int(geometry.size.width / Self.characterWidth))
+                    let showLineNumbers = puzzleLines.count > 4
+                    
+                    ForEach(puzzleLines){ puzzleLine in
                         HStack(alignment: .bottom){
+                            
+                            //line numbers
+                            if showLineNumbers {
                             Text(String(puzzleLine.id + 1))
                                 .frame(alignment:.leading)
                                 .fixedSize()
                                 .lineLimit(1)
                                 .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
+                            }
                             HStack{
                                 ForEach(puzzleLine.characters){ characterPair in
                                     CipherSolverCharacterPair(

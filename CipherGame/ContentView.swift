@@ -24,9 +24,6 @@ struct ContentView: View {
     @Environment(\.scenePhase)
     var scenePhase : ScenePhase
     
-    @Namespace
-    var namespace
-    
     let saveAction : () -> Void
     
     @State

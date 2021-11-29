@@ -33,6 +33,10 @@ extension ContentView {
         var cipherTextLetter : Character
         var plainTextLetter : Character?
         var indexInTheCipher : Int
+        
+//        @Namespace
+//        private
+//        var ns
 
         var body : some View {
             if cipherTextLetter.isPunctuation || cipherTextLetter.isWhitespace {
@@ -47,7 +51,6 @@ extension ContentView {
                                 wasTapped = true    //to locate the popover arrow
                         }
                     }
-                
             } else if UIDevice.current.userInterfaceIdiom == .phone{
                 standardCipherPair(displayPlaintext: true)
                     .onTapGesture {
@@ -68,6 +71,7 @@ extension ContentView {
                     .font(viewModel.theme.font(for: .title, item: .ciphertext, for: bookTheme))
          
                     ZStack{
+                        //highlight colour if the character is selected
                         if indexInTheCipher == viewModel.selectedIndex {
                             //selection highlight
                             viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)
@@ -76,20 +80,21 @@ extension ContentView {
                         } else {
                             Color.clear
                         }
-                        Text(plainTextLetter.string())
-                            .frame(height : 30)
-                            .fixedSize()
-                            .foregroundColor(viewModel.theme.color(of: .plaintext,
-                                                                   for: bookTheme, in: colorScheme))
-                            .font(viewModel.theme.font(for: .title, item: .plaintext, for: bookTheme))
-                            .popover(isPresented: $wasTapped,
-                                     attachmentAnchor: .point(.center),
-                                     arrowEdge: .bottom){
-                                    letterPopover()
-                                
-                            }
+                        
+                        if plainTextLetter != nil {
+                            Text(plainTextLetter.string())
+                                .frame(height : 30)
+                                .fixedSize()
+                                .foregroundColor(viewModel.theme.color(of: .plaintext,
+                                                                       for: bookTheme, in: colorScheme))
+                                .font(viewModel.theme.font(for: .title, item: .plaintext, for: bookTheme))
+//                                .matchedGeometryEffect(id: plainTextLetter ?? Character(".") , in: ns)
+                        }
                     }
             }
+            .popover(isPresented: $wasTapped,
+                     attachmentAnchor: .point(.center),
+                     arrowEdge: .top){letterPopover()}
             .padding(.top)
             .foregroundColor(foregroundColor(for: colorScheme))
             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
@@ -144,6 +149,7 @@ extension ContentView {
                                         wasTapped = false
                                     }
                                 }
+//                                .matchedGeometryEffect(id: Character(extendedGraphemeClusterLiteral: character), in: ns)
                                 .fixedSize()
                                 .font(viewModel.theme.font(for: .title, for: bookTheme))
                                 .foregroundColor(viewModel.theme.color(of: .keyboardLetters, for: bookTheme, in: colorScheme))
