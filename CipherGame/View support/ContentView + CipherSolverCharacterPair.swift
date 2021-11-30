@@ -80,16 +80,12 @@ extension ContentView {
                         } else {
                             Color.clear
                         }
-                        
-                        if plainTextLetter != nil {
                             Text(plainTextLetter.string())
-                                .frame(height : 30)
                                 .fixedSize()
+                                .frame(height : 30)
                                 .foregroundColor(viewModel.theme.color(of: .plaintext,
                                                                        for: bookTheme, in: colorScheme))
                                 .font(viewModel.theme.font(for: .title, item: .plaintext, for: bookTheme))
-//                                .matchedGeometryEffect(id: plainTextLetter ?? Character(".") , in: ns)
-                        }
                     }
             }
             .popover(isPresented: $wasTapped,

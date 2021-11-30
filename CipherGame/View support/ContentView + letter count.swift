@@ -47,6 +47,7 @@ extension ContentView {
                                               plainChar: viewModel.plaintext(for: cipherChar),
                                               count: letterCountTriple.count)
                                         .frame(width: pairCountWidth(for: geometry))
+                                        .padding(.horizontal, 3)
                                         .animation(.easeInOut)
                                         .onTapGesture {
                                             withAnimation{
@@ -92,25 +93,34 @@ extension ContentView {
         var colorScheme : ColorScheme
         
         var body : some View {
-            VStack {
-                Group {
-                    Text(String(cipherChar)).fontWeight(.semibold)
-                        
-                    Text(plainChar.string())
-                        .foregroundColor(viewModel.theme.color(of: .plaintext, for: bookTheme, in: colorScheme))
-                    Text(count > 0 ? String(count) : "-").lineLimit(1)
+            ZStack{
+                //tappable background
+                if count > 0 {
+                    lettercountColour
+                        .opacity(0.1)
+                        .cornerRadius(5)
                 }
-                .fixedSize()
-                .font(viewModel.theme.font(for: .body, for: bookTheme))
-                //.font(.system(.body, design: viewModel.fontDesign))
-                .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
-                .foregroundColor(foregroundColor)
-                .frame(height: ContentView.LetterCountLetterWidth)
+                
+                VStack {
+                    Group {
+                        Text(String(cipherChar)).fontWeight(.semibold)
+                            
+                        Text(plainChar.string())
+                            .foregroundColor(viewModel.theme.color(of: .plaintext, for: bookTheme, in: colorScheme))
+                        Text(count > 0 ? String(count) : "-").lineLimit(1)
+                    }
+                    .fixedSize()
+                    .font(viewModel.theme.font(for: .body, for: bookTheme))
+                    //.font(.system(.body, design: viewModel.fontDesign))
+                    .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
+                    .foregroundColor(lettercountColour)
+                    .frame(height: ContentView.LetterCountLetterWidth)
+                }
             }
         }
         
         private
-        var foregroundColor : Color? {
+        var lettercountColour : Color? {
             if count == 0 {
                 return Color.gray
             } else if viewModel.currentCiphertextCharacter == cipherChar.lowerChar() {
