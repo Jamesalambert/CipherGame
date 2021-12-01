@@ -11,7 +11,6 @@ extension ContentView {
 //    MARK:- the puzzle
     struct ChapterViewer : View {
         
-        static let phoneLetterPickerHeight = CGFloat(160)
         static let letterCountHeight = CGFloat(100)
         static let viewCornerRadius = CGFloat(10.0)
         static let bodyLineSpacing = CGFloat(6)
@@ -173,7 +172,6 @@ extension ContentView {
             Group{
                 if displayPhoneLetterPicker {
                     PhoneLetterPicker(displayPhoneLetterPicker: $displayPhoneLetterPicker)
-                        .frame(height: Self.phoneLetterPickerHeight)
                         .highPriorityGesture(dismissPhoneKeyboard)
                 } else {
                     LetterCount(displayLetterCount: $showLetterCount)

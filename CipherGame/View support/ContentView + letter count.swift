@@ -51,7 +51,7 @@ extension ContentView {
                                         .animation(.easeInOut)
                                         .onTapGesture {
                                             withAnimation{
-                                                if viewModel.currentCiphertextCharacter == nil {
+                                                if viewModel.currentCiphertextCharacter != cipherChar {
                                                     viewModel.currentCiphertextCharacter = cipherChar
                                                 } else {
                                                     viewModel.currentCiphertextCharacter = nil
