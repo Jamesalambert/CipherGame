@@ -33,7 +33,7 @@ extension ContentView {
                             displayLetterCount.toggle()
                         }
                     } label: {
-                        Text("Letter Count")
+                        Label("Letter Count", systemImage: "number")
                             .font(viewModel.theme.font(for: .subheadline, for: bookTheme))
                             .foregroundColor(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
                             .padding(.top, 10)
