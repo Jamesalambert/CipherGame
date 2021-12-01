@@ -24,9 +24,22 @@ extension ContentView {
             var displayPhoneLetterPicker : Bool
 
             var body: some View {
-                VStack {
+                VStack{
+                    
+                    Button{
+                        withAnimation{
+                            displayPhoneLetterPicker = false
+                        }
+                    } label: {
+                        Label("hide", systemImage: "chevron.compact.down")
+                            .labelStyle(.iconOnly)
+                            .foregroundColor(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
+                            .padding(EdgeInsets.init(top: 10, leading: 20, bottom: 5, trailing: 20))
+                    }
+                    
                     drawKeyboard()
-                        .padding()
+                        .padding(.horizontal)
+                    
                     Button{
                         withAnimation{
                             viewModel.guess(viewModel.currentCiphertextCharacter!, is: nil,
@@ -35,7 +48,6 @@ extension ContentView {
                     } label: {Label("delete", systemImage: "delete.left")
                         .foregroundColor(viewModel.theme.color(of: .keyboardLetters, for: bookTheme, in: colorScheme))
                     }
-                    Spacer()
                 }
             }
                 
