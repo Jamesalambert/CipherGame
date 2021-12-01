@@ -50,7 +50,7 @@ extension ContentView {
                     }
                 }
             }
-                
+            
             @ViewBuilder
             func drawKeyboard() -> some View {
                 VStack{
