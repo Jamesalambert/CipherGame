@@ -119,9 +119,8 @@ extension ContentView {
                         }
                     }
                     
-                    
                     drawKeyboard()
-                        .padding(.horizontal)
+                        .padding(EdgeInsets.init(top: 0, leading: 20, bottom: 10, trailing: 20))
                     
                     if plainTextLetter != nil {
                         Button{
