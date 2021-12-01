@@ -69,6 +69,7 @@ extension ContentView {
                 Text(String(cipherTextLetter))
                     .fixedSize()
                     .font(viewModel.theme.font(for: .title, item: .ciphertext, for: bookTheme))
+                    .opacity(plainTextLetter == nil ? 1 : 0.3)
          
                     ZStack{
                         //highlight colour if the character is selected
