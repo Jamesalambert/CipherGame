@@ -104,26 +104,38 @@ extension ContentView {
                     .scaleEffect(1.5)
                     .shadow(radius: 3)
                 
-                ScrollView(.vertical){
-                    Spacer()
+                
+                VStack{
+                    HStack{
+                        Spacer()
+                        Button{
+                            withAnimation{
+                                dismissLetterPopover()
+                            }
+                        } label: {
+                            Label("hide", systemImage: "xmark.circle")
+                                .foregroundColor(viewModel.theme.color(of: .tappable, for: bookTheme, in: colorScheme))
+                                .padding(EdgeInsets.init(top: 10, leading: 20, bottom: 5, trailing: 20))
+                        }
+                    }
+                    
+                    
                     drawKeyboard()
-                    Spacer()
+                        .padding(.horizontal)
+                    
                     if plainTextLetter != nil {
                         Button{
                             withAnimation{
-                                viewModel.guess(cipherTextLetter, is: nil,
-                                                at: indexInTheCipher)
-                                viewModel.currentCiphertextCharacter = nil
-                                wasTapped = false
+                                dismissLetterPopover()
                             }
                         } label: {
                             Label("delete", systemImage: "delete.left")
-                                .font(.title)
                                 .foregroundColor(viewModel.theme.color(of: .keyboardLetters,
                                                                        for: bookTheme, in: colorScheme))
+                                .padding(.bottom)
                         }
                     }
-                }.padding()
+                }
             }
         }
         
@@ -154,6 +166,13 @@ extension ContentView {
                     }
                 }
             }
+        }
+        
+        private
+        func dismissLetterPopover(){
+            viewModel.guess(cipherTextLetter, is: nil, at: indexInTheCipher)
+            viewModel.currentCiphertextCharacter = nil
+            wasTapped = false
         }
         
         private
