@@ -27,7 +27,7 @@ extension ThemeManager {
             case .gameText:
                 return ThemeStructure.myOrange
             case .puzzleLines:
-                return ThemeStructure.cyan
+                return Color(red: 0, green: 0.5, blue: 0.7)
             case .highlight:
                 return ThemeStructure.myOrange
             case .completed:

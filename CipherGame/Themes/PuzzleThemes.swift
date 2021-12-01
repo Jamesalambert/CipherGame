@@ -78,25 +78,25 @@ class ThemeManager {
         static func defaultColors(_ context : ColorContext) -> Color {            
             switch context.item{
             case .ciphertext:
-                return context.colorScheme == .light ? Color.black : Color.init(white: 0.8)
+                return context.colorScheme == .light ? Color.black              : Color.init(white: 0.8)
             case .plaintext:
-                return context.colorScheme == .light ? Color.blue : Self.myOrange
+                return context.colorScheme == .light ? Color.blue               : Self.myOrange
             case .gameText:
-                return context.colorScheme == .light ? Self.myOrange : Color.blue
+                return context.colorScheme == .light ? Self.myOrange            : Color.blue
             case .puzzleLines:
-                return context.colorScheme == .light ? Color.blue : Self.myOrange
+                return context.colorScheme == .light ? Color.blue               : Self.myOrange
             case .highlight:
-                return context.colorScheme == .light ? Self.myOrange : Color.blue
+                return context.colorScheme == .light ? Self.myOrange            : Color.blue
             case .completed:
-                return context.colorScheme == .light ? Self.myOrange : Color.blue
+                return context.colorScheme == .light ? Self.myOrange            : Color.blue
             case .puzzleBackground, .puzzlePaper:
-                return context.colorScheme == .light ? Color.init(white: 0.95) : Color.black
+                return context.colorScheme == .light ? Color.init(white: 0.95)  : Color.black
             case .keyboardBackground:
-                return context.colorScheme == .light ? Color.init(white: 0.8) : Color.init(white: 0.20)
+                return context.colorScheme == .light ? Color.init(white: 0.8)   : Color.init(white: 0.20)
             case .keyboardLetters:
-                return context.colorScheme == .light ? Color.blue : Self.myOrange
+                return context.colorScheme == .light ? Color.blue               : Self.myOrange
             case .tappable:
-                return context.colorScheme == .light ? Color.black : Color.init(white: 0.95) 
+                return context.colorScheme == .light ? Color.black              : Color.init(white: 0.95)
             case .buyButton:
                 return Color.blue
             case .openButton:
