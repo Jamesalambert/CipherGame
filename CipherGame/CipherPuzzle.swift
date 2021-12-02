@@ -9,6 +9,11 @@ import SwiftUI
 import UIKit
 
 class CipherPuzzle : ObservableObject {
+    
+    private
+    let titleOfLessonBook : String = "Welcome to Puzzle Room"
+    
+    
     //MARK: - public API
     @Published
     var theme : ThemeManager = ThemeManager()
@@ -75,7 +80,7 @@ class CipherPuzzle : ObservableObject {
     
     @Published
     var showLessons : Bool = true
-
+    
     var visiblePuzzles : [GameStage] {
         guard let currentChapter = currentChapter else {return []}
         
@@ -117,7 +122,7 @@ class CipherPuzzle : ObservableObject {
         if showLessons {
             return books
         } else {
-            let booksWithoutLessons = books.drop(while: {$0.title == "Lessons"})
+            let booksWithoutLessons = books.drop(while: {$0.title == self.titleOfLessonBook})
             return Array(booksWithoutLessons)
         }
     }
