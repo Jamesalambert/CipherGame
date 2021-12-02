@@ -116,29 +116,27 @@ extension ContentView {
                 
                 LazyVStack(alignment: .leading){
                     
-                    let puzzleLines = enumeratedLines(from: cipherPuzzle.puzzleCharacters,
+                    let puzzleLines : [PuzzleLine] = enumeratedLines(from: cipherPuzzle.puzzleCharacters,
                                                       charsPerLine: Int(geometry.size.width / Self.characterWidth))
-                    let showLineNumbers = puzzleLines.count > 4
                     
                     ForEach(puzzleLines){ puzzleLine in
                         HStack(alignment: .bottom){
                             
                             //line numbers
-                            if showLineNumbers {
+                            if puzzleLines.count > 4 {
                             Text(String(puzzleLine.id + 1))
                                 .frame(alignment:.leading)
                                 .fixedSize()
                                 .lineLimit(1)
                                 .foregroundColor(viewModel.theme.color(of: .gameText, for: bookTheme, in: colorScheme))
                             }
+                            
+                            //puzzle characters
                             HStack{
                                 ForEach(puzzleLine.characters){ characterPair in
-                                    CipherSolverCharacterPair(
-                                        displayPhoneLetterPicker: $displayPhoneLetterPicker,
-                                        displayTabletLetterPicker: $displayTabletLetterPicker,
-                                        cipherTextLetter: characterPair.cipherLetter,
-                                        plainTextLetter: characterPair.userGuessLetter,
-                                        indexInTheCipher: characterPair.id)
+                                    CipherSolverCharacterPair(displayPhoneLetterPicker: $displayPhoneLetterPicker,
+                                                              displayTabletLetterPicker: $displayTabletLetterPicker,
+                                                              characterPairData: characterPair)
                                 }
                             }
                             .overlay(Rectangle()
