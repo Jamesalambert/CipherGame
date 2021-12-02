@@ -30,22 +30,29 @@ extension ContentView {
         @Binding
         var displayTabletLetterPicker : Bool
         
-        var cipherTextLetter : Character
-        var plainTextLetter : Character?
-        var indexInTheCipher : Int
+        var characterPairData : GameInfo
         
-//        @Namespace
-//        private
-//        var ns
+        private
+        var ciphertextLetter : Character{
+            return characterPairData.cipherLetter
+        }
+        private
+        var plaintextLetter : Character?{
+            return characterPairData.userGuessLetter
+        }
+        private
+        var indexInTheCipher : Int{
+            return characterPairData.id
+        }
 
         var body : some View {
-            if cipherTextLetter.isPunctuation || cipherTextLetter.isWhitespace {
+            if ciphertextLetter.isPunctuation || ciphertextLetter.isWhitespace {
                 standardCipherPair(displayPlaintext: false)
             } else if UIDevice.current.userInterfaceIdiom == .pad {
                 standardCipherPair(displayPlaintext: true)
                     .onTapGesture {
                         withAnimation{
-                                viewModel.currentCiphertextCharacter = cipherTextLetter
+                                viewModel.currentCiphertextCharacter = ciphertextLetter
                                 viewModel.selectedIndex = indexInTheCipher
                                 displayTabletLetterPicker = true
                                 wasTapped = true    //to locate the popover arrow
@@ -55,7 +62,7 @@ extension ContentView {
                 standardCipherPair(displayPlaintext: true)
                     .onTapGesture {
                         withAnimation{
-                            viewModel.currentCiphertextCharacter = cipherTextLetter
+                            viewModel.currentCiphertextCharacter = ciphertextLetter
                             viewModel.selectedIndex = indexInTheCipher
                             displayPhoneLetterPicker = true
                         }
@@ -66,22 +73,21 @@ extension ContentView {
         @ViewBuilder
         func standardCipherPair(displayPlaintext : Bool) -> some View {
             VStack{
-                Text(String(cipherTextLetter))
+                Text(String(ciphertextLetter))
                     .fixedSize()
                     .font(viewModel.theme.font(for: .title, item: .ciphertext, for: bookTheme))
-                    .opacity(plainTextLetter == nil ? 1 : 0.3)
+                    .opacity(plaintextLetter == nil ? 1 : 0.3)
          
                     ZStack{
                         //highlight colour if the character is selected
                         if indexInTheCipher == viewModel.selectedIndex {
-                            //selection highlight
                             viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)
-                                .opacity(0.1)
-                                .cornerRadius(10)
+                                .opacity(0.6)
+                                .cornerRadius(2)
                         } else {
                             Color.clear
                         }
-                            Text(plainTextLetter.string())
+                            Text(plaintextLetter.string())
                                 .fixedSize()
                                 .frame(height : 30)
                                 .foregroundColor(viewModel.theme.color(of: .plaintext,
@@ -123,7 +129,7 @@ extension ContentView {
                     drawKeyboard()
                         .padding(EdgeInsets.init(top: 0, leading: 20, bottom: 10, trailing: 20))
                     
-                    if plainTextLetter != nil {
+                    if plaintextLetter != nil {
                         Button{
                             withAnimation{
                                 dismissLetterPopover()
@@ -151,7 +157,7 @@ extension ContentView {
                                 .cornerRadius(10)
                                 .onTapGesture {
                                     withAnimation{
-                                        viewModel.guess(cipherTextLetter, is: character,
+                                        viewModel.guess(ciphertextLetter, is: character,
                                                         at: indexInTheCipher)
                                         displayTabletLetterPicker = false
                                         wasTapped = false
@@ -170,14 +176,14 @@ extension ContentView {
         
         private
         func dismissLetterPopover(){
-            viewModel.guess(cipherTextLetter, is: nil, at: indexInTheCipher)
+            viewModel.guess(ciphertextLetter, is: nil, at: indexInTheCipher)
             viewModel.currentCiphertextCharacter = nil
             wasTapped = false
         }
         
         private
         func foregroundColor(for colorScheme : ColorScheme) -> Color? {
-            if viewModel.currentCiphertextCharacter == cipherTextLetter.lowerChar() {
+            if viewModel.currentCiphertextCharacter == ciphertextLetter.lowerChar() {
                 return viewModel.theme.color(of: .highlight, for: bookTheme, in: colorScheme)
             }
             return viewModel.theme.color(of: .ciphertext, for: bookTheme, in: colorScheme)
