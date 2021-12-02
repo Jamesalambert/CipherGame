@@ -97,7 +97,7 @@ extension ContentView {
             }
             .popover(isPresented: $wasTapped,
                      attachmentAnchor: .point(.center),
-                     arrowEdge: .top){letterPopover()}
+                     arrowEdge: .bottom){letterPopover()}
             .padding(.top)
             .foregroundColor(foregroundColor(for: colorScheme))
             .textCase(viewModel.capType == 3 ? .uppercase : .lowercase)
