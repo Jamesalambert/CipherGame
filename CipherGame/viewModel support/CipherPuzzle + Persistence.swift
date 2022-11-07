@@ -12,8 +12,7 @@ extension CipherPuzzle {
     private static var documentsFolder : URL {
         do {
             return try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-        }
-        catch{
+        } catch {
             fatalError("couldn't find Documents folder")
         }
     }

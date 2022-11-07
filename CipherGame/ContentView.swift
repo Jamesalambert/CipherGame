@@ -156,14 +156,14 @@ struct ContentView: View {
 
     
 #if DEBUG
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        let game = CipherPuzzle()
-        Group {
-            ContentView(viewModel: game, saveAction: {})
-        }
-    }
-}
+//struct ContentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        let game = CipherPuzzle()
+//        Group {
+//            ContentView(viewModel: game, saveAction: {})
+//        }
+//    }
+//}
 #endif
 
 
